@@ -1,3 +1,4 @@
+package game;
 
 
 import org.lwjgl.LWJGLException;
