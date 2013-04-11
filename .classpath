@@ -2,13 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/zachary_salmon/Documents/workspace/cs032_game/lib/slick.jar"/>
-	<classpathentry kind="lib" path="/Users/zachary_salmon/Documents/workspace/cs032_game/lib/lwjgl.jar">
+	<classpathentry kind="lib" path="/Users/asunderland/Documents/lib/lwjgl-2.8.5/jar/jinput.jar"/>
+	<classpathentry kind="lib" path="/Users/asunderland/Documents/lib/lwjgl-2.8.5/jar/lwjgl_util.jar"/>
+	<classpathentry kind="lib" path="/Users/asunderland/Documents/lib/lwjgl-2.8.5/jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/zachary_salmon/Documents/workspace/cs032_game/lib/natives-mac"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/asunderland/Documents/lib/lwjgl-2.8.5/native/macosx"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/zachary_salmon/Documents/workspace/cs032_game/lib/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="/Users/zachary_salmon/Documents/workspace/cs032_game/lib/jinput.jar"/>
+	<classpathentry kind="lib" path="/Users/asunderland/Documents/lib/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
