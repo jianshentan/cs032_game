@@ -1,5 +1,4 @@
 package game;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
@@ -13,7 +12,7 @@ public class Room extends BasicGame{
 	
 	private TiledMap m_horseMap;
 	private Animation m_sprite, m_up, m_down, m_left, m_right;	
-	private float m_x = 128f, m_y = 128f;
+	private float m_x = 256f, m_y = 256f;
 	
 	// The collision map indicating which tiles block movement - generated 
 	private boolean[][] m_blocked;
