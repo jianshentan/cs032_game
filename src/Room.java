@@ -11,24 +11,24 @@ public class Room extends BasicGame{
 	
 	private TiledMap m_horseMap;
 	private Animation m_sprite, m_up, m_down, m_left, m_right;	
-	private float x = 128f, y = 128f;
+	private float m_x = 128f, m_y = 128f;
 	
 	// The collision map indicating which tiles block movement - generated 
 	private boolean[][] m_blocked;
-    private static final int SIZE = 34;
+    private static final int SIZE = 32;
 	
 	public Room() {
 		super ("Room");
 	}
 
 	@Override
-	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
-		m_horseMap.render(-100, -100);
-		m_sprite.draw((int)x, (int)y);
+	public void render(GameContainer container, Graphics g) throws SlickException {
+		m_horseMap.render(0, 0);
+		m_sprite.draw((int)m_x, (int)m_y);
 	}
 
 	@Override
-	public void init(GameContainer arg0) throws SlickException {
+	public void init(GameContainer container) throws SlickException {
 		Image [] movementUp = {new Image("assets/Sprite1Back.png"), new Image("assets/Sprite1Back.png")};
         Image [] movementDown = {new Image("assets/Sprite1Front.png"), new Image("assets/Sprite1Front.png")};
         Image [] movementLeft = {new Image("assets/Sprite1Left.png"), new Image("assets/Sprite1Left.png")};
@@ -75,31 +75,31 @@ public class Room extends BasicGame{
 		Input input = container.getInput();
         if (input.isKeyDown(Input.KEY_UP)) {
             m_sprite = m_up;
-            if (!isBlocked(x, y - delta * 0.1f)) {
+            if (!isBlocked(m_x, m_y - delta * 0.1f)) {
                 m_sprite.update(delta);
                 // The lower the delta the slowest the sprite will animate.
-                y -= delta * 0.1f;
+                m_y -= delta * 0.1f;
             }
         }
         else if (input.isKeyDown(Input.KEY_DOWN)) {
             m_sprite = m_down;
-            if (!isBlocked(x, y + SIZE + delta * 0.1f)) {
+            if (!isBlocked(m_x, m_y + SIZE + delta * 0.1f)) {
                 m_sprite.update(delta);
-                y += delta * 0.1f;
+                m_y += delta * 0.1f;
             }
         }
         else if (input.isKeyDown(Input.KEY_LEFT)) {
             m_sprite = m_left;
-            if (!isBlocked(x - delta * 0.1f, y)) {
+            if (!isBlocked(m_x - delta * 0.1f, m_y)) {
                 m_sprite.update(delta);
-                x -= delta * 0.1f;
+                m_x -= delta * 0.1f;
             }
         }
         else if (input.isKeyDown(Input.KEY_RIGHT)) {
             m_sprite = m_right;
-            if (!isBlocked(x + SIZE + delta * 0.1f, y)) {
+            if (!isBlocked(m_x + SIZE + delta * 0.1f, m_y)) {
                 m_sprite.update(delta);
-                x += delta * 0.1f;
+                m_x += delta * 0.1f;
             }
         }	
 		
