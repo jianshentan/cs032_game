@@ -10,11 +10,11 @@ import org.newdawn.slick.tiled.TiledMap;
 public class Room extends BasicGame{
 	
 	private TiledMap m_horseMap;
-	private Animation sprite, up, down, left, right;	
+	private Animation m_sprite, m_up, m_down, m_left, m_right;	
 	private float x = 128f, y = 128f;
 	
 	// The collision map indicating which tiles block movement - generated 
-	private boolean[][] blocked;
+	private boolean[][] m_blocked;
     private static final int SIZE = 34;
 	
 	public Room() {
@@ -24,7 +24,7 @@ public class Room extends BasicGame{
 	@Override
 	public void render(GameContainer arg0, Graphics arg1) throws SlickException {
 		m_horseMap.render(-100, -100);
-		sprite.draw((int)x, (int)y);
+		m_sprite.draw((int)x, (int)y);
 	}
 
 	@Override
@@ -46,23 +46,23 @@ public class Room extends BasicGame{
          * By setting it to false animation will update only when
          * the user presses a key.
          */
-        up = new Animation(movementUp, duration, false);
-        down = new Animation(movementDown, duration, false);
-        left = new Animation(movementLeft, duration, false);
-        right = new Animation(movementRight, duration, false);
+        m_up = new Animation(movementUp, duration, false);
+        m_down = new Animation(movementDown, duration, false);
+        m_left = new Animation(movementLeft, duration, false);
+        m_right = new Animation(movementRight, duration, false);
         
         // Original orientation of the sprite. It will look right.
-        sprite = right;
+        m_sprite = m_right;
         
         // build a collision map based on tile properties in the TileD map
-        blocked = new boolean[m_horseMap.getWidth()][m_horseMap.getHeight()];
+        m_blocked = new boolean[m_horseMap.getWidth()][m_horseMap.getHeight()];
 
-       for (int xAxis=0;xAxis<m_horseMap.getWidth(); xAxis++) {
-            for (int yAxis=0;yAxis<m_horseMap.getHeight(); yAxis++) {
+       for (int xAxis=0; xAxis<m_horseMap.getWidth(); xAxis++) {
+            for (int yAxis=0; yAxis<m_horseMap.getHeight(); yAxis++) {
                 int tileID = m_horseMap.getTileId(xAxis, yAxis, 0);
                 String value = m_horseMap.getTileProperty(tileID, "blocked", "false");
                 if ("true".equals(value)) {
-                    blocked[xAxis][yAxis] = true;
+                    m_blocked[xAxis][yAxis] = true;
                 }
             }
         }
@@ -74,31 +74,31 @@ public class Room extends BasicGame{
 	public void update(GameContainer container, int delta) throws SlickException {
 		Input input = container.getInput();
         if (input.isKeyDown(Input.KEY_UP)) {
-            sprite = up;
+            m_sprite = m_up;
             if (!isBlocked(x, y - delta * 0.1f)) {
-                sprite.update(delta);
+                m_sprite.update(delta);
                 // The lower the delta the slowest the sprite will animate.
                 y -= delta * 0.1f;
             }
         }
         else if (input.isKeyDown(Input.KEY_DOWN)) {
-            sprite = down;
+            m_sprite = m_down;
             if (!isBlocked(x, y + SIZE + delta * 0.1f)) {
-                sprite.update(delta);
+                m_sprite.update(delta);
                 y += delta * 0.1f;
             }
         }
         else if (input.isKeyDown(Input.KEY_LEFT)) {
-            sprite = left;
+            m_sprite = m_left;
             if (!isBlocked(x - delta * 0.1f, y)) {
-                sprite.update(delta);
+                m_sprite.update(delta);
                 x -= delta * 0.1f;
             }
         }
         else if (input.isKeyDown(Input.KEY_RIGHT)) {
-            sprite = right;
+            m_sprite = m_right;
             if (!isBlocked(x + SIZE + delta * 0.1f, y)) {
-                sprite.update(delta);
+                m_sprite.update(delta);
                 x += delta * 0.1f;
             }
         }	
@@ -108,7 +108,7 @@ public class Room extends BasicGame{
     private boolean isBlocked(float x, float y) {
         int xBlock = (int)x / SIZE;
         int yBlock = (int)y / SIZE;
-        return blocked[xBlock][yBlock];
+        return m_blocked[xBlock][yBlock];
     }
 	
 	
