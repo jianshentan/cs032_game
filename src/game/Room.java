@@ -24,8 +24,8 @@ public class Room extends BasicGame{
 
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
-		m_horseMap.render(0, 0);
-		m_sprite.draw((int)m_x, (int)m_y);
+		m_horseMap.render(-100, -100);
+		m_sprite.draw((int)m_x-100, (int)m_y-100);
 	}
 
 	@Override
