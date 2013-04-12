@@ -8,9 +8,18 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+<<<<<<< HEAD
 public class Room extends BasicGame{
+=======
+public class Room extends BasicGameState{
+	
+	int m_stateID = 0;
+	public enum Direction {UP, DOWN, LEFT, RIGHT}
+>>>>>>> d63447b371d7f095097681cfe4d3cef4778d53b9
 	private TiledMap m_horseMap;
 	private Player m_player;
 	private Chest m_chest;
@@ -20,20 +29,27 @@ public class Room extends BasicGame{
 	// block size
     private static final int SIZE = 64;
 	
-	public Room() {
-		super ("Room");
+	public Room(int stateID) {
+		m_stateID = stateID;
 	}
 
 	@Override
-	public void render(GameContainer container, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) throws SlickException {
 		m_horseMap.render(0, 0);
 		m_chest.getImage().draw(m_chest.getX(), m_chest.getY());
 		m_player.getAnimation().draw((int)m_player.getX(), (int)m_player.getY());
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void init(GameContainer container) throws SlickException {
 		// build a collision map based on tile properties in the TileD map
+=======
+	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		// setup player
+		m_player = new Player(this, 256f, 256f);
+		
+>>>>>>> d63447b371d7f095097681cfe4d3cef4778d53b9
 		try {
 			m_horseMap = new TiledMap("assets/10X10.tmx");
 		} catch (SlickException e) {
@@ -51,6 +67,7 @@ public class Room extends BasicGame{
                 }
             }
         }
+<<<<<<< HEAD
 		// setup player
 		m_player = new Player(this, 256f, 256f);
 		//setup objects
@@ -58,10 +75,12 @@ public class Room extends BasicGame{
 		m_chest = new Chest(2*SIZE, 3*SIZE);
 		m_objects.add(m_chest);
 		m_blocked[2][3] = true;      
+=======
+>>>>>>> d63447b371d7f095097681cfe4d3cef4778d53b9
 	}
 
 	@Override
-	public void update(GameContainer container, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
 		m_player.update(container, delta, SIZE);
 	}
 	public void interact(int[] interactSquare){
@@ -78,6 +97,11 @@ public class Room extends BasicGame{
     public boolean getBlocked(int x, int y) {
     	return m_blocked[x][y];
     }
+
+	@Override
+	public int getID() {
+		return m_stateID;
+	}
 	
 	
 }
