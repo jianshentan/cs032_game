@@ -12,13 +12,12 @@ public class Room extends BasicGame{
 	public enum Direction {UP, DOWN, LEFT, RIGHT}
 	private TiledMap m_horseMap;
 	private Player m_player;
-	private Animation m_sprite, m_up, m_down, m_left, m_right;	
-	private float m_x = 256f, m_y = 256f;
 	
 	// The collision map indicating which tiles block movement - generated 
 	private boolean[][] m_blocked;
+	// block size
     private static final int SIZE = 64;
-	private static final int BUFFER = 2;
+	
 	public Room() {
 		super ("Room");
 	}
@@ -26,13 +25,13 @@ public class Room extends BasicGame{
 	@Override
 	public void render(GameContainer container, Graphics g) throws SlickException {
 		m_horseMap.render(0, 0);
-		m_sprite.draw((int)m_player.getX(), (int)m_player.getY());
+		m_player.getAnimation().draw((int)m_player.getX(), (int)m_player.getY());
 	}
 
 	@Override
 	public void init(GameContainer container) throws SlickException {
 		// setup player
-		m_player = new Player(m_x, m_y);
+		m_player = new Player(this, 256f, 256f);
 		
 		try {
 			m_horseMap = new TiledMap("assets/10X10.tmx");
@@ -58,71 +57,12 @@ public class Room extends BasicGame{
 
 	@Override
 	public void update(GameContainer container, int delta) throws SlickException {
-    // The lower the delta the slowest the sprite will animate.
-		Input input = container.getInput();
-        if (input.isKeyDown(Input.KEY_UP)) {
-            m_sprite = m_up;
-            if (!isBlocked(m_player.getX(), m_player.getY()- delta * 0.1f, Direction.UP)) {
-                m_sprite.update(delta);
-                m_player.setY(m_player.getY() - delta * 0.1f);
-            }
-        }
-        else if (input.isKeyDown(Input.KEY_DOWN)) {
-            m_sprite = m_down;
-            if (!isBlocked(m_player.getX(), m_player.getY()+ SIZE + delta * 0.1f, Direction.DOWN)) {
-                m_sprite.update(delta);
-                m_player.setY(m_player.getY() + delta * 0.1f);
-            }
-        }
-        else if (input.isKeyDown(Input.KEY_LEFT)) {
-            m_sprite = m_left;
-            if (!isBlocked(m_player.getX() - delta * 0.1f, m_player.getY(), Direction.LEFT)) {
-                m_sprite.update(delta);
-                m_player.setX(m_player.getX() - delta * 0.1f);
-            }
-        }
-        else if (input.isKeyDown(Input.KEY_RIGHT)) {
-            m_sprite = m_right;
-            if (!isBlocked(m_player.getX() + SIZE + delta * 0.1f, m_player.getY(), Direction.RIGHT)) {
-                m_sprite.update(delta);
-                m_player.setX(m_player.getX() + delta * 0.1f); 
-                m_x += delta * 0.1f;
-            }
-        }	
-		
+		m_player.update(container, delta, SIZE);
 	}
 	
-    private boolean isBlocked(float x, float y, Direction dir) {
-    	switch(dir){
-    		case UP: {
-    			int xBlock1 = ((int)x +BUFFER) / SIZE;
-    	        int yBlock = (int)y / SIZE;
-    	        int xBlock2 = ((int)x + SIZE-BUFFER)/SIZE;
-    	        return m_blocked[xBlock1][yBlock]|m_blocked[xBlock2][yBlock];
-    		}
-    		case DOWN: {
-    			int xBlock1 = ((int)x +BUFFER) / SIZE;
-    	        int yBlock = (int)y / SIZE;
-    	        int xBlock2 = ((int)x + SIZE-BUFFER)/SIZE;
-    	        return m_blocked[xBlock1][yBlock]|m_blocked[xBlock2][yBlock];
-    		}
-    		case LEFT: {
-    			int xBlock = (int)x / SIZE;
-    	        int yBlock1 = ((int)y +BUFFER)/ SIZE;
-    	        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-    	        return m_blocked[xBlock][yBlock1]||m_blocked[xBlock][yBlock2];
-    		}
-    		case RIGHT: {
-    			int xBlock = (int)x / SIZE;
-    	        int yBlock1 = ((int)y +BUFFER)/ SIZE;
-    	        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-    	        return m_blocked[xBlock][yBlock1]||m_blocked[xBlock][yBlock2];
-    		} default: {
-    			System.out.println("ERROR WHRE IS THIS " + dir + " ENUM COMING FROM");
-    			return false;
-    		}
-    	}
-        
+    public boolean getBlocked(int x, int y) {
+    	return m_blocked[x][y];
+
     }
 	
 	
