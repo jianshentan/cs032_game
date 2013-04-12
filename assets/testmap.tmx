@@ -13,7 +13,11 @@
  </tileset>
  <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
+<<<<<<< HEAD
+   eJzt1rEKACAIQEHr/z862iJyLYM7EJx9iz0iejLcN+/eDqPHG3rUokctetSy9th37st+Kz0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+MABn3ABL
+=======
    eJzt1jkKACAMAMHo/x8tFoKIaT1gBgLWWQjWiKjJcF7fe9mMHnfMPdY3540G853S4x736i16vCX7W+kBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwhwYzNgBO
+>>>>>>> 8a1c1a0d731d4a61f043e2a6aeb92fa2b77e4b92
   </data>
  </layer>
 </map>

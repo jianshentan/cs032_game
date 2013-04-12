@@ -12,7 +12,7 @@ public class Main {
 		Room room = new Room();
 		try {
 			AppGameContainer app = new AppGameContainer(room);
-			app.setDisplayMode(600, 500, false);
+			app.setDisplayMode(650, 650, false);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
