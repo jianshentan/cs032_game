@@ -8,7 +8,9 @@ public class Player extends GameObject{
 	
 	private float m_x, m_y;
 	public float getX() { return m_x; }
+	public void setX(float x) { m_x = x; }
 	public float getY() { return m_y; }
+	public void setY(float y) { m_y = y; }
 	
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
 	
