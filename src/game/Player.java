@@ -88,7 +88,6 @@ public class Player extends GameObject{
         if(inputDelta<0&&input.isKeyDown(Input.KEY_SPACE)){
         	int currentX = (int) (m_x + (SIZE/2))/SIZE;
         	int currentY = (int) (m_y + (SIZE/2))/SIZE;
-        	System.out.println("player x is " + currentX + "player y is " + currentY);
         	int[] dirOffset = Direction.getDirOffsets(m_dir);
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
         	m_room.interact(squareFacing);
