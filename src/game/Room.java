@@ -123,13 +123,13 @@ public class Room extends BasicGame{
     			int xBlock = (int)x / SIZE;
     	        int yBlock1 = ((int)y +BUFFER)/ SIZE;
     	        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-    	        return m_blocked[xBlock][yBlock1]||m_blocked[xBlock][yBlock2];
+    	        return m_blocked[xBlock][yBlock1]|m_blocked[xBlock][yBlock2];
     		}
     		case RIGHT: {
     			int xBlock = (int)x / SIZE;
     	        int yBlock1 = ((int)y +BUFFER)/ SIZE;
     	        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-    	        return m_blocked[xBlock][yBlock1]||m_blocked[xBlock][yBlock2];
+    	        return m_blocked[xBlock][yBlock1]|m_blocked[xBlock][yBlock2];
     		} default: {
     			System.out.println("ERROR WHRE IS THIS " + dir + " ENUM COMING FROM");
     			return false;
