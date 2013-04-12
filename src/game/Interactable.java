@@ -1,5 +1,6 @@
 package game;
 
 public interface Interactable {
-	void fireAction();
+	public void fireAction();
+	public int[] getSquare();
 }
