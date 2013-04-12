@@ -6,9 +6,13 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-public class Room extends BasicGame{
+public class Room extends BasicGameState{
+	
+	int m_stateID = 0;
 	public enum Direction {UP, DOWN, LEFT, RIGHT}
 	private TiledMap m_horseMap;
 	private Player m_player;
@@ -18,18 +22,18 @@ public class Room extends BasicGame{
 	// block size
     private static final int SIZE = 64;
 	
-	public Room() {
-		super ("Room");
+	public Room(int stateID) {
+		m_stateID = stateID;
 	}
 
 	@Override
-	public void render(GameContainer container, Graphics g) throws SlickException {
+	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) throws SlickException {
 		m_horseMap.render(0, 0);
 		m_player.getAnimation().draw((int)m_player.getX(), (int)m_player.getY());
 	}
 
 	@Override
-	public void init(GameContainer container) throws SlickException {
+	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup player
 		m_player = new Player(this, 256f, 256f);
 		
@@ -52,18 +56,21 @@ public class Room extends BasicGame{
                 }
             }
         }
-		
 	}
 
 	@Override
-	public void update(GameContainer container, int delta) throws SlickException {
+	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
 		m_player.update(container, delta, SIZE);
 	}
 	
     public boolean getBlocked(int x, int y) {
     	return m_blocked[x][y];
-
     }
+
+	@Override
+	public int getID() {
+		return m_stateID;
+	}
 	
 	
 }
