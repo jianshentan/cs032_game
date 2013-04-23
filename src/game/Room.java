@@ -3,53 +3,38 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-<<<<<<< HEAD
-public class Room extends BasicGame{
-=======
 public class Room extends BasicGameState{
 	
 	int m_stateID = 0;
+	private int inputDelta = 0;
 	public enum Direction {UP, DOWN, LEFT, RIGHT}
->>>>>>> d63447b371d7f095097681cfe4d3cef4778d53b9
 	private TiledMap m_horseMap;
 	private Player m_player;
 	private Chest m_chest;
-	private ArrayList<Interactable> m_objects;
-	// The collision map indicating which tiles block movement - generated 
-	private boolean[][] m_blocked;
-	// block size
-    private static final int SIZE = 64;
+	private ArrayList<Interactable> m_objects; 
+	private boolean[][] m_blocked; // 2D array indicating spaces that are blocked
+    private static final int SIZE = 64; // block size
+    private boolean m_isPaused = false;
+    private PauseMenu m_pauseMenu;
 	
 	public Room(int stateID) {
 		m_stateID = stateID;
 	}
 
-	@Override
-	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) throws SlickException {
-		m_horseMap.render(0, 0);
-		m_chest.getImage().draw(m_chest.getX(), m_chest.getY());
-		m_player.getAnimation().draw((int)m_player.getX(), (int)m_player.getY());
-	}
-
-	@Override
-<<<<<<< HEAD
-	public void init(GameContainer container) throws SlickException {
-		// build a collision map based on tile properties in the TileD map
-=======
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
-		// setup player
-		m_player = new Player(this, 256f, 256f);
-		
->>>>>>> d63447b371d7f095097681cfe4d3cef4778d53b9
 		try {
 			m_horseMap = new TiledMap("assets/10X10.tmx");
 		} catch (SlickException e) {
@@ -67,24 +52,58 @@ public class Room extends BasicGameState{
                 }
             }
         }
-<<<<<<< HEAD
 		// setup player
 		m_player = new Player(this, 256f, 256f);
-		//setup objects
+		// setup objects
 		m_objects= new ArrayList<Interactable>();
 		m_chest = new Chest(2*SIZE, 3*SIZE);
 		m_objects.add(m_chest);
 		m_blocked[2][3] = true;      
-=======
->>>>>>> d63447b371d7f095097681cfe4d3cef4778d53b9
+		// setup menu
+		m_pauseMenu = new PauseMenu();
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-		m_player.update(container, delta, SIZE);
-	}
-	public void interact(int[] interactSquare){
+		if (!m_isPaused)
+			m_player.update(container, delta, SIZE);
 		
+		Input input = container.getInput();
+		inputDelta-=delta;
+		
+		// creates menu screen
+		if (inputDelta<0 && input.isKeyDown(Input.KEY_ESCAPE)) {
+			if (!m_isPaused)
+				m_isPaused = true;
+			else
+				m_isPaused = false;
+        	inputDelta = 500;
+        }
+	}
+	
+	@Override
+	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) throws SlickException {
+		m_horseMap.render(0, 0);
+		m_chest.getImage().draw(m_chest.getX(), m_chest.getY());
+		m_player.getAnimation().draw((int)m_player.getX(), (int)m_player.getY());
+		
+		if (m_isPaused) {
+			Rectangle rectangle = new Rectangle(m_pauseMenu.getX(), 
+												m_pauseMenu.getY(), 
+												m_pauseMenu.getWidth(), 
+												m_pauseMenu.getHeight());
+			ShapeFill fill = new GradientFill(m_pauseMenu.getX(), 
+											  m_pauseMenu.getY(), 
+											  Color.black, 
+											  m_pauseMenu.getX() + m_pauseMenu.getWidth(), 
+											  m_pauseMenu.getY() + m_pauseMenu.getHeight(), 
+											  Color.black);
+			
+			g.fill(rectangle, fill);
+		}
+	}
+	
+	public void interact(int[] interactSquare){
 		for(Interactable i: m_objects){
 			int[] loc = i.getSquare();
 			System.out.println(interactSquare[0] + " loc x " + loc[0] + " square y " + interactSquare[1] + " location x " + loc[1]);

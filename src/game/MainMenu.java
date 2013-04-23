@@ -54,7 +54,6 @@ public class MainMenu extends BasicGameState {
                 stateManager.enterState(StateManager.ROOM_STATE);
             }
         }
-
 	}
 
 	@Override
