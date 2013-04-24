@@ -1,22 +1,15 @@
 package game;
 import java.util.ArrayList;
 
-import org.newdawn.slick.Animation;
-import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-public class Room extends BasicGameState{
+public class Room extends GamePlayState {
 	
 	int m_stateID = 0;
 	private int inputDelta = 0;
@@ -27,22 +20,38 @@ public class Room extends BasicGameState{
 	private ArrayList<Interactable> m_objects; 
 	private boolean[][] m_blocked; // 2D array indicating spaces that are blocked
     private static final int SIZE = 64; // block size
-    private boolean m_isPaused = false;
     private PauseMenu m_pauseMenu;
+	private Rectangle m_viewport;
 	
 	public Room(int stateID) {
 		m_stateID = stateID;
 	}
 
+	@Override
+	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) 
+			throws SlickException {
+		int halfWidth = container.getWidth()/2;
+		int halfHeight = container.getHeight()/2;
+		int offsetX = (int)m_player.getX()-halfWidth;
+		int offsetY = (int)m_player.getY()-halfHeight;
+		m_horseMap.render(-offsetX, -offsetY);
+		m_chest.getImage().draw(m_chest.getX()-offsetX, m_chest.getY()-offsetY);
+		m_player.getAnimation().draw(halfWidth, halfHeight);
+		
+		if (m_isPaused)
+			m_pauseMenu.render(g);
+	}
+
+	@Override
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		// setup player
+		m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		try {
 			m_horseMap = new TiledMap("assets/10X10.tmx");
 		} catch (SlickException e) {
 			System.out.println("ERROR: Could not 10X10.tmx");
 		}
         m_blocked = new boolean[m_horseMap.getWidth()][m_horseMap.getHeight()];
-        System.out.println("width: " + m_horseMap.getWidth());
-
         for (int xAxis=0; xAxis<m_horseMap.getWidth(); xAxis++) {
             for (int yAxis=0; yAxis<m_horseMap.getHeight(); yAxis++) {
                 int tileID = m_horseMap.getTileId(xAxis, yAxis, 0);
@@ -52,21 +61,26 @@ public class Room extends BasicGameState{
                 }
             }
         }
+        
 		// setup player
 		m_player = new Player(this, 256f, 256f);
+		
 		// setup objects
 		m_objects= new ArrayList<Interactable>();
 		m_chest = new Chest(2*SIZE, 3*SIZE);
 		m_objects.add(m_chest);
 		m_blocked[2][3] = true;      
+		
 		// setup menu
-		m_pauseMenu = new PauseMenu();
+		m_pauseMenu = new PauseMenu(this, container.getWidth(), container.getHeight());
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
 		if (!m_isPaused)
 			m_player.update(container, delta, SIZE);
+		else
+			m_pauseMenu.update(container, stateManager, delta);
 		
 		Input input = container.getInput();
 		inputDelta-=delta;
@@ -79,34 +93,12 @@ public class Room extends BasicGameState{
 				m_isPaused = false;
         	inputDelta = 500;
         }
-	}
-	
-	@Override
-	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) throws SlickException {
-		m_horseMap.render(0, 0);
-		m_chest.getImage().draw(m_chest.getX(), m_chest.getY());
-		m_player.getAnimation().draw((int)m_player.getX(), (int)m_player.getY());
 		
-		if (m_isPaused) {
-			Rectangle rectangle = new Rectangle(m_pauseMenu.getX(), 
-												m_pauseMenu.getY(), 
-												m_pauseMenu.getWidth(), 
-												m_pauseMenu.getHeight());
-			ShapeFill fill = new GradientFill(m_pauseMenu.getX(), 
-											  m_pauseMenu.getY(), 
-											  Color.black, 
-											  m_pauseMenu.getX() + m_pauseMenu.getWidth(), 
-											  m_pauseMenu.getY() + m_pauseMenu.getHeight(), 
-											  Color.black);
-			
-			g.fill(rectangle, fill);
-		}
 	}
 	
 	public void interact(int[] interactSquare){
 		for(Interactable i: m_objects){
 			int[] loc = i.getSquare();
-			System.out.println(interactSquare[0] + " loc x " + loc[0] + " square y " + interactSquare[1] + " location x " + loc[1]);
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
 				i.fireAction();
 			}

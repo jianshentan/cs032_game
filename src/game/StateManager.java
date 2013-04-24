@@ -16,7 +16,7 @@ public class StateManager extends StateBasedGame {
 		try {
 			AppGameContainer app = new AppGameContainer(this);
 			setup();
-			app.setDisplayMode(650, 650, false);
+			app.setDisplayMode(600, 600, false);
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

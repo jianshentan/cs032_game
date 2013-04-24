@@ -12,7 +12,7 @@ public class Player extends GameObject{
 	
 	private Room m_room;
 	private float m_x, m_y;
-	private int inputDelta = 0;
+	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
 	private Direction m_dir;
     private static final int SIZE = 64;
@@ -52,7 +52,7 @@ public class Player extends GameObject{
 	public void update(GameContainer container, int delta, int SIZE) {
 		// The lower the delta the slowest the sprite will animate.
 		Input input = container.getInput();
-		inputDelta-=delta;
+		m_inputDelta-=delta;
         if (input.isKeyDown(Input.KEY_UP)) {
         	m_sprite = m_up;
         	m_dir = Direction.UP;
@@ -85,14 +85,13 @@ public class Player extends GameObject{
                 m_x += delta * 0.1f;
             }
         }
-        if(inputDelta<0&&input.isKeyDown(Input.KEY_SPACE)){
+        if(m_inputDelta<0&&input.isKeyDown(Input.KEY_SPACE)){
         	int currentX = (int) (m_x + (SIZE/2))/SIZE;
         	int currentY = (int) (m_y + (SIZE/2))/SIZE;
-        	System.out.println("player x is " + currentX + "player y is " + currentY);
         	int[] dirOffset = Direction.getDirOffsets(m_dir);
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
         	m_room.interact(squareFacing);
-        	inputDelta=500;
+        	m_inputDelta=500;
         }
 		
 	}
