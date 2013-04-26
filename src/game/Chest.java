@@ -1,6 +1,11 @@
 package game;
 
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
+import game.Interactables.Types;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
@@ -33,5 +38,19 @@ public class Chest extends GameObject implements Interactable{
 	public int[] getSquare() {
 		int[] loc = {m_x/SIZE, m_y/SIZE};
 		return loc;
+	}
+	@Override
+	public Types getType() {
+		return Types.CHEST;
+	}
+	
+	@Override
+	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		// TODO Auto-generated method stub
+		writer.writeStartElement("Iterable");
+		writer.writeAttribute("type", Types.CHEST.toString());
+		writer.writeAttribute("m_x", String.valueOf(this.m_x));
+		writer.writeAttribute("m_y", String.valueOf(this.m_y));
+		writer.writeEndElement();
 	}
 }

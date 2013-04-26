@@ -9,23 +9,33 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+/**
+ * A Room represents a single level.
+ *
+ */
 public class Room extends GamePlayState {
-	
+
 	int m_stateID = 0;
 	private int inputDelta = 0;
 	public enum Direction {UP, DOWN, LEFT, RIGHT}
 	private TiledMap m_horseMap;
+	private String m_mapPath; //path to the tiled map file
 	private Player m_player;
+	private Enemy m_enemy;
 	private Chest m_chest;
 	private ArrayList<Interactable> m_objects; 
 	private boolean[][] m_blocked; // 2D array indicating spaces that are blocked
     private static final int SIZE = 64; // block size
 	private Rectangle m_viewport;
-	
 	private Dialogue m_dialogue1;
 	
 	public Room(int stateID) {
 		m_stateID = stateID;
+	}
+
+	public Room(int stateID, String mapPath) {
+		m_stateID = stateID;
+		m_mapPath = mapPath;
 	}
 
 	@Override
@@ -37,8 +47,9 @@ public class Room extends GamePlayState {
 		int offsetY = (int)m_player.getY()-halfHeight;
 		m_horseMap.render(-offsetX, -offsetY);
 		m_chest.getImage().draw(m_chest.getX()-offsetX, m_chest.getY()-offsetY);
+		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
-		
+
 		if (m_isPaused)
 			m_pauseMenu.render(g);
 		if (m_inDialogue)
@@ -49,30 +60,36 @@ public class Room extends GamePlayState {
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup player
 		m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
-		try {
-			m_horseMap = new TiledMap("assets/10X10.tmx");
-		} catch (SlickException e) {
-			System.out.println("ERROR: Could not 10X10.tmx");
+		if(m_mapPath != null) {
+			m_horseMap = new TiledMap(m_mapPath);
 		}
-        m_blocked = new boolean[m_horseMap.getWidth()][m_horseMap.getHeight()];
-        for (int xAxis=0; xAxis<m_horseMap.getWidth(); xAxis++) {
-            for (int yAxis=0; yAxis<m_horseMap.getHeight(); yAxis++) {
-                int tileID = m_horseMap.getTileId(xAxis, yAxis, 0);
-                String value = m_horseMap.getTileProperty(tileID, "blocked", "false");
-                if ("true".equals(value)) {
-                    m_blocked[xAxis][yAxis] = true;
-                }
-            }
-        }
-        
+		else
+			try {
+				m_horseMap = new TiledMap("assets/10X10.tmx");
+			} catch (SlickException e) {
+				System.out.println("ERROR: Could not 10X10.tmx");
+			}
+		m_blocked = new boolean[m_horseMap.getWidth()][m_horseMap.getHeight()];
+		for (int xAxis=0; xAxis<m_horseMap.getWidth(); xAxis++) {
+			for (int yAxis=0; yAxis<m_horseMap.getHeight(); yAxis++) {
+				int tileID = m_horseMap.getTileId(xAxis, yAxis, 0);
+				String value = m_horseMap.getTileProperty(tileID, "blocked", "false");
+				if ("true".equals(value)) {
+					m_blocked[xAxis][yAxis] = true;
+				}
+			}
+		}
+
 		// setup player
 		m_player = new Player(this, 256f, 256f);
-		
+
 		// setup objects
 		m_objects= new ArrayList<Interactable>();
 		m_chest = new Chest(2*SIZE, 3*SIZE);
 		m_objects.add(m_chest);
 		m_blocked[2][3] = true;      
+
+		m_enemy = new Enemy(this, 1*SIZE, 1*SIZE);
 		
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
@@ -96,11 +113,11 @@ public class Room extends GamePlayState {
 			m_dialogue1.update(container, stateManager, delta);
 		
 		if (!m_isPaused && !m_inDialogue)
-			m_player.update(container, delta, SIZE);
+			m_player.update(container, delta);
 		
 		Input input = container.getInput();
 		inputDelta-=delta;
-		
+
 		// creates menu screen
 		if (inputDelta<0 && input.isKeyDown(Input.KEY_ESCAPE)) {
 			if (!m_isPaused)
@@ -116,9 +133,8 @@ public class Room extends GamePlayState {
 				m_inDialogue = true;
 			inputDelta = 500;
 		}
-		
 	}
-	
+
 	public void interact(int[] interactSquare){
 		for(Interactable i: m_objects){
 			int[] loc = i.getSquare();
@@ -128,14 +144,26 @@ public class Room extends GamePlayState {
 		}
 	}
 
-    public boolean getBlocked(int x, int y) {
-    	return m_blocked[x][y];
-    }
+	public boolean getBlocked(int x, int y) {
+		return m_blocked[x][y];
+	}
 
 	@Override
 	public int getID() {
 		return m_stateID;
 	}
 	
+	public Player getPlayer() {
+		return this.m_player;
+	}
 	
+	public String getMapPath() {
+		return this.m_mapPath;
+	}
+	
+	public ArrayList<Interactable> getInteractables() {
+		return this.m_objects;
+	}
+
+
 }
