@@ -16,6 +16,7 @@ public class Room extends GamePlayState {
 	public enum Direction {UP, DOWN, LEFT, RIGHT}
 	private TiledMap m_horseMap;
 	private Player m_player;
+	private Enemy m_enemy;
 	private Chest m_chest;
 	private ArrayList<Interactable> m_objects; 
 	private boolean[][] m_blocked; // 2D array indicating spaces that are blocked
@@ -36,6 +37,7 @@ public class Room extends GamePlayState {
 		int offsetY = (int)m_player.getY()-halfHeight;
 		m_horseMap.render(-offsetX, -offsetY);
 		m_chest.getImage().draw(m_chest.getX()-offsetX, m_chest.getY()-offsetY);
+		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
 		
 		if (m_isPaused)
@@ -70,6 +72,7 @@ public class Room extends GamePlayState {
 		m_chest = new Chest(2*SIZE, 3*SIZE);
 		m_objects.add(m_chest);
 		m_blocked[2][3] = true;      
+		m_enemy = new Enemy(this, 1*SIZE, 1*SIZE);
 		
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container.getWidth(), container.getHeight());
@@ -78,7 +81,7 @@ public class Room extends GamePlayState {
 	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
 		if (!m_isPaused)
-			m_player.update(container, delta, SIZE);
+			m_player.update(container, delta);
 		else
 			m_pauseMenu.update(container, stateManager, delta);
 		
