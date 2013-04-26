@@ -20,8 +20,9 @@ public class Room extends GamePlayState {
 	private ArrayList<Interactable> m_objects; 
 	private boolean[][] m_blocked; // 2D array indicating spaces that are blocked
     private static final int SIZE = 64; // block size
-    private PauseMenu m_pauseMenu;
 	private Rectangle m_viewport;
+	
+	private Dialogue m_dialogue1;
 	
 	public Room(int stateID) {
 		m_stateID = stateID;
@@ -40,6 +41,8 @@ public class Room extends GamePlayState {
 		
 		if (m_isPaused)
 			m_pauseMenu.render(g);
+		if (m_inDialogue)
+			m_dialogue1.render(g);
 	}
 
 	@Override
@@ -72,15 +75,28 @@ public class Room extends GamePlayState {
 		m_blocked[2][3] = true;      
 		
 		// setup menu
-		m_pauseMenu = new PauseMenu(this, container.getWidth(), container.getHeight());
+		m_pauseMenu = new PauseMenu(this, container);
+		
+		// setup dialogue
+		m_dialogue1 = new Dialogue(this, container, new String[] 
+				{"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
+						"Mauris ultrices dolor non massa eleifend elementum. " +
+						"Suspendisse vel magna augue, in tincidunt urna. ",
+				 "Fusce in ligula libero, eget lacinia tellus. Donec bibendum " +
+						"ultrices eros sit amet lacinia. Praesent nec mauris ac " +
+						"justo tempus dapibus a vel diam."});
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-		if (!m_isPaused)
-			m_player.update(container, delta, SIZE);
-		else
+		if (m_isPaused)
 			m_pauseMenu.update(container, stateManager, delta);
+		
+		if (m_inDialogue)
+			m_dialogue1.update(container, stateManager, delta);
+		
+		if (!m_isPaused && !m_inDialogue)
+			m_player.update(container, delta, SIZE);
 		
 		Input input = container.getInput();
 		inputDelta-=delta;
@@ -93,6 +109,13 @@ public class Room extends GamePlayState {
 				m_isPaused = false;
         	inputDelta = 500;
         }
+		
+		// Testing dialogue -- testing purposes only
+		if (inputDelta<0 && input.isKeyDown(Input.KEY_Z)) {
+			if (!m_inDialogue)
+				m_inDialogue = true;
+			inputDelta = 500;
+		}
 		
 	}
 	
