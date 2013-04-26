@@ -1,6 +1,9 @@
 package game;
 import java.util.ArrayList;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -8,6 +11,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * A Room represents a single level.
@@ -136,13 +141,51 @@ public class Room extends GamePlayState {
 		return this.m_player;
 	}
 	
+	public void setPlayer(Player p) {
+		this.m_player = p;
+	}
+	
 	public String getMapPath() {
 		return this.m_mapPath;
 	}
 	
-	public ArrayList<Interactable> getInteractables() {
-		return this.m_objects;
+	/**
+	 * Writes the data contained in the room to XML, not including
+	 * the player data.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("Room");
+		if(m_mapPath!=null)
+			writer.writeAttribute("m_mapPath", m_mapPath);
+		writer.writeAttribute("id", String.valueOf(this.m_stateID));
+		
+		writer.writeStartElement("Interactables");
+		for(Interactable i : m_objects) {
+			i.writeToXML(writer);
+		}
+		writer.writeEndElement();
+		
+		writer.writeEndElement();
 	}
 
+	/**
+	 * Loads a new room from an XML node
+	 * @param n
+	 * @return
+	 */
+	public static Room loadFromNode(Node n) {
+		int id = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
+		Room room = new Room(id);
+		NodeList children = n.getChildNodes();
+		for(int i = 0; i<children.getLength(); i++) {
+			Node child = children.item(i);
+			if(child.getNodeName().equals("Interactable")) {
+				
+			}
+		}
+		return room;
+	}
 
 }
