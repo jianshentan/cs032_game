@@ -8,15 +8,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-public class Player extends GameObject{
+public class Player extends MovingObject{
 	
 	private Room m_room;
-	private float m_x, m_y;
+	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
 	private Direction m_dir;
-    private static final int SIZE = 64;
-	private static final int BUFFER = 14;
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
 	public float getX() { return m_x; }
@@ -25,6 +23,7 @@ public class Player extends GameObject{
 	public void setY(float y) { m_y = y; }
 	
 	public Player(Room room, float x, float y) throws SlickException {
+		super(room);
 		m_room = room;
 		m_x = x;
 		m_y = y;
@@ -49,7 +48,7 @@ public class Player extends GameObject{
         m_dir = Direction.RIGHT;
 	}
 	
-	public void update(GameContainer container, int delta, int SIZE) {
+	public void update(GameContainer container, int delta) {
 		// The lower the delta the slowest the sprite will animate.
 		Input input = container.getInput();
 		m_inputDelta-=delta;
@@ -96,35 +95,4 @@ public class Player extends GameObject{
 		
 	}
 	
-	public boolean isBlocked(float x, float y, Direction dir) {
-    	switch(dir){
-			case UP: {
-				int xBlock1 = ((int)x +BUFFER) / SIZE;
-		        int yBlock = (int)y / SIZE;
-		        int xBlock2 = ((int)x + SIZE-BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock1, yBlock)|m_room.getBlocked(xBlock2, yBlock);
-			}
-			case DOWN: {
-				int xBlock1 = ((int)x +BUFFER) / SIZE;
-		        int yBlock = (int)y / SIZE;
-		        int xBlock2 = ((int)x + SIZE-BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock1, yBlock)|m_room.getBlocked(xBlock2, yBlock);
-			}
-			case LEFT: {
-				int xBlock = (int)x / SIZE;
-		        int yBlock1 = ((int)y +BUFFER)/ SIZE;
-		        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock, yBlock1)||m_room.getBlocked(xBlock, yBlock2);
-			}
-			case RIGHT: {
-				int xBlock = (int)x / SIZE;
-		        int yBlock1 = ((int)y +BUFFER)/ SIZE;
-		        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock, yBlock1)||m_room.getBlocked(xBlock, yBlock2);
-			} default: {
-				System.out.println("ERROR WHRE IS THIS " + dir + " ENUM COMING FROM");
-				return false;
-			}
-		}
-	}
 }
