@@ -43,11 +43,11 @@ public class PauseMenu {
 	public float getWidth() { return m_width; }
 	public float getHeight() { return m_height; }
 	
-	public PauseMenu(GamePlayState game, float screenHeight, float screenWidth) {
+	public PauseMenu(GamePlayState game, GameContainer container) {
 		m_game = game;
 		
-		m_width = screenWidth/2; // pause menu width is half the screen width
-		m_height = screenHeight/2; // pause menu height is half the screen height
+		m_width = container.getWidth()/2; // pause menu width is half the screen width
+		m_height = container.getHeight()/2; // pause menu height is half the screen height
 		m_x = m_width/2;
 		m_y = m_height/2;
 		
