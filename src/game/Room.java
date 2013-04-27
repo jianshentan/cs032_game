@@ -13,8 +13,11 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.pathfinding.PathFindingContext;
+import org.newdawn.slick.util.pathfinding.TileBasedMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
 
 /**
  * A Room represents a single level.
@@ -41,6 +44,8 @@ public class Room extends GamePlayState implements Loadable<Room> {
 	private static final int SIZE = 64; // block size
 	private Rectangle m_viewport;
 
+	private simpleMap m_map;
+	
 	private ArrayList<Dialogue> m_dialogue;
 	private int m_dialogueNum; // represents which dialogue to use
 
@@ -78,6 +83,7 @@ public class Room extends GamePlayState implements Loadable<Room> {
 	@Override
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup player
+		m_map = new simpleMap();
 		m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		if(m_mapPath != null) {
 			m_horseMap = new TiledMap(m_mapPath);
@@ -109,14 +115,18 @@ public class Room extends GamePlayState implements Loadable<Room> {
 		Chest chest = new Chest(2*SIZE, 3*SIZE);
 		m_interactables.put(23, chest);
 		m_blocked[2][3] = true;      
+
+		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
+		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
+
 		m_objects.put(23, chest);
 
 		ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
 		m_interactables.put(63, chickenWing);
 		m_blocked[6][3] = true;      
+
 		m_objects.put(63, chickenWing);
 
-		m_enemy = new Enemy(this, 1*SIZE, 1*SIZE);
 
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
@@ -145,14 +155,19 @@ public class Room extends GamePlayState implements Loadable<Room> {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
+
 		if (m_isPaused)
 			m_pauseMenu.update(container, stateManager, delta);
 
 		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
 
-		if (!m_isPaused && !m_inDialogue)
+		
+		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
+			m_enemy.update(delta);
+		}
+		
 
 		Input input = container.getInput();
 		inputDelta-=delta;
@@ -216,14 +231,41 @@ public class Room extends GamePlayState implements Loadable<Room> {
 		return null;
 	}
 
-	public boolean getBlocked(int x, int y) {
-		return m_blocked[x][y];
-	}
+
+    public boolean blocked(int x, int y) {
+    	return m_blocked[x][y];
+    }
+    public simpleMap getMap(){
+    	return m_map;
+    }
+
 
 	@Override
 	public int getID() {
 		return m_stateID;
 	}
+
+	
+
+	class simpleMap implements TileBasedMap{
+		public static final int HEIGHT = 10;
+		public static final int WIDTH = 10;
+		
+		public float getCost(PathFindingContext ctx, int x, int y){
+			return 1.0f;
+		}
+		public boolean blocked(PathFindingContext ctx, int x, int y){
+			return m_blocked[x][y];
+		}
+		public int getHeightInTiles(){
+			return HEIGHT;
+		}
+		public int getWidthInTiles(){
+			return WIDTH;
+		}
+		public void pathFinderVisited(int x, int y){};
+	}
+
 
 	public Player getPlayer() {
 		return this.m_player;

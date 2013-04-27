@@ -18,25 +18,25 @@ public class MovingObject extends GameObject{
 				int xBlock1 = ((int)x +BUFFER) / SIZE;
 		        int yBlock = (int)y / SIZE;
 		        int xBlock2 = ((int)x + SIZE-BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock1, yBlock)|m_room.getBlocked(xBlock2, yBlock);
+		        return m_room.blocked(xBlock1, yBlock)|m_room.blocked(xBlock2, yBlock);
 			}
 			case DOWN: {
 				int xBlock1 = ((int)x +BUFFER) / SIZE;
 		        int yBlock = (int)y / SIZE;
 		        int xBlock2 = ((int)x + SIZE-BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock1, yBlock)|m_room.getBlocked(xBlock2, yBlock);
+		        return m_room.blocked(xBlock1, yBlock)|m_room.blocked(xBlock2, yBlock);
 			}
 			case LEFT: {
 				int xBlock = (int)x / SIZE;
 		        int yBlock1 = ((int)y +BUFFER)/ SIZE;
 		        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock, yBlock1)||m_room.getBlocked(xBlock, yBlock2);
+		        return m_room.blocked(xBlock, yBlock1)||m_room.blocked(xBlock, yBlock2);
 			}
 			case RIGHT: {
 				int xBlock = (int)x / SIZE;
 		        int yBlock1 = ((int)y +BUFFER)/ SIZE;
 		        int yBlock2 = ((int) y +SIZE - BUFFER)/SIZE;
-		        return m_room.getBlocked(xBlock, yBlock1)||m_room.getBlocked(xBlock, yBlock2);
+		        return m_room.blocked(xBlock, yBlock1)||m_room.blocked(xBlock, yBlock2);
 			} default: {
 				System.out.println("ERROR WHRE IS THIS " + dir + " ENUM COMING FROM");
 				return false;
