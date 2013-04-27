@@ -41,8 +41,8 @@ private String m_loadPath;
 	}
 	
 	/**
-	 * Saves the current game, given a state manager.
-	 * @param stateManager
+	 * Loads a game, returning a StateManager.
+	 * 
 	 * @throws XMLStreamException 
 	 * @throws ParserConfigurationException 
 	 * @throws IOException 
@@ -50,6 +50,8 @@ private String m_loadPath;
 	 * @throws SlickException 
 	 */
 	public void load() throws XMLStreamException, ParserConfigurationException, SAXException, IOException, SlickException {
+		StateManager stateManager = new StateManager();
+		
 		InputStream input = new FileInputStream(m_loadPath);
 		DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
 		DocumentBuilder b = f.newDocumentBuilder();

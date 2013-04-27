@@ -8,19 +8,24 @@ import org.newdawn.slick.state.StateBasedGame;
 public class StateManager extends StateBasedGame {
 
 	public static final int MAINMENU_STATE = 0;
-	public static final int ROOM_STATE = 1; 
+	public static final int ROOM_STATE = 1;
+	private AppGameContainer m_app;
 	
 	public StateManager() {
 		super("chicken salad and cucumber on croissant");
 		
 		try {
-			AppGameContainer app = new AppGameContainer(this);
+			m_app = new AppGameContainer(this);
 			setup();
-			app.setDisplayMode(600, 600, false);
-			app.start();
+			m_app.setDisplayMode(600, 600, false);
+			//app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public GameContainer getGameContainer() {
+		return this.m_app;
 	}
 	
 	public void setup() {
@@ -33,6 +38,14 @@ public class StateManager extends StateBasedGame {
 	public void initStatesList(GameContainer container) throws SlickException {
 		getState(ROOM_STATE).init(container, this);
 		getState(MAINMENU_STATE).init(container, this);
+	}
+	
+	public void run() {
+		try {
+			m_app.start();
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

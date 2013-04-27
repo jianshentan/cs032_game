@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
  * A Room represents a single level.
  *
  */
-public class Room extends GamePlayState {
+public class Room extends GamePlayState implements Loadable<Room> {
 
 	int m_stateID = 0;
 	private int inputDelta = 0;
@@ -290,6 +290,8 @@ public class Room extends GamePlayState {
 	public static Room loadFromNode(Node n) throws SlickException {
 		int id = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
 		Room room = new Room(id);
+		room.m_interactables = new HashMap<>();
+		room.m_objects = new HashMap<>();
 		NodeList children = n.getChildNodes();
 		for(int i = 0; i<children.getLength(); i++) {
 			Node child = children.item(i);
@@ -299,15 +301,39 @@ public class Room extends GamePlayState {
 				for(int j = 0; j< interactables.getLength(); j++) {
 					Node c3 = interactables.item(j);
 					if(c3.getNodeName().equals("Interactable")) {
-						//TODO: add interactables
 						Interactable o = Interactables.loadFromNode(child);
 						int[] square = o.getSquare();
 						room.m_interactables.put(positionToKey(square), o);
+						room.m_objects.put(positionToKey(square), (GameObject) o);
 					}
 				}
 			}
 		}
 		return room;
+	}
+
+	@Override
+	public Room loadFromXML(Node n, GameContainer c, StateBasedGame g) throws SlickException {
+		this.m_interactables = new HashMap<>();
+		this.m_objects = new HashMap<>();
+		NodeList children = n.getChildNodes();
+		for(int i = 0; i<children.getLength(); i++) {
+			Node child = children.item(i);
+			if(child.getNodeName().equals("Interactables")) {
+				Node c2 = child;
+				NodeList interactables = c2.getChildNodes();
+				for(int j = 0; j< interactables.getLength(); j++) {
+					Node c3 = interactables.item(j);
+					if(c3.getNodeName().equals("Interactable")) {
+						Interactable o = Interactables.loadFromNode(child);
+						int[] square = o.getSquare();
+						this.m_interactables.put(positionToKey(square), o);
+						this.m_objects.put(positionToKey(square), (GameObject) o);
+					}
+				}
+			}
+		}
+		return this;
 	}
 
 }
