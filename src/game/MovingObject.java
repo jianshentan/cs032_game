@@ -1,7 +1,5 @@
 package game;
 
-import game.Interactables.Types;
-
 public class MovingObject extends GameObject{
 	protected Room m_room;
 	protected static final int SIZE = 64;

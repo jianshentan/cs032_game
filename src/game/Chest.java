@@ -4,8 +4,6 @@ package game;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import game.Interactables.Types;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Node;

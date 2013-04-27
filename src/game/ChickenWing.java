@@ -1,7 +1,5 @@
 package game;
 
-import game.Interactables.Types;
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 

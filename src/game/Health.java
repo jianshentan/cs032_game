@@ -12,6 +12,11 @@ public class Health {
 	private final int MAXHEALTH;
 	private final float INTERVAL; 
 	private int m_current;
+	/**
+	 * Returns the current health.
+	 * @return
+	 */
+	public int getCurrentHealth() { return m_current; }
 	private Image m_sprite, m_health; 
 	public Image getImage() { return m_sprite; }
 	
