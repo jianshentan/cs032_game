@@ -67,6 +67,7 @@ public class Room extends GamePlayState {
 		}
 		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
+		m_player.getHealth().render();
 
 		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).render(g);
