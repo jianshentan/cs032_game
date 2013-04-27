@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import game.Interactables.Types;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -31,8 +30,13 @@ public class Room extends GamePlayState {
 	private Player m_player;
 	private Enemy m_enemy;
 	
-	private ArrayList<GameObject> m_objects;
-	private HashMap<Types, Interactable> m_interactables; 
+	/**
+	 *  key is represented by 'xPos' + 'yPos'
+	 *  example: if object has position (2,3), key = 23.
+	 */
+	private HashMap<Integer, GameObject> m_objects;
+	private HashMap<Integer, Interactable> m_interactables; 
+	
 	private boolean[][] m_blocked; // 2D array indicating spaces that are blocked
     private static final int SIZE = 64; // block size
 	private Rectangle m_viewport;
@@ -57,10 +61,10 @@ public class Room extends GamePlayState {
 		int offsetX = (int)m_player.getX()-halfWidth;
 		int offsetY = (int)m_player.getY()-halfHeight;
 		m_horseMap.render(-offsetX, -offsetY);
-//		m_chest.getImage().draw(m_chest.getX()-offsetX, m_chest.getY()-offsetY);
-//		m_chickenWing.getImage().draw(m_chickenWing.getX()-offsetX, m_chickenWing.getY()-offsetY);
-		for (GameObject o : m_objects)
+		for (Entry<Integer, GameObject> e : m_objects.entrySet()) {
+			GameObject o = e.getValue();
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+		}
 		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
 
@@ -98,18 +102,18 @@ public class Room extends GamePlayState {
 		m_player = new Player(this, container, 256f, 256f);
 
 		// setup objects
-		m_interactables = new HashMap<Types, Interactable>();
-		m_objects = new ArrayList<GameObject>();
+		m_interactables = new HashMap<Integer, Interactable>();
+		m_objects = new HashMap<Integer, GameObject>();
 		
 		Chest chest = new Chest(2*SIZE, 3*SIZE);
-		m_interactables.put(Types.CHEST, chest);
+		m_interactables.put(23, chest);
 		m_blocked[2][3] = true;      
-		m_objects.add(chest);
+		m_objects.put(23, chest);
 		
 		ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
-		m_interactables.put(Types.CHICKEN_WING, chickenWing);
+		m_interactables.put(63, chickenWing);
 		m_blocked[6][3] = true;      
-		m_objects.add(chickenWing);
+		m_objects.put(63, chickenWing);
 
 		m_enemy = new Enemy(this, 1*SIZE, 1*SIZE);
 		
@@ -174,21 +178,31 @@ public class Room extends GamePlayState {
 	}
 
 	public Interactable interact(int[] interactSquare){
-		for(Entry<Types, Interactable> e: m_interactables.entrySet()){
+		for(Entry<Integer, Interactable> e: m_interactables.entrySet()){
 			Interactable i = e.getValue();
 			int[] loc = i.getSquare();
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
-				// handles interaction with room
-				if (loc[0] == m_objects.get(0).getX()/SIZE && 
-					loc[1] == m_objects.get(0).getY()/SIZE) {
-					m_dialogueNum = 1;
-					m_inDialogue = true;
+				int key;
+				
+				// chest
+				key = 23;
+				if (m_objects.containsKey(key)) {
+					if (loc[0] == m_objects.get(key).getX()/SIZE && 
+						loc[1] == m_objects.get(key).getY()/SIZE) {
+						m_dialogueNum = 1;
+						m_inDialogue = true;
+					}
 				}
-				if (loc[0] == m_objects.get(1).getX()/SIZE &&
-					loc[1] == m_objects.get(1).getY()/SIZE) {
-					m_interactables.remove(Types.CHICKEN_WING);
-					m_blocked[loc[0]][loc[1]] = false;
-//					m_objects.remove(1);
+				
+				//chickenWing
+				key = 63;
+				if (m_objects.containsKey(key)) {
+					if (loc[0] == m_objects.get(key).getX()/SIZE &&
+						loc[1] == m_objects.get(key).getY()/SIZE) {
+						m_interactables.remove(key);
+						m_blocked[loc[0]][loc[1]] = false;
+						m_objects.remove(key);
+					}
 				}
 				return i.fireAction();
 			}
@@ -219,7 +233,7 @@ public class Room extends GamePlayState {
 	
 	public ArrayList<Interactable> getInteractables() {
 		ArrayList<Interactable> ret = new ArrayList<Interactable>();
-		for (Entry<Types, Interactable> e : m_interactables.entrySet()) {
+		for (Entry<Integer, Interactable> e : m_interactables.entrySet()) {
 			Interactable i = e.getValue();
 			ret.add(i);
 		}
@@ -239,7 +253,7 @@ public class Room extends GamePlayState {
 		writer.writeAttribute("id", String.valueOf(this.m_stateID));
 		
 		writer.writeStartElement("Interactables");
-		for (Entry<Types, Interactable> e : m_interactables.entrySet()) {
+		for (Entry<Integer, Interactable> e : m_interactables.entrySet()) {
 			Interactable i = e.getValue();
 			i.writeToXML(writer);
 		}
