@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.pathfinding.PathFindingContext;
+import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 public class Room extends GamePlayState {
 	
@@ -23,7 +25,7 @@ public class Room extends GamePlayState {
     private static final int SIZE = 64; // block size
     private PauseMenu m_pauseMenu;
 	private Rectangle m_viewport;
-	
+	private simpleMap m_map;
 	public Room(int stateID) {
 		m_stateID = stateID;
 	}
@@ -47,6 +49,7 @@ public class Room extends GamePlayState {
 	@Override
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup player
+		m_map = new simpleMap();
 		m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		try {
 			m_horseMap = new TiledMap("assets/10X10.tmx");
@@ -72,7 +75,8 @@ public class Room extends GamePlayState {
 		m_chest = new Chest(2*SIZE, 3*SIZE);
 		m_objects.add(m_chest);
 		m_blocked[2][3] = true;      
-		m_enemy = new Enemy(this, 1*SIZE, 1*SIZE);
+		int[][] patrolPoints = {{1,6},{9,9}};
+		m_enemy = new Enemy(this, 1*SIZE, 1*SIZE, patrolPoints);
 		
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container.getWidth(), container.getHeight());
@@ -80,10 +84,13 @@ public class Room extends GamePlayState {
 
 	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-		if (!m_isPaused)
+		if (!m_isPaused){
 			m_player.update(container, delta);
-		else
+			m_enemy.update(delta);
+		}
+		else{
 			m_pauseMenu.update(container, stateManager, delta);
+		}
 		
 		Input input = container.getInput();
 		inputDelta-=delta;
@@ -108,8 +115,11 @@ public class Room extends GamePlayState {
 		}
 	}
 
-    public boolean getBlocked(int x, int y) {
+    public boolean blocked(int x, int y) {
     	return m_blocked[x][y];
+    }
+    public simpleMap getMap(){
+    	return m_map;
     }
 
 	@Override
@@ -117,5 +127,22 @@ public class Room extends GamePlayState {
 		return m_stateID;
 	}
 	
-	
+	class simpleMap implements TileBasedMap{
+		public static final int HEIGHT = 10;
+		public static final int WIDTH = 10;
+		
+		public float getCost(PathFindingContext ctx, int x, int y){
+			return 1.0f;
+		}
+		public boolean blocked(PathFindingContext ctx, int x, int y){
+			return m_blocked[x][y];
+		}
+		public int getHeightInTiles(){
+			return HEIGHT;
+		}
+		public int getWidthInTiles(){
+			return WIDTH;
+		}
+		public void pathFinderVisited(int x, int y){};
+	}
 }
