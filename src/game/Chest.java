@@ -8,6 +8,7 @@ import game.Interactables.Types;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Node;
 
 public class Chest extends GameObject implements Interactable{
 //	public static final int SIZE = 64;
@@ -53,5 +54,17 @@ public class Chest extends GameObject implements Interactable{
 		writer.writeAttribute("m_x", String.valueOf(this.m_x));
 		writer.writeAttribute("m_y", String.valueOf(this.m_y));
 		writer.writeEndElement();
+	}
+	
+	/**
+	 * Loads a Chest from an XML node.
+	 * @param node
+	 * @return
+	 * @throws SlickException 
+	 */
+	public static Chest loadFromNode(Node node) throws SlickException {
+		int xLoc = Integer.parseInt(node.getAttributes().getNamedItem("m_x").getNodeValue());
+		int yLoc = Integer.parseInt(node.getAttributes().getNamedItem("m_y").getNodeValue());
+		return new Chest(xLoc, yLoc);
 	}
 }

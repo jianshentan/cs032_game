@@ -24,4 +24,5 @@ public interface Interactable {
 	 * @param writer
 	 */
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException;
+	
 }

@@ -2,11 +2,15 @@ package game;
 
 
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
 	
@@ -99,6 +103,28 @@ public class Player extends MovingObject{
         	//open inventory
         }
 		
+	}
+	
+	/**
+	 * Writes data needed to reconstruct the player.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("Player");
+		writer.writeAttribute("m_x", String.valueOf(m_x));
+		writer.writeAttribute("m_y", String.valueOf(m_y));
+		
+		writer.writeStartElement("Inventory");
+		writer.writeEndElement();
+		
+		writer.writeEndElement();
+	}
+	
+	public static Player loadFromNode(Node node, Room room) throws SlickException {
+		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
+		float yLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
+		return new Player(room,/*TODO*/null, xLoc, yLoc);
 	}
 	
 }

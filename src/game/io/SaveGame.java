@@ -9,11 +9,10 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.state.GameState;
+import org.newdawn.slick.state.StateBasedGame;
 
-import game.Interactable;
 import game.Player;
 import game.Room;
-import game.StateManager;
 
 /**
  * Creates a save game file.
@@ -27,6 +26,10 @@ public class SaveGame {
 		this.m_savePath = path;
 	}
 	
+	public SaveGame() {
+		this.m_savePath = "save1.xml";
+	}
+	
 	/**
 	 * Saves the current game, given a state manager. This only works if
 	 * the current state is a Room state.
@@ -34,7 +37,7 @@ public class SaveGame {
 	 * @throws FileNotFoundException 
 	 * @throws XMLStreamException 
 	 */
-	public void save(StateManager stateManager) throws FileNotFoundException, XMLStreamException {
+	public void save(StateBasedGame stateManager) throws FileNotFoundException, XMLStreamException {
 		FileOutputStream outputStream = new FileOutputStream(new File(m_savePath));
 		GameState currentState = stateManager.getCurrentState();
 		XMLOutputFactory xmlFactory = XMLOutputFactory.newFactory();
@@ -47,27 +50,11 @@ public class SaveGame {
 			writer.writeAttribute("stateID", String.valueOf(room.getID()));
 			writer.writeEndElement();
 			
-			writer.writeStartElement("Room");
-			writer.writeAttribute("mapPath", room.getMapPath());
-			
-			writer.writeStartElement("Interactables");
-			for(Interactable i : room.getInteractables()) {
-				i.writeToXML(writer);
-			}
-			writer.writeEndElement();
-			
-			writer.writeEndElement();
+			room.writeToXML(writer);
 			
 			
 			Player p = room.getPlayer();
-			writer.writeStartElement("Player");
-			writer.writeAttribute("xPos", String.valueOf(p.getX()));
-			writer.writeAttribute("yPos", String.valueOf(p.getY()));
-			
-			writer.writeStartElement("Inventory");
-			writer.writeEndElement();
-			
-			writer.writeEndElement();
+			p.writeToXML(writer);
 			
 			writer.writeEndDocument();
 		}
