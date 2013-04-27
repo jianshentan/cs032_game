@@ -1,5 +1,11 @@
 package game;
 
+import java.io.FileNotFoundException;
+
+import javax.xml.stream.XMLStreamException;
+
+import game.io.SaveGame;
+
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -37,11 +43,11 @@ public class PauseMenu {
 	public float getWidth() { return m_width; }
 	public float getHeight() { return m_height; }
 	
-	public PauseMenu(GamePlayState game, float screenHeight, float screenWidth) {
+	public PauseMenu(GamePlayState game, GameContainer container) {
 		m_game = game;
 		
-		m_width = screenWidth/2; // pause menu width is half the screen width
-		m_height = screenHeight/2; // pause menu height is half the screen height
+		m_width = container.getWidth()/2; // pause menu width is half the screen width
+		m_height = container.getHeight()/2; // pause menu height is half the screen height
 		m_x = m_width/2;
 		m_y = m_height/2;
 		
@@ -55,7 +61,8 @@ public class PauseMenu {
 		g.setColor(Color.black);
 		g.drawString("resume", m_x + 100, m_y + 50);
 		g.drawString("options", m_x + 100, m_y + 100);
-		g.drawString("quit", m_x + 100, m_y + 150);
+		g.drawString("save", m_x + 100, m_y + 150);
+		g.drawString("quit", m_x + 100, m_y + 200);
 		
 		switch (m_selection) {
 		case 0:
@@ -66,6 +73,9 @@ public class PauseMenu {
 			break;
 		case 2:
 			g.drawString("<", m_x + 200, m_y + 150);
+			break;
+		case 3:
+			g.drawString("<", m_x + 200, m_y + 200);
 			break;
 		}
 	}
@@ -79,7 +89,7 @@ public class PauseMenu {
         	m_inputDelta=200;
         }
         else if (m_inputDelta<0 && input.isKeyDown(Input.KEY_DOWN)) {
-        	if (m_selection < 2)
+        	if (m_selection < 3)
         		m_selection++;
         	m_inputDelta=200;
         }
@@ -89,6 +99,16 @@ public class PauseMenu {
         	else if (m_selection == 1)
         		m_game.setPauseState(false);
         	else if (m_selection == 2)
+				try {
+					new SaveGame().save(stateManager);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (XMLStreamException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			else if (m_selection == 3)
         		stateManager.enterState(StateManager.MAINMENU_STATE);
         	m_inputDelta=200;
         }			

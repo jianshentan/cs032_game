@@ -10,15 +10,20 @@ public class Enemy extends MovingObject{
 	private AIState m_ai;
 	private boolean m_inTransit;
 	private int[][] m_patrolPoints;
+	private int[] m_currentSquare, m_destination;
 	private AStarPathFinder m_finder;
 	private Path m_path;
-	private int m_pathLength, m_currentStep;
+	private int m_pathLength, m_currentStep, m_roamCounter;
 	
 	public Animation getAnimation(){return m_sprite;};
 	public  Enemy(Room room, float x, float y, int[][] patrolPoints) throws SlickException{
 		super(room);
 		m_x = x;
 		m_y = y;
+		m_currentSquare = new int[2];
+		m_destination = new int[2];
+		m_currentSquare[0] =(int) (m_x/SIZE);
+		m_currentSquare[1] = (int) (m_y/SIZE);
 		m_patrolPoints = patrolPoints;
 		m_currentStep=0;
 		m_path = null;
@@ -42,14 +47,24 @@ public class Enemy extends MovingObject{
 	}
 	public void update(int delta){
 		if(m_inTransit){
-			m_x = m_path.getX(m_currentStep)*SIZE;
-			m_y = m_path.getY(m_currentStep)*SIZE;
-			m_currentStep+=1;
-			if(m_currentStep == m_pathLength){
-				m_inTransit = false;
+			if(Math.abs(m_x/64-m_currentSquare[0])>=1||Math.abs(m_y/64-m_currentSquare[1])>=1){
+				setCurrent(m_currentStep);
+				m_currentStep+=1;
+				System.out.println(m_currentStep);
+				if(m_currentStep==m_pathLength){
+					System.out.println("stopped");
+					m_inTransit = false;
+				}else{
+					setDestination();
+				}
 			}
+			System.out.println(m_currentSquare[0] + " " + m_destination[0]);
+			int x = m_destination[0]-m_currentSquare[0];
+			int y = m_destination[1]-m_currentSquare[1];
+			m_x+= x * delta*0.1f;
+			m_y+= y * delta*0.1f;
+			
 		}else{
-			System.out.println("here");
 			switch(m_ai){
 				case ROAM: {
 					roamUpdate();
@@ -64,18 +79,37 @@ public class Enemy extends MovingObject{
 		}
 	}
 	public void roamUpdate(){
-		m_path = m_finder.findPath(null, 1, 1, 6, 6 );
-		m_pathLength = m_path.getLength();
-		for(int i =0; i< m_pathLength; i++){
-			System.out.println("path " + i + " is " + m_path.getX(i) + ", " + m_path.getY(i));
+		if(m_roamCounter>=m_patrolPoints.length){
+			m_roamCounter=0;
 		}
-		m_inTransit=true;
-		m_ai = AIState.PATROL;
+		int xDest = m_patrolPoints[m_roamCounter][0];
+		int yDest = m_patrolPoints[m_roamCounter][1];
+		if(xDest==m_currentSquare[0]&&yDest==m_currentSquare[1]){
+			m_roamCounter+=1;
+			roamUpdate();
+		}else{
+			m_path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], xDest, yDest );
+			m_pathLength = m_path.getLength();
+			for(int i =0; i< m_pathLength; i++){
+				//System.out.println("path " + i + " is " + m_path.getX(i) + ", " + m_path.getY(i));
+			}
+			m_currentStep=1;
+			setDestination();
+			m_inTransit=true;
+		}
 	}
 	public void patrolUpdate(){
 		
 	}
 	public void huntUpdate(){
 		
+	}
+	private void setDestination(){
+		m_destination[0] = m_path.getX(m_currentStep);
+		m_destination[1] = m_path.getY(m_currentStep);
+	}
+	private void setCurrent( int i){
+		m_currentSquare[0] = m_path.getX(i);
+		m_currentSquare[1] = m_path.getY(i);
 	}
 }

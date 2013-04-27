@@ -2,15 +2,20 @@ package game;
 
 
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
 	
 	private Room m_room;
+	private Inventory m_inventory;
 	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
@@ -22,7 +27,7 @@ public class Player extends MovingObject{
 	public float getY() { return m_y; }
 	public void setY(float y) { m_y = y; }
 	
-	public Player(Room room, float x, float y) throws SlickException {
+	public Player(Room room, GameContainer container, float x, float y) throws SlickException {
 		super(room);
 		m_room = room;
 		m_x = x;
@@ -46,6 +51,8 @@ public class Player extends MovingObject{
         // Original orientation of the sprite. It will look right.
         m_sprite = m_right;
         m_dir = Direction.RIGHT;
+        
+        m_inventory = new Inventory(container);
 	}
 	
 	public void update(GameContainer container, int delta) {
@@ -92,7 +99,32 @@ public class Player extends MovingObject{
         	m_room.interact(squareFacing);
         	m_inputDelta=500;
         }
+        if (m_inputDelta<0&&input.isKeyDown(Input.KEY_I)) {
+        	//open inventory
+        }
 		
+	}
+	
+	/**
+	 * Writes data needed to reconstruct the player.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("Player");
+		writer.writeAttribute("m_x", String.valueOf(m_x));
+		writer.writeAttribute("m_y", String.valueOf(m_y));
+		
+		writer.writeStartElement("Inventory");
+		writer.writeEndElement();
+		
+		writer.writeEndElement();
+	}
+	
+	public static Player loadFromNode(Node node, Room room) throws SlickException {
+		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
+		float yLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
+		return new Player(room,/*TODO*/null, xLoc, yLoc);
 	}
 	
 }
