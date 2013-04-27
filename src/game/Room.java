@@ -70,7 +70,7 @@ public class Room extends GamePlayState {
 		}
 		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
-		//m_player.getHealth().render();
+		m_player.getHealth().render();
 
 		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).render(g);
@@ -115,7 +115,7 @@ public class Room extends GamePlayState {
 		m_blocked[2][3] = true;      
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
-		m_enemy = new Enemy(this, 1*SIZE, 1*SIZE, patrolPoints);
+		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
 
 		m_objects.put(23, chest);
 		
