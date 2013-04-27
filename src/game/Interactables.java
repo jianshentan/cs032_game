@@ -1,5 +1,7 @@
 package game;
 
+import game.GameObject.Types;
+
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Node;
 
@@ -9,14 +11,6 @@ import org.w3c.dom.Node;
  */
 public class Interactables {
 	
-	/**
-	 * All types of interactables
-	 *
-	 */
-	public static enum Types {
-		CHEST,
-		CHICKEN_WING,
-	}
 	
 	/**
 	 * Loads an interactable from an XML node
@@ -29,6 +23,8 @@ public class Interactables {
 		String type = node.getAttributes().getNamedItem("type").getNodeValue();
 		if(type.equals(Types.CHEST.toString())) {
 			return Chest.loadFromNode(node);
+		} else if(type.equals(Types.CHICKEN_WING.toString())) {
+			//return ChickenWing.loadFromNode(node);
 		}
 		return null;
 		

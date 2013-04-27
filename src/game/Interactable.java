@@ -12,8 +12,8 @@ public interface Interactable {
 	
 	public Interactable fireAction();
 	/**
-	 * Returns the x,y position that the player
-	 * has to be at.
+	 * Returns the x,y position on the tile map that the
+	 * interactable is located at.
 	 * @return
 	 */
 	public int[] getSquare();
@@ -24,5 +24,7 @@ public interface Interactable {
 	 * @param writer
 	 */
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException;
+	
+	public GameObject.Types getType();
 	
 }

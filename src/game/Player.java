@@ -123,13 +123,16 @@ public class Player extends MovingObject{
 		writer.writeStartElement("Inventory");
 		writer.writeEndElement();
 		
+		//TODO: write direction
+		//TODO: write health
+		
 		writer.writeEndElement();
 	}
 	
-	public static Player loadFromNode(Node node, Room room) throws SlickException {
+	public static Player loadFromNode(Node node, Room room, GameContainer container) throws SlickException {
 		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
 		float yLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
-		return new Player(room,/*TODO*/null, xLoc, yLoc);
+		return new Player(room, container, xLoc, yLoc);
 	}
 	
 }

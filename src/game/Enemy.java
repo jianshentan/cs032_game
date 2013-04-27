@@ -41,7 +41,7 @@ public class Enemy extends MovingObject{
         
         // Original orientation of the sprite. It will look right.
         m_sprite = m_right;
-        m_ai = AIState.HUNT;
+        m_ai = AIState.PATROL;
         m_inTransit = false;
 	}
 	public void update(int delta){
