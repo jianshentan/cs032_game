@@ -9,12 +9,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class ChickenWing extends GameObject implements Collectable, Interactable{
-//	private Image m_sprite;
-//	public static final int SIZE = 64;
-//	private int m_x, m_y;
-//	public int getX() {return m_x;}
-//	public int getY() {return m_y;}
-//	public Image getImage() {return m_sprite;}
 	
 	public ChickenWing(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
@@ -28,7 +22,7 @@ public class ChickenWing extends GameObject implements Collectable, Interactable
 	
 	@Override
 	public int[] getSquare() {
-		int[] loc = {m_x/SIZE, m_y/SIZE};
+		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
 		return loc;
 	}
 	@Override

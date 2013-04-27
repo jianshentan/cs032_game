@@ -11,12 +11,6 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.Node;
 
 public class Chest extends GameObject implements Interactable{
-//	public static final int SIZE = 64;
-//	private Image m_sprite
-//	private int m_x, m_y;
-//	public int getX() { return m_x; }
-//	public int getY() { return m_y; }
-//	public Image getImage(){return m_sprite;}
 	private Image m_open, m_closed;
 	
 	public Chest(int xLoc, int yLoc) throws SlickException{
@@ -38,7 +32,7 @@ public class Chest extends GameObject implements Interactable{
 	}
 	@Override
 	public int[] getSquare() {
-		int[] loc = {m_x/SIZE, m_y/SIZE};
+		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
 		return loc;
 	}
 	@Override

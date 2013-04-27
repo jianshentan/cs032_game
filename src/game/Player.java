@@ -22,10 +22,7 @@ public class Player extends MovingObject{
 	private Direction m_dir;
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
-	public float getX() { return m_x; }
-	public void setX(float x) { m_x = x; }
-	public float getY() { return m_y; }
-	public void setY(float y) { m_y = y; }
+	
 	
 	public Player(Room room, GameContainer container, float x, float y) throws SlickException {
 		super(room);
