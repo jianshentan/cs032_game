@@ -10,18 +10,13 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public interface Interactable {
 	
-	public void fireAction();
+	public Interactable fireAction();
 	/**
 	 * Returns the x,y position that the player
 	 * has to be at.
 	 * @return
 	 */
 	public int[] getSquare();
-	/**
-	 * 
-	 * @return
-	 */
-	public Interactables.Types getType();
 	/**
 	 * Writes the Interactable as an XML element.
 	 * Have to start with writer.writeStartElement("Iterable")

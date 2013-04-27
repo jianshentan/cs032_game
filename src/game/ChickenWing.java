@@ -1,40 +1,31 @@
 package game;
 
+import game.Interactables.Types;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import game.Interactables.Types;
-
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class Chest extends GameObject implements Interactable{
+public class ChickenWing extends GameObject implements Collectable, Interactable{
+//	private Image m_sprite;
 //	public static final int SIZE = 64;
-//	private Image m_sprite
 //	private int m_x, m_y;
-//	public int getX() { return m_x; }
-//	public int getY() { return m_y; }
-//	public Image getImage(){return m_sprite;}
-	private Image m_open, m_closed;
+//	public int getX() {return m_x;}
+//	public int getY() {return m_y;}
+//	public Image getImage() {return m_sprite;}
 	
-	public Chest(int xLoc, int yLoc) throws SlickException{
+	public ChickenWing(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
-		m_closed = new Image("assets/chestClose.png");
-		m_open = new Image("assets/chestOpen.png");
-		m_sprite = m_closed;
+		m_sprite = new Image("assets/chickenWing.png");
 	}
-
 	@Override
 	public Interactable fireAction() {
-		if(m_sprite.equals(m_closed)){
-			m_sprite = m_open;
-		}else{
-			m_sprite = m_closed;
-		}
 		return this;
 	}
+	
 	@Override
 	public int[] getSquare() {
 		int[] loc = {m_x/SIZE, m_y/SIZE};
@@ -42,16 +33,16 @@ public class Chest extends GameObject implements Interactable{
 	}
 	@Override
 	public Types getType() {
-		return Types.CHEST;
+		return Types.CHICKEN_WING;
 	}
-	
 	@Override
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		writer.writeStartElement("Iterable");
-		writer.writeAttribute("type", Types.CHEST.toString());
+		writer.writeAttribute("type", Types.CHICKEN_WING.toString());
 		writer.writeAttribute("m_x", String.valueOf(this.m_x));
 		writer.writeAttribute("m_y", String.valueOf(this.m_y));
-		writer.writeEndElement();
+		writer.writeEndElement();	
 	}
+	
 }

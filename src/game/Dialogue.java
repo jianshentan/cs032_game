@@ -40,53 +40,6 @@ public class Dialogue {
 	private int m_inputDelta = 0;
 	private GamePlayState m_game;
 	
-	private ArrayList<String> wrap(String text, int width) {
-        ArrayList<String> list = new ArrayList<String>();
-        String str = text;
-        String line = "";
-        
-        //we will go through adding characters, once we hit the max width
-        //we will either split the line at the last space OR split the line
-        //at the given char if no last space exists
-        
-        //while text is not empty
-        int i = 0;
-        int lastSpace = -1;
-        while (i<str.length()) {
-            char c = str.charAt(i);
-            if (Character.isWhitespace(c))
-                lastSpace = i;
-            
-            //time to wrap 
-            if (c=='\n' || m_font.getWidth(line + c) > width) {
-                //if we've hit a space recently, use that
-                int split = lastSpace!=-1 ? lastSpace : i;
-                int splitTrimmed = split;
-                
-                //if we are splitting by space, trim it off for the start of the next line
-                if (lastSpace!=-1 && split<str.length()-1) 
-                   splitTrimmed++;
-                
-                line = str.substring(0, split);
-                str = str.substring(splitTrimmed);
-                
-                //add the line and reset our values
-                list.add(line);
-                line = "";
-                i = 0;
-                lastSpace = -1;
-            } 
-            else {
-                line += c;
-                i++;
-            }
-        }
-        // leftovers
-        if (str.length()!=0)
-            list.add(str);
-        return list;
-    }
-	
 	public Dialogue(GamePlayState game, GameContainer container, String[] textArray) {
 		// set up box to display text in
 		m_game = game;
@@ -144,8 +97,10 @@ public class Dialogue {
         	if (m_currLine >= m_numLines) {
         		m_currLine = 0;
         		// got to next text block
-        		if (m_currTextBlock >= m_numTextBlocks-1) 
+        		if (m_currTextBlock >= m_numTextBlocks-1) {
+        			m_currTextBlock = 0;
         			m_game.m_inDialogue = false; // TODO: + delete dialogue instance?
+        		}
         		else
         			m_currTextBlock++;
         	}
@@ -154,4 +109,51 @@ public class Dialogue {
         	m_inputDelta=200;
         }			
 	}
+	
+	private ArrayList<String> wrap(String text, int width) {
+        ArrayList<String> list = new ArrayList<String>();
+        String str = text;
+        String line = "";
+        
+        //we will go through adding characters, once we hit the max width
+        //we will either split the line at the last space OR split the line
+        //at the given char if no last space exists
+        
+        //while text is not empty
+        int i = 0;
+        int lastSpace = -1;
+        while (i<str.length()) {
+            char c = str.charAt(i);
+            if (Character.isWhitespace(c))
+                lastSpace = i;
+            
+            //time to wrap 
+            if (c=='\n' || m_font.getWidth(line + c) > width) {
+                //if we've hit a space recently, use that
+                int split = lastSpace!=-1 ? lastSpace : i;
+                int splitTrimmed = split;
+                
+                //if we are splitting by space, trim it off for the start of the next line
+                if (lastSpace!=-1 && split<str.length()-1) 
+                   splitTrimmed++;
+                
+                line = str.substring(0, split);
+                str = str.substring(splitTrimmed);
+                
+                //add the line and reset our values
+                list.add(line);
+                line = "";
+                i = 0;
+                lastSpace = -1;
+            } 
+            else {
+                line += c;
+                i++;
+            }
+        }
+        // leftovers
+        if (str.length()!=0)
+            list.add(str);
+        return list;
+    }
 }

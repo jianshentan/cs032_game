@@ -12,6 +12,7 @@ public class Interactables {
 	 */
 	public static enum Types {
 		CHEST,
+		CHICKEN_WING,
 	}
 
 }

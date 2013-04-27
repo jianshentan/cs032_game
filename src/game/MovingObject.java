@@ -1,5 +1,7 @@
 package game;
 
+import game.Interactables.Types;
+
 public class MovingObject extends GameObject{
 	protected Room m_room;
 	protected static final int SIZE = 64;
@@ -42,5 +44,15 @@ public class MovingObject extends GameObject{
 				return false;
 			}
 		}
+	}
+	@Override
+	public int[] getSquare() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Types getType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

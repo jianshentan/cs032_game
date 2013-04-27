@@ -11,6 +11,7 @@ import org.newdawn.slick.SlickException;
 public class Player extends MovingObject{
 	
 	private Room m_room;
+	private Inventory m_inventory;
 	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
@@ -22,7 +23,7 @@ public class Player extends MovingObject{
 	public float getY() { return m_y; }
 	public void setY(float y) { m_y = y; }
 	
-	public Player(Room room, float x, float y) throws SlickException {
+	public Player(Room room, GameContainer container, float x, float y) throws SlickException {
 		super(room);
 		m_room = room;
 		m_x = x;
@@ -46,6 +47,8 @@ public class Player extends MovingObject{
         // Original orientation of the sprite. It will look right.
         m_sprite = m_right;
         m_dir = Direction.RIGHT;
+        
+        m_inventory = new Inventory(container);
 	}
 	
 	public void update(GameContainer container, int delta) {
@@ -91,6 +94,9 @@ public class Player extends MovingObject{
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
         	m_room.interact(squareFacing);
         	m_inputDelta=500;
+        }
+        if (m_inputDelta<0&&input.isKeyDown(Input.KEY_I)) {
+        	//open inventory
         }
 		
 	}
