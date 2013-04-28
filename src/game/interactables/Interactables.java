@@ -1,4 +1,4 @@
-package game;
+package game.interactables;
 
 import game.GameObject.Types;
 

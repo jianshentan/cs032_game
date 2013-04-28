@@ -1,5 +1,8 @@
 package game;
 
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;

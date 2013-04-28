@@ -1,6 +1,10 @@
-package game;
+package game.interactables;
 
+import game.GameObject;
+import game.StateManager;
 import game.GameObject.Types;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -20,7 +24,7 @@ public class Door extends GameObject implements Interactable {
 				int destination, int xDestination, int yDestination) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
-		m_sprite = new Image("assets/door.png");
+		set_sprite(new Image("assets/door.png"));
 		m_key = key;
 		m_destination = destination;
 		m_xDestination = xDestination;

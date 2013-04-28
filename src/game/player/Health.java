@@ -1,4 +1,4 @@
-package game;
+package game.player;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Image;

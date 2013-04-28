@@ -1,5 +1,7 @@
 package game;
 
+import game.gameplayStates.GamePlayState;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +101,7 @@ public class Dialogue {
         		// got to next text block
         		if (m_currTextBlock >= m_numTextBlocks-1) {
         			m_currTextBlock = 0;
-        			m_game.m_inDialogue = false; // TODO: + delete dialogue instance?
+        			m_game.set_inDialogue(false); // TODO: + delete dialogue instance?
         		}
         		else
         			m_currTextBlock++;

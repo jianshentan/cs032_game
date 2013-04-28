@@ -1,6 +1,10 @@
-package game;
+package game.gameplayStates;
 
-import game.GamePlayState.simpleMap;
+import game.GameObject;
+import game.StateManager;
+import game.gameplayStates.GamePlayState.simpleMap;
+import game.interactables.Door;
+import game.interactables.Interactable;
 
 import java.util.ArrayList;
 import java.util.HashMap;

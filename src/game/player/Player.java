@@ -1,4 +1,11 @@
-package game;
+package game.player;
+
+import game.Collectable;
+import game.Direction;
+import game.Enemy;
+import game.MovingObject;
+import game.gameplayStates.GamePlayState;
+import game.interactables.Interactable;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;

@@ -1,5 +1,7 @@
 package game;
 
+import game.gameplayStates.GamePlayState;
+
 public class MovingObject extends GameObject{
 	protected GamePlayState m_game;
 	protected static final int SIZE = 64;

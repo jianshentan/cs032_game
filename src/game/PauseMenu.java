@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 
 import javax.xml.stream.XMLStreamException;
 
+import game.gameplayStates.GamePlayState;
 import game.io.SaveGame;
 
 import org.newdawn.slick.BasicGame;
