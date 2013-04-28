@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="5" height="5" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="7" height="7" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="yellow1" tilewidth="64" tileheight="64">
   <image source="../colors/yellow1.png" trans="fffdf6" width="64" height="64"/>
  </tileset>
@@ -11,9 +11,17 @@
    </properties>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="5" height="5">
+ <tileset firstgid="3" name="black" tilewidth="64" tileheight="64">
+  <image source="../colors/black.png" trans="fffdf6" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="7" height="7">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYARiJjTMiISRxZiIEEPHAAisACs=
+   eJxjZmBgYMaDmYCYEUrDMLocI5IabPpIlUPH+NwHwgAs9ABz
   </data>
  </layer>
 </map>

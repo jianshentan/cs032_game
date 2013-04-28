@@ -26,6 +26,7 @@ public class StateManager extends StateBasedGame {
 	public static final int ROOM_STATE = 1;
 	private AppGameContainer m_app;
 	private LoadGame m_loader;
+	private Player m_player;
 	
 	private StateManager() {
 		super("chicken salad and cucumber on croissant");
@@ -62,15 +63,27 @@ public class StateManager extends StateBasedGame {
 		return this.m_app;
 	}
 	
-	public void setup() {
-		addState(new Room(ROOM_STATE));
-		addState(new Kitchen(KITCHEN_STATE));
-		addState(new MainMenu(MAINMENU_STATE));
-		enterState(MAINMENU_STATE);
+	public void setup() throws SlickException {
+	
 	}
 	
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
+		Room room = new Room(ROOM_STATE);
+		addState(room);
+		Kitchen kitchen = new Kitchen(KITCHEN_STATE);
+		addState(kitchen);
+		addState(new MainMenu(MAINMENU_STATE));
+		
+		// give player to gameplaystates
+		m_player = new Player(room, getGameContainer(), 0, 0);
+		room.setPlayer(m_player);
+		kitchen.setPlayer(m_player);
+		
+		// start!
+		enterState(MAINMENU_STATE);
+		
+		// INITIALIZE
 		getState(KITCHEN_STATE).init(container, this);
 		getState(MAINMENU_STATE).init(container, this);
 		getState(ROOM_STATE).init(container, this);

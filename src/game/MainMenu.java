@@ -104,8 +104,10 @@ public class MainMenu extends BasicGameState {
         			e.printStackTrace();
         		}
         	}
-        	else if (m_selection == 1)
+        	else if (m_selection == 1) {
+        		stateManager.initStatesList(container);
                 stateManager.enterState(StateManager.ROOM_STATE);
+        	}
         	else if (m_selection == 2) {}
 			else if (m_selection == 3)
 				System.exit(0);

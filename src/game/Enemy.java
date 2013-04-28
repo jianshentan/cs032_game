@@ -62,7 +62,7 @@ public class Enemy extends MovingObject{
 			//System.out.println(m_currentSquare[0] + " " + m_destination[0]);
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
-			if(!checkCollision(this, m_room.getPlayer())){
+			if(!checkCollision(this, m_game.getPlayer())){
 				m_x+= x * delta*0.1f;
 				m_y+= y * delta*0.1f;
 			}
@@ -104,8 +104,8 @@ public class Enemy extends MovingObject{
 
 	public void huntUpdate(){
 		System.out.println("updated");
-		int playerX = (int)((m_room.getPlayer().getX()+SIZE/2)/SIZE);
-		int playerY = (int)((m_room.getPlayer().getY()+SIZE/2)/SIZE);
+		int playerX = (int)((m_game.getPlayer().getX()+SIZE/2)/SIZE);
+		int playerY = (int)((m_game.getPlayer().getY()+SIZE/2)/SIZE);
 		if(m_currentSquare[0]==playerX&&m_currentSquare[1]==playerY){
 			return;
 		}
