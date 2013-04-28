@@ -33,7 +33,6 @@ public class StateManager extends StateBasedGame {
 		
 		try {
 			m_app = new AppGameContainer(this);
-			setup();
 			m_app.setDisplayMode(600, 600, false);
 			//app.start();
 		} catch (SlickException e) {
@@ -46,7 +45,6 @@ public class StateManager extends StateBasedGame {
 		this.m_loader = l;
 		try {
 			m_app = new AppGameContainer(this);
-			setup();
 			m_app.setDisplayMode(600, 600, false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -64,11 +62,6 @@ public class StateManager extends StateBasedGame {
 	}
 	
 	public void setup() throws SlickException {
-	
-	}
-	
-	@Override
-	public void initStatesList(GameContainer container) throws SlickException {
 		Room room = new Room(ROOM_STATE);
 		addState(room);
 		Kitchen kitchen = new Kitchen(KITCHEN_STATE);
@@ -82,8 +75,11 @@ public class StateManager extends StateBasedGame {
 		
 		// start!
 		enterState(MAINMENU_STATE);
-		
-		// INITIALIZE
+	}
+	
+	@Override
+	public void initStatesList(GameContainer container) throws SlickException {
+		setup();
 		getState(KITCHEN_STATE).init(container, this);
 		getState(MAINMENU_STATE).init(container, this);
 		getState(ROOM_STATE).init(container, this);
