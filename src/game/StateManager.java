@@ -1,5 +1,7 @@
 package game;
 
+import java.io.IOException;
+
 import game.io.LoadGame;
 
 import org.newdawn.slick.AppGameContainer;
@@ -8,13 +10,24 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class StateManager extends StateBasedGame {
-
+	
+	private static final StateManager instance;
+	  
+	static {
+	    instance = new StateManager();
+	}
+	 
+	public static StateManager getInstance() {
+		return instance;
+	}
+	  
+	public static final int KITCHEN_STATE = 2;
 	public static final int MAINMENU_STATE = 0;
 	public static final int ROOM_STATE = 1;
 	private AppGameContainer m_app;
 	private LoadGame m_loader;
 	
-	public StateManager() {
+	private StateManager() {
 		super("chicken salad and cucumber on croissant");
 		
 		try {
@@ -47,12 +60,14 @@ public class StateManager extends StateBasedGame {
 	
 	public void setup() {
 		addState(new Room(ROOM_STATE));
+		addState(new Kitchen(KITCHEN_STATE));
 		addState(new MainMenu(MAINMENU_STATE));
 		enterState(MAINMENU_STATE);
 	}
 	
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
+		getState(KITCHEN_STATE).init(container, this);
 		getState(MAINMENU_STATE).init(container, this);
 		getState(ROOM_STATE).init(container, this);
 		if(this.m_loader==null) {

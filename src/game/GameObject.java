@@ -23,5 +23,6 @@ public abstract class GameObject {
 		CHEST,
 		CHICKEN_WING,
 		CIGARETTE,
+		DOOR,
 	}
 }

@@ -98,7 +98,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
-			m_enemy.update(delta);
+			if (m_enemy != null)
+				m_enemy.update(delta);
 		}
 		
 
@@ -133,7 +134,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			GameObject o = e.getValue();
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 		}
-		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
+		if (m_enemy != null)
+			m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
 		m_player.getHealth().render();
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
