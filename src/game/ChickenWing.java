@@ -1,7 +1,5 @@
 package game;
 
-import game.Interactables.Types;
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -32,7 +30,7 @@ public class ChickenWing extends GameObject implements Collectable, Interactable
 	@Override
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
-		writer.writeStartElement("Iterable");
+		writer.writeStartElement("Interactable");
 		writer.writeAttribute("type", Types.CHICKEN_WING.toString());
 		writer.writeAttribute("m_x", String.valueOf(this.m_x));
 		writer.writeAttribute("m_y", String.valueOf(this.m_y));

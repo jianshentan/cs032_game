@@ -1,7 +1,5 @@
 package game;
 
-import game.Interactables.Types;
-
 import org.newdawn.slick.Image;
 
 public abstract class GameObject {

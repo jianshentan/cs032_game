@@ -100,7 +100,9 @@ public class PauseMenu {
         		m_game.setPauseState(false);
         	else if (m_selection == 2)
 				try {
+					//Save and quit
 					new SaveGame().save(stateManager);
+					stateManager.enterState(StateManager.MAINMENU_STATE);
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

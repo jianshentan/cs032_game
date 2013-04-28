@@ -21,6 +21,7 @@ import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.GameState;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -35,31 +36,39 @@ private String m_loadPath;
 		this.m_loadPath = path;
 	}
 	
+	public LoadGame() {
+		this.m_loadPath = "save1.xml";
+	}
+	
 	/**
-	 * Saves the current game, given a state manager.
-	 * @param stateManager
+	 * Loads a game, returning a StateManager.
+	 * 
 	 * @throws XMLStreamException 
 	 * @throws ParserConfigurationException 
 	 * @throws IOException 
 	 * @throws SAXException 
+	 * @throws SlickException 
 	 */
-	public void load(StateManager stateManager) throws XMLStreamException, ParserConfigurationException, SAXException, IOException {
+	public void load(StateManager stateManager) throws XMLStreamException, ParserConfigurationException, SAXException, IOException, SlickException {		
 		InputStream input = new FileInputStream(m_loadPath);
-		GameState currentState = stateManager.getCurrentState();
 		DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
 		DocumentBuilder b = f.newDocumentBuilder();
 		Document d = b.parse(input);
 		NodeList players = d.getElementsByTagName("Player");
 		Node p = players.item(0);
-		d.getElementsByTagName("Room");
-		d.getElementsByTagName("State");
 		
+		Node roomNode = d.getElementsByTagName("Room").item(0);
+		
+		//Room r = Room.loadFromNode(roomNode);
+		Room r2 = (Room) stateManager.getState(StateManager.ROOM_STATE);
+		Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
+		r2.loadFromXML(roomNode, stateManager.getContainer(), stateManager);
+		r2.setPlayer(player);
+		//Player player = Player.loadFromNode(p, r);
+		//TODO: load should create an entirely new game...
+		d.getElementsByTagName("State");
 	}
 	
-	public Player getPlayer(XMLEvent v) {
-		
-		return null;
-	}
 	
 
 }
