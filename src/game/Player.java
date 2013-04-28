@@ -154,11 +154,7 @@ public class Player extends MovingObject{
 		writer.writeAttribute("m_y", String.valueOf(m_y));
 		
 		writer.writeAttribute("health", String.valueOf(this.m_health.getCurrentHealth()));
-		this.m_inventory.writeToXML(writer);
-		
-		//TODO: write direction
-		//TODO: write health
-		
+		this.m_inventory.writeToXML(writer);		
 		
 		writer.writeEndElement();
 	}

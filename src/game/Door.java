@@ -37,6 +37,7 @@ public class Door extends GameObject implements Interactable {
 		writer.writeAttribute("type", GameObject.Types.DOOR.toString());
 		writer.writeAttribute("m_x", String.valueOf(m_x));
 		writer.writeAttribute("m_y", String.valueOf(m_y));
+		writer.writeAttribute("m_destination", String.valueOf(m_destination));
 		writer.writeEndElement();
 	}
 

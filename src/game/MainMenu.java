@@ -1,5 +1,6 @@
 package game;
 
+import game.io.LoadGame;
 import game.io.SaveGame;
 
 import java.io.FileNotFoundException;
@@ -95,7 +96,14 @@ public class MainMenu extends BasicGameState {
         	m_inputDelta=200;
         }
         if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE)){
-        	if (m_selection == 0) {}
+        	if (m_selection == 0) {
+        		try {
+        			StateManager s = (StateManager) stateManager;
+        			new LoadGame().load(s);
+        		} catch(Exception e) {
+        			e.printStackTrace();
+        		}
+        	}
         	else if (m_selection == 1)
                 stateManager.enterState(StateManager.ROOM_STATE);
         	else if (m_selection == 2) {}
