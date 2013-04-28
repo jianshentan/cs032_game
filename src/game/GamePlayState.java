@@ -53,6 +53,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private boolean m_loaded; //true if the state has already been loaded from file.
 	public boolean isLoaded() { return m_loaded; }
 	
+	private boolean m_isActive; //true if the state is the active state
+	public boolean isActive() { return m_isActive; }
+	
 	/**
 	 *  key is represented by 'xPos' + 'yPos'
 	 *  example: if object has position (2,3), key = 23.

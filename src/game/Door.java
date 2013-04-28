@@ -26,7 +26,7 @@ public class Door extends GameObject implements Interactable {
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		// change to kitchen state
-		System.out.println("HERE");
+		//System.out.println("HERE");
 		StateManager.getInstance().enterState(m_destination);
 		return this;
 	}
