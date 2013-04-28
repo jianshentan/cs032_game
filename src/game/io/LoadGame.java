@@ -1,8 +1,8 @@
 package game.io;
 
-import game.Player;
 import game.StateManager;
-import game.GamePlayState;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

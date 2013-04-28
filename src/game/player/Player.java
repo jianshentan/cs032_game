@@ -1,4 +1,11 @@
-package game;
+package game.player;
+
+import game.Collectable;
+import game.Direction;
+import game.Enemy;
+import game.MovingObject;
+import game.gameplayStates.GamePlayState;
+import game.interactables.Interactable;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -155,11 +162,7 @@ public class Player extends MovingObject{
 		writer.writeAttribute("m_y", String.valueOf(m_y));
 		
 		writer.writeAttribute("health", String.valueOf(this.m_health.getCurrentHealth()));
-		this.m_inventory.writeToXML(writer);
-		
-		//TODO: write direction
-		//TODO: write health
-		
+		this.m_inventory.writeToXML(writer);		
 		
 		writer.writeEndElement();
 	}

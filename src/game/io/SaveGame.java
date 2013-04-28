@@ -11,10 +11,9 @@ import javax.xml.stream.XMLStreamWriter;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import game.GamePlayState;
 import game.MainMenu;
-import game.Player;
-import game.Room;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 /**
  * Creates a save game file.

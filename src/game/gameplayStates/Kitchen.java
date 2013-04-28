@@ -1,6 +1,10 @@
-package game;
+package game.gameplayStates;
 
-import game.GamePlayState.simpleMap;
+import game.GameObject;
+import game.StateManager;
+import game.gameplayStates.GamePlayState.simpleMap;
+import game.interactables.Door;
+import game.interactables.Interactable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,10 +30,8 @@ public class Kitchen extends GamePlayState {
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 			throws SlickException {
-		
 		m_playerX = SIZE*2;
-		m_playerY = SIZE*1;
-		
+		m_playerY = SIZE*1;		
 		m_map = new simpleMap();
 		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		if(m_mapPath != null) {

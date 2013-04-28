@@ -1,5 +1,10 @@
-package game;
+package game.interactables;
 
+
+import game.GameObject;
+import game.GameObject.Types;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -20,19 +25,19 @@ public class Chest extends GameObject implements Interactable{
 		m_y = yLoc;
 		m_closed = new Image("assets/chestClose.png");
 		m_open = new Image("assets/chestOpen.png");
-		m_sprite = m_closed;
+		set_sprite(m_closed);
 		m_isOpen = false;
 		m_key = key;
 	}
 
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
-		if(m_sprite.equals(m_closed)){
+		if(get_sprite().equals(m_closed)){
 			m_isOpen = true;
-			m_sprite = m_open;
+			set_sprite(m_open);
 		}else{
 			m_isOpen = false;
-			m_sprite = m_closed;
+			set_sprite(m_closed);
 		}
 		return this;
 	}

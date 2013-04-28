@@ -2,7 +2,10 @@ package game;
 
 import java.io.IOException;
 
+import game.gameplayStates.Kitchen;
+import game.gameplayStates.Room;
 import game.io.LoadGame;
+import game.player.Player;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;

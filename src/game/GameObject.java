@@ -6,7 +6,7 @@ import org.newdawn.slick.Image;
 
 public abstract class GameObject {
 	
-	protected Image m_sprite;
+	private Image m_sprite;
 	public static final int SIZE = 64;
 	protected float m_x, m_y;
 	
@@ -14,11 +14,18 @@ public abstract class GameObject {
 	public float getY() {return m_y;}
 	public void setX(float x) { m_x = x; }
 	public void setY(float y) { m_y = y; }
-	public Image getImage() {return m_sprite;}	
+	public Image getImage() {return get_sprite();}	
 	
 	public abstract int[] getSquare();
 	public abstract Types getType();
 	
+	public Image get_sprite() {
+		return m_sprite;
+	}
+	public void set_sprite(Image m_sprite) {
+		this.m_sprite = m_sprite;
+	}
+
 	public enum Types {
 		CHEST,
 		CHICKEN_WING,

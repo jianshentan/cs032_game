@@ -1,4 +1,10 @@
-package game;
+package game.interactables;
+
+import game.Collectable;
+import game.GameObject;
+import game.GameObject.Types;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -12,7 +18,7 @@ public class Cigarette extends Collectable implements Interactable {
 		m_x = xLoc;
 		m_y = yLoc;
 		this.setKey(GamePlayState.positionToKey(getSquare()));
-		m_sprite = new Image("assets/cigarette.png");
+		set_sprite(new Image("assets/cigarette.png"));
 	}
 
 	@Override

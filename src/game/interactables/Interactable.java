@@ -1,4 +1,9 @@
-package game;
+package game.interactables;
+
+import game.GameObject;
+import game.GameObject.Types;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;

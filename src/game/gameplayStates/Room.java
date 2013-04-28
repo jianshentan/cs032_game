@@ -1,29 +1,52 @@
-package game;
-
-import game.GamePlayState.simpleMap;
+package game.gameplayStates;
+import game.Dialogue;
+import game.Enemy;
+import game.GameObject;
+import game.PauseMenu;
+import game.StateManager;
+import game.interactables.Chest;
+import game.interactables.ChickenWing;
+import game.interactables.Cigarette;
+import game.interactables.Door;
+import game.interactables.Interactable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-public class Home extends GamePlayState {
 
-	public Home(int stateID) {
+/**
+ * A Room represents a single level.
+ *
+ */
+public class Room extends GamePlayState {
+	
+	public Room(int stateID) {
 		m_stateID = stateID;
 	}
-	
-	public Home(int stateID, String mapPath) {
+
+	public Room(int stateID, String mapPath) {
 		m_stateID = stateID;
 		m_mapPath = mapPath;
 	}
-	
+
 	@Override
-	public void init(GameContainer container, StateBasedGame stateManager)
-			throws SlickException {
+	public void enter(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		m_player.setX(m_playerX);
+		m_player.setY(m_playerY);
+		m_player.setGame(this);
+	}
+
+	@Override
+	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		m_playerX = SIZE*4;
+		m_playerY = SIZE*3;
 		// setup player
 		m_map = new simpleMap();
 		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
@@ -32,9 +55,9 @@ public class Home extends GamePlayState {
 		}
 		else
 			try {
-				m_tiledMap = new TiledMap("assets/maps/home.tmx");
+				m_tiledMap = new TiledMap("assets/10X10.tmx");
 			} catch (SlickException e) {
-				System.out.println("ERROR: Could not load home.tmx");
+				System.out.println("ERROR: Could not 10X10.tmx");
 			}
 		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
 		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
@@ -47,9 +70,6 @@ public class Home extends GamePlayState {
 			}
 		}
 
-		// setup player
-		if(m_player==null)
-			m_player = new Player(this, container, 256f, 256f);
 		if(!this.isLoaded()) {
 			// setup objects
 			m_interactables = new HashMap<Integer, Interactable>();
@@ -69,6 +89,10 @@ public class Home extends GamePlayState {
 			m_interactables.put(84, cigarette);
 			m_blocked[8][4] = true;
 			m_objects.put(84, cigarette);
+			
+			Door door = new Door(67, 6*SIZE, 7*SIZE, StateManager.KITCHEN_STATE, 2*SIZE, 1*SIZE);
+			m_interactables.put(67, door);
+			m_objects.put(67, door);
 		}
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
@@ -77,9 +101,6 @@ public class Home extends GamePlayState {
 		e[0] = m_enemy;
 		m_player.setEnemies(e);
 		
-		
-
-
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
 
@@ -102,7 +123,25 @@ public class Home extends GamePlayState {
 				"forty's the new thirty, baby you're a rockstar!"});
 
 		m_dialogue.add(dialogue1);
-		m_dialogue.add(dialogue2);	
+		m_dialogue.add(dialogue2);
 	}
+	
+	/**
+	 * For the testing room, the "additional" update is just having "z" launch a dialog.
+	 */
+	@Override
+	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {
+		Input input = container.getInput();
+		// Testing dialogue -- testing purposes only
+		if (inputDelta<0 && input.isKeyDown(Input.KEY_Z)) {
+			m_dialogueNum = 0;
+			if (!m_isPaused)  // must not be paused
+				if (!is_inDialogue())
+					set_inDialogue(true);
+			inputDelta = 500;
+		}
+	}
+    
+
 
 }
