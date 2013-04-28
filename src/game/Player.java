@@ -1,7 +1,5 @@
 package game;
 
-
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -16,13 +14,20 @@ public class Player extends MovingObject{
 	
 	private Room m_room;
 	private Inventory m_inventory;
+	public boolean m_inInventory = false;
+	public Inventory getInventory() { return m_inventory; }
 	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
 	private Direction m_dir;
+	private Health m_health;
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
-	
+	public float getX() { return m_x; }
+	public void setX(float x) { m_x = x; }
+	public float getY() { return m_y; }
+	public void setY(float y) { m_y = y; }
+	public Health getHealth() { return m_health; }
 	
 	public Player(Room room, GameContainer container, float x, float y) throws SlickException {
 		super(room);
@@ -49,13 +54,13 @@ public class Player extends MovingObject{
         m_sprite = m_right;
         m_dir = Direction.RIGHT;
         
+        // Set up health bar (x-coordinate, y-coordinate, max health)
+        m_health = new Health(10,30,50);
+        
         m_inventory = new Inventory(container);
 	}
 	
-	public void update(GameContainer container, int delta) {
-		// The lower the delta the slowest the sprite will animate.
-		Input input = container.getInput();
-		m_inputDelta-=delta;
+	public void playerControls(GameContainer container, int delta, Input input) {
         if (input.isKeyDown(Input.KEY_UP)) {
         	m_sprite = m_up;
         	m_dir = Direction.UP;
@@ -96,9 +101,22 @@ public class Player extends MovingObject{
         	m_room.interact(squareFacing);
         	m_inputDelta=500;
         }
+
+	}
+	
+	public void update(GameContainer container, int delta) {
+		Input input = container.getInput();
+		m_inputDelta-=delta;	
+		// The lower the delta the slowest the sprite will animate.
         if (m_inputDelta<0&&input.isKeyDown(Input.KEY_I)) {
-        	//open inventory
+        	m_inInventory = m_inInventory ? false : true;
+        	m_inputDelta = 500;
         }
+		
+		if (m_inInventory) 
+			m_inventory.update(container, delta);
+		else 
+			playerControls(container, delta, input);
 		
 	}
 	
