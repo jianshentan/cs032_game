@@ -117,18 +117,23 @@ public class Room extends GamePlayState implements Loadable<Room> {
 
 		Chest chest = new Chest(2*SIZE, 3*SIZE);
 		m_interactables.put(23, chest);
-		m_blocked[2][3] = true;      
+		m_blocked[2][3] = true;		
+		m_objects.put(23, chest);
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
 		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
 
-		m_objects.put(23, chest);
 
 		ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
 		m_interactables.put(63, chickenWing);
 		m_blocked[6][3] = true;      
-
 		m_objects.put(63, chickenWing);
+		
+		Cigarette cigarette = new Cigarette(8*SIZE, 4*SIZE);
+		m_interactables.put(84, cigarette);
+		m_blocked[8][4] = true;
+		m_objects.put(84, cigarette);
+		
 
 
 		// setup menu
@@ -212,7 +217,7 @@ public class Room extends GamePlayState implements Loadable<Room> {
 				//key = 23;
 				if (i.getType() == GameObject.Types.CHEST) {
 					if (loc[0] == m_objects.get(key).getX()/SIZE && 
-							loc[1] == m_objects.get(key).getY()/SIZE) {
+						loc[1] == m_objects.get(key).getY()/SIZE) {
 						m_dialogueNum = 1;
 						m_inDialogue = true;
 					}
@@ -222,16 +227,27 @@ public class Room extends GamePlayState implements Loadable<Room> {
 				//key = 63;
 				if (i.getType() == GameObject.Types.CHICKEN_WING) {
 					if (loc[0] == m_objects.get(key).getX()/SIZE &&
-							loc[1] == m_objects.get(key).getY()/SIZE) {
-						m_interactables.remove(key);
-						m_blocked[loc[0]][loc[1]] = false;
-						m_objects.remove(key);
-					}
+						loc[1] == m_objects.get(key).getY()/SIZE)
+						playerPickUp(key, loc[0], loc[1]);
+				}
+				
+				//cigarette
+				//key = 84;
+				if (i.getType() == GameObject.Types.CIGARETTE) {
+					if (loc[0] == m_objects.get(key).getX()/SIZE &&
+						loc[1] == m_objects.get(key).getY()/SIZE) 
+						playerPickUp(key, loc[0], loc[1]);
 				}
 				return i.fireAction();
 			}
 		}
 		return null;
+	}
+	
+	public void playerPickUp(int key, int xLoc, int yLoc) {
+		m_interactables.remove(key);
+		m_blocked[xLoc][yLoc] = false;
+		m_objects.remove(key);	
 	}
 
 
@@ -328,8 +344,8 @@ public class Room extends GamePlayState implements Loadable<Room> {
 
 	@Override
 	public Room loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
-		this.m_interactables = new HashMap<>();
-		this.m_objects = new HashMap<>();
+		this.m_interactables = new HashMap<Integer, Interactable>();
+		this.m_objects = new HashMap<Integer, GameObject>();
 		NodeList children = n.getChildNodes();
 		for(int i = 0; i<children.getLength(); i++) {
 			Node child = children.item(i);

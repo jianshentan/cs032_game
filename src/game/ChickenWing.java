@@ -6,7 +6,7 @@ import javax.xml.stream.XMLStreamWriter;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class ChickenWing extends GameObject implements Collectable, Interactable{
+public class ChickenWing extends Collectable implements Interactable{
 	
 	public ChickenWing(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
@@ -35,6 +35,14 @@ public class ChickenWing extends GameObject implements Collectable, Interactable
 		writer.writeAttribute("m_x", String.valueOf(this.m_x));
 		writer.writeAttribute("m_y", String.valueOf(this.m_y));
 		writer.writeEndElement();	
+	}
+	@Override
+	public String getItemName() {
+		return "Chicken Wing";
+	}
+	@Override
+	public String getItemText() {
+		return "This is a chicken wing that looks shockingly like a horse with one leg.";
 	}
 	
 }

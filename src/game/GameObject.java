@@ -17,4 +17,9 @@ public abstract class GameObject {
 	public abstract int[] getSquare();
 	public abstract Types getType();
 	
+	public enum Types {
+		CHEST,
+		CHICKEN_WING,
+		CIGARETTE,
+	}
 }
