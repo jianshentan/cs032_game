@@ -15,8 +15,10 @@ import org.newdawn.slick.tiled.TiledMap;
  *
  */
 public class Room extends GamePlayState {
-
-
+	
+	private int m_playerX = SIZE*4;
+	private int m_playerY = SIZE*3;
+	
 	public Room(int stateID) {
 		m_stateID = stateID;
 	}
@@ -26,6 +28,12 @@ public class Room extends GamePlayState {
 		m_mapPath = mapPath;
 	}
 
+	@Override
+	public void enter(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		m_player.setX(m_playerX);
+		m_player.setY(m_playerY);
+		m_player.setGame(this);
+	}
 
 	@Override
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
@@ -52,9 +60,6 @@ public class Room extends GamePlayState {
 			}
 		}
 
-		// setup player
-		if(m_player==null)
-			m_player = new Player(this, container, 256f, 256f);
 		if(!this.isLoaded()) {
 			// setup objects
 			m_interactables = new HashMap<Integer, Interactable>();

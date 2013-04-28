@@ -12,7 +12,6 @@ import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
 	
-	private GamePlayState m_room;
 	private Inventory m_inventory;
 	public boolean m_inInventory = false;
 	public Inventory getInventory() { return m_inventory; }
@@ -30,9 +29,8 @@ public class Player extends MovingObject{
 	public void setY(float y) { m_y = y; }
 	public Health getHealth() { return m_health; }
 	
-	public Player(GamePlayState room, GameContainer container, float x, float y) throws SlickException {
-		super(room);
-		m_room = room;
+	public Player(GamePlayState game, GameContainer container, float x, float y) throws SlickException {
+		super(game);
 		m_x = x;
 		m_y = y;
 		m_enemies = null;
@@ -61,6 +59,9 @@ public class Player extends MovingObject{
         m_inventory = new Inventory(container);
 	}
 	
+	public void setGame(GamePlayState game) {
+		m_game = game;
+	}
 
 
 	public void playerControls(GameContainer container, int delta, Input input) {
@@ -103,7 +104,7 @@ public class Player extends MovingObject{
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
 
 //        	m_room.interact(squareFacing);
-        	Interactable interactable = m_room.interact(squareFacing);
+        	Interactable interactable = m_game.interact(squareFacing);
         	if (interactable instanceof Collectable)
         		m_inventory.addItem((Collectable) interactable);
         	m_inputDelta=500;

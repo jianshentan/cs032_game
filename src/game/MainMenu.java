@@ -96,8 +96,10 @@ public class MainMenu extends BasicGameState {
         }
         if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE)){
         	if (m_selection == 0) {}
-        	else if (m_selection == 1)
+        	else if (m_selection == 1) {
+        		stateManager.initStatesList(container);
                 stateManager.enterState(StateManager.ROOM_STATE);
+        	}
         	else if (m_selection == 2) {}
 			else if (m_selection == 3)
 				System.exit(0);
