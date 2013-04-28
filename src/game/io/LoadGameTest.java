@@ -1,5 +1,7 @@
 package game.io;
 
+import game.StateManager;
+
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,7 +17,8 @@ public class LoadGameTest {
 	 */
 	public static void main(String[] args) {
 		try {
-			new LoadGame().load();
+			StateManager s = new StateManager(new LoadGame());
+			s.run();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

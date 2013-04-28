@@ -49,28 +49,26 @@ private String m_loadPath;
 	 * @throws SAXException 
 	 * @throws SlickException 
 	 */
-	public void load() throws XMLStreamException, ParserConfigurationException, SAXException, IOException, SlickException {
-		StateManager stateManager = new StateManager();
-		
+	public void load(StateManager stateManager) throws XMLStreamException, ParserConfigurationException, SAXException, IOException, SlickException {		
 		InputStream input = new FileInputStream(m_loadPath);
 		DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
 		DocumentBuilder b = f.newDocumentBuilder();
 		Document d = b.parse(input);
 		NodeList players = d.getElementsByTagName("Player");
 		Node p = players.item(0);
+		
 		Node roomNode = d.getElementsByTagName("Room").item(0);
 		
-		Room r = Room.loadFromNode(roomNode);
+		//Room r = Room.loadFromNode(roomNode);
+		Room r2 = (Room) stateManager.getState(StateManager.ROOM_STATE);
+		Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
+		r2.loadFromXML(roomNode, stateManager.getContainer(), stateManager);
+		r2.setPlayer(player);
 		//Player player = Player.loadFromNode(p, r);
 		//TODO: load should create an entirely new game...
 		d.getElementsByTagName("State");
-		
 	}
 	
-	public Player getPlayer(XMLEvent v) {
-		
-		return null;
-	}
 	
 
 }

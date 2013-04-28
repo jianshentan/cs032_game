@@ -12,6 +12,15 @@ import org.w3c.dom.Node;
  */
 public interface Loadable<E> {
 
-	public E loadFromXML(Node n, GameContainer c, StateBasedGame g) throws SlickException;
+	/**
+	 * Loads something from an XML node, given a game container and
+	 * a state manager.
+	 * @param n
+	 * @param c
+	 * @param g
+	 * @return
+	 * @throws SlickException
+	 */
+	public E loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException;
 	
 }

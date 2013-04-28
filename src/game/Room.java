@@ -106,7 +106,8 @@ public class Room extends GamePlayState implements Loadable<Room> {
 		}
 
 		// setup player
-		m_player = new Player(this, container, 256f, 256f);
+		if(m_player==null)
+			m_player = new Player(this, container, 256f, 256f);
 
 		// setup objects
 		m_interactables = new HashMap<Integer, Interactable>();
@@ -323,39 +324,8 @@ public class Room extends GamePlayState implements Loadable<Room> {
 		writer.writeEndElement();
 	}
 
-	/**
-	 * Loads a new room from an XML node
-	 * @param n
-	 * @return
-	 * @throws SlickException 
-	 */
-	public static Room loadFromNode(Node n) throws SlickException {
-		int id = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
-		Room room = new Room(id);
-		room.m_interactables = new HashMap<>();
-		room.m_objects = new HashMap<>();
-		NodeList children = n.getChildNodes();
-		for(int i = 0; i<children.getLength(); i++) {
-			Node child = children.item(i);
-			if(child.getNodeName().equals("Interactables")) {
-				Node c2 = child;
-				NodeList interactables = c2.getChildNodes();
-				for(int j = 0; j< interactables.getLength(); j++) {
-					Node c3 = interactables.item(j);
-					if(c3.getNodeName().equals("Interactable")) {
-						Interactable o = Interactables.loadFromNode(child);
-						int[] square = o.getSquare();
-						room.m_interactables.put(positionToKey(square), o);
-						room.m_objects.put(positionToKey(square), (GameObject) o);
-					}
-				}
-			}
-		}
-		return room;
-	}
-
 	@Override
-	public Room loadFromXML(Node n, GameContainer c, StateBasedGame g) throws SlickException {
+	public Room loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
 		this.m_interactables = new HashMap<>();
 		this.m_objects = new HashMap<>();
 		NodeList children = n.getChildNodes();
@@ -367,10 +337,12 @@ public class Room extends GamePlayState implements Loadable<Room> {
 				for(int j = 0; j< interactables.getLength(); j++) {
 					Node c3 = interactables.item(j);
 					if(c3.getNodeName().equals("Interactable")) {
-						Interactable o = Interactables.loadFromNode(child);
-						int[] square = o.getSquare();
-						this.m_interactables.put(positionToKey(square), o);
-						this.m_objects.put(positionToKey(square), (GameObject) o);
+						Interactable o = Interactables.loadFromNode(c3);
+						if(o!=null) {
+							int[] square = o.getSquare();
+							this.m_interactables.put(positionToKey(square), o);
+							this.m_objects.put(positionToKey(square), (GameObject) o);
+						}
 					}
 				}
 			}
