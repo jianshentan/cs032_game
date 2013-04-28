@@ -37,6 +37,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected TiledMap m_tiledMap;
 	protected String m_mapPath; //path to the tiled map file
 	protected Player m_player;
+	protected int m_playerX, m_playerY;
 	protected Enemy m_enemy;
 
 
@@ -196,6 +197,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	public void setPlayer(Player p) {
 		this.m_player = p;
+	}
+	
+	public void setPlayerLocation(int xLoc, int yLoc) {
+		m_playerX = xLoc;
+		m_playerY = yLoc;
 	}
 
 	public String getMapPath() {
