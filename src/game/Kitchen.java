@@ -17,10 +17,11 @@ public class Kitchen extends GamePlayState {
 	}
 	
 	@Override
-	public void init(GameContainer container, StateBasedGame stateManager)
+	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 			throws SlickException {
 		// setup player
-		m_player = new Player(this, container, SIZE, 0);
+		if(m_player!=null)
+			m_player = new Player(this, container, SIZE, 0);
 		m_map = new simpleMap();
 		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		if(m_mapPath != null) {

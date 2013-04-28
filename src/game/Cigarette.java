@@ -23,7 +23,9 @@ public class Cigarette extends Collectable implements Interactable {
 
 	@Override
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
-		// TODO Auto-generated method stub
+		writer.writeStartElement("Interactable");
+		writer.writeAttribute("type", GameObject.Types.CIGARETTE.toString());
+		writer.writeEndElement();
 	}
 
 	@Override

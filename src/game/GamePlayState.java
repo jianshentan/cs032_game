@@ -67,6 +67,16 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public boolean getDialogueState() { return m_inDialogue; }
 	
 	/**
+	 * This is used by subclasses to do level-specific initialization.
+	 * @param container
+	 * @param stateManager
+	 * @throws SlickException 
+	 */
+	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		
+	}
+	
+	/**
 	 * This is used by subclasses to add updating functionality.
 	 * @param container
 	 * @param stateManager
@@ -87,9 +97,19 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	@Override
+	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		// setup menu
+		m_pauseMenu = new PauseMenu(this, container);
+		m_interactables = new HashMap<Integer, Interactable>();
+		m_objects = new HashMap<Integer, GameObject>();
+		m_dialogue = new ArrayList<Dialogue>();
+		this.additionalInit(container, stateManager);
+	}
+	
+	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
 
-		if (m_isPaused)
+		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
 		if (m_inDialogue)
@@ -143,7 +163,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).render(g);
-		if (m_isPaused)
+		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
 		
 		this.additionalRender(container, stateManager, g);

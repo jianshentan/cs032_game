@@ -105,7 +105,7 @@ public class Player extends MovingObject{
 //        	m_room.interact(squareFacing);
         	Interactable interactable = m_room.interact(squareFacing);
         	if (interactable instanceof Collectable)
-        		m_inventory.addItem(interactable);
+        		m_inventory.addItem((Collectable) interactable);
         	m_inputDelta=500;
 
         }
@@ -153,12 +153,12 @@ public class Player extends MovingObject{
 		writer.writeAttribute("m_x", String.valueOf(m_x));
 		writer.writeAttribute("m_y", String.valueOf(m_y));
 		
-		writer.writeStartElement("Inventory");
-		//TODO: write inventory
-		writer.writeEndElement();
+		writer.writeAttribute("health", String.valueOf(this.m_health.getCurrentHealth()));
+		this.m_inventory.writeToXML(writer);
 		
 		//TODO: write direction
 		//TODO: write health
+		
 		
 		writer.writeEndElement();
 	}
@@ -167,7 +167,10 @@ public class Player extends MovingObject{
 	public static Player loadFromNode(Node node, GamePlayState room, GameContainer container) throws SlickException {
 		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
 		float yLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
-		return new Player(room, container, xLoc, yLoc);
+		
+		Player p = new Player(room, container, xLoc, yLoc);
+		//TODO: load inventory and health
+		return p;
 	}
 	
 }

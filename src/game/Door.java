@@ -33,6 +33,11 @@ public class Door extends GameObject implements Interactable {
 
 	@Override
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("Interactable");
+		writer.writeAttribute("type", GameObject.Types.DOOR.toString());
+		writer.writeAttribute("m_x", String.valueOf(m_x));
+		writer.writeAttribute("m_y", String.valueOf(m_y));
+		writer.writeEndElement();
 	}
 
 	@Override

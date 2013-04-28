@@ -40,7 +40,7 @@ public class StateManager extends StateBasedGame {
 		}
 	}
 	
-	public StateManager(LoadGame l) {
+	private StateManager(LoadGame l) {
 		super("chicken salad and cucumber on croissant");
 		this.m_loader = l;
 		try {
@@ -52,6 +52,10 @@ public class StateManager extends StateBasedGame {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public void setLoader(LoadGame l) {
+		this.m_loader = l;
 	}
 	
 	public GameContainer getGameContainer() {
