@@ -62,8 +62,10 @@ public class Enemy extends MovingObject{
 			//System.out.println(m_currentSquare[0] + " " + m_destination[0]);
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
-			m_x+= x * delta*0.1f;
-			m_y+= y * delta*0.1f;
+			if(!checkCollision(this, m_player)){
+				m_x+= x * delta*0.1f;
+				m_y+= y * delta*0.1f;
+			}
 			
 		}else{
 			switch(m_ai){

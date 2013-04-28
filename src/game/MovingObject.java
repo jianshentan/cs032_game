@@ -4,6 +4,7 @@ public class MovingObject extends GameObject{
 	protected Room m_room;
 	protected static final int SIZE = 64;
 	protected static final int BUFFER = 14;
+	protected static final int RAD = 30;
 	protected float m_x, m_y;
 	public float getX() { return m_x; }
 	public void setX(float x) { m_x = x; }
@@ -52,5 +53,11 @@ public class MovingObject extends GameObject{
 	public Types getType() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	protected boolean checkCollision(MovingObject mo1, MovingObject mo2){
+		float xDist = mo1.getX()-mo2.getX();
+		float yDist = mo1.getY()-mo2.getY();
+		float radSum = 2*RAD;
+		return radSum*radSum>xDist*xDist+yDist*yDist;
 	}
 }

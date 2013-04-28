@@ -21,6 +21,7 @@ public class Player extends MovingObject{
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
 	private Direction m_dir;
 	private Health m_health;
+	private Enemy[] m_enemies;
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
 	public float getX() { return m_x; }
@@ -34,7 +35,7 @@ public class Player extends MovingObject{
 		m_room = room;
 		m_x = x;
 		m_y = y;
-		
+		m_enemies = null;
 		Image [] movementUp = {new Image("assets/Sprite1Back.png"), new Image("assets/Sprite1Back.png")};
         Image [] movementDown = {new Image("assets/Sprite1Front.png"), new Image("assets/Sprite1Front.png")};
         Image [] movementLeft = {new Image("assets/Sprite1Left.png"), new Image("assets/Sprite1Left.png")};
@@ -63,7 +64,16 @@ public class Player extends MovingObject{
 	public void update(GameContainer container, int delta) {
 		// The lower the delta the slowest the sprite will animate.
 		Input input = container.getInput();
+		Boolean setDelta = false;
 		m_inputDelta-=delta;
+		if(m_inputDelta<0&&m_enemies!=null){
+			for(Enemy e: m_enemies){
+				if(checkCollision(this, e)){
+					m_health.updateHealth(-5);
+					setDelta = true;
+				}
+			}
+		}
         if (input.isKeyDown(Input.KEY_UP)) {
         	m_sprite = m_up;
         	m_dir = Direction.UP;
@@ -102,14 +112,20 @@ public class Player extends MovingObject{
         	int[] dirOffset = Direction.getDirOffsets(m_dir);
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
         	m_room.interact(squareFacing);
-        	m_inputDelta=500;
+        	setDelta = true;
         }
         if (m_inputDelta<0&&input.isKeyDown(Input.KEY_I)) {
         	//open inventory
         }
+        if(setDelta){
+        	m_inputDelta=500;
+        }
 		
 	}
-	
+	//sets the enemies that collisions need to be checked against
+	public void setEnemies(Enemy[] e){
+		m_enemies = e;
+	}
 	/**
 	 * Writes data needed to reconstruct the player.
 	 * @param writer
@@ -128,6 +144,7 @@ public class Player extends MovingObject{
 		
 		writer.writeEndElement();
 	}
+	//had to comment this out, since m_enemies was added to constructor - Zak
 	
 	public static Player loadFromNode(Node node, Room room, GameContainer container) throws SlickException {
 		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());

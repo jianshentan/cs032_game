@@ -106,6 +106,7 @@ public class Room extends GamePlayState {
 		}
 
 		// setup player
+		
 		m_player = new Player(this, container, 256f, 256f);
 
 		// setup objects
@@ -118,7 +119,9 @@ public class Room extends GamePlayState {
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
 		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
-
+		Enemy[] e = new Enemy[1];
+		e[0] = m_enemy;
+		m_player.setEnemies(e);
 		m_objects.put(23, chest);
 
 		ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
