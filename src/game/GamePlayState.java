@@ -43,7 +43,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	protected boolean[][] m_blocked; // 2D array indicating spaces that are blocked
 	protected static final int SIZE = 64; // block size
-	protected Rectangle m_viewport;
+	//protected Rectangle m_viewport;
 
 	protected simpleMap m_map;
 	
@@ -197,7 +197,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
     }
     
     /**
-     * Blocks tile at x,y 
+     * Sets tile at x,y to blocked, and returns true.
      * @param x
      * @param y
      * @return
@@ -208,7 +208,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
     }
     
 	/**
-	 * Returns the result of an interaction.
+	 * Returns the Interactable of an interaction.
 	 * @param interactSquare
 	 * @return
 	 */
@@ -217,9 +217,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			Interactable i = e.getValue();
 			int[] loc = i.getSquare();
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
-				//int key = positionToKey(loc);
-				// chest
-				//key = 23;
+				//TODO: this shouldn't be necessary
 				if (i.getType() == GameObject.Types.CHEST) {
 						m_dialogueNum = 1;
 						m_inDialogue = true;

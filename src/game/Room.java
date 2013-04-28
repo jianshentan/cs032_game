@@ -1,17 +1,13 @@
 package game;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 
 /**
@@ -35,7 +31,7 @@ public class Room extends GamePlayState {
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup player
 		m_map = new simpleMap();
-		m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
+		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		if(m_mapPath != null) {
 			m_horseMap = new TiledMap(m_mapPath);
 		}
@@ -116,7 +112,7 @@ public class Room extends GamePlayState {
 	}
 	
 	/**
-	 * For the testing room, the "additional" update is 
+	 * For the testing room, the "additional" update is just having "z" launch a dialog.
 	 */
 	@Override
 	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {

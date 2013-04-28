@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
 	
-	private Room m_room;
+	private GamePlayState m_room;
 	private Inventory m_inventory;
 	public boolean m_inInventory = false;
 	public Inventory getInventory() { return m_inventory; }
@@ -30,7 +30,7 @@ public class Player extends MovingObject{
 	public void setY(float y) { m_y = y; }
 	public Health getHealth() { return m_health; }
 	
-	public Player(Room room, GameContainer container, float x, float y) throws SlickException {
+	public Player(GamePlayState room, GameContainer container, float x, float y) throws SlickException {
 		super(room);
 		m_room = room;
 		m_x = x;

@@ -15,7 +15,7 @@ public class Enemy extends MovingObject{
 	private int m_pathLength, m_currentStep, m_roamCounter;
 	private Player m_player;
 	public Animation getAnimation(){return m_sprite;};
-	public  Enemy(Room room, Player player, float x, float y, int[][] patrolPoints) throws SlickException{
+	public  Enemy(GamePlayState room, Player player, float x, float y, int[][] patrolPoints) throws SlickException{
 		super(room);
 		m_player = player;
 		m_x = x;

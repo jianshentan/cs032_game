@@ -1,7 +1,7 @@
 package game;
 
 public class MovingObject extends GameObject{
-	protected Room m_room;
+	protected GamePlayState m_room;
 	protected static final int SIZE = 64;
 	protected static final int BUFFER = 14;
 	protected static final int RAD = 30;
@@ -10,7 +10,7 @@ public class MovingObject extends GameObject{
 	public void setX(float x) { m_x = x; }
 	public float getY() { return m_y; }
 	public void setY(float y) { m_y = y; }
-	public MovingObject(Room room){
+	public MovingObject(GamePlayState room){
 		m_room = room;
 	}
 	protected boolean isBlocked(float x, float y, Direction dir) {
