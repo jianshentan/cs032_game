@@ -3,6 +3,7 @@ package game.io;
 import game.Player;
 import game.Room;
 import game.StateManager;
+import game.GamePlayState;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -60,7 +61,7 @@ private String m_loadPath;
 		Node roomNode = d.getElementsByTagName("Room").item(0);
 		
 		//Room r = Room.loadFromNode(roomNode);
-		Room r2 = (Room) stateManager.getState(StateManager.ROOM_STATE);
+		GamePlayState r2 = (GamePlayState) stateManager.getState(StateManager.ROOM_STATE);
 		Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
 		r2.loadFromXML(roomNode, stateManager.getContainer(), stateManager);
 		r2.setPlayer(player);

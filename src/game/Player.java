@@ -164,7 +164,7 @@ public class Player extends MovingObject{
 	}
 	//had to comment this out, since m_enemies was added to constructor - Zak
 	
-	public static Player loadFromNode(Node node, Room room, GameContainer container) throws SlickException {
+	public static Player loadFromNode(Node node, GamePlayState room, GameContainer container) throws SlickException {
 		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
 		float yLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
 		return new Player(room, container, xLoc, yLoc);

@@ -33,19 +33,19 @@ public class Room extends GamePlayState {
 		m_map = new simpleMap();
 		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		if(m_mapPath != null) {
-			m_horseMap = new TiledMap(m_mapPath);
+			m_tiledMap = new TiledMap(m_mapPath);
 		}
 		else
 			try {
-				m_horseMap = new TiledMap("assets/10X10.tmx");
+				m_tiledMap = new TiledMap("assets/10X10.tmx");
 			} catch (SlickException e) {
 				System.out.println("ERROR: Could not 10X10.tmx");
 			}
-		m_blocked = new boolean[m_horseMap.getWidth()][m_horseMap.getHeight()];
-		for (int xAxis=0; xAxis<m_horseMap.getWidth(); xAxis++) {
-			for (int yAxis=0; yAxis<m_horseMap.getHeight(); yAxis++) {
-				int tileID = m_horseMap.getTileId(xAxis, yAxis, 0);
-				String value = m_horseMap.getTileProperty(tileID, "blocked", "false");
+		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
+		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
+			for (int yAxis=0; yAxis<m_tiledMap.getHeight(); yAxis++) {
+				int tileID = m_tiledMap.getTileId(xAxis, yAxis, 0);
+				String value = m_tiledMap.getTileProperty(tileID, "blocked", "false");
 				if ("true".equals(value)) {
 					m_blocked[xAxis][yAxis] = true;
 				}
@@ -56,33 +56,33 @@ public class Room extends GamePlayState {
 
 		if(m_player==null)
 			m_player = new Player(this, container, 256f, 256f);
+		if(!this.isLoaded()) {
+			// setup objects
+			m_interactables = new HashMap<Integer, Interactable>();
+			m_objects = new HashMap<Integer, GameObject>();
 
-		// setup objects
-		m_interactables = new HashMap<Integer, Interactable>();
-		m_objects = new HashMap<Integer, GameObject>();
+			Chest chest = new Chest(23, 2*SIZE, 3*SIZE);
+			m_interactables.put(23, chest);
+			m_blocked[2][3] = true;		
+			m_objects.put(23, chest);
 
-		Chest chest = new Chest(23, 2*SIZE, 3*SIZE);
-		m_interactables.put(23, chest);
-		m_blocked[2][3] = true;		
-		m_objects.put(23, chest);
+			ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
+			m_interactables.put(63, chickenWing);
+			m_blocked[6][3] = true;      
+			m_objects.put(63, chickenWing);
+
+			Cigarette cigarette = new Cigarette(8*SIZE, 4*SIZE);
+			m_interactables.put(84, cigarette);
+			m_blocked[8][4] = true;
+			m_objects.put(84, cigarette);
+		}
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
 		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
 		Enemy[] e = new Enemy[1];
 		e[0] = m_enemy;
 		m_player.setEnemies(e);
-		m_objects.put(23, chest);
-
-
-		ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
-		m_interactables.put(63, chickenWing);
-		m_blocked[6][3] = true;      
-		m_objects.put(63, chickenWing);
 		
-		Cigarette cigarette = new Cigarette(8*SIZE, 4*SIZE);
-		m_interactables.put(84, cigarette);
-		m_blocked[8][4] = true;
-		m_objects.put(84, cigarette);
 		
 
 

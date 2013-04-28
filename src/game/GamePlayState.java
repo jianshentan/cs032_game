@@ -34,7 +34,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	int m_stateID = 0;
 	protected int inputDelta = 0;
 	public enum Direction {UP, DOWN, LEFT, RIGHT}
-	protected TiledMap m_horseMap;
+	protected TiledMap m_tiledMap;
 	protected String m_mapPath; //path to the tiled map file
 	protected Player m_player;
 	protected Enemy m_enemy;
@@ -49,6 +49,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	protected ArrayList<Dialogue> m_dialogue;
 	protected int m_dialogueNum; // represents which dialogue to use
+	
+	private boolean m_loaded; //true if the state has already been loaded from file.
+	public boolean isLoaded() { return m_loaded; }
 	
 	/**
 	 *  key is represented by 'xPos' + 'yPos'
@@ -125,7 +128,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		int halfHeight = container.getHeight()/2;
 		int offsetX = (int)m_player.getX()-halfWidth;
 		int offsetY = (int)m_player.getY()-halfHeight;
-		m_horseMap.render(-offsetX, -offsetY);
+		m_tiledMap.render(-offsetX, -offsetY);
 		for (Entry<Integer, GameObject> e : m_objects.entrySet()) {
 			GameObject o = e.getValue();
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
@@ -287,6 +290,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				}
 			}
 		}
+		this.m_loaded = true;
 		return this;
 	}
 	
