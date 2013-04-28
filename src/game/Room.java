@@ -16,9 +16,6 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 public class Room extends GamePlayState {
 	
-	private int m_playerX = SIZE*4;
-	private int m_playerY = SIZE*3;
-	
 	public Room(int stateID) {
 		m_stateID = stateID;
 	}
@@ -36,7 +33,9 @@ public class Room extends GamePlayState {
 	}
 
 	@Override
-	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
+	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		m_playerX = SIZE*4;
+		m_playerY = SIZE*3;
 		// setup player
 		m_map = new simpleMap();
 		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
@@ -80,7 +79,7 @@ public class Room extends GamePlayState {
 			m_blocked[8][4] = true;
 			m_objects.put(84, cigarette);
 			
-			Door door = new Door(67, 6*SIZE, 7*SIZE, StateManager.KITCHEN_STATE);
+			Door door = new Door(67, 6*SIZE, 7*SIZE, StateManager.KITCHEN_STATE, 2*SIZE, 1*SIZE);
 			m_interactables.put(67, door);
 			m_objects.put(67, door);
 		}
