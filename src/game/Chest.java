@@ -11,18 +11,22 @@ import org.w3c.dom.Node;
 public class Chest extends GameObject implements Interactable{
 	private Image m_open, m_closed;
 	private boolean m_isOpen;
+	private int m_key;
+	@Override
+	public int getKey() {return m_key;}
 	
-	public Chest(int xLoc, int yLoc) throws SlickException{
+	public Chest(int key, int xLoc, int yLoc) throws SlickException{
 		m_x = xLoc;
 		m_y = yLoc;
 		m_closed = new Image("assets/chestClose.png");
 		m_open = new Image("assets/chestOpen.png");
 		m_sprite = m_closed;
 		m_isOpen = false;
+		m_key = key;
 	}
 
 	@Override
-	public Interactable fireAction() {
+	public Interactable fireAction(GamePlayState state, Player p) {
 		if(m_sprite.equals(m_closed)){
 			m_isOpen = true;
 			m_sprite = m_open;
@@ -60,8 +64,9 @@ public class Chest extends GameObject implements Interactable{
 	 * @throws SlickException 
 	 */
 	public static Chest loadFromNode(Node node) throws SlickException {
-		int xLoc = Integer.parseInt(node.getAttributes().getNamedItem("m_x").getNodeValue());
-		int yLoc = Integer.parseInt(node.getAttributes().getNamedItem("m_y").getNodeValue());
-		return new Chest(xLoc, yLoc);
+		int xLoc = (int) Double.parseDouble(node.getAttributes().getNamedItem("m_x").getNodeValue());
+		int yLoc = (int) Double.parseDouble(node.getAttributes().getNamedItem("m_y").getNodeValue());
+		int[] position = {xLoc, yLoc};
+		return new Chest(GamePlayState.positionToKey(position), xLoc, yLoc);
 	}
 }

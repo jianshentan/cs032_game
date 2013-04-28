@@ -3,9 +3,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -13,8 +10,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
-import org.newdawn.slick.util.pathfinding.PathFindingContext;
-import org.newdawn.slick.util.pathfinding.TileBasedMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -23,31 +18,8 @@ import org.w3c.dom.NodeList;
  * A Room represents a single level.
  *
  */
-public class Room extends GamePlayState implements Loadable<Room> {
+public class Room extends GamePlayState {
 
-	int m_stateID = 0;
-	private int inputDelta = 0;
-	public enum Direction {UP, DOWN, LEFT, RIGHT}
-	private TiledMap m_horseMap;
-	private String m_mapPath; //path to the tiled map file
-	private Player m_player;
-	private Enemy m_enemy;
-
-	/**
-	 *  key is represented by 'xPos' + 'yPos'
-	 *  example: if object has position (2,3), key = 23.
-	 */
-	private HashMap<Integer, GameObject> m_objects;
-	private HashMap<Integer, Interactable> m_interactables; 
-
-	private boolean[][] m_blocked; // 2D array indicating spaces that are blocked
-	private static final int SIZE = 64; // block size
-	private Rectangle m_viewport;
-
-	private simpleMap m_map;
-	
-	private ArrayList<Dialogue> m_dialogue;
-	private int m_dialogueNum; // represents which dialogue to use
 
 	public Room(int stateID) {
 		m_stateID = stateID;
@@ -58,29 +30,6 @@ public class Room extends GamePlayState implements Loadable<Room> {
 		m_mapPath = mapPath;
 	}
 
-	@Override
-	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) 
-			throws SlickException {
-		int halfWidth = container.getWidth()/2;
-		int halfHeight = container.getHeight()/2;
-		int offsetX = (int)m_player.getX()-halfWidth;
-		int offsetY = (int)m_player.getY()-halfHeight;
-		m_horseMap.render(-offsetX, -offsetY);
-		for (Entry<Integer, GameObject> e : m_objects.entrySet()) {
-			GameObject o = e.getValue();
-			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
-		}
-		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
-		m_player.getAnimation().draw(halfWidth, halfHeight);
-		m_player.getHealth().render();
-		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
-		
-
-		if (m_inDialogue)
-			m_dialogue.get(m_dialogueNum).render(g);
-		if (m_isPaused)
-			m_pauseMenu.render(g);
-	}
 
 	@Override
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
@@ -116,7 +65,7 @@ public class Room extends GamePlayState implements Loadable<Room> {
 		m_interactables = new HashMap<Integer, Interactable>();
 		m_objects = new HashMap<Integer, GameObject>();
 
-		Chest chest = new Chest(2*SIZE, 3*SIZE);
+		Chest chest = new Chest(23, 2*SIZE, 3*SIZE);
 		m_interactables.put(23, chest);
 		m_blocked[2][3] = true;		
 		m_objects.put(23, chest);
@@ -165,37 +114,13 @@ public class Room extends GamePlayState implements Loadable<Room> {
 		m_dialogue.add(dialogue1);
 		m_dialogue.add(dialogue2);
 	}
-
+	
+	/**
+	 * For the testing room, the "additional" update is 
+	 */
 	@Override
-	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-
-		if (m_isPaused)
-			m_pauseMenu.update(container, stateManager, delta);
-
-		if (m_inDialogue)
-			m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
-
-		
-		if (!m_isPaused && !m_inDialogue){
-			m_player.update(container, delta);
-			m_enemy.update(delta);
-		}
-		
-
+	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {
 		Input input = container.getInput();
-		inputDelta-=delta;
-
-		// creates menu screen
-		if (inputDelta<0 && input.isKeyDown(Input.KEY_ESCAPE)) {
-			if (!m_inDialogue) { // must not be in dialogue
-				if (!m_isPaused)
-					m_isPaused = true;
-				else
-					m_isPaused = false;
-			}
-			inputDelta = 500;
-		}
-
 		// Testing dialogue -- testing purposes only
 		if (inputDelta<0 && input.isKeyDown(Input.KEY_Z)) {
 			m_dialogueNum = 0;
@@ -205,172 +130,7 @@ public class Room extends GamePlayState implements Loadable<Room> {
 			inputDelta = 500;
 		}
 	}
+    
 
-	/**
-	 * interact is called by the player to interact with some game object
-	 * in the map.
-	 * @param interactSquare - location of the target interactable
-	 * @return
-	 */
-	public Interactable interact(int[] interactSquare){
-		for(Entry<Integer, Interactable> e: m_interactables.entrySet()){
-			Interactable i = e.getValue();
-			int[] loc = i.getSquare();
-			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
-				int key = positionToKey(loc);
-				// chest
-				//key = 23;
-				if (i.getType() == GameObject.Types.CHEST) {
-					if (loc[0] == m_objects.get(key).getX()/SIZE && 
-						loc[1] == m_objects.get(key).getY()/SIZE) {
-						m_dialogueNum = 1;
-						m_inDialogue = true;
-					}
-				}
-
-				//chickenWing
-				//key = 63;
-				if (i.getType() == GameObject.Types.CHICKEN_WING) {
-					if (loc[0] == m_objects.get(key).getX()/SIZE &&
-						loc[1] == m_objects.get(key).getY()/SIZE)
-						playerPickUp(key, loc[0], loc[1]);
-				}
-				
-				//cigarette
-				//key = 84;
-				if (i.getType() == GameObject.Types.CIGARETTE) {
-					if (loc[0] == m_objects.get(key).getX()/SIZE &&
-						loc[1] == m_objects.get(key).getY()/SIZE) 
-						playerPickUp(key, loc[0], loc[1]);
-				}
-				return i.fireAction();
-			}
-		}
-		return null;
-	}
-	
-	public void playerPickUp(int key, int xLoc, int yLoc) {
-		m_interactables.remove(key);
-		m_blocked[xLoc][yLoc] = false;
-		m_objects.remove(key);	
-	}
-
-
-    public boolean blocked(int x, int y) {
-    	return m_blocked[x][y];
-    }
-    public simpleMap getMap(){
-    	return m_map;
-    }
-
-
-	@Override
-	public int getID() {
-		return m_stateID;
-	}
-
-	
-
-	class simpleMap implements TileBasedMap{
-		public static final int HEIGHT = 10;
-		public static final int WIDTH = 10;
-		
-		public float getCost(PathFindingContext ctx, int x, int y){
-			return 1.0f;
-		}
-		public boolean blocked(PathFindingContext ctx, int x, int y){
-			return m_blocked[x][y];
-		}
-		public int getHeightInTiles(){
-			return HEIGHT;
-		}
-		public int getWidthInTiles(){
-			return WIDTH;
-		}
-		public void pathFinderVisited(int x, int y){};
-	}
-
-
-	public Player getPlayer() {
-		return this.m_player;
-	}
-
-	public void setPlayer(Player p) {
-		this.m_player = p;
-	}
-
-	public String getMapPath() {
-		return this.m_mapPath;
-	}
-
-	public ArrayList<Interactable> getInteractables() {
-		ArrayList<Interactable> ret = new ArrayList<Interactable>();
-		for (Entry<Integer, Interactable> e : m_interactables.entrySet()) {
-			Interactable i = e.getValue();
-			ret.add(i);
-		}
-		return ret;
-	}
-
-	/**
-	 * Given a position as an array of two integers, returns
-	 * an integer consisting of the two integers concatenated.
-	 * @param position
-	 * @return integer
-	 */
-	public static int positionToKey(int[] position) {
-		String s1 = String.valueOf(position[0]);
-		String s2 = String.valueOf(position[1]);
-		return Integer.parseInt(s1+s2);
-	}
-
-	/**
-	 * Writes the data contained in the room to XML, not including
-	 * the player data.
-	 * @param writer
-	 * @throws XMLStreamException
-	 */
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
-		writer.writeStartElement("Room");
-		if(m_mapPath!=null)
-			writer.writeAttribute("m_mapPath", m_mapPath);
-		writer.writeAttribute("id", String.valueOf(this.m_stateID));
-
-		writer.writeStartElement("Interactables");
-		for (Entry<Integer, Interactable> e : m_interactables.entrySet()) {
-			Interactable i = e.getValue();
-			i.writeToXML(writer);
-		}
-		//TODO: add enemy
-		writer.writeEndElement();
-
-		writer.writeEndElement();
-	}
-
-	@Override
-	public Room loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
-		this.m_interactables = new HashMap<Integer, Interactable>();
-		this.m_objects = new HashMap<Integer, GameObject>();
-		NodeList children = n.getChildNodes();
-		for(int i = 0; i<children.getLength(); i++) {
-			Node child = children.item(i);
-			if(child.getNodeName().equals("Interactables")) {
-				Node c2 = child;
-				NodeList interactables = c2.getChildNodes();
-				for(int j = 0; j< interactables.getLength(); j++) {
-					Node c3 = interactables.item(j);
-					if(c3.getNodeName().equals("Interactable")) {
-						Interactable o = Interactables.loadFromNode(c3);
-						if(o!=null) {
-							int[] square = o.getSquare();
-							this.m_interactables.put(positionToKey(square), o);
-							this.m_objects.put(positionToKey(square), (GameObject) o);
-						}
-					}
-				}
-			}
-		}
-		return this;
-	}
 
 }

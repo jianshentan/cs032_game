@@ -10,7 +10,16 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public interface Interactable {
 	
-	public Interactable fireAction();
+	/**
+	 * Returns the key.
+	 * @return
+	 */
+	public int getKey();
+	/**
+	 * 
+	 * @return this interactable
+	 */
+	public Interactable fireAction(GamePlayState state, Player p);
 	/**
 	 * Returns the x,y position on the tile map that the
 	 * interactable is located at.

@@ -154,6 +154,7 @@ public class Player extends MovingObject{
 		writer.writeAttribute("m_y", String.valueOf(m_y));
 		
 		writer.writeStartElement("Inventory");
+		//TODO: write inventory
 		writer.writeEndElement();
 		
 		//TODO: write direction

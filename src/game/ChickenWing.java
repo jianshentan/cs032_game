@@ -11,10 +11,12 @@ public class ChickenWing extends Collectable implements Interactable{
 	public ChickenWing(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
+		this.setKey(GamePlayState.positionToKey(getSquare()));
 		m_sprite = new Image("assets/chickenWing.png");
 	}
 	@Override
-	public Interactable fireAction() {
+	public Interactable fireAction(GamePlayState state, Player p) {
+		state.removeObject(this.getKey(), (int) m_x/SIZE, (int) this.m_y/SIZE);
 		return this;
 	}
 	

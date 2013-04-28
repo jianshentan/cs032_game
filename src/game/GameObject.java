@@ -1,5 +1,7 @@
 package game;
 
+import java.util.HashMap;
+
 import org.newdawn.slick.Image;
 
 public abstract class GameObject {
