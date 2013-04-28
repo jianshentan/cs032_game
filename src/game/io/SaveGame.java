@@ -45,7 +45,7 @@ public class SaveGame {
 			Room room = (Room) currentState;
 			XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(outputStream);
 			writer.writeStartDocument();
-			
+			writer.writeStartElement("SaveData");
 			writer.writeStartElement("State");
 			writer.writeAttribute("stateID", String.valueOf(room.getID()));
 			writer.writeEndElement();
@@ -57,6 +57,7 @@ public class SaveGame {
 			p.writeToXML(writer);
 			
 			writer.writeEndDocument();
+			writer.close();
 		}
 	}
 	

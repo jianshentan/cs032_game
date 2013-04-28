@@ -6,13 +6,7 @@ import javax.xml.stream.XMLStreamWriter;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
-public class ChickenWing extends GameObject implements Collectable, Interactable{
-//	private Image m_sprite;
-//	public static final int SIZE = 64;
-//	private int m_x, m_y;
-//	public int getX() {return m_x;}
-//	public int getY() {return m_y;}
-//	public Image getImage() {return m_sprite;}
+public class ChickenWing extends Collectable implements Interactable{
 	
 	public ChickenWing(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
@@ -26,7 +20,7 @@ public class ChickenWing extends GameObject implements Collectable, Interactable
 	
 	@Override
 	public int[] getSquare() {
-		int[] loc = {m_x/SIZE, m_y/SIZE};
+		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
 		return loc;
 	}
 	@Override
@@ -36,11 +30,19 @@ public class ChickenWing extends GameObject implements Collectable, Interactable
 	@Override
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
-		writer.writeStartElement("Iterable");
+		writer.writeStartElement("Interactable");
 		writer.writeAttribute("type", Types.CHICKEN_WING.toString());
 		writer.writeAttribute("m_x", String.valueOf(this.m_x));
 		writer.writeAttribute("m_y", String.valueOf(this.m_y));
 		writer.writeEndElement();	
+	}
+	@Override
+	public String getItemName() {
+		return "Chicken Wing";
+	}
+	@Override
+	public String getItemText() {
+		return "This is a chicken wing that looks shockingly like a horse with one leg.";
 	}
 	
 }

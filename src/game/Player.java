@@ -1,7 +1,5 @@
 package game;
 
-
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -16,6 +14,8 @@ public class Player extends MovingObject{
 	
 	private Room m_room;
 	private Inventory m_inventory;
+	public boolean m_inInventory = false;
+	public Inventory getInventory() { return m_inventory; }
 	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
@@ -61,19 +61,9 @@ public class Player extends MovingObject{
         m_inventory = new Inventory(container);
 	}
 	
-	public void update(GameContainer container, int delta) {
-		// The lower the delta the slowest the sprite will animate.
-		Input input = container.getInput();
-		Boolean setDelta = false;
-		m_inputDelta-=delta;
-		if(m_inputDelta<0&&m_enemies!=null){
-			for(Enemy e: m_enemies){
-				if(checkCollision(this, e)){
-					m_health.updateHealth(-5);
-					setDelta = true;
-				}
-			}
-		}
+
+
+	public void playerControls(GameContainer container, int delta, Input input) {
         if (input.isKeyDown(Input.KEY_UP)) {
         	m_sprite = m_up;
         	m_dir = Direction.UP;
@@ -111,15 +101,42 @@ public class Player extends MovingObject{
         	int currentY = (int) (m_y + (SIZE/2))/SIZE;
         	int[] dirOffset = Direction.getDirOffsets(m_dir);
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
-        	m_room.interact(squareFacing);
-        	setDelta = true;
+
+//        	m_room.interact(squareFacing);
+        	Interactable interactable = m_room.interact(squareFacing);
+        	if (interactable instanceof Collectable)
+        		m_inventory.addItem(interactable);
+        	m_inputDelta=500;
+
         }
+
+	}
+	
+	public void update(GameContainer container, int delta) {
+		Input input = container.getInput();
+		m_inputDelta-=delta;	
+		Boolean setDelta = false;
+		if(m_inputDelta<0&&m_enemies!=null){
+			for(Enemy e: m_enemies){
+				if(checkCollision(this, e)){
+					m_health.updateHealth(-5);
+					setDelta = true;
+				}
+			}
+		}
+		// The lower the delta the slowest the sprite will animate.
         if (m_inputDelta<0&&input.isKeyDown(Input.KEY_I)) {
-        	//open inventory
+        	m_inInventory = m_inInventory ? false : true;
+        	setDelta=true;
         }
         if(setDelta){
         	m_inputDelta=500;
         }
+		
+		if (m_inInventory) 
+			m_inventory.update(container, delta);
+		else 
+			playerControls(container, delta, input);
 		
 	}
 	//sets the enemies that collisions need to be checked against

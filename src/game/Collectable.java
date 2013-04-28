@@ -1,5 +1,6 @@
 package game;
 
-public interface Collectable {
-	
+public abstract class Collectable extends GameObject {
+	public abstract String getItemName();
+	public abstract String getItemText();
 }

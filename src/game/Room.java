@@ -23,7 +23,7 @@ import org.w3c.dom.NodeList;
  * A Room represents a single level.
  *
  */
-public class Room extends GamePlayState {
+public class Room extends GamePlayState implements Loadable<Room> {
 
 	int m_stateID = 0;
 	private int inputDelta = 0;
@@ -73,6 +73,8 @@ public class Room extends GamePlayState {
 		m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
 		m_player.getHealth().render();
+		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
+		
 
 		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).render(g);
@@ -106,8 +108,9 @@ public class Room extends GamePlayState {
 		}
 
 		// setup player
-		
-		m_player = new Player(this, container, 256f, 256f);
+
+		if(m_player==null)
+			m_player = new Player(this, container, 256f, 256f);
 
 		// setup objects
 		m_interactables = new HashMap<Integer, Interactable>();
@@ -115,7 +118,8 @@ public class Room extends GamePlayState {
 
 		Chest chest = new Chest(2*SIZE, 3*SIZE);
 		m_interactables.put(23, chest);
-		m_blocked[2][3] = true;      
+		m_blocked[2][3] = true;		
+		m_objects.put(23, chest);
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
 		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
@@ -124,11 +128,17 @@ public class Room extends GamePlayState {
 		m_player.setEnemies(e);
 		m_objects.put(23, chest);
 
+
 		ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
 		m_interactables.put(63, chickenWing);
 		m_blocked[6][3] = true;      
-
 		m_objects.put(63, chickenWing);
+		
+		Cigarette cigarette = new Cigarette(8*SIZE, 4*SIZE);
+		m_interactables.put(84, cigarette);
+		m_blocked[8][4] = true;
+		m_objects.put(84, cigarette);
+		
 
 
 		// setup menu
@@ -212,7 +222,7 @@ public class Room extends GamePlayState {
 				//key = 23;
 				if (i.getType() == GameObject.Types.CHEST) {
 					if (loc[0] == m_objects.get(key).getX()/SIZE && 
-							loc[1] == m_objects.get(key).getY()/SIZE) {
+						loc[1] == m_objects.get(key).getY()/SIZE) {
 						m_dialogueNum = 1;
 						m_inDialogue = true;
 					}
@@ -222,16 +232,27 @@ public class Room extends GamePlayState {
 				//key = 63;
 				if (i.getType() == GameObject.Types.CHICKEN_WING) {
 					if (loc[0] == m_objects.get(key).getX()/SIZE &&
-							loc[1] == m_objects.get(key).getY()/SIZE) {
-						m_interactables.remove(key);
-						m_blocked[loc[0]][loc[1]] = false;
-						m_objects.remove(key);
-					}
+						loc[1] == m_objects.get(key).getY()/SIZE)
+						playerPickUp(key, loc[0], loc[1]);
+				}
+				
+				//cigarette
+				//key = 84;
+				if (i.getType() == GameObject.Types.CIGARETTE) {
+					if (loc[0] == m_objects.get(key).getX()/SIZE &&
+						loc[1] == m_objects.get(key).getY()/SIZE) 
+						playerPickUp(key, loc[0], loc[1]);
 				}
 				return i.fireAction();
 			}
 		}
 		return null;
+	}
+	
+	public void playerPickUp(int key, int xLoc, int yLoc) {
+		m_interactables.remove(key);
+		m_blocked[xLoc][yLoc] = false;
+		m_objects.remove(key);	
 	}
 
 
@@ -326,15 +347,10 @@ public class Room extends GamePlayState {
 		writer.writeEndElement();
 	}
 
-	/**
-	 * Loads a new room from an XML node
-	 * @param n
-	 * @return
-	 * @throws SlickException 
-	 */
-	public static Room loadFromNode(Node n) throws SlickException {
-		int id = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
-		Room room = new Room(id);
+	@Override
+	public Room loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
+		this.m_interactables = new HashMap<Integer, Interactable>();
+		this.m_objects = new HashMap<Integer, GameObject>();
 		NodeList children = n.getChildNodes();
 		for(int i = 0; i<children.getLength(); i++) {
 			Node child = children.item(i);
@@ -344,16 +360,17 @@ public class Room extends GamePlayState {
 				for(int j = 0; j< interactables.getLength(); j++) {
 					Node c3 = interactables.item(j);
 					if(c3.getNodeName().equals("Interactable")) {
-						//TODO: add interactables
-						Interactable o = Interactables.loadFromNode(child);
-						int[] square = o.getSquare();
-						room.m_interactables.put(positionToKey(square), o);
+						Interactable o = Interactables.loadFromNode(c3);
+						if(o!=null) {
+							int[] square = o.getSquare();
+							this.m_interactables.put(positionToKey(square), o);
+							this.m_objects.put(positionToKey(square), (GameObject) o);
+						}
 					}
 				}
 			}
 		}
-		return room;
+		return this;
 	}
-
 
 }
