@@ -39,7 +39,7 @@ import org.w3c.dom.NodeList;
 public abstract class GamePlayState extends BasicGameState implements Loadable<GamePlayState> {
 	
 	protected boolean m_isPaused = false;
-	private boolean m_inDialogue = false;
+	protected boolean m_inDialogue = false;
 	protected PauseMenu m_pauseMenu = null;
 	
 	int m_stateID = 0;
@@ -50,8 +50,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected Player m_player;
 	protected int m_playerX, m_playerY;
 	protected Enemy m_enemy;
-
-
 
 	protected boolean[][] m_blocked; // 2D array indicating spaces that are blocked
 	protected static final int SIZE = 64; // block size
@@ -78,8 +76,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void setPauseState(boolean state) { m_isPaused = state; }
 	public boolean getPauseState() { return m_isPaused; }
 	
-	public void setDialogueState(boolean state) { set_inDialogue(state); }
-	public boolean getDialogueState() { return is_inDialogue(); }
+	public void setDialogueState(boolean state) { m_inDialogue = state; }
+	public boolean getDialogueState() { return m_inDialogue; }
 	
 	/**
 	 * This is used by subclasses to do level-specific initialization.
@@ -127,11 +125,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
-		if (is_inDialogue())
+		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
 
 		
-		if (!m_isPaused && !is_inDialogue()){
+		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
 			if (m_enemy != null)
 				m_enemy.update(delta);
@@ -143,7 +141,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 		// creates menu screen
 		if (inputDelta<0 && input.isKeyDown(Input.KEY_ESCAPE)) {
-			if (!is_inDialogue()) { // must not be in dialogue
+			if (!m_inDialogue) { // must not be in dialogue
 				if (!m_isPaused)
 					m_isPaused = true;
 				else
@@ -176,7 +174,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		
 
-		if (is_inDialogue())
+		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).render(g);
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
@@ -263,15 +261,18 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			int[] loc = i.getSquare();
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
 				//TODO: this shouldn't be necessary
-				if (i.getType() == GameObject.Types.CHEST) {
-						m_dialogueNum = 1;
-						set_inDialogue(true);
-				}
+//				if (i.getType() == GameObject.Types.CHEST) {
+//						m_dialogueNum = 1;
+//						set_inDialogue(true);
+//				}
+				dialogueListener(i);
 				return i.fireAction(this, m_player);
 			}
 		}
 		return null;
 	}
+	
+	public abstract void dialogueListener(Interactable i);
 	
     public simpleMap getMap(){
     	return m_map;
@@ -336,13 +337,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		return this;
 	}
 	
-	public boolean is_inDialogue() {
-		return m_inDialogue;
-	}
-	public void set_inDialogue(boolean m_inDialogue) {
-		this.m_inDialogue = m_inDialogue;
-	}
-
 	class simpleMap implements TileBasedMap{
 		public static final int HEIGHT = 10;
 		public static final int WIDTH = 10;

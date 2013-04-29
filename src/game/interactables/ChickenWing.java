@@ -18,7 +18,7 @@ public class ChickenWing extends Collectable implements Interactable{
 		m_x = xLoc;
 		m_y = yLoc;
 		this.setKey(GamePlayState.positionToKey(getSquare()));
-		set_sprite(new Image("assets/chickenWing.png"));
+		setSprite(new Image("assets/chickenWing.png"));
 	}
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {

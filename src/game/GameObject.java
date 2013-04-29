@@ -14,22 +14,29 @@ public abstract class GameObject {
 	public float getY() {return m_y;}
 	public void setX(float x) { m_x = x; }
 	public void setY(float y) { m_y = y; }
-	public Image getImage() {return get_sprite();}	
+	public Image getImage() {return getSprite();}	
 	
-	public abstract int[] getSquare();
+//	public abstract int[] getSquare();
 	public abstract Types getType();
 	
-	public Image get_sprite() {
+	public Image getSprite() {
 		return m_sprite;
 	}
-	public void set_sprite(Image m_sprite) {
+	public void setSprite(Image m_sprite) {
 		this.m_sprite = m_sprite;
 	}
 
+	public int[] getSquare() {
+		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
+		return loc;
+	}
+	
 	public enum Types {
 		CHEST,
 		CHICKEN_WING,
 		CIGARETTE,
 		DOOR,
+		BED,
+		STATIC,
 	}
 }

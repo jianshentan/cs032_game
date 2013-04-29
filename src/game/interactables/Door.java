@@ -24,7 +24,7 @@ public class Door extends GameObject implements Interactable {
 				int destination, int xDestination, int yDestination) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
-		set_sprite(new Image("assets/door.png"));
+		setSprite(new Image("assets/gameObjects/door.png"));
 		m_key = key;
 		m_destination = destination;
 		m_xDestination = xDestination;

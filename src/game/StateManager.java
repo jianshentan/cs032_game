@@ -2,6 +2,7 @@ package game;
 
 import java.io.IOException;
 
+import game.gameplayStates.Home;
 import game.gameplayStates.Kitchen;
 import game.gameplayStates.Room;
 import game.io.LoadGame;
@@ -24,9 +25,13 @@ public class StateManager extends StateBasedGame {
 		return instance;
 	}
 	  
-	public static final int KITCHEN_STATE = 2;
+	// black box test states
+	public static boolean m_debugMode = true;
+	public static final int KITCHEN_STATE = 1002;
+	public static final int ROOM_STATE = 1001;
+	
+	public static final int HOME_STATE = 1;
 	public static final int MAINMENU_STATE = 0;
-	public static final int ROOM_STATE = 1;
 	private AppGameContainer m_app;
 	private LoadGame m_loader;
 	private Player m_player;
@@ -65,27 +70,45 @@ public class StateManager extends StateBasedGame {
 	}
 	
 	public void setup() throws SlickException {
-		Room room = new Room(ROOM_STATE);
-		addState(room);
-		Kitchen kitchen = new Kitchen(KITCHEN_STATE);
-		addState(kitchen);
-		addState(new MainMenu(MAINMENU_STATE));
 		
-		// give player to gameplaystates
-		m_player = new Player(room, getGameContainer(), 0, 0);
-		room.setPlayer(m_player);
-		kitchen.setPlayer(m_player);
+		// Test states
+		if (m_debugMode) {
+			Room room = new Room(ROOM_STATE);
+			addState(room);
+			Kitchen kitchen = new Kitchen(KITCHEN_STATE);
+			addState(kitchen);
+			
+			// give player to gameplaystates
+			m_player = new Player(room, getGameContainer(), 0, 0);
+			room.setPlayer(m_player);
+			kitchen.setPlayer(m_player);
+		}
+		else {
+			Home home = new Home(HOME_STATE);
+			addState(home);
+			m_player = new Player(home, getGameContainer(), 0, 0);
+			home.setPlayer(m_player);
+		}
 		
 		// start!
+		addState(new MainMenu(MAINMENU_STATE));
 		enterState(MAINMENU_STATE);
 	}
 	
 	@Override
 	public void initStatesList(GameContainer container) throws SlickException {
 		setup();
-		getState(KITCHEN_STATE).init(container, this);
+		
+		// setup states
 		getState(MAINMENU_STATE).init(container, this);
-		getState(ROOM_STATE).init(container, this);
+		if (m_debugMode) {
+			getState(KITCHEN_STATE).init(container, this);
+			getState(ROOM_STATE).init(container, this);
+		}
+		else {
+			getState(HOME_STATE).init(container, this);
+		}
+		
 		if(this.m_loader==null) {
 			
 		} else {

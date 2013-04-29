@@ -65,5 +65,10 @@ public class Kitchen extends GamePlayState {
 		}
 	}
 
+	@Override
+	public void dialogueListener(Interactable i) {
+		// no dialogue here
+	}
+
 
 }

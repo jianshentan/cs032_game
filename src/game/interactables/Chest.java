@@ -25,27 +25,28 @@ public class Chest extends GameObject implements Interactable{
 		m_y = yLoc;
 		m_closed = new Image("assets/chestClose.png");
 		m_open = new Image("assets/chestOpen.png");
-		set_sprite(m_closed);
+		setSprite(m_closed);
 		m_isOpen = false;
 		m_key = key;
 	}
 
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
-		if(get_sprite().equals(m_closed)){
+		if(getSprite().equals(m_closed)){
 			m_isOpen = true;
-			set_sprite(m_open);
+			setSprite(m_open);
 		}else{
 			m_isOpen = false;
-			set_sprite(m_closed);
+			setSprite(m_closed);
 		}
 		return this;
 	}
-	@Override
-	public int[] getSquare() {
-		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
-		return loc;
-	}
+//	
+//	@Override
+//	public int[] getSquare() {
+//		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
+//		return loc;
+//	}
 	@Override
 	public Types getType() {
 		return Types.CHEST;

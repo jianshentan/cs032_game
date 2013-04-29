@@ -4,9 +4,13 @@ import game.Dialogue;
 import game.Enemy;
 import game.GameObject;
 import game.PauseMenu;
+import game.StateManager;
+import game.StaticObject;
+import game.interactables.Bed;
 import game.interactables.Chest;
 import game.interactables.ChickenWing;
 import game.interactables.Cigarette;
+import game.interactables.Door;
 import game.interactables.Interactable;
 import game.player.Player;
 
@@ -24,17 +28,24 @@ public class Home extends GamePlayState {
 		m_stateID = stateID;
 	}
 	
-	public Home(int stateID, String mapPath) {
-		m_stateID = stateID;
-		m_mapPath = mapPath;
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame stateManager) 
+			throws SlickException {
+		m_player.setX(m_playerX);
+		m_player.setY(m_playerY);
+		m_player.setGame(this);
 	}
 	
 	@Override
-	public void init(GameContainer container, StateBasedGame stateManager)
+	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 			throws SlickException {
-		// setup player
+		// set player initial location
+		m_playerX = SIZE*2;
+		m_playerY = SIZE*4;
+		
+		// set up map
 		m_map = new simpleMap();
-		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		if(m_mapPath != null) {
 			m_tiledMap = new TiledMap(m_mapPath);
 		}
@@ -55,62 +66,62 @@ public class Home extends GamePlayState {
 			}
 		}
 
-		// setup player
-		if(m_player==null)
-			m_player = new Player(this, container, 256f, 256f);
+		// set up objects
 		if(!this.isLoaded()) {
-			// setup objects
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();
-
-			Chest chest = new Chest(23, 2*SIZE, 3*SIZE);
-			m_interactables.put(23, chest);
-			m_blocked[2][3] = true;		
-			m_objects.put(23, chest);
-
-			ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
-			m_interactables.put(63, chickenWing);
-			m_blocked[6][3] = true;      
-			m_objects.put(63, chickenWing);
-
-			Cigarette cigarette = new Cigarette(8*SIZE, 4*SIZE);
-			m_interactables.put(84, cigarette);
-			m_blocked[8][4] = true;
-			m_objects.put(84, cigarette);
+				
+			StaticObject posters = 
+				new StaticObject(3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
+			m_objects.put(31, posters);
+			
+			StaticObject carpet = 
+				new StaticObject(3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
+			m_objects.put(23, carpet);
+			
+			Door door = new Door(22, 2*SIZE, 2*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
+			m_interactables.put(22, door);
+			m_objects.put(22, door);
+			
+			Bed bed = new Bed(35, 3*SIZE, 5*SIZE);
+			m_interactables.put(35, bed);
+			m_interactables.put(45, bed);
+			m_blocked[3][5] = true;
+			m_blocked[4][5] = true;
+			m_objects.put(35, bed);
+			
+			StaticObject bedTable = 
+				new StaticObject(4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
+			m_blocked[4][4] = true;
+			m_objects.put(44, bedTable);
+			
+			StaticObject table =
+				new StaticObject(SIZE, 4*SIZE, "assets/gameObjects/table.png");
+			m_interactables.put(14, table);
+			m_blocked[1][4] = true;
+			m_blocked[1][5] = true;
+			m_objects.put(14, table);
+		
 		}
-
-		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
-		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
-		Enemy[] e = new Enemy[1];
-		e[0] = m_enemy;
-		m_player.setEnemies(e);
 		
-		
-
-
-		// setup menu
-		m_pauseMenu = new PauseMenu(this, container);
-
 		// setup dialogue
 		m_dialogue = new ArrayList<Dialogue>();
-		Dialogue dialogue1 = new Dialogue(this, container, new String[] 
-				{"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-						"Mauris ultrices dolor non massa eleifend elementum. " +
-						"Suspendisse vel magna augue, in tincidunt urna. ",
-						"Fusce in ligula libero, eget lacinia tellus. Donec bibendum " +
-								"ultrices eros sit amet lacinia. Praesent nec mauris ac " +
-				"justo tempus dapibus a vel diam."});
+		Dialogue computerDialogue = new Dialogue(this, container, new String[]
+				{"This your macbook, a safe place to visit your collection of non-moving horses.",
+				"You can also visit find plenty of friends right here on the internet.. special friends."});
+		
+		m_dialogue.add(computerDialogue);
+	}
 
-		Dialogue dialogue2 = new Dialogue(this, container, new String[] 
-				{"let is rain over me!!! girl my body dont stop, out of my mind " +
-						"let it rain over meeeeeeeeeeeee aii yai yaiii ai yaii ya " +
-						"let it rain over meeeeeeeeee. yeah! ",
-						"I'm rising so high, i'm out o fmy mind let it rain overr meeeeee" +
-								"billions a new milion, voili's the new vodka" +
-				"forty's the new thirty, baby you're a rockstar!"});
 
-		m_dialogue.add(dialogue1);
-		m_dialogue.add(dialogue2);	
+	@Override
+	public void dialogueListener(Interactable i) {
+		// computer: key = 14
+		if (i.getSquare()[0] == m_interactables.get(14).getSquare()[0] && 
+			i.getSquare()[1] == m_interactables.get(14).getSquare()[1]) { 
+			m_dialogueNum = 0;
+			m_inDialogue = true;
+		}
 	}
 
 }

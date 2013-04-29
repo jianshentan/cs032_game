@@ -101,7 +101,7 @@ public class Dialogue {
         		// got to next text block
         		if (m_currTextBlock >= m_numTextBlocks-1) {
         			m_currTextBlock = 0;
-        			m_game.set_inDialogue(false); // TODO: + delete dialogue instance?
+        			m_game.setDialogueState(false); // TODO: + delete dialogue instance?
         		}
         		else
         			m_currTextBlock++;

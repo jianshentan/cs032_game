@@ -126,6 +126,13 @@ public class Room extends GamePlayState {
 		m_dialogue.add(dialogue2);
 	}
 	
+	public void dialogueListener(Interactable i) {
+		if (i.getType() == GameObject.Types.CHEST) {
+			m_dialogueNum = 1;
+			m_inDialogue = true;
+		}
+	}
+	
 	/**
 	 * For the testing room, the "additional" update is just having "z" launch a dialog.
 	 */
@@ -133,13 +140,13 @@ public class Room extends GamePlayState {
 	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {
 		Input input = container.getInput();
 		// Testing dialogue -- testing purposes only
-		if (inputDelta<0 && input.isKeyDown(Input.KEY_Z)) {
-			m_dialogueNum = 0;
-			if (!m_isPaused)  // must not be paused
-				if (!is_inDialogue())
-					set_inDialogue(true);
-			inputDelta = 500;
-		}
+//		if (inputDelta<0 && input.isKeyDown(Input.KEY_Z)) {
+//			m_dialogueNum = 0;
+//			if (!m_isPaused)  // must not be paused
+//				if (!is_inDialogue())
+//					set_inDialogue(true);
+//			inputDelta = 500;
+//		}
 	}
     
 

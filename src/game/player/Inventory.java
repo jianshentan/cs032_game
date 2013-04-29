@@ -88,7 +88,7 @@ public class Inventory implements Loadable<Inventory> {
 		// draw items
 		for (int i=0; i<m_items.length; i++) 
 			if (m_items[i] != null)
-				m_items[i].get_sprite().draw(BLOCKSIZE*(i%4) + 108,
+				m_items[i].getSprite().draw(BLOCKSIZE*(i%4) + 108,
 										 BLOCKSIZE*((int)Math.floor(i/4)) + 172);
 		// draw item text
 		if (m_items[m_pointer] != null) {
@@ -108,7 +108,7 @@ public class Inventory implements Loadable<Inventory> {
 		
 		// draw using item
 		if (m_using != null)
-			m_using.get_sprite().draw(m_usingBox[0], m_usingBox[1]);
+			m_using.getSprite().draw(m_usingBox[0], m_usingBox[1]);
 
 	}
 	

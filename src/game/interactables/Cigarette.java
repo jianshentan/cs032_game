@@ -18,7 +18,7 @@ public class Cigarette extends Collectable implements Interactable {
 		m_x = xLoc;
 		m_y = yLoc;
 		this.setKey(GamePlayState.positionToKey(getSquare()));
-		set_sprite(new Image("assets/cigarette.png"));
+		setSprite(new Image("assets/cigarette.png"));
 	}
 
 	@Override
