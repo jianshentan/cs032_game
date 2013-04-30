@@ -57,7 +57,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	protected simpleMap m_map;
 	
-	protected ArrayList<Dialogue> m_dialogue;
+	protected HashMap<Integer, Dialogue> m_dialogue;
 	protected int m_dialogueNum; // represents which dialogue to use
 	
 	private boolean m_loaded; //true if the state has already been loaded from file.
@@ -147,11 +147,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
-		if(!m_loaded) {
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();
-			m_dialogue = new ArrayList<Dialogue>();
-		}
+		m_interactables = new HashMap<Integer, Interactable>();
+		m_objects = new HashMap<Integer, GameObject>();
+		m_dialogue = new HashMap<Integer, Dialogue>();
 		this.additionalInit(container, stateManager);
 	}
 	
@@ -238,7 +236,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		
 
-		if (m_inDialogue)
+		if (m_inDialogue) 
 			m_dialogue.get(m_dialogueNum).render(g);
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
@@ -324,11 +322,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			Interactable i = e.getValue();
 			int[] loc = i.getSquare();
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
-				//TODO: this shouldn't be necessary
-//				if (i.getType() == GameObject.Types.CHEST) {
-//						m_dialogueNum = 1;
-//						set_inDialogue(true);
-//				}
 				dialogueListener(i);
 				return i.fireAction(this, m_player);
 			}

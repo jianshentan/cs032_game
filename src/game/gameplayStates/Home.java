@@ -63,7 +63,7 @@ public class Home extends GamePlayState {
 		if(!this.isLoaded()) {
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();
-			m_dialogue = new ArrayList<Dialogue>(); // think about whether this needs to be a hashmap instead
+			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
 				
 			StaticObject posters = 
 				new StaticObject(3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
@@ -101,6 +101,7 @@ public class Home extends GamePlayState {
 		if (city == 3 && dream == 3) {
 			super.removeObject(22);
 			StaticObject door = new StaticObject(2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			m_interactables.put(22, door);
 			m_objects.put(22, door);
 		}
 		else if (city == 3 && dream == 2) {
@@ -113,16 +114,25 @@ public class Home extends GamePlayState {
 	
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
+		int[] dialoguePos;
+		m_dialogue.clear();
 		if (city == 3 && dream == 3) {
+			Dialogue doorDialogue = new Dialogue(this, container, new String[] 
+					{"Its late out... Perhaps you should just hit the sack"});
+			dialoguePos = new int[] {2, 2};
+			m_dialogue.put(positionToKey(dialoguePos), doorDialogue);
+			
 			Dialogue computerDialogue = new Dialogue(this, container, new String[]
 					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
 					"You can also visit find plenty of friends right here on the internet.. special friends."});
-			m_dialogue.add(computerDialogue);
+			dialoguePos = new int[] {1, 4};
+			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
 		}
 		else if (city == 3 && dream == 2) {
 			Dialogue computerDialogue = new Dialogue(this, container, new String[]
 					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
-			m_dialogue.add(computerDialogue);
+			dialoguePos = new int[] {2, 2};
+			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
 		}
 	}
 
@@ -131,11 +141,20 @@ public class Home extends GamePlayState {
 	@Override
 	public void dialogueListener(Interactable i) {
 		// computer: key = 14
-		if (i.getSquare()[0] == m_interactables.get(14).getSquare()[0] && 
-			i.getSquare()[1] == m_interactables.get(14).getSquare()[1]) { 
-			m_dialogueNum = 0;
-			m_inDialogue = true;
-		}
+		if (m_interactables.containsKey(14)) 
+			if (i.getSquare()[0] == m_interactables.get(14).getSquare()[0] && 
+				i.getSquare()[1] == m_interactables.get(14).getSquare()[1]) { 
+				m_dialogueNum = 14;
+				m_inDialogue = true;
+			}
+		// door: key = 22
+		if (m_interactables.containsKey(22))
+			if (i.getSquare()[0] == m_interactables.get(22).getSquare()[0] &&
+				i.getSquare()[1] == m_interactables.get(22).getSquare()[1]) {
+				m_dialogueNum = 22;
+				m_inDialogue = true;
+			}
+		
 	}
 
 }

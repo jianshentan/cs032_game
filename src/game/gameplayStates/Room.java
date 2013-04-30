@@ -98,7 +98,7 @@ public class Room extends GamePlayState {
 		m_pauseMenu = new PauseMenu(this, container);
 
 		// setup dialogue
-		m_dialogue = new ArrayList<Dialogue>();
+		m_dialogue = new HashMap<Integer, Dialogue>();
 		Dialogue dialogue1 = new Dialogue(this, container, new String[] 
 				{"Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
 						"Mauris ultrices dolor non massa eleifend elementum. " +
@@ -115,8 +115,8 @@ public class Room extends GamePlayState {
 								"billions a new milion, voili's the new vodka" +
 				"forty's the new thirty, baby you're a rockstar!"});
 
-		m_dialogue.add(dialogue1);
-		m_dialogue.add(dialogue2);
+//		m_dialogue.add(dialogue1);
+		m_dialogue.put(23, dialogue2);
 	}
 	
 	public void dialogueListener(Interactable i) {
