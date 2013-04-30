@@ -49,7 +49,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected String m_mapPath; //path to the tiled map file
 	protected Player m_player;
 	protected int m_playerX, m_playerY;
-	protected Enemy m_enemy;
+	protected ArrayList<Enemy> m_enemies;
 
 	protected boolean[][] m_blocked; // 2D array indicating spaces that are blocked
 	protected static final int SIZE = 64; // block size
@@ -150,6 +150,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_interactables = new HashMap<Integer, Interactable>();
 		m_objects = new HashMap<Integer, GameObject>();
 		m_dialogue = new HashMap<Integer, Dialogue>();
+		m_enemies = new ArrayList<Enemy>();
 		this.additionalInit(container, stateManager);
 	}
 	
@@ -165,8 +166,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
-			if (m_enemy != null)
-				m_enemy.update(delta);
+			if (m_enemies != null)
+				for(Enemy e : m_enemies) {
+					e.update(delta);
+				}
 		}
 		
 
@@ -229,14 +232,15 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			GameObject o = e.getValue();
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 		}
-		if (m_enemy != null)
-			m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
+		if (m_enemies != null)
+			for(Enemy m_enemy : m_enemies)
+				m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		m_player.getAnimation().draw(halfWidth, halfHeight);
 		m_player.getHealth().render();
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		
 
-		if (m_inDialogue) 
+		if (m_inDialogue && m_dialogue.get(m_dialogueNum)!=null) 
 			m_dialogue.get(m_dialogueNum).render(g);
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
