@@ -17,8 +17,8 @@ public class LoadGameTest {
 	 */
 	public static void main(String[] args) {
 		try {
-			StateManager s = new StateManager(new LoadGame());
-			s.run();
+			StateManager.getInstance().setLoader(new LoadGame());
+			StateManager.getInstance().run();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,16 +1,36 @@
 package game;
 
+import game.io.LoadGame;
+import game.io.SaveGame;
+
+import java.io.FileNotFoundException;
+
+import javax.xml.stream.XMLStreamException;
+
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.ShapeFill;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.fills.GradientFill;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class MainMenu extends BasicGameState {
 	
 	private int m_stateID = 0;
+	private float m_x = 0;
+    private float m_y = 0;
+	private float m_width = 600;
+	private float m_height = 600;
+ 	private Rectangle m_rectangle;
+	private ShapeFill m_shapeFill;
+	
+	private int m_selection = 0;
+	private int m_inputDelta = 0;
 	
 	private Image m_background = null;
 	private Image m_startButton = null;
@@ -19,6 +39,10 @@ public class MainMenu extends BasicGameState {
 
 	public MainMenu(int stateID) {
 		m_stateID = stateID;
+		
+		m_rectangle = new Rectangle(m_x, m_y, m_width, m_height);
+		m_shapeFill = new GradientFill(m_x, m_y, Color.white,
+									   m_x + m_width, m_y + m_height, Color.white);
 	}
 	
 	@Override
@@ -32,28 +56,66 @@ public class MainMenu extends BasicGameState {
 	public void render(GameContainer container, StateBasedGame stateManager, Graphics g)
 			throws SlickException {
 		m_background.draw(0,0);
-		m_startButton.draw(m_startButtonX, m_startButtonY);
+		
+		g.setColor(Color.black);
+		g.drawString("continue", m_width/2 - 100, m_height/2 -50);
+		g.drawString("new", m_width/2 - 100, m_height/2 - 0);
+		g.drawString("options", m_width/2 - 100, m_height/2 + 50);
+		g.drawString("quit", m_width/2 - 100, m_height/2 + 100);
+		
+		switch (m_selection) {
+		case 0:
+			g.drawString("<", m_width/2 + 100, m_height/2 - 50);
+			break;
+		case 1:
+			g.drawString("<", m_width/2 + 100, m_height/2 - 0);
+			break;
+		case 2:
+			g.drawString("<", m_width/2 + 100, m_height/2 + 50);
+			break;
+		case 3:
+			g.drawString("<", m_width/2 + 100, m_height/2 + 100);
+			break;
+		}
 	}
 
 	@Override
 	public void update(GameContainer container, StateBasedGame stateManager, int delta)
 			throws SlickException {
+        
 		Input input = container.getInput();
-		int mouseX = input.getMouseX();
-        int mouseY = input.getMouseY();
-        
-        boolean hoverOnStartButton = false;
-        
-        if ((mouseX >= m_startButtonX && mouseX <= m_startButtonX + m_startButton.getWidth()) &&
-            (mouseY >= m_startButtonY && mouseY <= m_startButtonY + m_startButton.getHeight())) {
-                hoverOnStartButton = true;
+		m_inputDelta-=delta;
+        if (m_inputDelta<0 && input.isKeyDown(Input.KEY_UP)) {
+        	if (m_selection > 0)
+        		m_selection--;
+        	m_inputDelta=200;
         }
-        
-        if (hoverOnStartButton) {
-        	if ( input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON) ){
-                stateManager.enterState(StateManager.ROOM_STATE);
-            }
+        else if (m_inputDelta<0 && input.isKeyDown(Input.KEY_DOWN)) {
+        	if (m_selection < 3)
+        		m_selection++;
+        	m_inputDelta=200;
         }
+        if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE)){
+        	if (m_selection == 0) {
+        		try {
+        			StateManager s = (StateManager) stateManager;
+        			new LoadGame().load(s);
+        		} catch(Exception e) {
+        			e.printStackTrace();
+        		}
+        	}
+        	else if (m_selection == 1) {
+        		stateManager.initStatesList(container);
+        		if (StateManager.m_debugMode)
+        			stateManager.enterState(StateManager.ROOM_STATE);
+        		else
+        			stateManager.enterState(StateManager.HOME_STATE);
+        	}
+        	else if (m_selection == 2) {}
+			else if (m_selection == 3)
+				System.exit(0);
+        	m_inputDelta=200;
+        }			
 	}
 
 	@Override

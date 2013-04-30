@@ -1,4 +1,11 @@
-package game;
+package game.player;
+
+import game.Collectable;
+import game.Direction;
+import game.Enemy;
+import game.MovingObject;
+import game.gameplayStates.GamePlayState;
+import game.interactables.Interactable;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -12,7 +19,6 @@ import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
 	
-	private Room m_room;
 	private Inventory m_inventory;
 	public boolean m_inInventory = false;
 	public Inventory getInventory() { return m_inventory; }
@@ -30,9 +36,8 @@ public class Player extends MovingObject{
 	public void setY(float y) { m_y = y; }
 	public Health getHealth() { return m_health; }
 	
-	public Player(Room room, GameContainer container, float x, float y) throws SlickException {
-		super(room);
-		m_room = room;
+	public Player(GamePlayState game, GameContainer container, float x, float y) throws SlickException {
+		super(game);
 		m_x = x;
 		m_y = y;
 		m_enemies = null;
@@ -61,6 +66,9 @@ public class Player extends MovingObject{
         m_inventory = new Inventory(container);
 	}
 	
+	public void setGame(GamePlayState game) {
+		m_game = game;
+	}
 
 
 	public void playerControls(GameContainer container, int delta, Input input) {
@@ -103,9 +111,9 @@ public class Player extends MovingObject{
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
 
 //        	m_room.interact(squareFacing);
-        	Interactable interactable = m_room.interact(squareFacing);
+        	Interactable interactable = m_game.interact(squareFacing);
         	if (interactable instanceof Collectable)
-        		m_inventory.addItem(interactable);
+        		m_inventory.addItem((Collectable) interactable);
         	m_inputDelta=500;
 
         }
@@ -153,20 +161,20 @@ public class Player extends MovingObject{
 		writer.writeAttribute("m_x", String.valueOf(m_x));
 		writer.writeAttribute("m_y", String.valueOf(m_y));
 		
-		writer.writeStartElement("Inventory");
-		writer.writeEndElement();
-		
-		//TODO: write direction
-		//TODO: write health
+		writer.writeAttribute("health", String.valueOf(this.m_health.getCurrentHealth()));
+		this.m_inventory.writeToXML(writer);		
 		
 		writer.writeEndElement();
 	}
 	//had to comment this out, since m_enemies was added to constructor - Zak
 	
-	public static Player loadFromNode(Node node, Room room, GameContainer container) throws SlickException {
+	public static Player loadFromNode(Node node, GamePlayState room, GameContainer container) throws SlickException {
 		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
 		float yLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
-		return new Player(room, container, xLoc, yLoc);
+		
+		Player p = new Player(room, container, xLoc, yLoc);
+		//TODO: load inventory and health
+		return p;
 	}
 	
 }

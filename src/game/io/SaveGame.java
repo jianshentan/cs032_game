@@ -11,8 +11,9 @@ import javax.xml.stream.XMLStreamWriter;
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import game.Player;
-import game.Room;
+import game.MainMenu;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 /**
  * Creates a save game file.
@@ -40,25 +41,54 @@ public class SaveGame {
 	public void save(StateBasedGame stateManager) throws FileNotFoundException, XMLStreamException {
 		FileOutputStream outputStream = new FileOutputStream(new File(m_savePath));
 		GameState currentState = stateManager.getCurrentState();
+		GamePlayState room = (GamePlayState) currentState;
+		Player p = room.getPlayer();
 		XMLOutputFactory xmlFactory = XMLOutputFactory.newFactory();
-		if(currentState.getClass() == Room.class) {
-			Room room = (Room) currentState;
-			XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(outputStream);
-			writer.writeStartDocument();
-			writer.writeStartElement("SaveData");
-			writer.writeStartElement("State");
-			writer.writeAttribute("stateID", String.valueOf(room.getID()));
-			writer.writeEndElement();
+		XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(outputStream);
+		writer.writeStartDocument();
+		writer.writeStartElement("SaveData");
+		
+		writer.writeAttribute("currentState", String.valueOf(stateManager.getCurrentStateID()));
+		
+		p.writeToXML(writer);
+		
+		for(int id = 0; id< stateManager.getStateCount(); id++) {
+			currentState = stateManager.getState(id);
+			if(currentState.getClass() == MainMenu.class) {
+				continue;
+			}
+			room = (GamePlayState) currentState;
 			
 			room.writeToXML(writer);
-			
-			
-			Player p = room.getPlayer();
-			p.writeToXML(writer);
-			
-			writer.writeEndDocument();
-			writer.close();
 		}
+		writer.writeEndDocument();
+		writer.close();
+	}
+	
+	/**
+	 * Saves a GamePlayState.
+	 * @param room
+	 * @throws XMLStreamException
+	 * @throws FileNotFoundException
+	 */
+	public void save(GamePlayState room) throws XMLStreamException, FileNotFoundException {
+		FileOutputStream outputStream = new FileOutputStream(new File(m_savePath));
+		XMLOutputFactory xmlFactory = XMLOutputFactory.newFactory();
+		XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(outputStream);
+		writer.writeStartDocument();
+		writer.writeStartElement("SaveData");
+		writer.writeStartElement("State");
+		writer.writeAttribute("stateID", String.valueOf(room.getID()));
+		writer.writeEndElement();
+		
+		room.writeToXML(writer);
+		
+		
+		Player p = room.getPlayer();
+		p.writeToXML(writer);
+		
+		writer.writeEndDocument();
+		writer.close();
 	}
 	
 

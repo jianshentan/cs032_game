@@ -1,5 +1,8 @@
 package game;
 
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
+
 import org.newdawn.slick.*;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
@@ -13,11 +16,11 @@ public class Enemy extends MovingObject{
 	private AStarPathFinder m_finder;
 	private Path m_path;
 	private int m_pathLength, m_currentStep, m_roamCounter;
-	private Player m_player;
+	//private Player m_player;
 	public Animation getAnimation(){return m_sprite;};
-	public  Enemy(Room room, Player player, float x, float y, int[][] patrolPoints) throws SlickException{
+	public  Enemy(GamePlayState room, Player player, float x, float y, int[][] patrolPoints) throws SlickException{
 		super(room);
-		m_player = player;
+		//m_player = player;
 		m_x = x;
 		m_y = y;
 		m_currentSquare = new int[2];
@@ -62,7 +65,7 @@ public class Enemy extends MovingObject{
 			//System.out.println(m_currentSquare[0] + " " + m_destination[0]);
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
-			if(!checkCollision(this, m_player)){
+			if(!checkCollision(this, m_game.getPlayer())){
 				m_x+= x * delta*0.1f;
 				m_y+= y * delta*0.1f;
 			}
@@ -104,8 +107,8 @@ public class Enemy extends MovingObject{
 
 	public void huntUpdate(){
 		System.out.println("updated");
-		int playerX = (int)((m_player.getX()+SIZE/2)/SIZE);
-		int playerY = (int)((m_player.getY()+SIZE/2)/SIZE);
+		int playerX = (int)((m_game.getPlayer().getX()+SIZE/2)/SIZE);
+		int playerY = (int)((m_game.getPlayer().getY()+SIZE/2)/SIZE);
 		if(m_currentSquare[0]==playerX&&m_currentSquare[1]==playerY){
 			return;
 		}

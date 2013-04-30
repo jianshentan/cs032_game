@@ -1,6 +1,13 @@
-package game;
+package game.player;
+
+import game.Collectable;
+import game.Loadable;
+import game.StateManager;
 
 import java.util.ArrayList;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Font;
@@ -9,8 +16,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public class Inventory {
+public class Inventory implements Loadable<Inventory> {
 	
 	private Font m_font;
 	private int BLOCKSIZE = 64;
@@ -79,7 +88,7 @@ public class Inventory {
 		// draw items
 		for (int i=0; i<m_items.length; i++) 
 			if (m_items[i] != null)
-				m_items[i].m_sprite.draw(BLOCKSIZE*(i%4) + 108,
+				m_items[i].getSprite().draw(BLOCKSIZE*(i%4) + 108,
 										 BLOCKSIZE*((int)Math.floor(i/4)) + 172);
 		// draw item text
 		if (m_items[m_pointer] != null) {
@@ -99,14 +108,14 @@ public class Inventory {
 		
 		// draw using item
 		if (m_using != null)
-			m_using.m_sprite.draw(m_usingBox[0], m_usingBox[1]);
+			m_using.getSprite().draw(m_usingBox[0], m_usingBox[1]);
 
 	}
 	
-	public void addItem(Interactable item) {
+	public void addItem(Collectable item) {
 		for (int i=0; i<m_items.length; i++) {
 			if (m_items[i] == null) {
-				m_items[i] = (Collectable)item;
+				m_items[i] = item;
 				break;
 			}
 		}
@@ -159,4 +168,31 @@ public class Inventory {
             list.add(str);
         return list;
     }
+	
+	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("Inventory");
+		writer.writeAttribute("m_x", String.valueOf(m_x));
+		writer.writeAttribute("m_y", String.valueOf(m_y));
+		
+		for(Collectable c : this.m_items) {
+			if(c!=null)
+				c.writeToXML(writer);
+		}
+		
+		writer.writeEndElement();
+	}
+	
+	public Inventory loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
+		NodeList children = n.getChildNodes();
+		for(int i = 0; i<children.getLength(); i++) {
+			Node child = children.item(i);
+			if(child.getNodeName().equals("Interactable")) {
+				Node c2 = child;
+				
+				
+				
+			}
+		}
+		return this;
+	}
 }

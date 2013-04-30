@@ -1,4 +1,4 @@
-package game;
+package game.interactables;
 
 import game.GameObject.Types;
 
@@ -25,6 +25,10 @@ public class Interactables {
 			return Chest.loadFromNode(node);
 		} else if(type.equals(Types.CHICKEN_WING.toString())) {
 			//return ChickenWing.loadFromNode(node);
+		} else if(type.equals(Types.CIGARETTE.toString())) {
+			
+		} else if(type.equals(Types.DOOR.toString())) {
+			
 		}
 		return null;
 		

@@ -1,4 +1,9 @@
-package game;
+package game.interactables;
+
+import game.GameObject;
+import game.GameObject.Types;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -10,7 +15,16 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public interface Interactable {
 	
-	public Interactable fireAction();
+	/**
+	 * Returns the key.
+	 * @return
+	 */
+	public int getKey();
+	/**
+	 * 
+	 * @return this interactable
+	 */
+	public Interactable fireAction(GamePlayState state, Player p);
 	/**
 	 * Returns the x,y position on the tile map that the
 	 * interactable is located at.

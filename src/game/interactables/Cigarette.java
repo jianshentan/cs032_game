@@ -1,4 +1,10 @@
-package game;
+package game.interactables;
+
+import game.Collectable;
+import game.GameObject;
+import game.GameObject.Types;
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -11,17 +17,21 @@ public class Cigarette extends Collectable implements Interactable {
 	public Cigarette(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
-		m_sprite = new Image("assets/cigarette.png");
+		this.setKey(GamePlayState.positionToKey(getSquare()));
+		setSprite(new Image("assets/cigarette.png"));
 	}
 
 	@Override
-	public Interactable fireAction() {
+	public Interactable fireAction(GamePlayState state, Player p) {
+		state.removeObject(this.getKey(), (int) m_x/SIZE, (int) this.m_y/SIZE);
 		return this;
 	}
 
 	@Override
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
-		// TODO Auto-generated method stub
+		writer.writeStartElement("Interactable");
+		writer.writeAttribute("type", GameObject.Types.CIGARETTE.toString());
+		writer.writeEndElement();
 	}
 
 	@Override
