@@ -151,6 +151,14 @@ public class Player extends MovingObject{
 	public void setEnemies(Enemy[] e){
 		m_enemies = e;
 	}
+	
+	/**
+	 * Returns the collectable currently being used.
+	 * @return
+	 */
+	public Collectable getUsing() {
+		return this.m_inventory.getUsing();
+	}
 	/**
 	 * Writes data needed to reconstruct the player.
 	 * @param writer

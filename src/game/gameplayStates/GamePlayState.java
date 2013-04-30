@@ -113,9 +113,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
-		m_interactables = new HashMap<Integer, Interactable>();
-		m_objects = new HashMap<Integer, GameObject>();
-		m_dialogue = new ArrayList<Dialogue>();
+		if(!m_loaded) {
+			m_interactables = new HashMap<Integer, Interactable>();
+			m_objects = new HashMap<Integer, GameObject>();
+			m_dialogue = new ArrayList<Dialogue>();
+		}
 		this.additionalInit(container, stateManager);
 	}
 	

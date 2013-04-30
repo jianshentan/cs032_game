@@ -26,7 +26,7 @@ public class StateManager extends StateBasedGame {
 	}
 	  
 	// black box test states
-	public static boolean m_debugMode = true;
+	public static boolean m_debugMode = false;
 	public static final int KITCHEN_STATE = 1002;
 	public static final int ROOM_STATE = 1001;
 	
