@@ -18,7 +18,7 @@ public class Player extends MovingObject{
 	public Inventory getInventory() { return m_inventory; }
 	
 	private int m_inputDelta = 0;
-	private Animation m_up, m_down, m_left, m_right, m_sprite;
+	private Animation m_up, m_down, m_left, m_right, m_sprite, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
 	private Direction m_dir;
 	private Health m_health;
 	private Enemy[] m_enemies;
