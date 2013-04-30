@@ -36,6 +36,7 @@ public abstract class GameObject {
 		CHICKEN_WING,
 		CIGARETTE,
 		DOOR,
+		DOOR_MAT,
 		BED,
 		STATIC,
 	}

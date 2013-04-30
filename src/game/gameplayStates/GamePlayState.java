@@ -66,6 +66,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
 	
+	
 	/**
 	 *  key is represented by 'xPos' + 'yPos'
 	 *  example: if object has position (2,3), key = 23.
@@ -85,9 +86,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param stateManager
 	 * @throws SlickException 
 	 */
-	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
-		
-	}
+	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {}
 	
 	/**
 	 * This is used by subclasses to add updating functionality.
@@ -95,9 +94,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param stateManager
 	 * @param delta
 	 */
-	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {
-		
-	}
+	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {}
 	
 	/**
 	 * This is used by subclasses to add rendering functionality.
@@ -105,8 +102,45 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param stateManager
 	 * @param g
 	 */
-	public void additionalRender(GameContainer container, StateBasedGame stateManager, Graphics g) {
-		
+	public void additionalRender(GameContainer container, StateBasedGame stateManager, Graphics g) {}
+	
+	/**
+	 * this is used by subclasses to add on enter functionality
+	 */
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {}
+	
+	/**
+	 * sets up the objects in this state based on the state of the game
+	 * called on enter state
+	 * NOTE: objects that are in all states of this gameplaystate are created in the additionalInit method
+	 * possible city/dream combos are: 3-3, 3-2, 2-2, 2-1, 1-1, 1-0, 0-0
+	 * @param city - State of the city's degradation
+	 * @param dream - state of the dreams (how many are left)
+	 */
+	public abstract void setupObjects(int city, int dream) throws SlickException;
+	
+	public void removeObject(int key) {
+		if (m_objects.containsKey(key))
+			m_objects.remove(key);
+		if (m_interactables.containsKey(key))
+			m_interactables.remove(key);
+	}
+	/**
+	 * sets up the dialogue in this state based on the state of the game
+	 * called on enter state
+	 * possible city/dream combos are: 3-3, 3-2, 2-2, 2-1, 1-1, 1-0, 0-0
+	 * NOTE: dialogue that are in all states of this gameplaystate are created in the additionalInit method
+	 */
+	public abstract void setupDialogue(GameContainer container, int city, int dream) throws SlickException;
+	
+	@Override
+	public void enter(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		m_player.setX(m_playerX);
+		m_player.setY(m_playerY);
+		m_player.setGame(this);	
+		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
+		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
+		additionalEnter(container, stateManager);
 	}
 	
 	@Override
@@ -154,7 +188,35 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		
 		this.additionalUpdate(container, stateManager, delta);
 
-
+		// for testing purposes only
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_EQUALS)) {
+			if (StateManager.m_cityState < 3)
+				StateManager.m_cityState++;
+			inputDelta = 200;
+			System.out.println("cityState: " + StateManager.m_cityState + 
+						   	   " | dreamState: " + StateManager.m_dreamState);
+		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_MINUS)) {
+			if (StateManager.m_cityState > 0)
+				StateManager.m_cityState--;
+			inputDelta = 200;
+			System.out.println("cityState: " + StateManager.m_cityState + 
+				   	   		   " | dreamState: " + StateManager.m_dreamState);	
+		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_0)) {
+			if (StateManager.m_dreamState < 3)
+				StateManager.m_dreamState++;
+			inputDelta = 200;
+			System.out.println("cityState: " + StateManager.m_cityState + 
+				   	   		   " | dreamState: " + StateManager.m_dreamState);
+		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_9)) {
+			if (StateManager.m_dreamState > 0)
+				StateManager.m_dreamState--;
+			inputDelta = 200;
+			System.out.println("cityState: " + StateManager.m_cityState + 
+							   " | dreamState: " + StateManager.m_dreamState);
+		}
 	}
 	
 	@Override

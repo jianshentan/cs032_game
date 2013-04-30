@@ -12,6 +12,7 @@ import game.interactables.ChickenWing;
 import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Interactable;
+import game.interactables.PortalObject;
 import game.player.Player;
 
 import java.util.ArrayList;
@@ -28,14 +29,6 @@ public class Home extends GamePlayState {
 		m_stateID = stateID;
 	}
 	
-	
-	@Override
-	public void enter(GameContainer container, StateBasedGame stateManager) 
-			throws SlickException {
-		m_player.setX(m_playerX);
-		m_player.setY(m_playerY);
-		m_player.setGame(this);
-	}
 	
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
@@ -66,10 +59,11 @@ public class Home extends GamePlayState {
 			}
 		}
 
-		// set up objects
+		// set up objects that will not change regardless of the game state
 		if(!this.isLoaded()) {
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();
+			m_dialogue = new ArrayList<Dialogue>(); // think about whether this needs to be a hashmap instead
 				
 			StaticObject posters = 
 				new StaticObject(3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
@@ -79,13 +73,8 @@ public class Home extends GamePlayState {
 				new StaticObject(3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
 			m_objects.put(23, carpet);
 			
-			Door door = new Door(22, 2*SIZE, 2*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
-			m_interactables.put(22, door);
-			m_objects.put(22, door);
-			
-			Bed bed = new Bed(35, 3*SIZE, 5*SIZE);
+			Bed bed = new Bed(35, 3*SIZE, 5*SIZE, StateManager.TOWN_DAY_STATE, 0, 0);
 			m_interactables.put(35, bed);
-			m_interactables.put(45, bed);
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
 			m_objects.put(35, bed);
@@ -104,14 +93,39 @@ public class Home extends GamePlayState {
 		
 		}
 		
-		// setup dialogue
-		m_dialogue = new ArrayList<Dialogue>();
-		Dialogue computerDialogue = new Dialogue(this, container, new String[]
-				{"This your macbook, a safe place to visit your collection of non-moving horses.",
-				"You can also visit find plenty of friends right here on the internet.. special friends."});
-		
-		m_dialogue.add(computerDialogue);
+
 	}
+	
+	@Override
+	public void setupObjects(int city, int dream) throws SlickException {
+		if (city == 3 && dream == 3) {
+			super.removeObject(22);
+			StaticObject door = new StaticObject(2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			m_objects.put(22, door);
+		}
+		else if (city == 3 && dream == 2) {
+			super.removeObject(22);
+			PortalObject door = new Door(22, 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, -1, -1);
+			m_interactables.put(22, door);
+			m_objects.put(22, door);
+		}
+	}
+	
+	@Override
+	public void setupDialogue(GameContainer container, int city, int dream) {
+		if (city == 3 && dream == 3) {
+			Dialogue computerDialogue = new Dialogue(this, container, new String[]
+					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
+					"You can also visit find plenty of friends right here on the internet.. special friends."});
+			m_dialogue.add(computerDialogue);
+		}
+		else if (city == 3 && dream == 2) {
+			Dialogue computerDialogue = new Dialogue(this, container, new String[]
+					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
+			m_dialogue.add(computerDialogue);
+		}
+	}
+
 
 
 	@Override

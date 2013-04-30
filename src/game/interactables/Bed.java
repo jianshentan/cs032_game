@@ -10,24 +10,14 @@ import game.GameObject;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
-public class Bed extends GameObject implements Interactable{
+public class Bed extends PortalObject {
 
-	private int m_key;
-	public int getKey() {return m_key;}
-	
-	public Bed(int key, int xLoc, int yLoc) throws SlickException {
-		m_x = xLoc;
-		m_y = yLoc;
+	public Bed(int key, int xLoc, int yLoc,
+			int destination, int xDestination, int yDestination) throws SlickException {
+		super(key, xLoc, yLoc, destination, xDestination, yDestination);
 		setSprite(new Image("assets/gameObjects/bed.png"));
-		m_key = key;
 	}
 
-	@Override
-	public int[] getSquare() {
-		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE}; 
-		return loc;
-	}
-	
 	@Override
 	public Types getType() {
 		return Types.BED;

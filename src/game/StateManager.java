@@ -5,6 +5,7 @@ import java.io.IOException;
 import game.gameplayStates.Home;
 import game.gameplayStates.Kitchen;
 import game.gameplayStates.Room;
+import game.gameplayStates.TownDay;
 import game.io.LoadGame;
 import game.player.Player;
 
@@ -26,12 +27,23 @@ public class StateManager extends StateBasedGame {
 	}
 	  
 	// black box test states
+
 	public static boolean m_debugMode = false;
 	public static final int KITCHEN_STATE = 1002;
 	public static final int ROOM_STATE = 1001;
 	
+	// real states
+	public static final int TOWN_NIGHT_STATE = 3;
+	public static final int TOWN_DAY_STATE = 2;
 	public static final int HOME_STATE = 1;
 	public static final int MAINMENU_STATE = 0;
+	
+	// this represents the city degradation. 3 beings the least degraded and 0 being the most
+	public static int m_cityState = 3;
+	// this represents the number of dreams you have left
+	public static int m_dreamState = 3;
+	
+	
 	private AppGameContainer m_app;
 	private LoadGame m_loader;
 	private Player m_player;
@@ -86,8 +98,13 @@ public class StateManager extends StateBasedGame {
 		else {
 			Home home = new Home(HOME_STATE);
 			addState(home);
+			TownDay townDay = new TownDay(TOWN_DAY_STATE);
+			addState(townDay);
+			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
+			townDay.setPlayer(m_player);
+		
 		}
 		
 		// start!
@@ -106,6 +123,7 @@ public class StateManager extends StateBasedGame {
 			getState(ROOM_STATE).init(container, this);
 		}
 		else {
+			getState(TOWN_DAY_STATE).init(container, this);
 			getState(HOME_STATE).init(container, this);
 		}
 		

@@ -37,13 +37,6 @@ public class Room extends GamePlayState {
 	}
 
 	@Override
-	public void enter(GameContainer container, StateBasedGame stateManager) throws SlickException {
-		m_player.setX(m_playerX);
-		m_player.setY(m_playerY);
-		m_player.setGame(this);
-	}
-
-	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		m_playerX = SIZE*4;
 		m_playerY = SIZE*3;
@@ -147,6 +140,18 @@ public class Room extends GamePlayState {
 //					set_inDialogue(true);
 //			inputDelta = 500;
 //		}
+	}
+
+	@Override
+	public void setupObjects(int city, int dream) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setupDialogue(GameContainer container, int city, int dream) {
+		// TODO Auto-generated method stub
+		
 	}
     
 
