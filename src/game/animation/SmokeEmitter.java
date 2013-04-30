@@ -7,10 +7,17 @@ import org.newdawn.slick.particles.ConfigurableEmitter;
  *
  */
 public class SmokeEmitter extends ConfigurableEmitter {
+	
+	
 
 	public SmokeEmitter(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
+		this.initialLife.setMin(400);
+		this.initialLife.setMax(1000);
+		this.spawnCount.setMin(5);
+		this.spawnCount.setMax(20);
 	}
+	
+	
 
 }
