@@ -58,6 +58,8 @@ public class MovingObject extends GameObject{
 		return null;
 	}
 	protected boolean checkCollision(MovingObject mo1, MovingObject mo2){
+		if(mo1.m_game!=mo2.m_game)
+			return false;
 		float xDist = mo1.getX()-mo2.getX();
 		float yDist = mo1.getY()-mo2.getY();
 		float radSum = 2*RAD;

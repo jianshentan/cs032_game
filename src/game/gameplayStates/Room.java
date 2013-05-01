@@ -89,10 +89,11 @@ public class Room extends GamePlayState {
 		}
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
-		m_enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
+		Enemy enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
 		Enemy[] e = new Enemy[1];
-		e[0] = m_enemy;
+		e[0] = enemy;
 		m_player.setEnemies(e);
+		m_enemies.add(enemy);
 		
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
@@ -121,8 +122,8 @@ public class Room extends GamePlayState {
 	
 	public void dialogueListener(Interactable i) {
 		if (i.getType() == GameObject.Types.CHEST) {
-			m_dialogueNum = 1;
-			m_inDialogue = true;
+			//m_dialogueNum = 1;
+			//m_inDialogue = true;
 		}
 	}
 	

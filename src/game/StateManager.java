@@ -27,10 +27,9 @@ public class StateManager extends StateBasedGame {
 		return instance;
 	}
 	  
-	// GLOBAL SHIT THAT EVERYONE KNOW
-	
-	// test states
-	public static boolean m_debugMode = false;
+	// black box test states
+
+	public static boolean m_debugMode = true;
 	public static final int KITCHEN_STATE = 1002;
 	public static final int ROOM_STATE = 1001;
 	

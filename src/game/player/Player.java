@@ -3,7 +3,9 @@ package game.player;
 import game.Collectable;
 import game.Direction;
 import game.Enemy;
+import game.GameObject;
 import game.MovingObject;
+import game.animation.SmokeEmitter;
 import game.gameplayStates.GamePlayState;
 import game.interactables.Interactable;
 
@@ -15,6 +17,9 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.particles.ConfigurableEmitter;
+import org.newdawn.slick.particles.ParticleEmitter;
+import org.newdawn.slick.particles.effects.FireEmitter;
 import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
@@ -28,6 +33,10 @@ public class Player extends MovingObject{
 	private Direction m_dir;
 	private Health m_health;
 	private Enemy[] m_enemies;
+	
+	private ParticleEmitter m_emitter;
+	private boolean m_emitting;
+	
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
 	public float getX() { return m_x; }
@@ -64,6 +73,8 @@ public class Player extends MovingObject{
         m_health = new Health(10,30,50);
         
         m_inventory = new Inventory(container);
+        
+        m_emitter = new FireEmitter();
 	}
 	
 	public void setGame(GamePlayState game) {
@@ -146,10 +157,29 @@ public class Player extends MovingObject{
 		else 
 			playerControls(container, delta, input);
 		
+		if(this.getUsing()!= null && this.getUsing().getType()==GameObject.Types.CIGARETTE && m_emitting==false) {
+			this.m_emitter = new FireEmitter(300,300,20);
+			m_emitting = true;
+			m_game.addEmitter(m_emitter);
+		}
+		if(this.getUsing()!= null && this.getUsing().getType()!=GameObject.Types.CIGARETTE) {
+			this.m_emitting = false;
+			m_game.getParticleSystem().removeEmitter(m_emitter);
+		}
+		
 	}
 	//sets the enemies that collisions need to be checked against
 	public void setEnemies(Enemy[] e){
+
 		m_enemies = e;
+	}
+	
+	/**
+	 * Returns the collectable currently being used.
+	 * @return
+	 */
+	public Collectable getUsing() {
+		return this.m_inventory.getUsing();
 	}
 	/**
 	 * Writes data needed to reconstruct the player.
