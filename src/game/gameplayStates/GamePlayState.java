@@ -6,7 +6,6 @@ import game.GameObject;
 import game.Loadable;
 import game.PauseMenu;
 import game.StateManager;
-import game.GameObject.Types;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.player.Player;
@@ -22,7 +21,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
@@ -76,6 +74,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
+	
+	private boolean m_entered;
+	/**
+	 * Returns true if the state has been entered.
+	 * @return
+	 */
+	public boolean isEntered() { return m_entered; }
 	
 	
 	/**
@@ -152,6 +157,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
 		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
 		additionalEnter(container, stateManager);
+		m_entered = true;
+	}
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		this.m_particleSystem.removeAllEmitters();
 	}
 	
 	@Override
@@ -418,8 +429,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	class simpleMap implements TileBasedMap{
-		public static final int HEIGHT = 10;
-		public static final int WIDTH = 10;
+		final int HEIGHT = m_tiledMap.getHeight();
+		final int WIDTH = m_tiledMap.getWidth();
 		
 		public float getCost(PathFindingContext ctx, int x, int y){
 			return 1.0f;

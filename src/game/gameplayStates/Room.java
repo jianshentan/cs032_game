@@ -3,6 +3,7 @@ import game.Dialogue;
 import game.Enemy;
 import game.GameObject;
 import game.PauseMenu;
+import game.Scene;
 import game.StateManager;
 import game.interactables.Chest;
 import game.interactables.ChickenWing;
@@ -41,7 +42,7 @@ public class Room extends GamePlayState {
 		m_playerX = SIZE*4;
 		m_playerY = SIZE*3;
 		// setup player
-		m_map = new simpleMap();
+		
 		//m_viewport = new Rectangle(0,0, container.getWidth(), container.getHeight());
 		if(m_mapPath != null) {
 			m_tiledMap = new TiledMap(m_mapPath);
@@ -52,6 +53,7 @@ public class Room extends GamePlayState {
 			} catch (SlickException e) {
 				System.out.println("ERROR: Could not 10X10.tmx");
 			}
+		m_map = new simpleMap();
 		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
 		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
 			for (int yAxis=0; yAxis<m_tiledMap.getHeight(); yAxis++) {
@@ -118,6 +120,16 @@ public class Room extends GamePlayState {
 
 //		m_dialogue.add(dialogue1);
 		m_dialogue.put(23, dialogue2);
+		
+		
+	}
+	
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		if(this.isEntered()==false) {
+			int[][] path = {{4,8}, {1,5}};
+			Scene s = new Scene(this, this.getPlayer(), path);
+			s.playScene();
+		}
 	}
 	
 	public void dialogueListener(Interactable i) {
