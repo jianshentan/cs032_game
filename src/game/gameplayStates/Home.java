@@ -74,12 +74,6 @@ public class Home extends GamePlayState {
 				new StaticObject(3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
 			m_objects.put(23, carpet);
 			
-			Bed bed = new Bed(35, 3*SIZE, 5*SIZE, StateManager.TOWN_DAY_STATE, 0, 0);
-			m_interactables.put(35, bed);
-			m_blocked[3][5] = true;
-			m_blocked[4][5] = true;
-			m_objects.put(35, bed);
-			
 			StaticObject bedTable = 
 				new StaticObject(4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
 			m_blocked[4][4] = true;
@@ -104,12 +98,28 @@ public class Home extends GamePlayState {
 			StaticObject door = new StaticObject(2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
 			m_interactables.put(22, door);
 			m_objects.put(22, door);
+			
+			super.removeObject(35);
+			Bed bed = new Bed(35, 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
+			m_interactables.put(35, bed);
+			m_blocked[3][5] = true;
+			m_blocked[4][5] = true;
+			m_objects.put(35, bed);
+
 		}
 		else if (city == 3 && dream == 2) {
 			super.removeObject(22);
 			PortalObject door = new Door(22, 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, -1, -1);
 			m_interactables.put(22, door);
 			m_objects.put(22, door);
+			
+			super.removeObject(35);
+			StaticObject bed = new StaticObject(3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
+			m_interactables.put(35, bed);
+			m_blocked[3][5] = true;
+			m_blocked[4][5] = true;
+			m_objects.put(35, bed);
+
 		}
 	}
 	
@@ -132,7 +142,7 @@ public class Home extends GamePlayState {
 		else if (city == 3 && dream == 2) {
 			Dialogue computerDialogue = new Dialogue(this, container, new String[]
 					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
-			dialoguePos = new int[] {2, 2};
+			dialoguePos = new int[] {1, 4};
 			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
 		}
 	}
@@ -142,14 +152,14 @@ public class Home extends GamePlayState {
 	@Override
 	public void dialogueListener(Interactable i) {
 		// computer: key = 14
-		if (m_interactables.containsKey(14)) 
+		if (m_interactables.containsKey(14) && m_dialogue.containsKey(14)) 
 			if (i.getSquare()[0] == m_interactables.get(14).getSquare()[0] && 
 				i.getSquare()[1] == m_interactables.get(14).getSquare()[1]) { 
 				m_dialogueNum = 14;
 				m_inDialogue = true;
 			}
 		// door: key = 22
-		if (m_interactables.containsKey(22))
+		if (m_interactables.containsKey(22) && m_dialogue.containsKey(22))
 			if (i.getSquare()[0] == m_interactables.get(22).getSquare()[0] &&
 				i.getSquare()[1] == m_interactables.get(22).getSquare()[1]) {
 				m_dialogueNum = 22;
