@@ -18,6 +18,8 @@ import org.newdawn.slick.fills.GradientFill;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class MainMenu extends BasicGameState {
 	
@@ -109,7 +111,9 @@ public class MainMenu extends BasicGameState {
         		if (StateManager.m_debugMode)
         			stateManager.enterState(StateManager.ROOM_STATE);
         		else
-        			stateManager.enterState(StateManager.HOME_STATE);
+        			stateManager.enterState(StateManager.HOME_STATE,
+        					new FadeOutTransition(Color.black, 1000), 
+        					new FadeInTransition(Color.black, 1000));
         	}
         	else if (m_selection == 2) {}
 			else if (m_selection == 3)
