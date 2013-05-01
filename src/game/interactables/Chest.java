@@ -1,11 +1,13 @@
 package game.interactables;
 
 
+import java.awt.Dimension;
+
 import game.GameObject;
-import game.GameObject.Types;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
+import javax.swing.JFrame;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -16,9 +18,26 @@ import org.w3c.dom.Node;
 public class Chest extends GameObject implements Interactable{
 	private Image m_open, m_closed;
 	private boolean m_isOpen;
+	private ChestPopup m_chestPopup;
+	private Runnable m_thread;
+	
 	private int m_key;
 	@Override
 	public int getKey() {return m_key;}
+	
+	private class ChestPopup extends JFrame {
+		
+		public ChestPopup() {
+			this.setFocusableWindowState(false);
+			this.setSize(200, 200);
+			this.setMinimumSize(new Dimension(200, 200));
+			this.setMaximumSize(new Dimension(200, 200));
+			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			this.pack();
+			this.setVisible(false);
+		}
+		
+	}
 	
 	public Chest(int key, int xLoc, int yLoc) throws SlickException{
 		m_x = xLoc;
@@ -28,25 +47,30 @@ public class Chest extends GameObject implements Interactable{
 		setSprite(m_closed);
 		m_isOpen = false;
 		m_key = key;
+		
+		
+		m_thread = new Runnable() {
+			public void run() {
+				m_chestPopup = new ChestPopup();
+			}
+		};
+		m_thread.run();
 	}
 
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		if(getSprite().equals(m_closed)){
+			m_chestPopup.setVisible(true);
 			m_isOpen = true;
 			setSprite(m_open);
 		}else{
+			m_chestPopup.setVisible(false);
 			m_isOpen = false;
 			setSprite(m_closed);
 		}
 		return this;
 	}
-//	
-//	@Override
-//	public int[] getSquare() {
-//		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
-//		return loc;
-//	}
+	
 	@Override
 	public Types getType() {
 		return Types.CHEST;
