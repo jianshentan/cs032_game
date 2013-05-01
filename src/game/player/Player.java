@@ -132,6 +132,10 @@ public class Player extends MovingObject{
 	}
 	
 	public void update(GameContainer container, int delta) {
+		if(this.getSceneMode()) {
+			super.update(delta);
+			return;
+		}
 		Input input = container.getInput();
 		m_inputDelta-=delta;	
 		Boolean setDelta = false;

@@ -2,6 +2,7 @@ package game;
 
 import java.io.IOException;
 
+import game.gameplayStates.GamePlayState;
 import game.gameplayStates.Home;
 import game.gameplayStates.Kitchen;
 import game.gameplayStates.Room;

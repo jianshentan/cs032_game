@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.w3c.dom.Document;
 
 import game.MainMenu;
 import game.gameplayStates.GamePlayState;
@@ -21,14 +22,29 @@ import game.player.Player;
  */
 public class SaveGame {
 	
+	private static SaveGame instance;
 	private String m_savePath;
+	private Document m_saveDoc;
 	
-	public SaveGame(String path) {
+	public SaveGame getInstance() {
+		if(this.instance==null) {
+			instance = new SaveGame();
+			return instance;
+		} else {
+			return instance;
+		}
+	}
+	
+	private SaveGame(String path) {
 		this.m_savePath = path;
 	}
 	
-	public SaveGame() {
+	private SaveGame() {
 		this.m_savePath = "save1.xml";
+	}
+	
+	public void addState(int stateID, GamePlayState state) {
+		
 	}
 	
 	/**
