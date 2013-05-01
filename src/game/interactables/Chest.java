@@ -1,7 +1,10 @@
 package game.interactables;
 
 
+import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.net.URL;
 
 import game.GameObject;
 import game.gameplayStates.GamePlayState;
@@ -35,6 +38,18 @@ public class Chest extends GameObject implements Interactable{
 			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			this.pack();
 			this.setVisible(false);
+			
+			setLayout(new BorderLayout());
+//
+//            //file you want to play
+//            URL mediaURL = //Whatever
+//            //create the media player with the media url
+//            Player mediaPlayer = Manager.createRealizedPlayer(mediaURL);
+//            //get components for video and playback controls
+//            Component video = mediaPlayer.getVisualComponent();
+//            Component controls = mediaPlayer.getControlPanelComponent();
+//            add(video,BorderLayout.CENTER);
+//            add(controls,BorderLayout.SOUTH);
 		}
 		
 	}
