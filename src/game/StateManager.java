@@ -2,10 +2,12 @@ package game;
 
 import java.io.IOException;
 
+import game.gameplayStates.GamePlayState;
 import game.gameplayStates.Home;
 import game.gameplayStates.Kitchen;
 import game.gameplayStates.Room;
 import game.gameplayStates.TownDay;
+import game.gameplayStates.TownNight;
 import game.io.LoadGame;
 import game.player.Player;
 
@@ -26,10 +28,9 @@ public class StateManager extends StateBasedGame {
 		return instance;
 	}
 	  
-	// GLOBAL SHIT THAT EVERYONE KNOW
-	
-	// test states
-	public static boolean m_debugMode = false;
+	// black box test states
+
+	public static boolean m_debugMode = true;
 	public static final int KITCHEN_STATE = 1002;
 	public static final int ROOM_STATE = 1001;
 	
@@ -101,10 +102,13 @@ public class StateManager extends StateBasedGame {
 			addState(home);
 			TownDay townDay = new TownDay(TOWN_DAY_STATE);
 			addState(townDay);
+			TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
+			addState(townNight);
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
 			townDay.setPlayer(m_player);
+			townNight.setPlayer(m_player);
 		
 		}
 		
@@ -125,6 +129,7 @@ public class StateManager extends StateBasedGame {
 		}
 		else {
 			getState(TOWN_DAY_STATE).init(container, this);
+			getState(TOWN_NIGHT_STATE).init(container, this);
 			getState(HOME_STATE).init(container, this);
 		}
 		

@@ -169,6 +169,10 @@ public class Inventory implements Loadable<Inventory> {
         return list;
     }
 	
+	public Collectable getUsing() {
+		return this.m_using;
+	}
+	
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		writer.writeStartElement("Inventory");
 		writer.writeAttribute("m_x", String.valueOf(m_x));

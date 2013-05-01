@@ -25,7 +25,7 @@ public class TownDay extends GamePlayState {
 		m_playerX = SIZE*11;
 		m_playerY = SIZE*28;
 		
-		m_map = new simpleMap();
+		
 		if(m_mapPath != null) {
 			m_tiledMap = new TiledMap(m_mapPath);
 		}
@@ -35,6 +35,7 @@ public class TownDay extends GamePlayState {
 			} catch (SlickException e) {
 				System.out.println("ERROR: Could not townDay.tmx");
 			}
+		m_map = new simpleMap();
 		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
 		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
 			for (int yAxis=0; yAxis<m_tiledMap.getHeight(); yAxis++) {

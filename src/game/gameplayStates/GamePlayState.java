@@ -6,7 +6,6 @@ import game.GameObject;
 import game.Loadable;
 import game.PauseMenu;
 import game.StateManager;
-import game.GameObject.Types;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.player.Player;
@@ -22,7 +21,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.particles.ParticleEmitter;
+import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -49,7 +49,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected String m_mapPath; //path to the tiled map file
 	protected Player m_player;
 	protected int m_playerX, m_playerY;
-	protected Enemy m_enemy;
+	protected ArrayList<Enemy> m_enemies;
 
 	protected boolean[][] m_blocked; // 2D array indicating spaces that are blocked
 	protected static final int SIZE = 64; // block size
@@ -57,14 +57,30 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	protected simpleMap m_map;
 	
-	protected ArrayList<Dialogue> m_dialogue;
+	protected HashMap<Integer, Dialogue> m_dialogue;
 	protected int m_dialogueNum; // represents which dialogue to use
+	
+	protected ParticleSystem m_particleSystem; //particle system
+	public ParticleSystem getParticleSystem() {
+		return this.m_particleSystem;
+	}
+	public void addEmitter(ParticleEmitter emitter) {
+		if(this.m_particleSystem!=null)
+		this.m_particleSystem.addEmitter(emitter);
+	}
 	
 	private boolean m_loaded; //true if the state has already been loaded from file.
 	public boolean isLoaded() { return m_loaded; }
 	
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
+	
+	private boolean m_entered;
+	/**
+	 * Returns true if the state has been entered.
+	 * @return
+	 */
+	public boolean isEntered() { return m_entered; }
 	
 	
 	/**
@@ -141,6 +157,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
 		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
 		additionalEnter(container, stateManager);
+		m_entered = true;
+	}
+	
+	@Override
+	public void leave(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		this.m_particleSystem.removeAllEmitters();
 	}
 	
 	@Override
@@ -149,7 +171,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_pauseMenu = new PauseMenu(this, container);
 		m_interactables = new HashMap<Integer, Interactable>();
 		m_objects = new HashMap<Integer, GameObject>();
-		m_dialogue = new ArrayList<Dialogue>();
+		m_dialogue = new HashMap<Integer, Dialogue>();
+		m_enemies = new ArrayList<Enemy>();
+		m_particleSystem = new ParticleSystem("assets/particles/smoke_1.png");
 		this.additionalInit(container, stateManager);
 	}
 	
@@ -165,8 +189,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
-			if (m_enemy != null)
-				m_enemy.update(delta);
+			if (m_enemies != null)
+				for(Enemy e : m_enemies) {
+					e.update(delta);
+				}
 		}
 		
 
@@ -183,6 +209,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			}
 			inputDelta = 500;
 		}
+
+		if(this.m_particleSystem!=null)
+			m_particleSystem.update(delta);
 		
 		this.additionalUpdate(container, stateManager, delta);
 
@@ -225,21 +254,26 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		int offsetX = (int)m_player.getX()-halfWidth;
 		int offsetY = (int)m_player.getY()-halfHeight;
 		m_tiledMap.render(-offsetX, -offsetY);
+		m_player.getAnimation().draw(halfWidth, halfHeight);
 		for (Entry<Integer, GameObject> e : m_objects.entrySet()) {
 			GameObject o = e.getValue();
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 		}
-		if (m_enemy != null)
-			m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
-		m_player.getAnimation().draw(halfWidth, halfHeight);
+		if (m_enemies != null)
+			for(Enemy m_enemy : m_enemies)
+				m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
+		
 		m_player.getHealth().render();
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		
 
-		if (m_inDialogue)
+		if (m_inDialogue && m_dialogue.get(m_dialogueNum)!=null) 
 			m_dialogue.get(m_dialogueNum).render(g);
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
+		
+		if(this.m_particleSystem!=null)
+			m_particleSystem.render();
 		
 		this.additionalRender(container, stateManager, g);
 	}
@@ -322,11 +356,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			Interactable i = e.getValue();
 			int[] loc = i.getSquare();
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
-				//TODO: this shouldn't be necessary
-//				if (i.getType() == GameObject.Types.CHEST) {
-//						m_dialogueNum = 1;
-//						set_inDialogue(true);
-//				}
 				dialogueListener(i);
 				return i.fireAction(this, m_player);
 			}
@@ -400,8 +429,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	class simpleMap implements TileBasedMap{
-		public static final int HEIGHT = 10;
-		public static final int WIDTH = 10;
+		final int HEIGHT = m_tiledMap.getHeight();
+		final int WIDTH = m_tiledMap.getWidth();
 		
 		public float getCost(PathFindingContext ctx, int x, int y){
 			return 1.0f;
