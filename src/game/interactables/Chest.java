@@ -4,13 +4,18 @@ package game.interactables;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
 
 import game.GameObject;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
+import game.popup.MainFrame;
 
-import javax.swing.JFrame;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -21,38 +26,42 @@ import org.w3c.dom.Node;
 public class Chest extends GameObject implements Interactable{
 	private Image m_open, m_closed;
 	private boolean m_isOpen;
-	private ChestPopup m_chestPopup;
+	private MainFrame m_popup;
 	private Runnable m_thread;
 	
 	private int m_key;
 	@Override
 	public int getKey() {return m_key;}
 	
-	private class ChestPopup extends JFrame {
-		
-		public ChestPopup() {
-			this.setFocusableWindowState(false);
-			this.setSize(200, 200);
-			this.setMinimumSize(new Dimension(200, 200));
-			this.setMaximumSize(new Dimension(200, 200));
-			this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			this.pack();
-			this.setVisible(false);
-			
-			setLayout(new BorderLayout());
-//
-//            //file you want to play
-//            URL mediaURL = //Whatever
-//            //create the media player with the media url
-//            Player mediaPlayer = Manager.createRealizedPlayer(mediaURL);
-//            //get components for video and playback controls
-//            Component video = mediaPlayer.getVisualComponent();
-//            Component controls = mediaPlayer.getControlPanelComponent();
-//            add(video,BorderLayout.CENTER);
-//            add(controls,BorderLayout.SOUTH);
-		}
-		
-	}
+//	private class ChestPopup extends JPanel {
+//		private BufferedImage m_image;
+//		
+//	    protected void paintComponent(Graphics g) {
+//	        super.paintComponent(g);
+//	        // Draw image centered.
+//	        int x = (getWidth() - m_image.getWidth())/2;
+//	        int y = (getHeight() - m_image.getHeight())/2;
+//	        g.drawImage(m_image, x, y, this);
+//	    }
+//		
+//		public ChestPopup() throws IOException{
+//			JFrame frame = new JFrame();
+//			
+//			frame.setFocusableWindowState(false);
+//			frame.setSize(256, 256);
+//			frame.setMinimumSize(new Dimension(256, 256));
+//			frame.setMaximumSize(new Dimension(256, 256));
+//			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//			frame.pack();
+//			frame.setVisible(false);
+//			
+//			this.setOpaque(true);
+//			String path = "assets/popup_horse.png";
+//			m_image = ImageIO.read(new File(path));
+//			frame.setContentPane(this);
+//		}
+//		
+//	}
 	
 	public Chest(int key, int xLoc, int yLoc) throws SlickException{
 		m_x = xLoc;
@@ -66,7 +75,12 @@ public class Chest extends GameObject implements Interactable{
 		
 		m_thread = new Runnable() {
 			public void run() {
-				m_chestPopup = new ChestPopup();
+				try {
+					m_popup = new MainFrame();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		};
 		m_thread.run();
@@ -75,11 +89,11 @@ public class Chest extends GameObject implements Interactable{
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		if(getSprite().equals(m_closed)){
-			m_chestPopup.setVisible(true);
+			m_popup.setVisible(true);
 			m_isOpen = true;
 			setSprite(m_open);
 		}else{
-			m_chestPopup.setVisible(false);
+			m_popup.setVisible(false);
 			m_isOpen = false;
 			setSprite(m_closed);
 		}

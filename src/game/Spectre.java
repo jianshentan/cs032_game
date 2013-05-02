@@ -18,7 +18,7 @@ public class Spectre extends Enemy {
 			System.out.println("ERROR: spectre has wrong # of destinations");
 		}
 		//set sprites
-		SpriteSheet spectreSprite = new SpriteSheet("assets/humanoid_standing.png", 64, 64);
+		SpriteSheet spectreSprite = new SpriteSheet("assets/characters/humanoid.png", 64, 64);
 		this.setLeadTo(destinations[3-StateManager.m_dreamState][0], destinations[3-StateManager.m_dreamState][1]);
 		Image [] movementUp = {spectreSprite.getSprite(1,0), spectreSprite.getSprite(1,0)};
         Image [] movementDown = {spectreSprite.getSprite(0,0), spectreSprite.getSprite(0,0)};
