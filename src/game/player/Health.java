@@ -45,7 +45,9 @@ public class Health {
 		
 		m_sprite = m_health.getSubImage(0,0,(int)(m_current*INTERVAL),(int)m_height);
 	}
-	
+	public int getVal(){
+		return m_current;
+	}
 	public void render() { 
 		m_sprite.draw(m_x,m_y);
 	}

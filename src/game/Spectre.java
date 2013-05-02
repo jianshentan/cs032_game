@@ -34,6 +34,7 @@ public class Spectre extends Enemy {
         
         m_sprite = m_right;
 	}
+	@Override 
 	public void arriveEvent(){
 		System.out.println("ARRIVE OVERRIDDEN");
 		m_ai = AIState.WAIT;

@@ -443,7 +443,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		this.m_loaded = true;
 		return this;
 	}
-	
+	public void gameOverEvent(){
+		System.out.println("GAME OVER");
+	}
 	class simpleMap implements TileBasedMap{
 		final int HEIGHT = m_tiledMap.getHeight();
 		final int WIDTH = m_tiledMap.getWidth();

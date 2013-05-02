@@ -178,6 +178,9 @@ public class Player extends MovingObject{
 			this.updateScene(delta);
 			return;
 		}
+		if(m_health.getVal()<=0){
+			m_game.gameOverEvent();
+		}
 		Input input = container.getInput();
 		m_inputDelta-=delta;	
 		Boolean setDelta = false;
