@@ -17,9 +17,12 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.effects.FireEmitter;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
@@ -29,13 +32,24 @@ public class Player extends MovingObject{
 	public Inventory getInventory() { return m_inventory; }
 	
 	private int m_inputDelta = 0;
-	private Animation m_up, m_down, m_left, m_right, m_sprite, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
+	private Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
 	private Direction m_dir;
 	private Health m_health;
 	private Enemy[] m_enemies;
 	
 	private ParticleEmitter m_emitter;
+	public ParticleEmitter getEmitter() { return m_emitter; }
 	private boolean m_emitting;
+	
+	//stuff for implementing scenes - scripted movements
+	private int[][] m_patrolPoints;
+	private int[] m_currentSquare, m_destination;
+	private AStarPathFinder m_finder;
+	private Path m_path;
+	private int m_pathLength, m_currentStep, m_roamCounter;
+	private boolean m_sceneMode; //this is true if the object is in scene mode.
+	public boolean getSceneMode() { return this.m_sceneMode; }
+	public void setSceneMode(boolean mode) { this.m_sceneMode = mode; }
 	
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
@@ -50,20 +64,32 @@ public class Player extends MovingObject{
 		m_x = x;
 		m_y = y;
 		m_enemies = null;
-		Image [] movementUp = {new Image("assets/Sprite1Back.png"), new Image("assets/Sprite1Back.png")};
-        Image [] movementDown = {new Image("assets/Sprite1Front.png"), new Image("assets/Sprite1Front.png")};
-        Image [] movementLeft = {new Image("assets/Sprite1Left.png"), new Image("assets/Sprite1Left.png")};
-        Image [] movementRight = {new Image("assets/Sprite1Right.png"), new Image("assets/Sprite1Right.png")};
-        int [] duration = {300, 300}; 
+		SpriteSheet spritesheet = new SpriteSheet("assets/characters/player_standing.png", 64,64);
+		Image [] standingUp = {spritesheet.getSprite(1,0), spritesheet.getSprite(1,0)};
+        Image [] standingDown = {spritesheet.getSprite(0,0), spritesheet.getSprite(0,0)};
+        Image [] standingLeft = {spritesheet.getSprite(3,0), spritesheet.getSprite(3,0)};
+        Image [] standingRight = {spritesheet.getSprite(2,0), spritesheet.getSprite(2,0)};
+        
+        Image [] movementUp = {spritesheet.getSprite(1,1), spritesheet.getSprite(1,2)};
+        Image [] movementDown = {spritesheet.getSprite(0,1), spritesheet.getSprite(0,2)};
+        Image [] movementLeft = {spritesheet.getSprite(3,1), spritesheet.getSprite(3,2)};
+        Image [] movementRight = {spritesheet.getSprite(2,1), spritesheet.getSprite(2,2)};
+		
+		
+		int [] duration = {300, 300}; 
         /*
          * false variable means do not auto update the animation.
          * By setting it to false animation will update only when
          * the user presses a key.
          */
-        m_up = new Animation(movementUp, duration, false);
+		m_up = new Animation(movementUp, duration, false);
         m_down = new Animation(movementDown, duration, false);
         m_left = new Animation(movementLeft, duration, false);
-        m_right = new Animation(movementRight, duration, false);	
+        m_right = new Animation(movementRight, duration, false);
+        m_up_stand = new Animation(standingUp, duration, false);
+        m_down_stand = new Animation(standingDown, duration, false);
+        m_left_stand = new Animation(standingLeft, duration,false);
+        m_right_stand = new Animation(standingRight,duration,false);	
         
         // Original orientation of the sprite. It will look right.
         m_sprite = m_right;
@@ -115,6 +141,23 @@ public class Player extends MovingObject{
                 m_x += delta * 0.1f;
             }
         }
+        else {
+        	switch (m_dir) {
+        	case UP:
+        		m_sprite = m_up_stand;
+        		break;
+        	case DOWN:
+        		m_sprite = m_down_stand;
+        		break;
+        	case LEFT:
+        		m_sprite = m_left_stand;
+        		break;
+        	case RIGHT:
+        		m_sprite = m_right_stand;
+        		break;
+        	}
+        }
+
         if(m_inputDelta<0&&input.isKeyDown(Input.KEY_SPACE)){
         	int currentX = (int) (m_x + (SIZE/2))/SIZE;
         	int currentY = (int) (m_y + (SIZE/2))/SIZE;
@@ -128,12 +171,11 @@ public class Player extends MovingObject{
         	m_inputDelta=500;
 
         }
-
 	}
 	
 	public void update(GameContainer container, int delta) {
 		if(this.getSceneMode()) {
-			super.update(delta);
+			this.updateScene(delta);
 			return;
 		}
 		Input input = container.getInput();
@@ -185,6 +227,99 @@ public class Player extends MovingObject{
 	public Collectable getUsing() {
 		return this.m_inventory.getUsing();
 	}
+	
+	/**
+	 * Makes this MovingObject follow a certain path.
+	 * @param room
+	 * @param patrolPoints
+	 */
+	public void enterScene(GamePlayState room, int[][] patrolPoints) {
+		m_sceneMode = true;
+		m_game = room;
+		m_currentSquare = new int[2];
+		m_destination = new int[2];
+		m_currentSquare[0] =(int) (m_x/SIZE);
+		m_currentSquare[1] = (int) (m_y/SIZE);
+		m_patrolPoints = patrolPoints;
+		m_currentStep=0;
+		m_finder = new AStarPathFinder(room.getMap(), 50, false);
+		int xDest = m_patrolPoints[m_roamCounter][0];
+		int yDest = m_patrolPoints[m_roamCounter][1];
+		m_path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], xDest, yDest );
+		m_currentStep = 1;
+		m_pathLength = m_path.getLength();
+		setDestination();
+		//System.out.println(m_pathLength);
+	}
+	
+	/**
+	 * Updates with a target
+	 * @param delta
+	 */
+	public void updateScene(int delta){
+		//System.out.println(m_path);
+		if(m_sceneMode){
+			//when you've moved a square
+			if(Math.abs(m_x/64-m_currentSquare[0])>=1||Math.abs(m_y/64-m_currentSquare[1])>=1){
+				//the new current is now the old destination
+				setCurrent(m_currentStep);
+				m_currentStep+=1;
+				if(m_currentStep>=m_pathLength){
+					m_sceneMode = false;
+					this.patrolUpdate();
+				}else{
+					//System.out.println(m_currentStep + " "  + m_pathLength);
+					setDestination();
+				}
+			}
+			int x = m_destination[0]-m_currentSquare[0];
+			int y = m_destination[1]-m_currentSquare[1];
+			if(x<0) {
+				m_dir = Direction.LEFT;
+				m_sprite = m_left;
+			} else if(x>0) {
+				m_dir = Direction.RIGHT;
+				m_sprite = m_right;
+			} else if(y<0) {
+				m_dir = Direction.UP;
+				m_sprite = m_up;
+			} else if(y>0) {
+				m_dir = Direction.DOWN;
+				m_sprite = m_down;
+			}
+			m_sprite.update(delta);
+			m_x+= x * delta*0.1f;
+			m_y+= y * delta*0.1f;
+		}
+	}
+	private void setDestination(){
+		m_destination[0] = m_path.getX(m_currentStep);
+		m_destination[1] = m_path.getY(m_currentStep);
+		//updateSprite();
+	}
+	private void setCurrent( int i){
+		m_currentSquare[0] = m_path.getX(i);
+		m_currentSquare[1] = m_path.getY(i);
+	}
+	private void patrolUpdate(){
+		//finds the path from current point to next point in the roam list
+		if(m_roamCounter>=m_patrolPoints.length){
+			return;
+		}
+		int xDest = m_patrolPoints[m_roamCounter][0];
+		int yDest = m_patrolPoints[m_roamCounter][1];
+		if(xDest==m_currentSquare[0]&&yDest==m_currentSquare[1]){
+			m_roamCounter+=1;
+			patrolUpdate();
+		}else{
+			m_path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], xDest, yDest );
+			m_pathLength = m_path.getLength();
+			m_currentStep=1;
+			setDestination();
+			m_sceneMode=true;
+		}
+	}
+	
 	/**
 	 * Writes data needed to reconstruct the player.
 	 * @param writer

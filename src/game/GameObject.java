@@ -15,6 +15,9 @@ public abstract class GameObject {
 	public void setX(float x) { m_x = x; }
 	public void setY(float y) { m_y = y; }
 	public Image getImage() {return getSprite();}	
+	protected boolean m_renderAfter = false;
+	public void setRenderPriority(boolean s) {m_renderAfter = s;}
+	public boolean renderAfter() {return m_renderAfter;}
 	
 //	public abstract int[] getSquare();
 	public abstract Types getType();
