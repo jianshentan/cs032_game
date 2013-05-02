@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -21,6 +22,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.effects.FireEmitter;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Node;
@@ -30,16 +32,13 @@ public class Player extends MovingObject{
 	private Inventory m_inventory;
 	public boolean m_inInventory = false;
 	public Inventory getInventory() { return m_inventory; }
+	public boolean m_usingItem = false;
 	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
 	private Direction m_dir;
 	private Health m_health;
 	private Enemy[] m_enemies;
-	
-	private ParticleEmitter m_emitter;
-	public ParticleEmitter getEmitter() { return m_emitter; }
-	private boolean m_emitting;
 	
 	//stuff for implementing scenes - scripted movements
 	private int[][] m_patrolPoints;
@@ -99,8 +98,6 @@ public class Player extends MovingObject{
         m_health = new Health(10,30,50);
         
         m_inventory = new Inventory(container);
-        
-        m_emitter = new FireEmitter();
 	}
 	
 	public void setGame(GamePlayState game) {
@@ -206,17 +203,19 @@ public class Player extends MovingObject{
 		else 
 			playerControls(container, delta, input);
 		
-		if(this.getUsing()!= null && this.getUsing().getType()==GameObject.Types.CIGARETTE && m_emitting==false) {
-			this.m_emitter = new FireEmitter(300,300,20);
-			m_emitting = true;
-			m_game.addEmitter(m_emitter);
+		if (m_inventory.getCurrItem() != null) {
+			m_usingItem = true;
+			m_inventory.getCurrItem().update(delta);
 		}
-		if(this.getUsing()!= null && this.getUsing().getType()!=GameObject.Types.CIGARETTE) {
-			this.m_emitting = false;
-			m_game.getParticleSystem().removeEmitter(m_emitter);
-		}
+		else
+			m_usingItem = false;
 		
 	}
+	
+	public void renderItem(GameContainer container, StateBasedGame stateManager, Graphics g) {
+		m_inventory.getCurrItem().render(container, stateManager, g);
+	}
+	
 	//sets the enemies that collisions need to be checked against
 	public void setEnemies(Enemy[] e){
 

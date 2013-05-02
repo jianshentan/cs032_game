@@ -60,15 +60,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected HashMap<Integer, Dialogue> m_dialogue;
 	protected int m_dialogueNum; // represents which dialogue to use
 	
-	protected ParticleSystem m_particleSystem; //particle system
-	public ParticleSystem getParticleSystem() {
-		return this.m_particleSystem;
-	}
-	public void addEmitter(ParticleEmitter emitter) {
-		if(this.m_particleSystem!=null)
-		this.m_particleSystem.addEmitter(emitter);
-	}
-	
 	private boolean m_loaded; //true if the state has already been loaded from file.
 	public boolean isLoaded() { return m_loaded; }
 	
@@ -157,15 +148,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
 		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
 		additionalEnter(container, stateManager);
-		if(m_player.getEmitter()!=null) {
-			m_particleSystem.addEmitter(m_player.getEmitter());
-		}
 		m_entered = true;
 	}
 	
 	@Override
 	public void leave(GameContainer container, StateBasedGame stateManager) throws SlickException {
-		this.m_particleSystem.removeAllEmitters();
 	}
 	
 	@Override
@@ -176,7 +163,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_objects = new HashMap<Integer, GameObject>();
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		m_enemies = new ArrayList<Enemy>();
-		m_particleSystem = new ParticleSystem("assets/particles/smoke_1.png");
 		this.additionalInit(container, stateManager);
 	}
 	
@@ -213,9 +199,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			inputDelta = 500;
 		}
 
-		if(this.m_particleSystem!=null)
-			m_particleSystem.update(delta);
-		
 		this.additionalUpdate(container, stateManager, delta);
 
 		// for testing purposes only
@@ -274,22 +257,25 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			for(Enemy m_enemy : m_enemies)
 				m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
 		
+		// render item usage
+		if (m_player.m_usingItem)
+			m_player.renderItem(container, stateManager, g);
+		
 		// render objects after player
 		for (GameObject o : objectsToRenderAfter)
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
-		
-		
+	
+		// render health
 		m_player.getHealth().render();
+		
+		// render inventory
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		
-
+		// render dialogue
 		if (m_inDialogue && m_dialogue.get(m_dialogueNum)!=null) 
 			m_dialogue.get(m_dialogueNum).render(g);
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
-		
-		if(this.m_particleSystem!=null)
-			m_particleSystem.render();
 		
 		this.additionalRender(container, stateManager, g);
 	}

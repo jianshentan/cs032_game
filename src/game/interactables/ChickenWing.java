@@ -9,8 +9,11 @@ import game.player.Player;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 
 public class ChickenWing extends Collectable implements Interactable{
 	
@@ -51,6 +54,26 @@ public class ChickenWing extends Collectable implements Interactable{
 	@Override
 	public String getItemText() {
 		return "This is a chicken wing that looks shockingly like a horse with one leg.";
+	}
+	@Override
+	public void use() {
+		// TODO Auto-generated method stub
+		System.out.println("USING CHICKEN");
+	}
+	@Override
+	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void update(int delta) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
