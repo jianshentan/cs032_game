@@ -30,6 +30,7 @@ public class Inventory implements Loadable<Inventory> {
 	private int[] m_textBox = new int[] {m_x + BLOCKSIZE*4 + BLOCKSIZE/2, m_y + BLOCKSIZE/2};
 	private int[] m_usingBox = new int[] {m_x + BLOCKSIZE*5, m_y + BLOCKSIZE*3 + BLOCKSIZE/2};
 	private Collectable m_using = null;
+	public Collectable getCurrItem() {return m_using;}
 	
 	private Collectable[] m_items;
 	private int m_pointer = 0;

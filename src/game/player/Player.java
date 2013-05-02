@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -21,6 +22,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.effects.FireEmitter;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Node;
@@ -30,6 +32,7 @@ public class Player extends MovingObject{
 	private Inventory m_inventory;
 	public boolean m_inInventory = false;
 	public Inventory getInventory() { return m_inventory; }
+	public boolean m_usingItem = false;
 	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
@@ -37,22 +40,9 @@ public class Player extends MovingObject{
 	private Health m_health;
 	private Enemy[] m_enemies;
 	
-	private ParticleEmitter m_emitter;
-	public ParticleEmitter getEmitter() { return m_emitter; }
-	private boolean m_emitting;
-	private boolean m_roomHasEmitter;
-	public void setEmitter(ParticleEmitter emitter) {
-		m_emitter = emitter;
-		m_emitting = true;
-	}
-	public void stopEmitting() {
-		//m_emitter = null;
-		m_emitting = false;
-	}
-	
 	//The currently equipped item
 	private Collectable m_currentItem;
-	
+
 	//stuff for implementing scenes - scripted movements
 	private int[][] m_patrolPoints;
 	private int[] m_currentSquare, m_destination;
@@ -111,13 +101,11 @@ public class Player extends MovingObject{
         m_health = new Health(10,30,50);
         
         m_inventory = new Inventory(container);
-        
-        //m_emitter = new FireEmitter();
+
 	}
 	
 	public void setGame(GamePlayState game) {
 		m_game = game;
-		m_roomHasEmitter = false;
 	}
 
 
@@ -228,19 +216,20 @@ public class Player extends MovingObject{
 				m_currentItem = null;
 			}
 		}
-		
-		if(m_emitting && m_roomHasEmitter == false) {
-			//System.out.println("emitter added");
-			m_game.addEmitter(m_emitter);
-			m_roomHasEmitter = true;
-			
-		} else if(m_emitter != null && m_emitting == false) {
-			//System.out.println("removing emitter");
-			m_game.removeEmitter(m_emitter);
-			m_roomHasEmitter = false;
+
+		if (m_inventory.getCurrItem() != null) {
+			m_usingItem = true;
+			m_inventory.getCurrItem().update(delta);
 		}
+		else
+			m_usingItem = false;
 		
 	}
+	
+	public void renderItem(GameContainer container, StateBasedGame stateManager, Graphics g) {
+		m_inventory.getCurrItem().render(container, stateManager, g);
+	}
+	
 	//sets the enemies that collisions need to be checked against
 	public void setEnemies(Enemy[] e){
 
@@ -345,6 +334,10 @@ public class Player extends MovingObject{
 			setDestination();
 			m_sceneMode=true;
 		}
+	}
+	
+	public Direction getDirection() {
+		return m_dir;
 	}
 	
 	/**

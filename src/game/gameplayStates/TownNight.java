@@ -8,6 +8,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 import game.GameObject;
+import game.Spectre;
 import game.StateManager;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
@@ -23,7 +24,7 @@ public class TownNight extends GamePlayState {
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		m_playerX = SIZE*11;
 		m_playerY = SIZE*28;
-		
+		//add ghost
 		
 		if(m_mapPath != null) {
 			m_tiledMap = new TiledMap(m_mapPath);
@@ -54,6 +55,11 @@ public class TownNight extends GamePlayState {
 			PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
 			m_interactables.put(1129, doorMat);
 			m_objects.put(1129, doorMat);
+			
+			//setup enemies
+			int[][] leadPoints = {{3,28},{2,28},{3,28},{3,28}};
+			Spectre spec = new Spectre(this, m_player, SIZE*9, SIZE*28, leadPoints);
+			m_enemies.add(spec);
 		}
 	}
 

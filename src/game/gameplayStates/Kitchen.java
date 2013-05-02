@@ -1,6 +1,7 @@
 package game.gameplayStates;
 
 import game.GameObject;
+import game.Spectre;
 import game.StateManager;
 import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Door;

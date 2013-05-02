@@ -6,6 +6,10 @@ import game.player.Player;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
+
 public abstract class Collectable extends GameObject {
 	private int m_key;
 	
@@ -47,5 +51,13 @@ public abstract class Collectable extends GameObject {
 	 */
 	public Dialogue useDialogue() {
 		return null;
+	}
+	
+	public void update(int delta) {
+		
+	}
+	
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		
 	}
 }
