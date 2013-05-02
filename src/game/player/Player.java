@@ -21,6 +21,8 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.effects.FireEmitter;
+import org.newdawn.slick.util.pathfinding.AStarPathFinder;
+import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Node;
 
 public class Player extends MovingObject{
@@ -35,6 +37,16 @@ public class Player extends MovingObject{
 	private Direction m_dir;
 	private Health m_health;
 	private Enemy[] m_enemies;
+	
+	//stuff for implementing scenes - scripted movements
+	private int[][] m_patrolPoints;
+	private int[] m_currentSquare, m_destination;
+	private AStarPathFinder m_finder;
+	private Path m_path;
+	private int m_pathLength, m_currentStep, m_roamCounter;
+	private boolean m_sceneMode; //this is true if the object is in scene mode.
+	public boolean getSceneMode() { return this.m_sceneMode; }
+	public void setSceneMode(boolean mode) { this.m_sceneMode = mode; }
 	
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
@@ -154,12 +166,11 @@ public class Player extends MovingObject{
         	m_inputDelta=500;
 
         }
-
 	}
 	
 	public void update(GameContainer container, int delta) {
 		if(this.getSceneMode()) {
-			super.update(delta);
+			this.updateScene(delta);
 			return;
 		}
 		Input input = container.getInput();
@@ -213,6 +224,99 @@ public class Player extends MovingObject{
 	public Collectable getUsing() {
 		return this.m_inventory.getUsing();
 	}
+	
+	/**
+	 * Makes this MovingObject follow a certain path.
+	 * @param room
+	 * @param patrolPoints
+	 */
+	public void enterScene(GamePlayState room, int[][] patrolPoints) {
+		m_sceneMode = true;
+		m_game = room;
+		m_currentSquare = new int[2];
+		m_destination = new int[2];
+		m_currentSquare[0] =(int) (m_x/SIZE);
+		m_currentSquare[1] = (int) (m_y/SIZE);
+		m_patrolPoints = patrolPoints;
+		m_currentStep=0;
+		m_finder = new AStarPathFinder(room.getMap(), 50, false);
+		int xDest = m_patrolPoints[m_roamCounter][0];
+		int yDest = m_patrolPoints[m_roamCounter][1];
+		m_path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], xDest, yDest );
+		m_currentStep = 1;
+		m_pathLength = m_path.getLength();
+		setDestination();
+		//System.out.println(m_pathLength);
+	}
+	
+	/**
+	 * Updates with a target
+	 * @param delta
+	 */
+	public void updateScene(int delta){
+		//System.out.println(m_path);
+		if(m_sceneMode){
+			//when you've moved a square
+			if(Math.abs(m_x/64-m_currentSquare[0])>=1||Math.abs(m_y/64-m_currentSquare[1])>=1){
+				//the new current is now the old destination
+				setCurrent(m_currentStep);
+				m_currentStep+=1;
+				if(m_currentStep>=m_pathLength){
+					m_sceneMode = false;
+					this.patrolUpdate();
+				}else{
+					//System.out.println(m_currentStep + " "  + m_pathLength);
+					setDestination();
+				}
+			}
+			int x = m_destination[0]-m_currentSquare[0];
+			int y = m_destination[1]-m_currentSquare[1];
+			if(x<0) {
+				m_dir = Direction.LEFT;
+				m_sprite = m_left;
+			} else if(x>0) {
+				m_dir = Direction.RIGHT;
+				m_sprite = m_right;
+			} else if(y<0) {
+				m_dir = Direction.UP;
+				m_sprite = m_up;
+			} else if(y>0) {
+				m_dir = Direction.DOWN;
+				m_sprite = m_down;
+			}
+			m_sprite.update(delta);
+			m_x+= x * delta*0.1f;
+			m_y+= y * delta*0.1f;
+		}
+	}
+	private void setDestination(){
+		m_destination[0] = m_path.getX(m_currentStep);
+		m_destination[1] = m_path.getY(m_currentStep);
+		//updateSprite();
+	}
+	private void setCurrent( int i){
+		m_currentSquare[0] = m_path.getX(i);
+		m_currentSquare[1] = m_path.getY(i);
+	}
+	private void patrolUpdate(){
+		//finds the path from current point to next point in the roam list
+		if(m_roamCounter>=m_patrolPoints.length){
+			return;
+		}
+		int xDest = m_patrolPoints[m_roamCounter][0];
+		int yDest = m_patrolPoints[m_roamCounter][1];
+		if(xDest==m_currentSquare[0]&&yDest==m_currentSquare[1]){
+			m_roamCounter+=1;
+			patrolUpdate();
+		}else{
+			m_path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], xDest, yDest );
+			m_pathLength = m_path.getLength();
+			m_currentStep=1;
+			setDestination();
+			m_sceneMode=true;
+		}
+	}
+	
 	/**
 	 * Writes data needed to reconstruct the player.
 	 * @param writer
