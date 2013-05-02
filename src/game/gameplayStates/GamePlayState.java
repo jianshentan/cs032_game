@@ -157,6 +157,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
 		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
 		additionalEnter(container, stateManager);
+		if(m_player.getEmitter()!=null) {
+			m_particleSystem.addEmitter(m_player.getEmitter());
+		}
 		m_entered = true;
 	}
 	
