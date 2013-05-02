@@ -274,6 +274,20 @@ public class Player extends MovingObject{
 			}
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
+			if(x<0) {
+				m_dir = Direction.LEFT;
+				m_sprite = m_left;
+			} else if(x>0) {
+				m_dir = Direction.RIGHT;
+				m_sprite = m_right;
+			} else if(y<0) {
+				m_dir = Direction.UP;
+				m_sprite = m_up;
+			} else if(y>0) {
+				m_dir = Direction.DOWN;
+				m_sprite = m_down;
+			}
+			m_sprite.update(delta);
 			m_x+= x * delta*0.1f;
 			m_y+= y * delta*0.1f;
 		}
