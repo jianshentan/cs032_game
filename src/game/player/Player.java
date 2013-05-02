@@ -14,6 +14,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -21,6 +22,7 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.effects.FireEmitter;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
 import org.w3c.dom.Node;
@@ -207,8 +209,8 @@ public class Player extends MovingObject{
 		
 	}
 	
-	public void renderItem() {
-		m_inventory.getCurrItem().render();
+	public void renderItem(GameContainer container, StateBasedGame stateManager, Graphics g) {
+		m_inventory.getCurrItem().render(container, stateManager, g);
 	}
 	
 	//sets the enemies that collisions need to be checked against
@@ -315,6 +317,10 @@ public class Player extends MovingObject{
 			setDestination();
 			m_sceneMode=true;
 		}
+	}
+	
+	public Direction getDirection() {
+		return m_dir;
 	}
 	
 	/**
