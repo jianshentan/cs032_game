@@ -28,15 +28,13 @@ public class Player extends MovingObject{
 	private Inventory m_inventory;
 	public boolean m_inInventory = false;
 	public Inventory getInventory() { return m_inventory; }
+	public boolean m_usingItem = false;
 	
 	private int m_inputDelta = 0;
 	private Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
 	private Direction m_dir;
 	private Health m_health;
 	private Enemy[] m_enemies;
-	
-	private ParticleEmitter m_emitter;
-	private boolean m_emitting;
 	
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
@@ -86,8 +84,6 @@ public class Player extends MovingObject{
         m_health = new Health(10,30,50);
         
         m_inventory = new Inventory(container);
-        
-        m_emitter = new FireEmitter();
 	}
 	
 	public void setGame(GamePlayState game) {
@@ -191,17 +187,19 @@ public class Player extends MovingObject{
 		else 
 			playerControls(container, delta, input);
 		
-		if(this.getUsing()!= null && this.getUsing().getType()==GameObject.Types.CIGARETTE && m_emitting==false) {
-			this.m_emitter = new FireEmitter(300,300,20);
-			m_emitting = true;
-			m_game.addEmitter(m_emitter);
+		if (m_inventory.getCurrItem() != null) {
+			m_usingItem = true;
+			m_inventory.getCurrItem().update(delta);
 		}
-		if(this.getUsing()!= null && this.getUsing().getType()!=GameObject.Types.CIGARETTE) {
-			this.m_emitting = false;
-			m_game.getParticleSystem().removeEmitter(m_emitter);
-		}
+		else
+			m_usingItem = false;
 		
 	}
+	
+	public void renderItem() {
+		m_inventory.getCurrItem().render();
+	}
+	
 	//sets the enemies that collisions need to be checked against
 	public void setEnemies(Enemy[] e){
 

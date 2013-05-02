@@ -52,5 +52,25 @@ public class ChickenWing extends Collectable implements Interactable{
 	public String getItemText() {
 		return "This is a chicken wing that looks shockingly like a horse with one leg.";
 	}
+	@Override
+	public void use() {
+		// TODO Auto-generated method stub
+		System.out.println("USING CHICKEN");
+	}
+	@Override
+	public void render() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void update(int delta) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

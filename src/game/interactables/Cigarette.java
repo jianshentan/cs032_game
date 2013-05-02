@@ -11,14 +11,30 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.particles.ParticleEmitter;
+import org.newdawn.slick.particles.ParticleSystem;
+import org.newdawn.slick.particles.effects.FireEmitter;
 
 public class Cigarette extends Collectable implements Interactable {
+	
+	private ParticleEmitter m_emitter;
+	private boolean m_emitting;
+	protected ParticleSystem m_particleSystem; //particle system
+	public ParticleSystem getParticleSystem() {
+		return this.m_particleSystem;
+	}
+	public void addEmitter(ParticleEmitter emitter) {
+		if(this.m_particleSystem!=null)
+		this.m_particleSystem.addEmitter(emitter);
+	}
 	
 	public Cigarette(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
 		this.setKey(GamePlayState.positionToKey(getSquare()));
 		setSprite(new Image("assets/cigarette.png"));
+		m_particleSystem = new ParticleSystem("assets/particles/smoke_1.png");
+		m_emitter = new FireEmitter();
 	}
 
 	@Override
@@ -53,6 +69,24 @@ public class Cigarette extends Collectable implements Interactable {
 	@Override
 	public Types getType() {
 		return Types.CIGARETTE;
+	}
+
+	@Override
+	public void use() {
+		m_emitter = new FireEmitter(300,300,20);
+		addEmitter(m_emitter);
+	}
+	@Override
+	public void render() {
+		m_particleSystem.render();
+	}
+	@Override
+	public void stop() {
+		m_particleSystem.removeAllEmitters();
+	}
+	@Override
+	public void update(int delta) {
+		m_particleSystem.update(delta);
 	}
 
 }

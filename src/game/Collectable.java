@@ -15,4 +15,9 @@ public abstract class Collectable extends GameObject {
 		if(m_key==0)
 			m_key = key;
 	}
+	
+	public abstract void use(); // called once
+	public abstract void render(); // called continuously
+	public abstract void stop(); // called once
+	public abstract void update(int delta); // called continuously
 }
