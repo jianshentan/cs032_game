@@ -17,6 +17,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.particles.ConfigurableEmitter;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.effects.FireEmitter;
@@ -29,7 +30,7 @@ public class Player extends MovingObject{
 	public Inventory getInventory() { return m_inventory; }
 	
 	private int m_inputDelta = 0;
-	private Animation m_up, m_down, m_left, m_right, m_sprite, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
+	private Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand, m_traumaLeft, m_traumaRight, m_traumaUp, m_traumaDown;
 	private Direction m_dir;
 	private Health m_health;
 	private Enemy[] m_enemies;
@@ -50,20 +51,32 @@ public class Player extends MovingObject{
 		m_x = x;
 		m_y = y;
 		m_enemies = null;
-		Image [] movementUp = {new Image("assets/Sprite1Back.png"), new Image("assets/Sprite1Back.png")};
-        Image [] movementDown = {new Image("assets/Sprite1Front.png"), new Image("assets/Sprite1Front.png")};
-        Image [] movementLeft = {new Image("assets/Sprite1Left.png"), new Image("assets/Sprite1Left.png")};
-        Image [] movementRight = {new Image("assets/Sprite1Right.png"), new Image("assets/Sprite1Right.png")};
-        int [] duration = {300, 300}; 
+		SpriteSheet spritesheet = new SpriteSheet("assets/characters/player_standing.png", 64,64);
+		Image [] standingUp = {spritesheet.getSprite(1,0), spritesheet.getSprite(1,0)};
+        Image [] standingDown = {spritesheet.getSprite(0,0), spritesheet.getSprite(0,0)};
+        Image [] standingLeft = {spritesheet.getSprite(3,0), spritesheet.getSprite(3,0)};
+        Image [] standingRight = {spritesheet.getSprite(2,0), spritesheet.getSprite(2,0)};
+        
+        Image [] movementUp = {spritesheet.getSprite(1,1), spritesheet.getSprite(1,2)};
+        Image [] movementDown = {spritesheet.getSprite(0,1), spritesheet.getSprite(0,2)};
+        Image [] movementLeft = {spritesheet.getSprite(3,1), spritesheet.getSprite(3,2)};
+        Image [] movementRight = {spritesheet.getSprite(2,1), spritesheet.getSprite(2,2)};
+		
+		
+		int [] duration = {300, 300}; 
         /*
          * false variable means do not auto update the animation.
          * By setting it to false animation will update only when
          * the user presses a key.
          */
-        m_up = new Animation(movementUp, duration, false);
+		m_up = new Animation(movementUp, duration, false);
         m_down = new Animation(movementDown, duration, false);
         m_left = new Animation(movementLeft, duration, false);
-        m_right = new Animation(movementRight, duration, false);	
+        m_right = new Animation(movementRight, duration, false);
+        m_up_stand = new Animation(standingUp, duration, false);
+        m_down_stand = new Animation(standingDown, duration, false);
+        m_left_stand = new Animation(standingLeft, duration,false);
+        m_right_stand = new Animation(standingRight,duration,false);	
         
         // Original orientation of the sprite. It will look right.
         m_sprite = m_right;
@@ -115,6 +128,23 @@ public class Player extends MovingObject{
                 m_x += delta * 0.1f;
             }
         }
+        else {
+        	switch (m_dir) {
+        	case UP:
+        		m_sprite = m_up_stand;
+        		break;
+        	case DOWN:
+        		m_sprite = m_down_stand;
+        		break;
+        	case LEFT:
+        		m_sprite = m_left_stand;
+        		break;
+        	case RIGHT:
+        		m_sprite = m_right_stand;
+        		break;
+        	}
+        }
+
         if(m_inputDelta<0&&input.isKeyDown(Input.KEY_SPACE)){
         	int currentX = (int) (m_x + (SIZE/2))/SIZE;
         	int currentY = (int) (m_y + (SIZE/2))/SIZE;
