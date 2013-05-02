@@ -3,5 +3,7 @@ package game;
 public enum AIState {
 	ROAM,
 	HUNT,
-	PATROL;
+	PATROL,
+	WAIT,
+	LEAD;
 }
