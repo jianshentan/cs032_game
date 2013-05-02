@@ -1,5 +1,8 @@
 package game;
 
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -19,9 +22,42 @@ public abstract class Collectable extends GameObject {
 		if(m_key==0)
 			m_key = key;
 	}
+	/**
+	 * Triggered on using/equipping the item.
+	 * @param p - Player using the item
+	 * @param state - GamePlayState the item is triggered in
+	 */
+	public void onUse(Player p, GamePlayState state) {
+		
+	}
+	/**
+	 * Triggered when the item is no longer equipped.
+	 * @param p
+	 * @param state
+	 */
+	public void onStopUse(Player p, GamePlayState state) {
+		
+	}
+	/**
+	 * Returns true if the item is consumable.
+	 * @return
+	 */
+	public boolean isConsumable() {
+		return false;
+	}
+	/**
+	 * Returns a Dialogue that is displayed upon use.
+	 * @return
+	 */
+	public Dialogue useDialogue() {
+		return null;
+	}
 	
-	public abstract void use(); // called once
-	public abstract void render(GameContainer container, StateBasedGame stateManager, Graphics g); // called continuously
-	public abstract void stop(); // called once
-	public abstract void update(int delta); // called continuously
+	public void update(int delta) {
+		
+	}
+	
+	public void render(GameContainer container, StateBasedGame game, Graphics g) {
+		
+	}
 }

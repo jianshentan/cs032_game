@@ -56,24 +56,15 @@ public class ChickenWing extends Collectable implements Interactable{
 		return "This is a chicken wing that looks shockingly like a horse with one leg.";
 	}
 	@Override
-	public void use() {
-		// TODO Auto-generated method stub
-		System.out.println("USING CHICKEN");
+	public boolean isConsumable() {
+		return true;
 	}
+	/**
+	 * Using a chicken wing increases health by 20.
+	 */
 	@Override
-	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void stop() {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void update(int delta) {
-		// TODO Auto-generated method stub
-		
+	public void onUse(Player p, GamePlayState state) {
+		p.getHealth().updateHealth(20);
 	}
 	
 }

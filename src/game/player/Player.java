@@ -40,6 +40,9 @@ public class Player extends MovingObject{
 	private Health m_health;
 	private Enemy[] m_enemies;
 	
+	//The currently equipped item
+	private Collectable m_currentItem;
+
 	//stuff for implementing scenes - scripted movements
 	private int[][] m_patrolPoints;
 	private int[] m_currentSquare, m_destination;
@@ -98,6 +101,7 @@ public class Player extends MovingObject{
         m_health = new Health(10,30,50);
         
         m_inventory = new Inventory(container);
+
 	}
 	
 	public void setGame(GamePlayState game) {
@@ -199,7 +203,20 @@ public class Player extends MovingObject{
 			m_inventory.update(container, delta);
 		else 
 			playerControls(container, delta, input);
-		
+		//updates used item
+		if(getUsing()!=null && (m_currentItem==null || m_currentItem != getUsing() ) ) {
+			if(m_currentItem != null && m_currentItem != getUsing()) {
+				m_currentItem.onStopUse(this, m_game);
+			}
+			//TODO: display some sort of message for the item used
+			this.m_currentItem = this.getUsing();
+			m_currentItem.onUse(this, m_game);
+			if(m_currentItem.isConsumable()) {
+				this.m_inventory.removeItem(m_currentItem);
+				m_currentItem = null;
+			}
+		}
+
 		if (m_inventory.getCurrItem() != null) {
 			m_usingItem = true;
 			m_inventory.getCurrItem().update(delta);
@@ -252,7 +269,7 @@ public class Player extends MovingObject{
 	}
 	
 	/**
-	 * Updates with a target
+	 * This is used for "updating" when the player is in a scene.
 	 * @param delta
 	 */
 	public void updateScene(int delta){
@@ -317,6 +334,10 @@ public class Player extends MovingObject{
 			setDestination();
 			m_sceneMode=true;
 		}
+	}
+	
+	public Direction getDirection() {
+		return m_dir;
 	}
 	
 	/**

@@ -7,7 +7,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
+import game.Dialogue;
 import game.GameObject;
+import game.Person;
 import game.StateManager;
 import game.interactables.Door;
 import game.interactables.InvisiblePortal;
@@ -55,13 +57,29 @@ public class TownDay extends GamePlayState {
 			PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
 			m_interactables.put(1129, doorMat);
 			m_objects.put(1129, doorMat);
+			
+			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/Sprite3_all.png");
+			m_interactables.put(1127, person_1);
+			m_objects.put(1127, person_1); 
+			m_blocked[11][27] = true;
+			
 		}
+		m_dialogue = new HashMap<Integer, Dialogue>();
+		Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
+				{"can you help me find my cats? there are 5 of them."});
+
+		m_dialogue.put(1127, person_1_dialogue);
 	}
 
 	@Override
 	public void dialogueListener(Interactable i) {
-		// TODO Auto-generated method stub
-
+		// person_1: key = 1127
+		if (m_interactables.containsKey(1127) && m_dialogue.containsKey(1127)) 
+			if (i.getSquare()[0] == m_interactables.get(1127).getSquare()[0] && 
+				i.getSquare()[1] == m_interactables.get(1127).getSquare()[1]) { 
+				m_dialogueNum = 1127;
+				m_inDialogue = true;
+			}
 	}
 
 	@Override

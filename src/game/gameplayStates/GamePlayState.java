@@ -5,6 +5,7 @@ import game.Enemy;
 import game.GameObject;
 import game.Loadable;
 import game.PauseMenu;
+import game.Scene;
 import game.StateManager;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
@@ -60,6 +61,28 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected HashMap<Integer, Dialogue> m_dialogue;
 	protected int m_dialogueNum; // represents which dialogue to use
 	
+	protected ParticleSystem m_particleSystem; //particle system
+	public ParticleSystem getParticleSystem() {
+		return this.m_particleSystem;
+	}
+	public void addEmitter(ParticleEmitter emitter) {
+		if(this.m_particleSystem!=null)
+			this.m_particleSystem.addEmitter(emitter);
+		m_particleSystem.setVisible(true);
+	}
+	public void removeEmitter(ParticleEmitter emitter) {
+		if(this.m_particleSystem!=null)
+			m_particleSystem.removeEmitter(emitter);
+	}
+	public boolean hasEmitter(ParticleEmitter emitter) {
+		for(int i = 0; i<m_particleSystem.getEmitterCount(); i++) {
+			if(m_particleSystem.getEmitter(i)==emitter) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private boolean m_loaded; //true if the state has already been loaded from file.
 	public boolean isLoaded() { return m_loaded; }
 	
@@ -79,7 +102,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 *  example: if object has position (2,3), key = 23.
 	 */
 	protected HashMap<Integer, GameObject> m_objects;
-	protected HashMap<Integer, Interactable> m_interactables; 
+	protected HashMap<Integer, Interactable> m_interactables;
+	//true if the state is in a scene.
+	private boolean m_inScene; 
+	private Dialogue m_sceneDialogue;
 	
 	public void setPauseState(boolean state) { m_isPaused = state; }
 	public boolean getPauseState() { return m_isPaused; }
@@ -172,9 +198,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
-		if (m_inDialogue)
-			m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
-
+		if (m_inDialogue) {
+			if(m_inScene)
+				m_sceneDialogue.update(container, stateManager, delta);
+			else
+				m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
+		}
 		
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
@@ -271,9 +300,14 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		// render inventory
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		
-		// render dialogue
-		if (m_inDialogue && m_dialogue.get(m_dialogueNum)!=null) 
-			m_dialogue.get(m_dialogueNum).render(g);
+
+		if (m_inDialogue) {
+			if(m_inScene)
+				m_sceneDialogue.render(g);
+			else if(m_dialogue.get(m_dialogueNum)!=null) 
+				m_dialogue.get(m_dialogueNum).render(g);
+		}
+
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
 		
@@ -378,6 +412,25 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			ret.add(i);
 		}
 		return ret;
+	}
+	
+	/**
+	 * Enters a scene.
+	 * @param scene
+	 */
+	public void enterScene() {
+		m_inScene = true;
+	}
+	
+	public void exitScene() {
+		m_inScene = false;
+	}
+	
+	public void sceneEnterDialogue(String[] dialogue) {
+		if(m_inScene == true) {
+			m_inDialogue = true;
+			m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue);
+		}
 	}
 
 	/**
