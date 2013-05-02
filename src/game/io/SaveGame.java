@@ -26,8 +26,8 @@ public class SaveGame {
 	private String m_savePath;
 	private Document m_saveDoc;
 	
-	public SaveGame getInstance() {
-		if(this.instance==null) {
+	public static SaveGame getInstance() {
+		if(instance==null) {
 			instance = new SaveGame();
 			return instance;
 		} else {
@@ -70,13 +70,14 @@ public class SaveGame {
 		
 		for(int id = 0; id< stateManager.getStateCount(); id++) {
 			currentState = stateManager.getState(id);
-			if(currentState.getClass() == MainMenu.class) {
+			if(currentState == null || currentState.getClass() == MainMenu.class) {
 				continue;
 			}
 			room = (GamePlayState) currentState;
 			
 			room.writeToXML(writer);
 		}
+		writer.writeEndElement();
 		writer.writeEndDocument();
 		writer.close();
 	}

@@ -99,10 +99,20 @@ public class PauseMenu {
         		m_game.setPauseState(false);
         	else if (m_selection == 1)
         		m_game.setPauseState(false);
-        	else if (m_selection == 2)
+        	else if (m_selection == 2) {
 				//Save and quit
+        		try {
+					SaveGame.getInstance().save(stateManager);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (XMLStreamException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				//new SaveGame().save(stateManager);
 				stateManager.enterState(StateManager.MAINMENU_STATE);
+        	}
 			else if (m_selection == 3)
         		stateManager.enterState(StateManager.MAINMENU_STATE);
         	m_inputDelta=200;

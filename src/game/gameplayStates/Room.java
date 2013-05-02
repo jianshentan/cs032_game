@@ -128,7 +128,7 @@ public class Room extends GamePlayState {
 		if(this.isEntered()==false) {
 			int[][] path = {{4,8}, {1,5}};
 			Scene s = new Scene(this, this.getPlayer(), path);
-			s.playScene();
+			//s.playScene();
 		}
 	}
 	

@@ -52,5 +52,16 @@ public class ChickenWing extends Collectable implements Interactable{
 	public String getItemText() {
 		return "This is a chicken wing that looks shockingly like a horse with one leg.";
 	}
+	@Override
+	public boolean isConsumable() {
+		return true;
+	}
+	/**
+	 * Using a chicken wing increases health by 20.
+	 */
+	@Override
+	public void onUse(Player p, GamePlayState state) {
+		p.getHealth().updateHealth(20);
+	}
 	
 }

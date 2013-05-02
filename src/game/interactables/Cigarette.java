@@ -11,14 +11,18 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.particles.effects.FireEmitter;
 
 public class Cigarette extends Collectable implements Interactable {
+	
+	private FireEmitter m_emitter;
 	
 	public Cigarette(int xLoc, int yLoc) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
 		this.setKey(GamePlayState.positionToKey(getSquare()));
 		setSprite(new Image("assets/cigarette.png"));
+		m_emitter = new FireEmitter(300,300,20);
 	}
 
 	@Override
@@ -53,6 +57,16 @@ public class Cigarette extends Collectable implements Interactable {
 	@Override
 	public Types getType() {
 		return Types.CIGARETTE;
+	}
+	
+	@Override
+	public void onUse(Player p, GamePlayState state) {
+		p.setEmitter(m_emitter);
+	}
+	
+	@Override
+	public void onStopUse(Player p, GamePlayState state) {
+		p.stopEmitting();
 	}
 
 }
