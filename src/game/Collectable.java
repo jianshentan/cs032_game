@@ -3,6 +3,10 @@ package game;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.state.StateBasedGame;
+
 public abstract class Collectable extends GameObject {
 	private int m_key;
 	
@@ -17,7 +21,7 @@ public abstract class Collectable extends GameObject {
 	}
 	
 	public abstract void use(); // called once
-	public abstract void render(); // called continuously
+	public abstract void render(GameContainer container, StateBasedGame stateManager, Graphics g); // called continuously
 	public abstract void stop(); // called once
 	public abstract void update(int delta); // called continuously
 }

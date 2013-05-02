@@ -259,7 +259,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		
 		// render item usage
 		if (m_player.m_usingItem)
-			m_player.renderItem();
+			m_player.renderItem(container, stateManager, g);
 		
 		// render objects after player
 		for (GameObject o : objectsToRenderAfter)

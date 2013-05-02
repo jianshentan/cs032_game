@@ -9,11 +9,14 @@ import game.player.Player;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.particles.effects.FireEmitter;
+import org.newdawn.slick.state.StateBasedGame;
 
 public class Cigarette extends Collectable implements Interactable {
 	
@@ -77,7 +80,7 @@ public class Cigarette extends Collectable implements Interactable {
 		addEmitter(m_emitter);
 	}
 	@Override
-	public void render() {
+	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) {
 		m_particleSystem.render();
 	}
 	@Override
