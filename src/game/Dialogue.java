@@ -96,12 +96,14 @@ public class Dialogue {
         	m_inputDelta=200;
         }
         if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE)){
+        	//System.out.println("updating");
         	if (m_currLine >= m_numLines) {
         		m_currLine = 0;
         		// got to next text block
         		if (m_currTextBlock >= m_numTextBlocks-1) {
         			m_currTextBlock = 0;
         			m_game.setDialogueState(false); // TODO: + delete dialogue instance?
+        			m_game.exitScene();
         		}
         		else
         			m_currTextBlock++;

@@ -49,14 +49,22 @@ public abstract class Collectable extends GameObject {
 	 * Returns a Dialogue that is displayed upon use.
 	 * @return
 	 */
-	public Dialogue useDialogue() {
+	public String[] useDialogue() {
 		return null;
 	}
-	
+	/**
+	 * If the item is being used, it is updated each step.
+	 * @param delta
+	 */
 	public void update(int delta) {
 		
 	}
-	
+	/**
+	 * If the item is in use, this renders any effects it may have.
+	 * @param container
+	 * @param game
+	 * @param g
+	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		
 	}

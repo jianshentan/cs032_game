@@ -208,11 +208,16 @@ public class Player extends MovingObject{
 			if(m_currentItem != null && m_currentItem != getUsing()) {
 				m_currentItem.onStopUse(this, m_game);
 			}
-			//TODO: display some sort of message for the item used
 			this.m_currentItem = this.getUsing();
 			m_currentItem.onUse(this, m_game);
+			//If the item has a message to be displayed:
+			if(m_currentItem.useDialogue()!=null) {
+				m_game.enterScene();
+				m_game.sceneEnterDialogue(m_currentItem.useDialogue());
+				//this.m_inInventory = false;
+			}
 			if(m_currentItem.isConsumable()) {
-				this.m_inventory.removeItem(m_currentItem);
+				this.m_inventory.removeItem(getUsing());
 				m_currentItem = null;
 			}
 		}
@@ -241,7 +246,7 @@ public class Player extends MovingObject{
 	 * @return
 	 */
 	public Collectable getUsing() {
-		return this.m_inventory.getUsing();
+		return this.m_inventory.getCurrItem();
 	}
 	
 	/**
