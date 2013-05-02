@@ -4,6 +4,7 @@ import game.Enemy;
 import game.GameObject;
 import game.PauseMenu;
 import game.Scene;
+import game.Spectre;
 import game.StateManager;
 import game.interactables.Chest;
 import game.interactables.ChickenWing;
@@ -91,7 +92,10 @@ public class Room extends GamePlayState {
 		}
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
-		Enemy enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE, patrolPoints);
+		int[][] leadPoints ={{8,8},{8,8},{8,8},{8,8}};
+		Enemy enemy = new Spectre(this, m_player, 1*SIZE, 1*SIZE, leadPoints);
+		enemy.setPatrolPoints(patrolPoints);
+		enemy.setLeadTo(leadPoints[0][0], leadPoints[0][1]);
 		Enemy[] e = new Enemy[1];
 		e[0] = enemy;
 		m_player.setEnemies(e);

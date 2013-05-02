@@ -9,8 +9,8 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
 public class Enemy extends MovingObject{
-	private Animation m_up, m_down, m_left, m_right, m_sprite;
-	private AIState m_ai;
+	protected Animation m_up, m_down, m_left, m_right, m_sprite;
+	protected AIState m_ai;
 	private boolean m_inTransit, m_patrol, m_lead;
 	private int[][] m_patrolPoints;
 	private int[] m_currentSquare, m_destination, m_leadTo;
@@ -21,7 +21,7 @@ public class Enemy extends MovingObject{
 	private Player m_player;
 	private Direction m_dir;
 	public Animation getAnimation(){return m_sprite;};
-	public  Enemy(GamePlayState room, Player player, float x, float y, int[][] patrolPoints) throws SlickException{
+	public  Enemy(GamePlayState room, Player player, float x, float y) throws SlickException{
 		super(room);
 		//set all the important stuff;
 		m_player = player;
@@ -32,13 +32,15 @@ public class Enemy extends MovingObject{
 		m_leadTo = new int[2];
 		m_currentSquare[0] =(int) (m_x/SIZE);
 		m_currentSquare[1] = (int) (m_y/SIZE);
-		m_patrolPoints = patrolPoints;
 		m_currentStep=0;
 		m_path = null;
 		m_inTransit = false;
 		m_patrol = false;
 		m_lead = false;
 		//make the path finder
+		if(room.getMap()==null){
+			System.out.println("FUUUUCK");
+		}
 		m_finder = new AStarPathFinder(room.getMap(), 50, false);
 		//set sprites- eventually these will be passed in
 		Image [] movementUp = {new Image("assets/Sprite2Back.png"), new Image("assets/Sprite2Back.png")};
@@ -58,7 +60,6 @@ public class Enemy extends MovingObject{
         m_sprite = m_right;
         //set ai, this should also be passed in
         m_ai = AIState.LEAD;
-        this.setLeadTo(8, 8);
         
 	}
 	/*
@@ -67,6 +68,9 @@ public class Enemy extends MovingObject{
 	public void setLeadTo(int x, int y){
 		m_leadTo[0] = x;
 		m_leadTo[1] = y;
+	}
+	public void setPatrolPoints(int[][] patrolPoints){
+		m_patrolPoints = patrolPoints;
 	}
 	//update the enemy, moving it, and perhaps figuring out where to move it next
 	public void update(int delta){
