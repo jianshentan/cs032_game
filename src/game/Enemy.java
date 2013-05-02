@@ -11,9 +11,9 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 public class Enemy extends MovingObject{
 	private Animation m_up, m_down, m_left, m_right, m_sprite;
 	private AIState m_ai;
-	private boolean m_inTransit, m_patrol;
+	private boolean m_inTransit, m_patrol, m_lead;
 	private int[][] m_patrolPoints;
-	private int[] m_currentSquare, m_destination;
+	private int[] m_currentSquare, m_destination, m_leadTo;
 	private AStarPathFinder m_finder;
 	private Path m_path;
 	private int m_pathLength, m_currentStep, m_roamCounter;
@@ -23,23 +23,31 @@ public class Enemy extends MovingObject{
 	public Animation getAnimation(){return m_sprite;};
 	public  Enemy(GamePlayState room, Player player, float x, float y, int[][] patrolPoints) throws SlickException{
 		super(room);
+		//set all the important stuff;
 		m_player = player;
 		m_x = x;
 		m_y = y;
 		m_currentSquare = new int[2];
 		m_destination = new int[2];
+		m_leadTo = new int[2];
 		m_currentSquare[0] =(int) (m_x/SIZE);
 		m_currentSquare[1] = (int) (m_y/SIZE);
 		m_patrolPoints = patrolPoints;
 		m_currentStep=0;
 		m_path = null;
+		m_inTransit = false;
+		m_patrol = false;
+		m_lead = false;
+		//make the path finder
 		m_finder = new AStarPathFinder(room.getMap(), 50, false);
+		//set sprites- eventually these will be passed in
 		Image [] movementUp = {new Image("assets/Sprite2Back.png"), new Image("assets/Sprite2Back.png")};
         Image [] movementDown = {new Image("assets/Sprite2Front.png"), new Image("assets/Sprite2Front.png")};
         Image [] movementLeft = {new Image("assets/Sprite2Left.png"), new Image("assets/Sprite2Left.png")};
         Image [] movementRight = {new Image("assets/Sprite2Right.png"), new Image("assets/Sprite2Right.png")};
         int [] duration = {300, 300}; 
         
+        //turn sprites into animations
         m_up = new Animation(movementUp, duration, false);
         m_down = new Animation(movementDown, duration, false);
         m_left = new Animation(movementLeft, duration, false);
@@ -48,18 +56,42 @@ public class Enemy extends MovingObject{
         // Original orientation of the sprite. It will look right.
         m_dir = Direction.RIGHT;
         m_sprite = m_right;
-        m_ai = AIState.PATROL;
-        m_inTransit = false;
+        //set ai, this should also be passed in
+        m_ai = AIState.LEAD;
+        this.setLeadTo(8, 8);
+        
 	}
+	/*
+	 * Set the square that the AI needs to lead the main character to.
+	 */
+	public void setLeadTo(int x, int y){
+		m_leadTo[0] = x;
+		m_leadTo[1] = y;
+	}
+	//update the enemy, moving it, and perhaps figuring out where to move it next
 	public void update(int delta){
 		//if patrolling does a check to see if the player is insight.
 		if(m_patrol){
 			if(inSight()){
-				System.out.println("visible");
-				//m_inTransit=false;
-				//m_ai = AIState.HUNT;
+				System.out.println("SEEN");
+				m_patrol=false;
+				m_inTransit=false;
+				m_ai = AIState.HUNT;
 			}
 		}
+		if(m_lead){
+			float xDistance = m_x - m_player.getX();
+			float yDistance = m_y - m_player.getY();
+			float dist = xDistance*xDistance+yDistance*yDistance;
+			if(dist>9*SIZE*SIZE){
+				return;            //just wait until player is in range
+			}
+			if(!m_inTransit){
+				m_lead = false;
+				arriveEvent();
+			}
+		}
+		//if it's on it's way to a destination
 		if(m_inTransit){
 			//when you've moved a square
 			if(Math.abs(m_x/64-m_currentSquare[0])>=1||Math.abs(m_y/64-m_currentSquare[1])>=1){
@@ -67,14 +99,11 @@ public class Enemy extends MovingObject{
 				setCurrent(m_currentStep);
 				m_currentStep+=1;
 				if(m_currentStep>=m_pathLength){
-				//	System.out.println("stopped");
 					m_inTransit = false;
 				}else{
-					//System.out.println(m_currentStep + " "  + m_pathLength);
 					setDestination();
 				}
 			}
-			//System.out.println(m_currentSquare[0] + " " + m_destination[0]);
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
 			if(!checkCollision(this, m_game.getPlayer())){
@@ -83,6 +112,7 @@ public class Enemy extends MovingObject{
 			}
 			
 		}else{
+			//if it's reached it's destination
 			switch(m_ai){
 				case PATROL:{
 					m_patrol = true;
@@ -96,12 +126,17 @@ public class Enemy extends MovingObject{
 				case HUNT:{
 					huntUpdate();
 					break;
-				}default:{
-					
+				}case LEAD:{
+					leadUpdate();
+					break;
+				}
+				case WAIT:{
+					break;
 				}
 			}
 		}
 	}
+	//update for roam (a state where it patrols, but also just ignores the player
 	public void roamUpdate(){
 		//finds the path from current point to next point in the roam list
 		if(m_roamCounter>=m_patrolPoints.length){
@@ -123,7 +158,19 @@ public class Enemy extends MovingObject{
 			m_inTransit=true;
 		}
 	}
-
+	//update if it's leading the player to a destination
+	//simply finds the path to the next destination and sets m_lead to true
+	public void leadUpdate(){
+		int xDest = m_leadTo[0];
+		int yDest = m_leadTo[1];
+		m_path = m_finder.findPath(null,  m_currentSquare[0], m_currentSquare[1], xDest, yDest);
+		m_pathLength = m_path.getLength();
+		m_currentStep = 1;
+		setDestination();
+		m_lead = true;
+		m_inTransit = true;
+	}
+	//update for hunting
 	public void huntUpdate(){
 		int playerX = (int)((m_game.getPlayer().getX()+SIZE/2)/SIZE);
 		int playerY = (int)((m_game.getPlayer().getY()+SIZE/2)/SIZE);
@@ -175,7 +222,13 @@ public class Enemy extends MovingObject{
 		Path path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], playerSquareX, playerSquareY);
 		//make sure player isn't behind enemy
 		if(inSightRange(playerX, playerY)){
-			return lineOfSight(playerX, playerY);
+			boolean result = lineOfSight(playerX, playerY);
+			if(!result){
+				System.out.println("NOT SEEN");
+			}else{
+				System.out.println("Potentially SEEN");
+			}
+			return result;
 		}
 		return false;
 	}
@@ -238,7 +291,7 @@ public class Enemy extends MovingObject{
 		float xDiff = playerX - centerX;
 		float yDiff = playerY - centerY;
 		//not enough room for a block to be between the two of them
-		if(xDiff<SIZE&&yDiff<SIZE){
+		if(Math.abs(xDiff)<SIZE&&Math.abs(yDiff)<SIZE){
 			return true;
 		}
 		int start;
@@ -247,6 +300,7 @@ public class Enemy extends MovingObject{
 		float intersect = centerY-slope*centerX;
 		//trace along line, checking for intersections w/ objects
 		if(xDiff>yDiff){
+			System.out.println("along x");
 			if(playerX<centerX){
 				start=(int) playerX;
 				end = (int) centerX;
@@ -262,6 +316,7 @@ public class Enemy extends MovingObject{
 			}
 		}else{
 			if(playerY<centerY){
+				System.out.println("along y");
 				start = (int) playerY;
 				end = (int) centerY;
 			}else{
@@ -276,5 +331,9 @@ public class Enemy extends MovingObject{
 			}
 		}
 		return true;
+	}
+	//this is the event that fires when the ai doing the leading arrives at it's spot
+	protected void arriveEvent(){
+		m_ai = AIState.WAIT;
 	}
 }
