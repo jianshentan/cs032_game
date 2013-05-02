@@ -253,15 +253,28 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		int halfHeight = container.getHeight()/2;
 		int offsetX = (int)m_player.getX()-halfWidth;
 		int offsetY = (int)m_player.getY()-halfHeight;
+		// render map
 		m_tiledMap.render(-offsetX, -offsetY);
-		m_player.getAnimation().draw(halfWidth, halfHeight);
+		// render objects before player 
+		ArrayList<GameObject> objectsToRenderAfter = new ArrayList<GameObject>();
 		for (Entry<Integer, GameObject> e : m_objects.entrySet()) {
 			GameObject o = e.getValue();
-			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+			if(o.renderAfter())
+				objectsToRenderAfter.add(o);
+			else
+				o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 		}
+		// render player
+		m_player.getAnimation().draw(halfWidth, halfHeight);
+		// render enemies
 		if (m_enemies != null)
 			for(Enemy m_enemy : m_enemies)
 				m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
+		
+		// render objects after player
+		for (GameObject o : objectsToRenderAfter)
+			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+		
 		
 		m_player.getHealth().render();
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
