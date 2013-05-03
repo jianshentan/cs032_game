@@ -24,6 +24,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class Home extends GamePlayState {
+	
+	private int m_previousDreamState;
 
 	public Home(int stateID) {
 		m_stateID = stateID;
@@ -33,6 +35,8 @@ public class Home extends GamePlayState {
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 			throws SlickException {
+		
+		m_previousDreamState = StateManager.m_dreamState;
 		// set player initial location
 		m_playerX = SIZE*2;
 		m_playerY = SIZE*4;
@@ -129,19 +133,20 @@ public class Home extends GamePlayState {
 		m_dialogue.clear();
 		if (city == 3 && dream == 3) {
 			Dialogue doorDialogue = new Dialogue(this, container, new String[] 
-					{"Its late out... Perhaps you should just hit the sack"});
+					{"Its late out... Perhaps you should just hit the sack"}, null);
 			dialoguePos = new int[] {2, 2};
 			m_dialogue.put(positionToKey(dialoguePos), doorDialogue);
 			
 			Dialogue computerDialogue = new Dialogue(this, container, new String[]
 					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
-					"You can also visit find plenty of friends right here on the internet.. special friends."});
+					"You can also visit find plenty of friends right here on the internet.. special friends."},
+					new String[] {"do you like cats or dogs", "cats", "dogs", "mouse"});
 			dialoguePos = new int[] {1, 4};
 			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
 		}
 		else if (city == 3 && dream == 2) {
 			Dialogue computerDialogue = new Dialogue(this, container, new String[]
-					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
+					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"}, null);
 			dialoguePos = new int[] {1, 4};
 			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
 		}
@@ -166,6 +171,16 @@ public class Home extends GamePlayState {
 				m_inDialogue = true;
 			}
 		
+	}
+	
+	@Override
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		if(StateManager.m_dreamState==2 && StateManager.m_dreamState != this.m_previousDreamState) {
+			this.displayDialogue(new String[] {"You wake up. That was a strange dream.",
+						"It seems that the strange humanoid escaped into the zoo. " + 
+						"How can I destroy the zoo?"});
+			this.m_previousDreamState = StateManager.m_dreamState;
+		}
 	}
 
 }

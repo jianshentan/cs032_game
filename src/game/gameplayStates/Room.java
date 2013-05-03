@@ -112,7 +112,7 @@ public class Room extends GamePlayState {
 						"Suspendisse vel magna augue, in tincidunt urna. ",
 						"Fusce in ligula libero, eget lacinia tellus. Donec bibendum " +
 								"ultrices eros sit amet lacinia. Praesent nec mauris ac " +
-				"justo tempus dapibus a vel diam."});
+				"justo tempus dapibus a vel diam."}, null);
 
 		Dialogue dialogue2 = new Dialogue(this, container, new String[] 
 				{"let is rain over me!!! girl my body dont stop, out of my mind " +
@@ -120,7 +120,7 @@ public class Room extends GamePlayState {
 						"let it rain over meeeeeeeeee. yeah! ",
 						"I'm rising so high, i'm out o fmy mind let it rain overr meeeeee" +
 								"billions a new milion, voili's the new vodka" +
-				"forty's the new thirty, baby you're a rockstar!"});
+				"forty's the new thirty, baby you're a rockstar!"}, null);
 
 //		m_dialogue.add(dialogue1);
 		m_dialogue.put(23, dialogue2);
@@ -132,7 +132,7 @@ public class Room extends GamePlayState {
 		if(this.isEntered()==false) {
 			int[][] path = {{4,8}, {1,5}};
 			Scene s = new Scene(this, this.getPlayer(), path);
-			s.playScene();
+			//s.playScene();
 		}
 	}
 	

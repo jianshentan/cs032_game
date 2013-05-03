@@ -80,7 +80,8 @@ public class Inventory implements Loadable<Inventory> {
         if(m_inputDelta<0&&input.isKeyDown(Input.KEY_SPACE)) {
         	if (m_items[m_pointer] != null) {
         		m_using = m_items[m_pointer];
-        		m_using.use();
+        	} else {
+        		m_using = null;
         	}
         	m_inputDelta = 200;
         }	
@@ -119,6 +120,17 @@ public class Inventory implements Loadable<Inventory> {
 		for (int i=0; i<m_items.length; i++) {
 			if (m_items[i] == null) {
 				m_items[i] = item;
+				break;
+			}
+		}
+	}
+	
+	public void removeItem(Collectable item) {
+		if(m_using==item)
+			m_using = null;
+		for(int i = 0; i<m_items.length; i++) {
+			if(m_items[i]==item) {
+				m_items[i] = null;
 				break;
 			}
 		}
@@ -171,10 +183,6 @@ public class Inventory implements Loadable<Inventory> {
             list.add(str);
         return list;
     }
-	
-	public Collectable getUsing() {
-		return this.m_using;
-	}
 	
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		writer.writeStartElement("Inventory");

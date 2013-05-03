@@ -5,10 +5,12 @@ import game.Enemy;
 import game.GameObject;
 import game.Loadable;
 import game.PauseMenu;
+import game.Scene;
 import game.StateManager;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.player.Player;
+import game.quests.Quest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +40,8 @@ import org.w3c.dom.NodeList;
  */
 public abstract class GamePlayState extends BasicGameState implements Loadable<GamePlayState> {
 	
+	protected int m_subState = 0;
+	
 	protected boolean m_isPaused = false;
 	protected boolean m_inDialogue = false;
 	protected PauseMenu m_pauseMenu = null;
@@ -66,6 +70,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
 	
+	
+	
 	private boolean m_entered;
 	/**
 	 * Returns true if the state has been entered.
@@ -79,7 +85,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 *  example: if object has position (2,3), key = 23.
 	 */
 	protected HashMap<Integer, GameObject> m_objects;
-	protected HashMap<Integer, Interactable> m_interactables; 
+	protected HashMap<Integer, Interactable> m_interactables;
+	//true if the state is in a scene.
+	private boolean m_inScene; 
+	private Dialogue m_sceneDialogue;
+	private boolean m_invisiblePlayer; //true if the player is invisible.
+	public void setInvisiblePlayer(boolean b) { m_invisiblePlayer = b; }
 	
 	public void setPauseState(boolean state) { m_isPaused = state; }
 	public boolean getPauseState() { return m_isPaused; }
@@ -163,6 +174,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_objects = new HashMap<Integer, GameObject>();
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		m_enemies = new ArrayList<Enemy>();
+		
 		this.additionalInit(container, stateManager);
 	}
 	
@@ -172,13 +184,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
-		if (m_inDialogue)
-			m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
-
 		//check for game over state
 		if(m_player.getHealth().getVal()<=0){
 			stateManager.enterState(StateManager.GAME_OVER_STATE);
 		}
+
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
 			if (m_enemies != null)
@@ -186,7 +196,14 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 					e.update(delta);
 				}
 		}
-		
+				
+		if (m_inDialogue) {
+			if(m_inScene)
+				m_sceneDialogue.update(container, stateManager, delta);
+			else
+				m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
+		}
+
 		Input input = container.getInput();
 		inputDelta-=delta;
 
@@ -232,6 +249,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			System.out.println("cityState: " + StateManager.m_cityState + 
 							   " | dreamState: " + StateManager.m_dreamState);
 		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_8)) {
+			StateManager.getInstance().enterState(StateManager.DOLPHIN_STATE);
+		}
+		
 	}
 	
 	@Override
@@ -253,7 +274,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 		}
 		// render player
-		m_player.getAnimation().draw(halfWidth, halfHeight);
+		if(m_invisiblePlayer == false)
+			m_player.getAnimation().draw(halfWidth, halfHeight);
 		// render enemies
 		if (m_enemies != null)
 			for(Enemy m_enemy : m_enemies)
@@ -273,13 +295,43 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		// render inventory
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		
-		// render dialogue
-		if (m_inDialogue && m_dialogue.get(m_dialogueNum)!=null) 
-			m_dialogue.get(m_dialogueNum).render(g);
+		if (m_inDialogue) {
+			if(m_inScene)
+				m_sceneDialogue.render(g);
+			else if(m_dialogue.get(m_dialogueNum)!=null) 
+				m_dialogue.get(m_dialogueNum).render(g);
+		}
+		
+
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
 		
 		this.additionalRender(container, stateManager, g);
+	}
+	
+	/**
+	 * This is called in order to end the game.
+	 * @param endCode
+	 */
+	public void stateEnd(int endCode) {
+		
+	}
+	
+	/**
+	 * Sets the blocked tiles, using the tiledMap.
+	 * TODO: set blocked tiles with gameObjects as well.
+	 */
+	protected void setBlockedTiles() {
+		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
+		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
+			for (int yAxis=0; yAxis<m_tiledMap.getHeight(); yAxis++) {
+				int tileID = m_tiledMap.getTileId(xAxis, yAxis, 0);
+				String value = m_tiledMap.getTileProperty(tileID, "blocked", "false");
+				if ("true".equals(value)) {
+					m_blocked[xAxis][yAxis] = true;
+				}
+			}
+		}
 	}
 	
 	/**
@@ -351,7 +403,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
     }
     
 	/**
-	 * Returns the Interactable of an interaction.
+	 * Fires an interaction, and returns the Interactable of an interaction.
 	 * @param interactSquare
 	 * @return
 	 */
@@ -361,7 +413,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			int[] loc = i.getSquare();
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
 				dialogueListener(i);
-				return i.fireAction(this, m_player);
+				i.fireAction(this, m_player);
+				return i;
 			}
 		}
 		return null;
@@ -380,6 +433,31 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			ret.add(i);
 		}
 		return ret;
+	}
+	
+	
+	/**
+	 * Enters a scene.
+	 * @param scene
+	 */
+	public void enterScene() {
+		m_inScene = true;
+	}
+	
+	public void exitScene() {
+		m_inScene = false;
+		m_inDialogue = false;
+		m_invisiblePlayer = false;
+	}
+	
+	/**
+	 * Enters a particular dialogue
+	 * @param dialogue
+	 */
+	public void displayDialogue(String[] dialogue) {
+		m_inScene = true;
+		m_inDialogue = true;
+		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);	
 	}
 
 	/**
@@ -445,6 +523,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			return 1.0f;
 		}
 		public boolean blocked(PathFindingContext ctx, int x, int y){
+			if(m_invisiblePlayer)
+				return false;
 			return m_blocked[x][y];
 		}
 		public int getHeightInTiles(){

@@ -2,6 +2,7 @@ package game;
 
 import java.io.IOException;
 
+import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
 import game.gameplayStates.Home;
 import game.gameplayStates.Kitchen;
@@ -35,7 +36,8 @@ public class StateManager extends StateBasedGame {
 	public static final int ROOM_STATE = 1001;
 	
 	// real states
-	public static final int GAME_OVER_STATE = 4;
+	public static final int GAME_OVER_STATE = 99;
+	public static final int DOLPHIN_STATE = 4;
 	public static final int TOWN_NIGHT_STATE = 3;
 	public static final int TOWN_DAY_STATE = 2;
 	public static final int HOME_STATE = 1;
@@ -92,9 +94,6 @@ public class StateManager extends StateBasedGame {
 			addState(room);
 			Kitchen kitchen = new Kitchen(KITCHEN_STATE);
 			addState(kitchen);
-			//game over state added
-			GameOver go = new GameOver(GAME_OVER_STATE);
-			addState(go);
 			// give player to gameplaystates
 			m_player = new Player(room, getGameContainer(), 0, 0);
 			room.setPlayer(m_player);
@@ -107,15 +106,19 @@ public class StateManager extends StateBasedGame {
 			addState(townDay);
 			TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
 			addState(townNight);
-			GameOver go = new GameOver(GAME_OVER_STATE);
-			addState(go);
+			
+			DolphinChamber dolphinChamber = new DolphinChamber(DOLPHIN_STATE);
+			addState(dolphinChamber);
+
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
 			townDay.setPlayer(m_player);
 			townNight.setPlayer(m_player);
+			dolphinChamber.setPlayer(m_player);
 		
 		}
-		
+		GameOver go = new GameOver(GAME_OVER_STATE);
+		addState(go);
 		// start!
 		addState(new MainMenu(MAINMENU_STATE));
 		enterState(MAINMENU_STATE);
@@ -127,14 +130,17 @@ public class StateManager extends StateBasedGame {
 		
 		// setup states
 		getState(MAINMENU_STATE).init(container, this);
+		getState(GAME_OVER_STATE).init(container, this);
 		if (m_debugMode) {
 			getState(KITCHEN_STATE).init(container, this);
 			getState(ROOM_STATE).init(container, this);
+			
 		}
 		else {
 			getState(TOWN_DAY_STATE).init(container, this);
 			getState(TOWN_NIGHT_STATE).init(container, this);
 			getState(HOME_STATE).init(container, this);
+			getState(DOLPHIN_STATE).init(container, this);
 		}
 		
 		if(this.m_loader==null) {
@@ -153,20 +159,36 @@ public class StateManager extends StateBasedGame {
 		m_cityState = 3;
 		m_dreamState = 3;
 		System.out.println("GAME OVER STATE CALLED RESET ENTERED");
+		
 		//not totally certain abt this stuff
-		Home home = new Home(HOME_STATE);
-		addState(home);
-		TownDay townDay = new TownDay(TOWN_DAY_STATE);
-		addState(townDay);
-		TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
-		addState(townNight);
+		if(m_debugMode){
+			Room room = new Room(ROOM_STATE);
+			addState(room);
+			Kitchen kitchen = new Kitchen(KITCHEN_STATE);
+			addState(kitchen);
+			//game over state added
+			// give player to gameplaystates
+			m_player = new Player(room, getGameContainer(), 0, 0);
+			room.setPlayer(m_player);
+			kitchen.setPlayer(m_player);
+		}else{
+			Home home = new Home(HOME_STATE);
+			addState(home);
+			TownDay townDay = new TownDay(TOWN_DAY_STATE);
+			addState(townDay);
+			TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
+			addState(townNight);
+			
+			m_player = new Player(home, getGameContainer(), 0, 0);
+			home.setPlayer(m_player);
+			townDay.setPlayer(m_player);
+			townNight.setPlayer(m_player);
+		}
+		
 		GameOver go = new GameOver(GAME_OVER_STATE);
 		addState(go);
-		m_player = new Player(home, getGameContainer(), 0, 0);
-		home.setPlayer(m_player);
-		townDay.setPlayer(m_player);
-		townNight.setPlayer(m_player);
 		addState(new MainMenu(MAINMENU_STATE));
+		initStatesList(getGameContainer());
 		enterState(MAINMENU_STATE);
 	}
 	public void run() {
