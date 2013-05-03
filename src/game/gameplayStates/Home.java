@@ -176,7 +176,8 @@ public class Home extends GamePlayState {
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if(StateManager.m_dreamState==2 && StateManager.m_dreamState != this.m_previousDreamState) {
 			this.displayDialogue(new String[] {"You wake up. That was a strange dream.",
-						"It seems that the strange humanoid escaped into the zoo."});
+						"It seems that the strange humanoid escaped into the zoo. " + 
+						"How can I destroy the zoo?"});
 			this.m_previousDreamState = StateManager.m_dreamState;
 		}
 	}

@@ -21,6 +21,10 @@ public abstract class Quest {
 	protected boolean m_isActive;
 	
 	
+	public final void addGoal(QuestGoal goal) {
+		m_goals.add(goal);
+	}
+	
 	public void startQuest(GamePlayState state, Player player) {
 		String[] desc = m_goals.get(0).onStartText();
 		if(desc!=null) {

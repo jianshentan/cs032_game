@@ -4,6 +4,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 
 import game.GameObject;
 import game.gameplayStates.GamePlayState;
@@ -13,8 +14,8 @@ public class Animal extends GameObject implements Interactable {
 	
 	private int m_key;
 	
-	public Animal(int key, Image image) {
-		this.setSprite(image);
+	public Animal(int key, String imagePath) throws SlickException {
+		this.setSprite(new Image(imagePath));
 		this.m_key = key;
 	}
 
@@ -37,7 +38,6 @@ public class Animal extends GameObject implements Interactable {
 
 	@Override
 	public Types getType() {
-		// TODO Auto-generated method stub
 		return GameObject.Types.ANIMAL;
 	}
 

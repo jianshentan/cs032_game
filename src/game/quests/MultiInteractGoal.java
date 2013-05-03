@@ -1,16 +1,17 @@
 package game.quests;
 
+import java.util.ArrayList;
+
 import game.gameplayStates.GamePlayState;
 import game.interactables.Interactable;
 import game.player.Player;
 
-public class InteractionQuestGoal extends QuestGoal {
+public class MultiInteractGoal extends QuestGoal {
 	
-	private Interactable m_targetInteractable;
+	private ArrayList<Interactable> m_targets;
 	
-	public InteractionQuestGoal(Interactable target) {
-		super();
-		m_targetInteractable = target;
+	public MultiInteractGoal(ArrayList<Interactable> targets) {
+		this.m_targets = targets;
 	}
 
 	@Override
@@ -18,17 +19,13 @@ public class InteractionQuestGoal extends QuestGoal {
 		return false;
 	}
 
-	/**
-	 * The goal is accomplished if the player interacts with the target interactable.
-	 */
 	@Override
 	public boolean isAccomplished(GamePlayState state, Player player,
 			Interactable interactable) {
-		if(interactable == m_targetInteractable)
+		m_targets.remove(interactable);
+		if(m_targets.size()==0)
 			return true;
 		return false;
 	}
-
-
 
 }
