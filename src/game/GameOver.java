@@ -40,8 +40,6 @@ public class GameOver extends BasicGameState {
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-			//System.out.println("game over");
-		System.out.println("Inited game over");
 		m_background = new Image("assets/GameOverMaggot.jpg");
 		
 	}
