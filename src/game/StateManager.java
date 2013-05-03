@@ -35,6 +35,7 @@ public class StateManager extends StateBasedGame {
 	public static final int ROOM_STATE = 1001;
 	
 	// real states
+	public static final int GAME_OVER_STATE = 4;
 	public static final int TOWN_NIGHT_STATE = 3;
 	public static final int TOWN_DAY_STATE = 2;
 	public static final int HOME_STATE = 1;
@@ -91,7 +92,9 @@ public class StateManager extends StateBasedGame {
 			addState(room);
 			Kitchen kitchen = new Kitchen(KITCHEN_STATE);
 			addState(kitchen);
-			
+			//game over state added
+			GameOver go = new GameOver(GAME_OVER_STATE);
+			addState(go);
 			// give player to gameplaystates
 			m_player = new Player(room, getGameContainer(), 0, 0);
 			room.setPlayer(m_player);
@@ -104,7 +107,8 @@ public class StateManager extends StateBasedGame {
 			addState(townDay);
 			TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
 			addState(townNight);
-			
+			GameOver go = new GameOver(GAME_OVER_STATE);
+			addState(go);
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
 			townDay.setPlayer(m_player);
@@ -144,7 +148,27 @@ public class StateManager extends StateBasedGame {
 			}
 		}
 	}
-	
+	//I suspect that more needs to be done here, but I'm not sure what
+	public void reset() throws SlickException{
+		m_cityState = 3;
+		m_dreamState = 3;
+		System.out.println("GAME OVER STATE CALLED RESET ENTERED");
+		//not totally certain abt this stuff
+		Home home = new Home(HOME_STATE);
+		addState(home);
+		TownDay townDay = new TownDay(TOWN_DAY_STATE);
+		addState(townDay);
+		TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
+		addState(townNight);
+		GameOver go = new GameOver(GAME_OVER_STATE);
+		addState(go);
+		m_player = new Player(home, getGameContainer(), 0, 0);
+		home.setPlayer(m_player);
+		townDay.setPlayer(m_player);
+		townNight.setPlayer(m_player);
+		addState(new MainMenu(MAINMENU_STATE));
+		enterState(MAINMENU_STATE);
+	}
 	public void run() {
 		try {
 			m_app.start();

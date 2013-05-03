@@ -9,7 +9,7 @@ import org.newdawn.slick.util.pathfinding.Path;
 import org.newdawn.slick.util.pathfinding.Path.Step;
 
 public class Enemy extends MovingObject{
-	protected Animation m_up, m_down, m_left, m_right, m_sprite;
+	protected Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand;
 	protected AIState m_ai;
 	private boolean m_inTransit, m_patrol, m_lead;
 	private int[][] m_patrolPoints;
@@ -43,6 +43,11 @@ public class Enemy extends MovingObject{
 		}
 		m_finder = new AStarPathFinder(room.getMap(), 50, false);
 		//set sprites- eventually these will be passed in
+		Image [] standingUp = {new Image("assets/Sprite2Back.png"), new Image("assets/Sprite2Back.png")};
+        Image [] standingDown = {new Image("assets/Sprite2Front.png"), new Image("assets/Sprite2Front.png")};
+        Image [] standingLeft = {new Image("assets/Sprite2Left.png"), new Image("assets/Sprite2Left.png")};
+        Image [] standingRight = {new Image("assets/Sprite2Right.png"), new Image("assets/Sprite2Right.png")};
+		
 		Image [] movementUp = {new Image("assets/Sprite2Back.png"), new Image("assets/Sprite2Back.png")};
         Image [] movementDown = {new Image("assets/Sprite2Front.png"), new Image("assets/Sprite2Front.png")};
         Image [] movementLeft = {new Image("assets/Sprite2Left.png"), new Image("assets/Sprite2Left.png")};
@@ -55,9 +60,14 @@ public class Enemy extends MovingObject{
         m_left = new Animation(movementLeft, duration, false);
         m_right = new Animation(movementRight, duration, false);	
         
+        m_up_stand = new Animation(standingUp, duration, false);
+        m_down_stand = new Animation(standingDown, duration, false);
+        m_left_stand = new Animation(standingLeft, duration,false);
+        m_right_stand = new Animation(standingRight,duration,false);
+        
         // Original orientation of the sprite. It will look right.
         m_dir = Direction.RIGHT;
-        m_sprite = m_right;
+        m_sprite = m_right_stand;
         //set ai, this should also be passed in
         m_ai = AIState.LEAD;
         

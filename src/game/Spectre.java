@@ -18,12 +18,18 @@ public class Spectre extends Enemy {
 			System.out.println("ERROR: spectre has wrong # of destinations");
 		}
 		//set sprites
-		SpriteSheet spectreSprite = new SpriteSheet("assets/humanoid_standing.png", 64, 64);
+		SpriteSheet spectreSprite = new SpriteSheet("assets/characters/humanoid.png", 64, 64);
 		this.setLeadTo(destinations[3-StateManager.m_dreamState][0], destinations[3-StateManager.m_dreamState][1]);
-		Image [] movementUp = {spectreSprite.getSprite(1,0), spectreSprite.getSprite(1,0)};
-        Image [] movementDown = {spectreSprite.getSprite(0,0), spectreSprite.getSprite(0,0)};
-        Image [] movementLeft = {spectreSprite.getSprite(3,0), spectreSprite.getSprite(3,0)};
-        Image [] movementRight = {spectreSprite.getSprite(2,0), spectreSprite.getSprite(2,0)};
+		
+		Image [] standingUp = {spectreSprite.getSprite(1,0), spectreSprite.getSprite(1,0)};
+        Image [] standingDown = {spectreSprite.getSprite(0,0), spectreSprite.getSprite(0,0)};
+        Image [] standingLeft = {spectreSprite.getSprite(3,0), spectreSprite.getSprite(3,0)};
+        Image [] standingRight = {spectreSprite.getSprite(2,0), spectreSprite.getSprite(2,0)};
+		
+		Image [] movementUp = {spectreSprite.getSprite(1,1), spectreSprite.getSprite(1,2)};
+        Image [] movementDown = {spectreSprite.getSprite(0,1), spectreSprite.getSprite(0,2)};
+        Image [] movementLeft = {spectreSprite.getSprite(3,1), spectreSprite.getSprite(3,2)};
+        Image [] movementRight = {spectreSprite.getSprite(2,1), spectreSprite.getSprite(2,2)};
         int [] duration = {300, 300}; 
         
         //turn sprites into animations
@@ -32,7 +38,12 @@ public class Spectre extends Enemy {
         m_left = new Animation(movementLeft, duration, false);
         m_right = new Animation(movementRight, duration, false);	
         
-        m_sprite = m_right;
+        m_up_stand = new Animation(standingUp, duration, false);
+        m_down_stand = new Animation(standingDown, duration, false);
+        m_left_stand = new Animation(standingLeft, duration,false);
+        m_right_stand = new Animation(standingRight,duration,false);
+        
+        m_sprite = m_right_stand;
 	}
 	@Override 
 	public void arriveEvent(){

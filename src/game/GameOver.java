@@ -10,6 +10,8 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class GameOver extends BasicGameState {
+	//TODO- display picture in background
+	private int m_inputDelta = 0;
 	private int m_stateID = 0;
 	private float m_x = 0;
     private float m_y = 0;
@@ -17,21 +19,15 @@ public class GameOver extends BasicGameState {
 	private float m_height = 600;
  	private Rectangle m_rectangle;
 	private ShapeFill m_shapeFill;
-	
-	private int m_selection = 0;
-	private int m_inputDelta = 0;
-	
 	private Image m_background = null;
-	private Image m_startButton = null;
-	private static int m_startButtonX = 500;
-	private static int m_startButtonY = 100;
 	public GameOver(int stateID){
-		
+		m_stateID = stateID;
+		System.out.println("game over state entered");
 	}
 	@Override
 	public void init(GameContainer arg0, StateBasedGame arg1)
 			throws SlickException {
-		// TODO Auto-generated method stub
+			System.out.println("game over");
 		
 	}
 
@@ -43,16 +39,20 @@ public class GameOver extends BasicGameState {
 	}
 
 	@Override
-	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+	public void update(GameContainer container, StateBasedGame stateManager, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
-		
+		     m_inputDelta+= delta;
+		     if(delta>1000){
+		    	 System.out.println("reset");
+		    	 StateManager s = (StateManager) stateManager;
+		    	 s.reset();
+		     }
 	}
 
 	@Override
 	public int getID() {
 		// TODO Auto-generated method stub
-		return 0;
+		return m_stateID;
 	}
 
 }

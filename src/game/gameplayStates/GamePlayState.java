@@ -175,7 +175,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_inDialogue)
 			m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
 
-		
+		//check for game over state
+		if(m_player.getHealth().getVal()<=0){
+			stateManager.enterState(StateManager.GAME_OVER_STATE);
+		}
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
 			if (m_enemies != null)
@@ -184,7 +187,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				}
 		}
 		
-
 		Input input = container.getInput();
 		inputDelta-=delta;
 
@@ -429,7 +431,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		this.m_loaded = true;
 		return this;
 	}
+	//why is this in the class!?
+	//it needs to call set the state to game over.
 	public void gameOverEvent(){
+		//s.enterState(s.GAME_OVER_STATE);
 		System.out.println("GAME OVER");
 	}
 	class simpleMap implements TileBasedMap{
