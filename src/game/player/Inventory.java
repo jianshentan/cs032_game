@@ -1,6 +1,7 @@
 package game.player;
 
 import game.Collectable;
+import game.GameObject.Types;
 import game.Loadable;
 import game.StateManager;
 
@@ -135,7 +136,14 @@ public class Inventory implements Loadable<Inventory> {
 			}
 		}
 	}
-	
+	public boolean contains(Types item){
+		for(int i = 0; i< m_items.length; i++) {
+			if(m_items[i].getType()==item){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	private ArrayList<String> wrap(String text, int width) {
         ArrayList<String> list = new ArrayList<String>();
