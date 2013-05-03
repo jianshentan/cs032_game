@@ -70,7 +70,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
 	
-	protected ArrayList<Quest> m_quests;
+	
 	
 	private boolean m_entered;
 	/**
@@ -174,7 +174,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_objects = new HashMap<Integer, GameObject>();
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		m_enemies = new ArrayList<Enemy>();
-		m_quests = new ArrayList<Quest>();
+		
 		this.additionalInit(container, stateManager);
 	}
 	
@@ -192,9 +192,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				}
 		}
 		
-		for(Quest q : m_quests) {
-			q.updateQuest(this, m_player);
-		}
+		
 		
 		if (m_inDialogue) {
 			if(m_inScene)
@@ -414,9 +412,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
 				dialogueListener(i);
 				i.fireAction(this, m_player);
-				for(Quest q : m_quests) {
-					q.updateQuest(this, m_player, i);
-				}
 				return i;
 			}
 		}
@@ -438,9 +433,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		return ret;
 	}
 	
-	public void addQuest(Quest q) {
-		m_quests.add(q);
-	}
 	
 	/**
 	 * Enters a scene.
