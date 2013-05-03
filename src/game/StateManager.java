@@ -37,6 +37,7 @@ public class StateManager extends StateBasedGame {
 	public static final int ROOM_STATE = 1001;
 	
 	// real states
+	public static final int GAME_OVER_STATE = 99;
 	public static final int DOLPHIN_ENTRANCE = 5;
 	public static final int DOLPHIN_STATE = 4;
 	public static final int TOWN_NIGHT_STATE = 3;
@@ -95,7 +96,6 @@ public class StateManager extends StateBasedGame {
 			addState(room);
 			Kitchen kitchen = new Kitchen(KITCHEN_STATE);
 			addState(kitchen);
-			
 			// give player to gameplaystates
 			m_player = new Player(room, getGameContainer(), 0, 0);
 			room.setPlayer(m_player);
@@ -108,11 +108,12 @@ public class StateManager extends StateBasedGame {
 			addState(townDay);
 			TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
 			addState(townNight);
+			
 			DolphinChamber dolphinChamber = new DolphinChamber(DOLPHIN_STATE);
 			addState(dolphinChamber);
+
 			DolphinEntrance dolphinEntrance = new DolphinEntrance(DOLPHIN_ENTRANCE);
 			addState(dolphinEntrance);
-			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
 			townDay.setPlayer(m_player);
@@ -120,7 +121,8 @@ public class StateManager extends StateBasedGame {
 			dolphinChamber.setPlayer(m_player);
 			dolphinEntrance.setPlayer(m_player);
 		}
-		
+		GameOver go = new GameOver(GAME_OVER_STATE);
+		addState(go);
 		// start!
 		addState(new MainMenu(MAINMENU_STATE));
 		enterState(MAINMENU_STATE);
@@ -132,9 +134,11 @@ public class StateManager extends StateBasedGame {
 		
 		// setup states
 		getState(MAINMENU_STATE).init(container, this);
+		getState(GAME_OVER_STATE).init(container, this);
 		if (m_debugMode) {
 			getState(KITCHEN_STATE).init(container, this);
 			getState(ROOM_STATE).init(container, this);
+			
 		}
 		else {
 			getState(TOWN_DAY_STATE).init(container, this);
@@ -155,7 +159,43 @@ public class StateManager extends StateBasedGame {
 			}
 		}
 	}
-	
+	//I suspect that more needs to be done here, but I'm not sure what
+	public void reset() throws SlickException{
+		m_cityState = 3;
+		m_dreamState = 3;
+		System.out.println("GAME OVER STATE CALLED RESET ENTERED");
+		
+		//not totally certain abt this stuff
+		if(m_debugMode){
+			Room room = new Room(ROOM_STATE);
+			addState(room);
+			Kitchen kitchen = new Kitchen(KITCHEN_STATE);
+			addState(kitchen);
+			//game over state added
+			// give player to gameplaystates
+			m_player = new Player(room, getGameContainer(), 0, 0);
+			room.setPlayer(m_player);
+			kitchen.setPlayer(m_player);
+		}else{
+			Home home = new Home(HOME_STATE);
+			addState(home);
+			TownDay townDay = new TownDay(TOWN_DAY_STATE);
+			addState(townDay);
+			TownNight townNight = new TownNight(TOWN_NIGHT_STATE);
+			addState(townNight);
+			
+			m_player = new Player(home, getGameContainer(), 0, 0);
+			home.setPlayer(m_player);
+			townDay.setPlayer(m_player);
+			townNight.setPlayer(m_player);
+		}
+		
+		GameOver go = new GameOver(GAME_OVER_STATE);
+		addState(go);
+		addState(new MainMenu(MAINMENU_STATE));
+		initStatesList(getGameContainer());
+		enterState(MAINMENU_STATE);
+	}
 	public void run() {
 		try {
 			m_app.start();

@@ -188,6 +188,7 @@ public class Player extends MovingObject{
 			this.updateScene(delta);
 			return;
 		}
+
 		Input input = container.getInput();
 		m_inputDelta-=delta;	
 		Boolean setDelta = false;
@@ -278,6 +279,18 @@ public class Player extends MovingObject{
 			if(m_quests.get(i).getID()==id) {
 				m_quests.remove(i);
 				break;
+			}
+		}
+	}
+	
+	/**
+	 * Starts the quest with the given ID.
+	 * @param id
+	 */
+	public void startQuest(int id) {
+		for(int i = 0; i<m_quests.size(); i++) {
+			if(m_quests.get(i).getID()==id) {
+				m_quests.get(i).startQuest(m_game);
 			}
 		}
 	}

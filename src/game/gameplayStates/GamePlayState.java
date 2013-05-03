@@ -183,7 +183,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
-		
+
+		//check for game over state
+		if(m_player.getHealth().getVal()<=0){
+			stateManager.enterState(StateManager.GAME_OVER_STATE);
+		}
+
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
 			if (m_enemies != null)
@@ -191,16 +196,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 					e.update(delta);
 				}
 		}
-		
-		
-		
+				
 		if (m_inDialogue) {
 			if(m_inScene)
 				m_sceneDialogue.update(container, stateManager, delta);
 			else
 				m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
 		}
-		
 
 		Input input = container.getInput();
 		inputDelta-=delta;
@@ -316,7 +318,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	/**
-	 * Sets the blocked tiles, using the tiledMap.
+	 * Sets the blocked tiles, using the tiledMap, assuming m_tiledMap is already
+	 * initialized.
 	 * TODO: set blocked tiles with gameObjects as well.
 	 */
 	protected void setBlockedTiles() {
@@ -512,7 +515,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		this.m_loaded = true;
 		return this;
 	}
-	
+	//why is this in the class!?
+	//it needs to call set the state to game over.
+	public void gameOverEvent(){
+		//s.enterState(s.GAME_OVER_STATE);
+		System.out.println("GAME OVER");
+	}
 	class simpleMap implements TileBasedMap{
 		final int HEIGHT = m_tiledMap.getHeight();
 		final int WIDTH = m_tiledMap.getWidth();
