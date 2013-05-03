@@ -17,9 +17,10 @@ import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
 import game.interactables.Wrench;
-import game.quests.InteractionQuestGoal;
 import game.quests.Quest;
+import game.quests.QuestGoal;
 import game.quests.QuestReward;
+import game.quests.QuestStage;
 
 public class TownDay extends GamePlayState {
 
@@ -107,7 +108,7 @@ public class TownDay extends GamePlayState {
 	}
 
 	@Override
-	public void setupObjects(int city, int dream) {
+	public void setupObjects(int city, int dream) throws SlickException {
 		//TODO: set up cats
 		
 		if(city==3) {
@@ -122,13 +123,17 @@ public class TownDay extends GamePlayState {
 			m_objects.put(623, fireHydrant);
 			m_blocked[6][23] = true;
 			
+//			InvisiblePortal portal = new InvisiblePortal(813, 8*SIZE, 13*SIZE, 
+//					StateManager.DOLPHIN_STATE, 3*SIZE, 13*SIZE);
+//			m_interactables.put(813, portal);
+//			m_objects.put(813, portal);
 			
-			Quest fireHydrantQuest = new Quest();
-			InteractionQuestGoal goal1 = new InteractionQuestGoal(fireHydrant); 
+			Quest fireHydrantQuest = new Quest(0);
+			QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant)); 
 			goal1.setReward(new QuestReward.WaterDownReward());
 			goal1.setStartText(new String[] {"You want to look for a fire hydrant."});
 			goal1.setEndText(new String[] {"You open the fire hydrant. Water sprays out everywhere."});
-			fireHydrantQuest.addGoal(goal1);
+			fireHydrantQuest.addStage(goal1);
 			m_player.addQuest(fireHydrantQuest);
 			fireHydrantQuest.startQuest(this);
 		}

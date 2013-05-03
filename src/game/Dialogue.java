@@ -159,7 +159,7 @@ public class Dialogue {
         			}
         			else { // exit dialogue
 	        			m_game.setDialogueState(false); // TODO: + delete dialogue instance?
-	        			m_game.exitScene();
+	        			m_game.exitDialogueScene();
         			}
         		}
         		else

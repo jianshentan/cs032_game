@@ -15,19 +15,20 @@ public class Quest {
 	
 	protected int m_questID;
 	public int getID() { return m_questID; }
-	protected ArrayList<QuestGoal> m_goals;
+	protected ArrayList<QuestStage> m_goals;
 	protected int m_currentGoal;
 	public int getProgress() { return m_currentGoal; }
 	protected boolean m_isActive;
 	
-	public Quest() {
-		this.m_goals = new ArrayList<QuestGoal>();
+	public Quest(int id) {
+		this.m_questID = id;
+		this.m_goals = new ArrayList<QuestStage>();
 		this.m_currentGoal = 0;
 		this.m_isActive = false;
 	}
 	
 	
-	public final void addGoal(QuestGoal goal) {
+	public final void addStage(QuestStage goal) {
 		m_goals.add(goal);
 	}
 	

@@ -16,6 +16,10 @@ import game.StateManager;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.interactables.PortalObject;
+import game.quests.Quest;
+import game.quests.QuestGoal;
+import game.quests.QuestGoal.LocationGoal;
+import game.quests.QuestStage;
 
 public class TownNight extends GamePlayState {
 
@@ -72,9 +76,24 @@ public class TownNight extends GamePlayState {
 	public void setupObjects(int city, int dream) throws SlickException {
 		//setup enemies
 		if(dream==3) {
+			//TODO: set up some other stuff... text quests?
 			int[][] leadPoints = {{8,14},{8,14},{8,14},{8,14}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
 			m_enemies.add(spec);
+			
+			Quest learning = new Quest(1);
+			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))
+					.setStartText(new String[] 
+							{"Who... is that mysterious humanoid figure with no face, you wonder",
+							"You feel a compulsion to follow it."});
+			learning.addStage(stage1);
+			QuestStage stage2 = new QuestStage()
+					.addGoal(new QuestGoal.MultiLocationGoal(new int[][] {{10, 21},{11,21},{10,22},{11,22}}))
+					.setEndText(new String[] {"Wait... stop! you shout, to no avail. It's as if the figure" +
+							" is leading you on a pursuit."});
+			learning.addStage(stage2);
+			learning.startQuest(this);
+			m_player.addQuest(learning);
 		}
 		
 	}
@@ -85,8 +104,12 @@ public class TownNight extends GamePlayState {
 		
 	}
 	
+	/**
+	 * This brings the player back home.
+	 */
 	@Override
 	public void stateEnd(int endCode) {
+		m_player.removeQuest(1);
 		StateManager.m_dreamState -= 1;
 		StateManager.getInstance().enterState(StateManager.HOME_STATE, 
 				new FadeOutTransition(Color.black, 1000), 
