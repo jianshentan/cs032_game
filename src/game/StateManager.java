@@ -3,6 +3,7 @@ package game;
 import java.io.IOException;
 
 import game.gameplayStates.DolphinChamber;
+import game.gameplayStates.DolphinEntrance;
 import game.gameplayStates.GamePlayState;
 import game.gameplayStates.Home;
 import game.gameplayStates.Kitchen;
@@ -36,6 +37,7 @@ public class StateManager extends StateBasedGame {
 	public static final int ROOM_STATE = 1001;
 	
 	// real states
+	public static final int DOLPHIN_ENTRANCE = 5;
 	public static final int DOLPHIN_STATE = 4;
 	public static final int TOWN_NIGHT_STATE = 3;
 	public static final int TOWN_DAY_STATE = 2;
@@ -108,13 +110,15 @@ public class StateManager extends StateBasedGame {
 			addState(townNight);
 			DolphinChamber dolphinChamber = new DolphinChamber(DOLPHIN_STATE);
 			addState(dolphinChamber);
+			DolphinEntrance dolphinEntrance = new DolphinEntrance(DOLPHIN_ENTRANCE);
+			addState(dolphinEntrance);
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
 			townDay.setPlayer(m_player);
 			townNight.setPlayer(m_player);
 			dolphinChamber.setPlayer(m_player);
-		
+			dolphinEntrance.setPlayer(m_player);
 		}
 		
 		// start!
@@ -137,6 +141,7 @@ public class StateManager extends StateBasedGame {
 			getState(TOWN_NIGHT_STATE).init(container, this);
 			getState(HOME_STATE).init(container, this);
 			getState(DOLPHIN_STATE).init(container, this);
+			getState(DOLPHIN_ENTRANCE).init(container, this);
 		}
 		
 		if(this.m_loader==null) {
