@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="6" height="10" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="pink1" tilewidth="64" tileheight="64">
+  <image source="../colors/pink1.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="2" name="black" tilewidth="64" tileheight="64">
+  <image source="../colors/black.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="3" name="dolphinProtectors" tilewidth="256" tileheight="192">
+  <image source="../dolphinProtectors.png" width="320" height="192"/>
+ </tileset>
+ <tileset firstgid="4" name="yellow1" tilewidth="64" tileheight="64">
+  <image source="../colors/yellow1.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="5" name="blue1" tilewidth="64" tileheight="64">
+  <image source="../colors/blue1.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="6" name="clear" tilewidth="64" tileheight="64">
+  <image source="../colors/clear.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="6" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYCIDs0IxNjF0uYESx4YBWfQAxw==
+  </data>
+ </layer>
+ <imagelayer name="p" width="6" height="10">
+  <image source="../dolphinProtectors.png"/>
+ </imagelayer>
+</map>
