@@ -58,5 +58,9 @@ public abstract class GameObject {
 		ANIMAL,
 		FIRE_HYDRANT,
 		WRENCH,
+		PLUG,
+		SMALL_PLUG,
+		BIG_PLUG,
+		CORRECT_PLUG;
 	}
 }

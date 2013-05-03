@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
@@ -25,8 +27,11 @@ import game.quests.QuestStage;
 
 public class TownNight extends GamePlayState {
 
-	public TownNight(int stateID) {
+	private Image m_nightMask;
+	
+	public TownNight(int stateID) throws SlickException {
 		m_stateID = stateID;
+		m_nightMask = new Image("assets/nightMask.png");
 	}
 	
 	@Override
@@ -69,6 +74,10 @@ public class TownNight extends GamePlayState {
 			//m_objects.put(1129, doorMat);
 			
 		}
+	}
+	
+	public void additionalRender(GameContainer container, StateBasedGame stateManager, Graphics g) {
+		g.drawImage(m_nightMask, 0, 0);
 	}
 
 	@Override

@@ -137,7 +137,7 @@ public class TownDay extends GamePlayState {
 				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant));
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
 				goal1.setReward(new QuestReward.WaterDownReward());
-				goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
+				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
 				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
 						"Water sprays out everywhere."});
 				fireHydrantQuest.addStage(goal1);
