@@ -34,12 +34,20 @@ public abstract class QuestGoal {
 	public final void onAccomplished(GamePlayState state, Player player) {
 		m_reward.onAccomplished(state, player);
 	}
+	
+	public final void setStartText(String[] text) {
+		m_startText = text;
+	}
+	
+	public final void setEndText(String[] text) {
+		m_endText = text;
+	}
 		
-	public String[] onStartText()  {
+	public final String[] onStartText()  {
 		return m_startText;
 	}
 	
-	public String[] onEndText() {
+	public final String[] onEndText() {
 		return m_endText;
 	}
 

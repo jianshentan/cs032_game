@@ -17,6 +17,9 @@ import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
 import game.interactables.Wrench;
+import game.quests.InteractionQuestGoal;
+import game.quests.Quest;
+import game.quests.QuestReward;
 
 public class TownDay extends GamePlayState {
 
@@ -107,6 +110,16 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(623, fireHydrant);
 			m_objects.put(623, fireHydrant);
 			m_blocked[6][23] = true;
+			
+			
+			Quest fireHydrantQuest = new Quest();
+			InteractionQuestGoal goal1 = new InteractionQuestGoal(fireHydrant); 
+			goal1.setReward(new QuestReward.WaterDownReward());
+			goal1.setStartText(new String[] {"You want to look for a fire hydrant."});
+			goal1.setEndText(new String[] {"You open the fire hydrant. Water sprays out everywhere."});
+			fireHydrantQuest.addGoal(goal1);
+			m_player.addQuest(fireHydrantQuest);
+			fireHydrantQuest.startQuest(this);
 		}
 		
 	}

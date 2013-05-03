@@ -1,5 +1,7 @@
 package game.player;
 
+import java.util.ArrayList;
+
 import game.Collectable;
 import game.Direction;
 import game.Enemy;
@@ -8,6 +10,7 @@ import game.MovingObject;
 import game.animation.SmokeEmitter;
 import game.gameplayStates.GamePlayState;
 import game.interactables.Interactable;
+import game.quests.Quest;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -52,6 +55,8 @@ public class Player extends MovingObject{
 	private boolean m_sceneMode; //this is true if the object is in scene mode.
 	public boolean getSceneMode() { return this.m_sceneMode; }
 	public void setSceneMode(boolean mode) { this.m_sceneMode = mode; }
+	
+	private ArrayList<Quest> m_quests;
 	
 	public Animation getAnimation() { return m_sprite; }
 	public void setAnimation(Animation animation) { m_sprite = animation; }
@@ -101,6 +106,8 @@ public class Player extends MovingObject{
         m_health = new Health(10,30,50);
         
         m_inventory = new Inventory(container);
+        
+        m_quests = new ArrayList<Quest>();
 
 	}
 	
@@ -167,6 +174,9 @@ public class Player extends MovingObject{
 
 //        	m_room.interact(squareFacing);
         	Interactable interactable = m_game.interact(squareFacing);
+        	for(Quest q : m_quests) {
+    			q.updateQuest(m_game, this, interactable);
+    		}
         	if (interactable instanceof Collectable)
         		m_inventory.addItem((Collectable) interactable);
         	m_inputDelta=500;
@@ -202,6 +212,10 @@ public class Player extends MovingObject{
         if(setDelta){
         	m_inputDelta=500;
         }
+        
+        for(Quest q : m_quests) {
+			q.updateQuest(m_game, this);
+		}
 		
 		if (m_inInventory) 
 			m_inventory.update(container, delta);
@@ -250,6 +264,14 @@ public class Player extends MovingObject{
 	 */
 	public Collectable getUsing() {
 		return this.m_inventory.getCurrItem();
+	}
+	
+	/**
+	 * Adds a quest to the player.
+	 * @param q
+	 */
+	public void addQuest(Quest q) {
+		m_quests.add(q);
 	}
 	
 	/**

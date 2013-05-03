@@ -1,6 +1,9 @@
 package game.quests;
 
 import game.Collectable;
+import game.GameObject;
+import game.StateManager;
+import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
@@ -47,6 +50,20 @@ public abstract class QuestReward {
 		public void onAccomplished(GamePlayState state, Player player) {
 			player.getHealth().updateHealth(amount);
 		}
+	}
+	
+	/**
+	 * This reward adds a game object to the map.
+	 *
+	 */
+	public static class WaterDownReward extends QuestReward {
+
+		@Override
+		public void onAccomplished(GamePlayState state, Player player) {
+			DolphinChamber d = (DolphinChamber) StateManager.getInstance().getState(StateManager.DOLPHIN_STATE);
+			d.waterDown(true);
+		}
+		
 	}
 	
 	

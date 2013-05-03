@@ -24,6 +24,7 @@ public class InteractionQuestGoal extends QuestGoal {
 	@Override
 	public boolean isAccomplished(GamePlayState state, Player player,
 			Interactable interactable) {
+		System.out.println("trying quest goal");
 		if(interactable == m_targetInteractable)
 			return true;
 		return false;

@@ -12,6 +12,12 @@ import org.newdawn.slick.tiled.TiledMap;
 public class DolphinChamber extends GamePlayState {
 	
 	private boolean m_waterDown;
+	/**
+	 * Turns down the water.
+	 */
+	public void waterDown(boolean b) {
+		this.m_waterDown = b;
+	}
 	
 	public DolphinChamber(int id) {
 		m_stateID = id;
