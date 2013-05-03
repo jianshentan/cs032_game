@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="32" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="yellow1" tilewidth="64" tileheight="64">
+  <image source="../colors/yellow1.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="2" name="pink1" tilewidth="64" tileheight="64">
+  <image source="../colors/pink1.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="3" name="blue2" tilewidth="64" tileheight="64">
+  <image source="../colors/blue2.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="4" name="blue3" tilewidth="64" tileheight="64">
+  <image source="../colors/blue3.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="5" name="grey1" tilewidth="64" tileheight="64">
+  <image source="../colors/grey1.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="6" name="blue1" tilewidth="64" tileheight="64">
+  <image source="../colors/blue1.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="32" height="32">
+  <data encoding="base64" compression="zlib">
+   eJztlsEKwzAMQ7OU9P8/eZcOgrFk2UnHCjuIlTb0xbK8tLfW+l+P1xHoG/wBtMpHNY3r+RD4Y1qfEXq3vfepke31Tn5GjHca/QrfZvkAz6zfKDMZPlPkjXf9JH7fwJ/nosJHc8Hmrpo/9X+zmn3EV/u9qsj33TzbT6+nUd69nnpzbnO2wrcZi7KPrhU+OidY7zJ7iTKNcuLdeyX5SgbZmmz9lfln6zL9Rzm1PWazN++pN1yTUifbj5c/xK8KnQ1Z/5UzyJsj9VsY+R9p9o9lkZ03zP8Vfua7X2Gw+UE+q3xFp/mNvNzNV9+5m3u33k5ADdQ=
+  </data>
+ </layer>
+</map>
