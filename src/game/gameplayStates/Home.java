@@ -24,6 +24,8 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class Home extends GamePlayState {
+	
+	private int m_previousDreamState;
 
 	public Home(int stateID) {
 		m_stateID = stateID;
@@ -33,6 +35,8 @@ public class Home extends GamePlayState {
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 			throws SlickException {
+		
+		m_previousDreamState = StateManager.m_dreamState;
 		// set player initial location
 		m_playerX = SIZE*2;
 		m_playerY = SIZE*4;
@@ -166,6 +170,15 @@ public class Home extends GamePlayState {
 				m_inDialogue = true;
 			}
 		
+	}
+	
+	@Override
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		if(StateManager.m_dreamState==2 && StateManager.m_dreamState != this.m_previousDreamState) {
+			this.displayDialogue(new String[] {"You wake up. That was a strange dream.",
+						"It seems that the strange humanoid escaped into the zoo."});
+			this.m_previousDreamState = StateManager.m_dreamState;
+		}
 	}
 
 }
