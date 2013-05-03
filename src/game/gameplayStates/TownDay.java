@@ -62,9 +62,12 @@ public class TownDay extends GamePlayState {
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();	
 			
-			PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2, 3);
-			m_interactables.put(1129, doorMat);
-			m_objects.put(1129, doorMat);
+			PortalObject portal = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2, 3);
+			m_interactables.put(1129, portal);
+			m_objects.put(1129, portal);
+			
+			StaticObject doormat = new StaticObject(11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
+			m_objects.put(1128, doormat);
 			
 			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
 			m_interactables.put(1127, person_1);
@@ -134,7 +137,7 @@ public class TownDay extends GamePlayState {
 				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant));
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
 				goal1.setReward(new QuestReward.WaterDownReward());
-				goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
+				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
 				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
 						"Water sprays out everywhere."});
 				fireHydrantQuest.addStage(goal1);

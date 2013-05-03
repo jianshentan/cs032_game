@@ -102,6 +102,8 @@ public abstract class QuestGoal {
 
 		@Override
 		public boolean isAccomplished(GamePlayState state, Player player) {
+			if(player.getUsing()==null)
+				return false;
 			if(player.getUsing().equals(itemNeeded)) {
 				return true;
 			}
@@ -111,6 +113,8 @@ public abstract class QuestGoal {
 		@Override
 		public boolean isAccomplished(GamePlayState state, Player player,
 				Interactable interactable) {
+			if(player.getUsing()==null)
+				return false;
 			if(player.getUsing().equals(itemNeeded)) {
 				return true;
 			}

@@ -54,6 +54,12 @@ public class DolphinEntrance extends GamePlayState {
 			m_objects.put(31, portalB);
 			m_interactables.put(21,  portalA);
 			m_interactables.put(31,  portalB);
+			
+			StaticObject doormat = new StaticObject(2*SIZE, 8*SIZE, "assets/gameObjects/doormat.png");
+			m_objects.put(28, doormat);
+			InvisiblePortal portalC = new InvisiblePortal(28, 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
+			m_objects.put(29, portalC);
+			m_interactables.put(29, portalC);
 		}
 	}
 
