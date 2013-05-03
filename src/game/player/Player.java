@@ -174,6 +174,10 @@ public class Player extends MovingObject{
         }
 	}
 	
+	public void addToInventory(Collectable item) {
+		m_inventory.addItem(item);
+	}
+	
 	public void update(GameContainer container, int delta) {
 		if(this.getSceneMode()) {
 			this.updateScene(delta);

@@ -18,12 +18,15 @@ public class Person extends GameObject implements Interactable{
 	private Direction m_dir;
 	private String[] m_dialogue;
 	private int key;
+	private Collectable m_item = null;
 	
-	public Person(int key, int xLoc, int yLoc, String spritefile) throws SlickException {
-		
+	public Person(int key, int xLoc, int yLoc, String spritefile, Collectable item) throws SlickException {
 		m_x = xLoc;
 		m_y = yLoc;
 		this.key = key;
+		
+		if (item != null)
+			m_item = item;
 		
 		SpriteSheet spritesheet = new SpriteSheet(spritefile, 64,64);
 		m_up = spritesheet.getSprite(1,0);
@@ -31,7 +34,7 @@ public class Person extends GameObject implements Interactable{
 		m_left = spritesheet.getSprite(3,0);
 		m_right = spritesheet.getSprite(2,0);
 		
-		setSprite(m_left);
+		setSprite(m_down);
 		m_dir = Direction.LEFT;
 	}
 	
@@ -63,6 +66,8 @@ public class Person extends GameObject implements Interactable{
 		if(this.m_dialogue!=null) {
 			state.displayDialogue(m_dialogue);
 		}
+		if (m_item != null) 
+			p.addToInventory(m_item);
 		return this;
 	}
 	@Override

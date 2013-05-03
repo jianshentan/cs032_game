@@ -133,19 +133,20 @@ public class Home extends GamePlayState {
 		m_dialogue.clear();
 		if (city == 3 && dream == 3) {
 			Dialogue doorDialogue = new Dialogue(this, container, new String[] 
-					{"Its late out... Perhaps you should just hit the sack"});
+					{"Its late out... Perhaps you should just hit the sack"}, null);
 			dialoguePos = new int[] {2, 2};
 			m_dialogue.put(positionToKey(dialoguePos), doorDialogue);
 			
 			Dialogue computerDialogue = new Dialogue(this, container, new String[]
 					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
-					"You can also visit find plenty of friends right here on the internet.. special friends."});
+					"You can also visit find plenty of friends right here on the internet.. special friends."},
+					new String[] {"do you like cats or dogs", "cats", "dogs", "mouse"});
 			dialoguePos = new int[] {1, 4};
 			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
 		}
 		else if (city == 3 && dream == 2) {
 			Dialogue computerDialogue = new Dialogue(this, container, new String[]
-					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
+					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"}, null);
 			dialoguePos = new int[] {1, 4};
 			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
 		}

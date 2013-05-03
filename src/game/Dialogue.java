@@ -16,6 +16,10 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.fills.GradientFill;
 
+/**
+ * Displays text in blocks. If player can make decisions in the dialogue, the dialogue 
+ * has to be in the last textblock
+ */
 public class Dialogue {
 	
 	/*
@@ -29,6 +33,12 @@ public class Dialogue {
 	private int m_currTextBlock = 0;
 	private int m_numLines;
 	private int m_currLine = 0;
+	
+	// selection funtionality
+	private ArrayList<String> m_prompt = new ArrayList<String>();
+	private ArrayList<String> m_selectionOptions = new ArrayList<String>(); 
+	private int m_selection = -1;
+	private boolean m_selectionMode = false; // becomes true when you are in a textblock with selection
 
 	private float m_x;
     private float m_y;
@@ -42,7 +52,20 @@ public class Dialogue {
 	private int m_inputDelta = 0;
 	private GamePlayState m_game;
 	
-	public Dialogue(GamePlayState game, GameContainer container, String[] textArray) {
+	/**
+	 * Dialogue
+	 * @param game
+	 * @param container
+	 * @param textArray An array of string where each element in the array is a separate textblock
+	 * @param selectionArray An array of string where the first element in the array is a prompt, 
+	 * 		 	and every subsequent element is a selectable option
+	 * 			ie. ["do you like ice cream", "yes", "no"]
+	 * 			if null, no selection feature
+	 */
+	public Dialogue(GamePlayState game, 
+					GameContainer container, 
+					String[] textArray, 
+					String[] selectionArray) {
 		// set up box to display text in
 		m_game = game;
 		m_font = container.getDefaultFont();
@@ -57,11 +80,19 @@ public class Dialogue {
 		
 		// set up text to display
 		for (String text : textArray) {
-			ArrayList<String> lines = wrap(text, (int)m_width); 
+			ArrayList<String> lines = wrap(text, (int)m_width-50); 
 			m_text.add(lines);
 		}
 		m_numTextBlocks = m_text.size(); // should be > 0
 		m_currTextBlock = 0;
+		
+		// set up selection
+		if (selectionArray != null) {
+			m_prompt = wrap(selectionArray[0], (int)m_width-50);
+			for (int i=1; i<selectionArray.length; i++)
+				m_selectionOptions.add(selectionArray[i]);
+			m_selection = 0; // correlates to index of m_selectionOptions
+		}
 	}
 	
 	public void render(Graphics g) throws SlickException {
@@ -69,13 +100,30 @@ public class Dialogue {
 		g.setColor(Color.black);
 		
 		// render text
-		if (m_currTextBlock < m_text.size()) {
-			List<String> text = m_text.get(m_currTextBlock);
-			for (int i=0; i<m_currLine; i++) {
-				if (text.size() > i) {
-					String line = text.get(i);
-					g.drawString(line, m_x, m_y + i*m_font.getLineHeight());
+		if (!m_selectionMode) {
+			if (m_currTextBlock < m_text.size()) {
+				List<String> text = m_text.get(m_currTextBlock);
+				for (int i=0; i<m_currLine; i++) {
+					if (text.size() > i) {
+						String line = text.get(i);
+						g.drawString(line, m_x + 25, 25 + m_y + i*m_font.getLineHeight());
+					}
 				}
+			}
+		}
+		// render selections
+		else {
+			int i;
+			for (i=0; i<m_prompt.size(); i++) {
+				String line = m_prompt.get(i);
+				g.drawString(line, m_x + 25, 25 + m_y + i*m_font.getLineHeight());
+			}
+			for (int j=0; j<m_selectionOptions.size(); j++) {
+				g.drawString(m_selectionOptions.get(j), 50 + m_x, 
+						35 + m_y + i*m_font.getLineHeight() + j*m_font.getLineHeight());
+				if (j == m_selection) 
+					g.drawString(">", 40 + m_x,
+							35 + m_y + i*m_font.getLineHeight() + j*m_font.getLineHeight());
 			}
 		}
 	}
@@ -89,21 +137,30 @@ public class Dialogue {
 		// handles input
 		Input input = container.getInput();
 		m_inputDelta-=delta;
-        if (m_inputDelta<0 && input.isKeyDown(Input.KEY_UP)) {
+        if (m_inputDelta<0 && input.isKeyDown(Input.KEY_UP) && m_selectionMode) {
+        	if (m_selection > 0)
+        		m_selection--;
         	m_inputDelta=200;
         }
-        if (m_inputDelta<0 && input.isKeyDown(Input.KEY_DOWN)) {
+        if (m_inputDelta<0 && input.isKeyDown(Input.KEY_DOWN) && m_selectionMode) {
+        	if (m_selection < m_selectionOptions.size()-1)
+        		m_selection++;
         	m_inputDelta=200;
         }
-        if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE)){
+        if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE) && !m_selectionMode){
         	//System.out.println("updating");
         	if (m_currLine >= m_numLines) {
         		m_currLine = 0;
         		// got to next text block
         		if (m_currTextBlock >= m_numTextBlocks-1) {
         			m_currTextBlock = 0;
-        			m_game.setDialogueState(false); // TODO: + delete dialogue instance?
-        			m_game.exitScene();
+        			if (m_selection != -1) { // move on to dialogue options
+        				m_selectionMode = true;
+        			}
+        			else { // exit dialogue
+	        			m_game.setDialogueState(false); // TODO: + delete dialogue instance?
+	        			m_game.exitScene();
+        			}
         		}
         		else
         			m_currTextBlock++;
@@ -112,6 +169,11 @@ public class Dialogue {
         		m_currLine++;
         	m_inputDelta=200;
         }			
+        // if space in selection mode
+        if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE) && m_selectionMode){
+        	m_game.setDialogueState(false);
+        	m_game.exitScene();
+        }
 	}
 	
 	private ArrayList<String> wrap(String text, int width) {

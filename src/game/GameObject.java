@@ -45,5 +45,6 @@ public abstract class GameObject {
 		PERSON,
 		ANIMAL,
 		FIRE_HYDRANT,
+		WRENCH,
 	}
 }

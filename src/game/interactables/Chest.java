@@ -33,36 +33,6 @@ public class Chest extends GameObject implements Interactable{
 	@Override
 	public int getKey() {return m_key;}
 	
-//	private class ChestPopup extends JPanel {
-//		private BufferedImage m_image;
-//		
-//	    protected void paintComponent(Graphics g) {
-//	        super.paintComponent(g);
-//	        // Draw image centered.
-//	        int x = (getWidth() - m_image.getWidth())/2;
-//	        int y = (getHeight() - m_image.getHeight())/2;
-//	        g.drawImage(m_image, x, y, this);
-//	    }
-//		
-//		public ChestPopup() throws IOException{
-//			JFrame frame = new JFrame();
-//			
-//			frame.setFocusableWindowState(false);
-//			frame.setSize(256, 256);
-//			frame.setMinimumSize(new Dimension(256, 256));
-//			frame.setMaximumSize(new Dimension(256, 256));
-//			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//			frame.pack();
-//			frame.setVisible(false);
-//			
-//			this.setOpaque(true);
-//			String path = "assets/popup_horse.png";
-//			m_image = ImageIO.read(new File(path));
-//			frame.setContentPane(this);
-//		}
-//		
-//	}
-	
 	public Chest(int key, int xLoc, int yLoc) throws SlickException{
 		m_x = xLoc;
 		m_y = yLoc;

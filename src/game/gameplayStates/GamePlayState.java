@@ -40,6 +40,8 @@ import org.w3c.dom.NodeList;
  */
 public abstract class GamePlayState extends BasicGameState implements Loadable<GamePlayState> {
 	
+	protected int m_subState = 0;
+	
 	protected boolean m_isPaused = false;
 	protected boolean m_inDialogue = false;
 	protected PauseMenu m_pauseMenu = null;
@@ -461,7 +463,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void displayDialogue(String[] dialogue) {
 		m_inScene = true;
 		m_inDialogue = true;
-		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue);	
+		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);	
 	}
 
 	/**
