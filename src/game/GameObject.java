@@ -34,6 +34,18 @@ public abstract class GameObject {
 		return loc;
 	}
 	
+	/**
+	 * By default, two things of the same type are equal.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if(o.getClass() == this.getClass()) {
+			GameObject o1 = (GameObject) o;
+			return o1.getType() == this.getType();
+		}
+		return false;
+	}
+	
 	public enum Types {
 		CHEST,
 		CHICKEN_WING,
