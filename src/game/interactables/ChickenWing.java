@@ -66,5 +66,11 @@ public class ChickenWing extends Collectable implements Interactable{
 	public void onUse(Player p, GamePlayState state) {
 		p.getHealth().updateHealth(20);
 	}
+	@Override
+	public String[] useDialogue() {
+		String[] dialogue = {"You cook the raw chicken wing with the warmth of your heart. " +
+								"You gain 20 health."};
+		return dialogue;
+	}
 	
 }
