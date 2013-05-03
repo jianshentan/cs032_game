@@ -16,6 +16,7 @@ public class Person extends GameObject implements Interactable{
 	
 	private Image m_up, m_down, m_left, m_right;
 	private Direction m_dir;
+	private String[] m_dialogue;
 	private int key;
 	
 	public Person(int key, int xLoc, int yLoc, String spritefile) throws SlickException {
@@ -25,13 +26,17 @@ public class Person extends GameObject implements Interactable{
 		this.key = key;
 		
 		SpriteSheet spritesheet = new SpriteSheet(spritefile, 64,64);
-		m_up = spritesheet.getSprite(2,0);
+		m_up = spritesheet.getSprite(1,0);
 		m_down = spritesheet.getSprite(0,0);
 		m_left = spritesheet.getSprite(3,0);
-		m_right = spritesheet.getSprite(1,0);
+		m_right = spritesheet.getSprite(2,0);
 		
 		setSprite(m_left);
 		m_dir = Direction.LEFT;
+	}
+	
+	public void setDialogue(String[] text) {
+		this.m_dialogue = text;
 	}
 	
 	@Override
@@ -55,6 +60,9 @@ public class Person extends GameObject implements Interactable{
     		setSprite(m_left);
     		break;
     	}
+		if(this.m_dialogue!=null) {
+			state.displayDialogue(m_dialogue);
+		}
 		return this;
 	}
 	@Override
@@ -66,7 +74,7 @@ public class Person extends GameObject implements Interactable{
 	@Override
 	public Types getType() {
 		// TODO Auto-generated method stub
-		return null;
+		return GameObject.Types.PERSON;
 	}
 
 }

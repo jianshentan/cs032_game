@@ -11,6 +11,7 @@ import game.Dialogue;
 import game.GameObject;
 import game.Person;
 import game.StateManager;
+import game.StaticObject;
 import game.interactables.Door;
 import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
@@ -58,17 +59,19 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(1129, doorMat);
 			m_objects.put(1129, doorMat);
 			
-			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/Sprite3_all.png");
+			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/human_2.png");
 			m_interactables.put(1127, person_1);
 			m_objects.put(1127, person_1); 
 			m_blocked[11][27] = true;
 			
+			
 		}
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
-				{"can you help me find my cats? there are 5 of them."});
+				{"Can you help me find my cats? There are 5 of them."});
 
 		m_dialogue.put(1127, person_1_dialogue);
+		
 	}
 
 	@Override
@@ -84,7 +87,20 @@ public class TownDay extends GamePlayState {
 
 	@Override
 	public void setupObjects(int city, int dream) {
-		// TODO Auto-generated method stub
+		//TODO: set up cats
+		
+		if(city==3) {
+			StaticObject fireHydrant = null;
+			try {
+				fireHydrant = new StaticObject(6*SIZE, 23*SIZE, "assets/firehydrant.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			m_interactables.put(623, fireHydrant);
+			m_objects.put(623, fireHydrant);
+			m_blocked[6][23] = true;
+		}
 		
 	}
 

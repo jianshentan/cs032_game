@@ -10,6 +10,7 @@ import game.StateManager;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.player.Player;
+import game.quests.Quest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,6 +67,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
+	
+	protected ArrayList<Quest> m_quests;
 	
 	private boolean m_entered;
 	/**
@@ -169,6 +172,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_objects = new HashMap<Integer, GameObject>();
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		m_enemies = new ArrayList<Enemy>();
+		m_quests = new ArrayList<Quest>();
 		this.additionalInit(container, stateManager);
 	}
 	
@@ -184,6 +188,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				for(Enemy e : m_enemies) {
 					e.update(delta);
 				}
+		}
+		
+		for(Quest q : m_quests) {
+			q.updateQuest(this, m_player);
 		}
 		
 		if (m_inDialogue) {
@@ -299,7 +307,19 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		this.additionalRender(container, stateManager, g);
 	}
 	
-	public void setBlockedTiles() {
+	/**
+	 * Thi
+	 * @param endCode
+	 */
+	public void stateEnd(int endCode) {
+		
+	}
+	
+	/**
+	 * Sets the blocked tiles, using the tiledMap.
+	 * TODO: set blocked tiles with gameObjects as well.
+	 */
+	protected void setBlockedTiles() {
 		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
 		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
 			for (int yAxis=0; yAxis<m_tiledMap.getHeight(); yAxis++) {
@@ -381,7 +401,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
     }
     
 	/**
-	 * Returns the Interactable of an interaction.
+	 * Fires an interaction, and returns the Interactable of an interaction.
 	 * @param interactSquare
 	 * @return
 	 */
@@ -391,7 +411,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			int[] loc = i.getSquare();
 			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
 				dialogueListener(i);
-				return i.fireAction(this, m_player);
+				i.fireAction(this, m_player);
+				for(Quest q : m_quests) {
+					q.updateQuest(this, m_player, i);
+				}
+				return i;
 			}
 		}
 		return null;
@@ -410,6 +434,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			ret.add(i);
 		}
 		return ret;
+	}
+	
+	public void addQuest(Quest q) {
+		m_quests.add(q);
 	}
 	
 	/**
