@@ -58,15 +58,20 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(1129, doorMat);
 			m_objects.put(1129, doorMat);
 			
-			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/Sprite3_all.png");
+			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/human_2.png");
 			m_interactables.put(1127, person_1);
 			m_objects.put(1127, person_1); 
 			m_blocked[11][27] = true;
 			
+			Person person_2 = new Person(1625, 16*SIZE, 25*SIZE, "assets/characters/human_3.png");
+			m_interactables.put(1625, person_2);
+			m_objects.put(1625, person_2);
+			m_blocked[16][25] = true;
 		}
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
-				{"can you help me find my cats? there are 5 of them."}, null);
+				{"can you help me find my cats? there are 5 of them."}, new String[]
+						{"", "yes", "no"});
 
 		m_dialogue.put(1127, person_1_dialogue);
 	}
@@ -90,8 +95,27 @@ public class TownDay extends GamePlayState {
 
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
-		// TODO Auto-generated method stub
-		
+		int[] dialoguePos;
+		m_dialogue.clear();
+		if (city == 3 && dream == 3) {
+			Dialogue doorDialogue = new Dialogue(this, container, new String[] 
+					{"Its late out... Perhaps you should just hit the sack"}, null);
+			dialoguePos = new int[] {2, 2};
+			m_dialogue.put(positionToKey(dialoguePos), doorDialogue);
+			
+			Dialogue computerDialogue = new Dialogue(this, container, new String[]
+					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
+					"You can also visit find plenty of friends right here on the internet.. special friends."},
+					new String[] {"do you like cats or dogs", "cats", "dogs", "mouse"});
+			dialoguePos = new int[] {1, 4};
+			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+		}
+		else if (city == 3 && dream == 2) {
+			Dialogue computerDialogue = new Dialogue(this, container, new String[]
+					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"}, null);
+			dialoguePos = new int[] {1, 4};
+			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+		}
 	}
 
 }

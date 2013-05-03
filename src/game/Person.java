@@ -30,7 +30,7 @@ public class Person extends GameObject implements Interactable{
 		m_left = spritesheet.getSprite(3,0);
 		m_right = spritesheet.getSprite(1,0);
 		
-		setSprite(m_left);
+		setSprite(m_down);
 		m_dir = Direction.LEFT;
 	}
 	

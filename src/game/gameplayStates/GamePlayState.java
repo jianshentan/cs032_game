@@ -86,6 +86,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	//true if the state is in a scene.
 	private boolean m_inScene; 
 	private Dialogue m_sceneDialogue;
+	private boolean m_invisiblePlayer; //true if the player is invisible.
+	public void setInvisiblePlayer(boolean b) { m_invisiblePlayer = b; }
 	
 	public void setPauseState(boolean state) { m_isPaused = state; }
 	public boolean getPauseState() { return m_isPaused; }
@@ -239,6 +241,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			System.out.println("cityState: " + StateManager.m_cityState + 
 							   " | dreamState: " + StateManager.m_dreamState);
 		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_8)) {
+			StateManager.getInstance().enterState(StateManager.DOLPHIN_STATE);
+		}
+		
 	}
 	
 	@Override
@@ -260,7 +266,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 		}
 		// render player
-		m_player.getAnimation().draw(halfWidth, halfHeight);
+		if(m_invisiblePlayer == false)
+			m_player.getAnimation().draw(halfWidth, halfHeight);
 		// render enemies
 		if (m_enemies != null)
 			for(Enemy m_enemy : m_enemies)
@@ -292,6 +299,19 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			m_pauseMenu.render(g);
 		
 		this.additionalRender(container, stateManager, g);
+	}
+	
+	public void setBlockedTiles() {
+		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
+		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
+			for (int yAxis=0; yAxis<m_tiledMap.getHeight(); yAxis++) {
+				int tileID = m_tiledMap.getTileId(xAxis, yAxis, 0);
+				String value = m_tiledMap.getTileProperty(tileID, "blocked", "false");
+				if ("true".equals(value)) {
+					m_blocked[xAxis][yAxis] = true;
+				}
+			}
+		}
 	}
 	
 	/**
@@ -405,17 +425,17 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void exitScene() {
 		m_inScene = false;
 		m_inDialogue = false;
+		m_invisiblePlayer = false;
 	}
 	
 	/**
 	 * Enters a particular dialogue
 	 * @param dialogue
 	 */
-	public void sceneEnterDialogue(String[] dialogue) {
-		if(m_inScene == true) {
-			m_inDialogue = true;
-			m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);
-		}
+	public void displayDialogue(String[] dialogue) {
+		m_inScene = true;
+		m_inDialogue = true;
+		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);	
 	}
 
 	/**
@@ -476,6 +496,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			return 1.0f;
 		}
 		public boolean blocked(PathFindingContext ctx, int x, int y){
+			if(m_invisiblePlayer)
+				return false;
 			return m_blocked[x][y];
 		}
 		public int getHeightInTiles(){

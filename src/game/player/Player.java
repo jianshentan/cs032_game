@@ -213,7 +213,7 @@ public class Player extends MovingObject{
 			//If the item has a message to be displayed:
 			if(m_currentItem.useDialogue()!=null) {
 				m_game.enterScene();
-				m_game.sceneEnterDialogue(m_currentItem.useDialogue());
+				m_game.displayDialogue(m_currentItem.useDialogue());
 				//this.m_inInventory = false;
 			}
 			if(m_currentItem.isConsumable()) {
@@ -228,7 +228,6 @@ public class Player extends MovingObject{
 		}
 		else
 			m_usingItem = false;
-		
 	}
 	
 	public void renderItem(GameContainer container, StateBasedGame stateManager, Graphics g) {
@@ -264,12 +263,7 @@ public class Player extends MovingObject{
 		m_patrolPoints = patrolPoints;
 		m_currentStep=0;
 		m_finder = new AStarPathFinder(room.getMap(), 50, false);
-		int xDest = m_patrolPoints[m_roamCounter][0];
-		int yDest = m_patrolPoints[m_roamCounter][1];
-		m_path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], xDest, yDest );
-		m_currentStep = 1;
-		m_pathLength = m_path.getLength();
-		setDestination();
+		this.patrolUpdate();
 		//System.out.println(m_pathLength);
 	}
 	
@@ -288,6 +282,8 @@ public class Player extends MovingObject{
 				if(m_currentStep>=m_pathLength){
 					m_sceneMode = false;
 					this.patrolUpdate();
+					if(!m_sceneMode)
+						m_game.exitScene();
 				}else{
 					//System.out.println(m_currentStep + " "  + m_pathLength);
 					setDestination();

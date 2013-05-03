@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="15" height="15" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="dolphinMap02" tilewidth="960" tileheight="960">
+  <image source="../dolphinMap02.png" trans="000000" width="960" height="960"/>
+ </tileset>
+ <tileset firstgid="2" name="black" tilewidth="64" tileheight="64">
+  <image source="../colors/black.png" trans="000000" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="3" name="clear" tilewidth="64" tileheight="64">
+  <image source="../colors/clear.png" trans="000000" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Tile Layer 1" width="15" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2BwAmY0TKpebGxa6WVEUk+qmwEW4AAm
+  </data>
+ </layer>
+</map>
