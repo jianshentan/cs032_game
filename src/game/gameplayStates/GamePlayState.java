@@ -310,7 +310,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	/**
-	 * This is called in order to end the game.
+	 * This is called in order to end the game state.
 	 * @param endCode
 	 */
 	public void stateEnd(int endCode) {
@@ -448,6 +448,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_inScene = false;
 		m_inDialogue = false;
 		m_invisiblePlayer = false;
+	}
+	
+	public void exitDialogueScene() {
+		m_inScene = false;
+		m_inDialogue = false;
 	}
 	
 	/**

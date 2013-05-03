@@ -20,7 +20,8 @@ public class Quest {
 	public int getProgress() { return m_currentGoal; }
 	protected boolean m_isActive;
 	
-	public Quest() {
+	public Quest(int id) {
+		this.m_questID = id;
 		this.m_goals = new ArrayList<QuestStage>();
 		this.m_currentGoal = 0;
 		this.m_isActive = false;

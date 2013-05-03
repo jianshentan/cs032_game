@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import game.Collectable;
 import game.Direction;
 import game.Enemy;
-import game.GameObject;
 import game.MovingObject;
-import game.animation.SmokeEmitter;
 import game.gameplayStates.GamePlayState;
 import game.interactables.Interactable;
 import game.quests.Quest;
@@ -22,9 +20,6 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.particles.ConfigurableEmitter;
-import org.newdawn.slick.particles.ParticleEmitter;
-import org.newdawn.slick.particles.effects.FireEmitter;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.pathfinding.AStarPathFinder;
 import org.newdawn.slick.util.pathfinding.Path;
@@ -273,6 +268,19 @@ public class Player extends MovingObject{
 	 */
 	public void addQuest(Quest q) {
 		m_quests.add(q);
+	}
+	
+	/**
+	 * Removes a quest with the given ID.
+	 * @param id
+	 */
+	public void removeQuest(int id) {
+		for(int i = 0; i<m_quests.size(); i++) {
+			if(m_quests.get(i).getID()==id) {
+				m_quests.remove(i);
+				break;
+			}
+		}
 	}
 	
 	/**

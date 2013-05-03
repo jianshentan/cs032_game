@@ -7,7 +7,7 @@ import game.interactables.Interactable;
 import game.player.Player;
 
 /**
- * This class represents the goal of a quest.
+ * This class represents a segment in a quest.
  *
  */
 public class QuestStage {
@@ -64,7 +64,8 @@ public class QuestStage {
 	}
 	
 	public final void onAccomplished(GamePlayState state, Player player) {
-		m_reward.onAccomplished(state, player);
+		if(m_reward!=null)
+			m_reward.onAccomplished(state, player);
 	}
 	
 	public final QuestStage setStartText(String[] text) {

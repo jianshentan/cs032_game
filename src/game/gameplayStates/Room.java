@@ -86,7 +86,7 @@ public class Room extends GamePlayState {
 			m_blocked[8][4] = true;
 			m_objects.put(84, cigarette);
 			
-			Door door = new Door(67, 6*SIZE, 7*SIZE, StateManager.KITCHEN_STATE, 2*SIZE, 1*SIZE);
+			Door door = new Door(67, 6*SIZE, 7*SIZE, StateManager.KITCHEN_STATE, 2, 1);
 			m_interactables.put(67, door);
 			m_objects.put(67, door);
 		}
