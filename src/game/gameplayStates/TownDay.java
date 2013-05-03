@@ -117,7 +117,7 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(813, portal);
 			m_objects.put(813, portal);
 			
-			Quest fireHydrantQuest = new Quest();
+			Quest fireHydrantQuest = new Quest(0);
 			QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant)); 
 			goal1.setReward(new QuestReward.WaterDownReward());
 			goal1.setStartText(new String[] {"You want to look for a fire hydrant."});

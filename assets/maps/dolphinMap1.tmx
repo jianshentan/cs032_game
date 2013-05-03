@@ -22,12 +22,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="15" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYEAFzFgwMQCbWmL041NDjF5yzKWW2bjCiNgwQzeLVL3I+tHZpOgjRS+58QxTR4o+XGFMbLoiRZyQGkJ2MqKpIyUPAQA5RwCz
-  </data>
- </layer>
- <layer name="Tile Layer 2" width="15" height="15" opacity="0.27">
-  <data encoding="base64" compression="zlib">
-   eJxjYmBgYKIiRgbk6iNFPy5AiV5S3U6Jv9HNoLdect1Nb31MZOjDBsjVS268EIMBcXIBZw==
+   eJxjYEAFzFgwMQCbWmL041NDjF5yzKWW2bjCidgwQzeLVL3o6qkRX+TqI1YvKfrwhS+58UeOO4mxkxFNHSl5CAA2RwCw
   </data>
  </layer>
 </map>

@@ -275,6 +275,19 @@ public class Player extends MovingObject{
 	}
 	
 	/**
+	 * Removes a quest with the given ID.
+	 * @param id
+	 */
+	public void removeQuest(int id) {
+		for(int i = 0; i<m_quests.size(); i++) {
+			if(m_quests.get(i).getID()==id) {
+				m_quests.remove(i);
+				break;
+			}
+		}
+	}
+	
+	/**
 	 * Makes this MovingObject follow a certain path.
 	 * @param room
 	 * @param patrolPoints

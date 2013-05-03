@@ -14,8 +14,21 @@ import game.player.Player;
  */
 public abstract class QuestGoal {
 
+	/**
+	 * Checks if the goal is accomplished- fires at every update
+	 * @param state
+	 * @param player
+	 * @return boolean
+	 */
 	public abstract boolean isAccomplished(GamePlayState state, Player player);
 	
+	/**
+	 * Checks if goal is accomplished- fires when the player interacts with something
+	 * @param state
+	 * @param player
+	 * @param interactable
+	 * @return boolean
+	 */
 	public abstract boolean isAccomplished(GamePlayState state, Player player, Interactable interactable);
 	
 	/**
@@ -41,6 +54,8 @@ public abstract class QuestGoal {
 		public boolean isAccomplished(GamePlayState state, Player player,
 				Interactable interactable) {
 			//System.out.println("trying quest goal");
+			if(interactable == null || m_targetInteractable == null)
+				return false;
 			if(interactable.equals(m_targetInteractable))
 				return true;
 			return false;
@@ -98,6 +113,79 @@ public abstract class QuestGoal {
 				Interactable interactable) {
 			if(player.getUsing().equals(itemNeeded)) {
 				return true;
+			}
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * This goal returns true when the player reaches a certain location.
+	 *
+	 */
+	public static class LocationGoal extends QuestGoal {
+		
+		private int x, y;
+		
+		public LocationGoal(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player) {
+			int[] playerLocation = player.getSquare();
+			//System.out.println(playerLocation[0] + playerLocation[1]);
+			if(playerLocation[0]==this.x && playerLocation[1]==this.y){
+				return true;
+			} return false;
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player,
+				Interactable interactable) {
+			int[] playerLocation = player.getSquare();
+			if(playerLocation[0]==this.x && playerLocation[1]==this.y){
+				return true;
+			} return false;
+		}
+		
+	}
+	
+	
+	/**
+	 * This goal returns true when the player reaches one of any number of locations.
+	 *
+	 */
+	public static class MultiLocationGoal extends QuestGoal {
+		
+		private int[][] locations;
+		
+		public MultiLocationGoal(int[][] locations) {
+			this.locations = locations;
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player) {
+			int[] playerLocation = player.getSquare();
+			//System.out.println(playerLocation[0] + playerLocation[1]);
+			for(int i = 0; i<this.locations.length; i++) {
+				if(playerLocation[0]==this.locations[i][0] && playerLocation[1]==this.locations[i][1]){
+					return true;
+				} 
+			}
+			return false;
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player,
+				Interactable interactable) {
+			int[] playerLocation = player.getSquare();
+			//System.out.println(playerLocation[0] + playerLocation[1]);
+			for(int i = 0; i<this.locations.length; i++) {
+				if(playerLocation[0]==this.locations[i][0] && playerLocation[1]==this.locations[i][1]){
+					return true;
+				}
 			}
 			return false;
 		}
