@@ -1,8 +1,15 @@
 package game.gameplayStates;
 
+import java.util.HashMap;
+
+import game.Dialogue;
+import game.GameObject;
 import game.Scene;
+import game.StateManager;
+import game.StaticObject;
 import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
+import game.interactables.InvisiblePortal;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -30,6 +37,19 @@ public class DolphinChamber extends GamePlayState {
 		this.m_map = new simpleMap();
 		m_playerX = SIZE*3;
 		m_playerY = SIZE*13;
+		
+		if(!this.isLoaded()) {
+			m_interactables = new HashMap<Integer, Interactable>();
+			m_objects = new HashMap<Integer, GameObject>();
+			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
+			
+			InvisiblePortal portalA = new InvisiblePortal(314, 3*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 2,2);
+			InvisiblePortal portalB = new InvisiblePortal(414, 4*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 3,2);
+			m_objects.put(314, portalA);
+			m_objects.put(414, portalB);
+			m_interactables.put(314,  portalA);
+			m_interactables.put(414,  portalB);
+		}
 		this.setBlockedTiles();
 	}
 

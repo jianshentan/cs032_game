@@ -29,7 +29,7 @@ public abstract class QuestReward {
 		
 		@Override
 		public void onAccomplished(GamePlayState state, Player player) {
-			player.getInventory().addItem(item);
+			player.addToInventory(item);
 			
 		}
 	}

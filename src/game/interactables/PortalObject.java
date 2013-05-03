@@ -52,7 +52,7 @@ public abstract class PortalObject extends GameObject implements Interactable {
 		
 		GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(m_destination);
 		if (m_xDestination >= 0 && m_xDestination >= 0)
-			destinationState.setPlayerLocation(m_xDestination, m_yDestination);
+			destinationState.setPlayerLocation(m_xDestination*SIZE, m_yDestination*SIZE);
 		additionalFireAction(state, p);
 		return this;
 	}

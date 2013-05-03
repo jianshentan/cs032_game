@@ -60,7 +60,7 @@ public class TownDay extends GamePlayState {
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();	
 			
-			PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
+			PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2, 3);
 			m_interactables.put(1129, doorMat);
 			m_objects.put(1129, doorMat);
 			
@@ -73,6 +73,10 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(1625, person_2);
 			m_objects.put(1625, person_2);
 			m_blocked[16][25] = true;
+			
+			Door dolphinDoor = new Door(813, 8*SIZE, 13*SIZE, StateManager.DOLPHIN_ENTRANCE, 2, 8);
+			m_interactables.put(813, dolphinDoor);
+			m_objects.put(813, dolphinDoor);
 		}
 
 		
@@ -87,12 +91,19 @@ public class TownDay extends GamePlayState {
 				m_dialogueNum = 1127;
 				m_inDialogue = true;
 			}
-		// person_@: key = 1625
+		// person_2: key = 1625
 		if (m_interactables.containsKey(1625) && m_dialogue.containsKey(1625))
 			if (i.getSquare()[0] == m_interactables.get(1625).getSquare()[0] &&
 				i.getSquare()[1] == m_interactables.get(1625).getSquare()[1]) {
 				m_dialogueNum = 1625;
 				m_inDialogue = true;
+			}
+		// dolphin door: key = 813;
+		if (m_interactables.containsKey(813) && m_dialogue.containsKey(813))
+			if (i.getSquare()[0] == m_interactables.get(1625).getSquare()[0] &&
+				i.getSquare()[1] == m_interactables.get(1625).getSquare()[1]) {
+				m_dialogueNum = 813;
+				m_inDialogue = true;	
 			}
 	}
 
@@ -112,10 +123,10 @@ public class TownDay extends GamePlayState {
 			m_objects.put(623, fireHydrant);
 			m_blocked[6][23] = true;
 			
-			InvisiblePortal portal = new InvisiblePortal(813, 8*SIZE, 13*SIZE, 
-					StateManager.DOLPHIN_STATE, 3*SIZE, 13*SIZE);
-			m_interactables.put(813, portal);
-			m_objects.put(813, portal);
+//			InvisiblePortal portal = new InvisiblePortal(813, 8*SIZE, 13*SIZE, 
+//					StateManager.DOLPHIN_STATE, 3*SIZE, 13*SIZE);
+//			m_interactables.put(813, portal);
+//			m_objects.put(813, portal);
 			
 			Quest fireHydrantQuest = new Quest(0);
 			QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant)); 
@@ -147,6 +158,11 @@ public class TownDay extends GamePlayState {
 					"* you've received a wrench *"}, null);
 			dialoguePos = new int[] {16, 25};
 			m_dialogue.put(positionToKey(dialoguePos), person2Dialogue);
+			
+//			Dialogue dolphinDoor = new Dialogue(this, container, new String[]
+//					{"This is where it escaped... ", 
+//					"I've got to block it off so that it won't get away next time"}, null);
+//			m_dialogue.put(813, dolphinDoor);
 		}
 		else if (city == 2 && dream == 2) {
 		}

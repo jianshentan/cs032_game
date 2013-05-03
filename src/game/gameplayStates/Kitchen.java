@@ -54,7 +54,7 @@ public class Kitchen extends GamePlayState {
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();
 			
-			Door door = new Door(20, 2*SIZE, 0*SIZE, StateManager.ROOM_STATE, 6*SIZE, 8*SIZE);
+			Door door = new Door(20, 2*SIZE, 0*SIZE, StateManager.ROOM_STATE, 6, 8);
 			m_interactables.put(20, door);
 			m_objects.put(20, door);
 		}
