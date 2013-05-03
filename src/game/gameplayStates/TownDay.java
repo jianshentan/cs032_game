@@ -23,6 +23,8 @@ import game.quests.QuestReward;
 import game.quests.QuestStage;
 
 public class TownDay extends GamePlayState {
+	
+	private boolean m_quest1Given;
 
 	public TownDay(int stateID) {
 		m_stateID = stateID;
@@ -127,15 +129,19 @@ public class TownDay extends GamePlayState {
 //					StateManager.DOLPHIN_STATE, 3*SIZE, 13*SIZE);
 //			m_interactables.put(813, portal);
 //			m_objects.put(813, portal);
-			
-			Quest fireHydrantQuest = new Quest(0);
-			QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant)); 
-			goal1.setReward(new QuestReward.WaterDownReward());
-			goal1.setStartText(new String[] {"You want to look for a fire hydrant."});
-			goal1.setEndText(new String[] {"You open the fire hydrant. Water sprays out everywhere."});
-			fireHydrantQuest.addStage(goal1);
-			m_player.addQuest(fireHydrantQuest);
-			fireHydrantQuest.startQuest(this);
+			if(m_quest1Given == false) {
+				Quest fireHydrantQuest = new Quest(0);
+				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant));
+				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
+				goal1.setReward(new QuestReward.WaterDownReward());
+				goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
+				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
+						"Water sprays out everywhere."});
+				fireHydrantQuest.addStage(goal1);
+				m_player.addQuest(fireHydrantQuest);
+				fireHydrantQuest.startQuest(this);
+				m_quest1Given = true;
+			}
 		}
 		
 	}
