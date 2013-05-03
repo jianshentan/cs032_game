@@ -2,9 +2,12 @@ package game.gameplayStates;
 
 import java.util.HashMap;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
 import game.GameObject;
@@ -80,6 +83,14 @@ public class TownNight extends GamePlayState {
 	public void setupDialogue(GameContainer container, int city, int dream) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void stateEnd(int endCode) {
+		StateManager.m_dreamState -= 1;
+		StateManager.getInstance().enterState(StateManager.HOME_STATE, 
+				new FadeOutTransition(Color.black, 1000), 
+				new FadeInTransition(Color.black, 1000));
 	}
 
 }

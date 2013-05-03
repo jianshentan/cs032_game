@@ -310,7 +310,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	/**
-	 * Thi
+	 * This is called in order to end the game.
 	 * @param endCode
 	 */
 	public void stateEnd(int endCode) {

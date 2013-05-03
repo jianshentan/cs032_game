@@ -37,6 +37,6 @@ public class Spectre extends Enemy {
 	public void arriveEvent(){
 		System.out.println("ARRIVE OVERRIDDEN");
 		m_ai = AIState.WAIT;
-		
+		m_game.stateEnd(0);
 	}
 }
