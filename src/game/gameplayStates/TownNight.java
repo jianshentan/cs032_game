@@ -13,6 +13,8 @@ import org.newdawn.slick.tiled.TiledMap;
 import game.GameObject;
 import game.Spectre;
 import game.StateManager;
+import game.StaticObject;
+import game.interactables.Door;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.interactables.PortalObject;
@@ -58,6 +60,9 @@ public class TownNight extends GamePlayState {
 			// setup objects
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();	
+			
+			StaticObject dolphinDoor = new StaticObject(8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
+			m_objects.put(813, dolphinDoor);
 			
 			//PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
 			//m_interactables.put(1129, doorMat);
