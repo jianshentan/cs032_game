@@ -66,7 +66,7 @@ public class TownDay extends GamePlayState {
 		}
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
-				{"can you help me find my cats? there are 5 of them."});
+				{"can you help me find my cats? there are 5 of them."}, null);
 
 		m_dialogue.put(1127, person_1_dialogue);
 	}
