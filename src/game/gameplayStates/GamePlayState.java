@@ -316,7 +316,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	/**
-	 * Sets the blocked tiles, using the tiledMap.
+	 * Sets the blocked tiles, using the tiledMap, assuming m_tiledMap is already
+	 * initialized.
 	 * TODO: set blocked tiles with gameObjects as well.
 	 */
 	protected void setBlockedTiles() {

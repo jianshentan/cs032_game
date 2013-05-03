@@ -288,6 +288,18 @@ public class Player extends MovingObject{
 	}
 	
 	/**
+	 * Starts the quest with the given ID.
+	 * @param id
+	 */
+	public void startQuest(int id) {
+		for(int i = 0; i<m_quests.size(); i++) {
+			if(m_quests.get(i).getID()==id) {
+				m_quests.get(i).startQuest(m_game);
+			}
+		}
+	}
+	
+	/**
 	 * Makes this MovingObject follow a certain path.
 	 * @param room
 	 * @param patrolPoints
