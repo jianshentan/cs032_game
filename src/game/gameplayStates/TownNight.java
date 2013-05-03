@@ -52,14 +52,10 @@ public class TownNight extends GamePlayState {
 			m_interactables = new HashMap<Integer, Interactable>();
 			m_objects = new HashMap<Integer, GameObject>();	
 			
-			PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
-			m_interactables.put(1129, doorMat);
-			m_objects.put(1129, doorMat);
+			//PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
+			//m_interactables.put(1129, doorMat);
+			//m_objects.put(1129, doorMat);
 			
-			//setup enemies
-			int[][] leadPoints = {{3,28},{2,28},{3,28},{3,28}};
-			Spectre spec = new Spectre(this, m_player, SIZE*9, SIZE*28, leadPoints);
-			m_enemies.add(spec);
 		}
 	}
 
@@ -70,8 +66,13 @@ public class TownNight extends GamePlayState {
 	}
 
 	@Override
-	public void setupObjects(int city, int dream) {
-		// TODO Auto-generated method stub
+	public void setupObjects(int city, int dream) throws SlickException {
+		//setup enemies
+		if(dream==3) {
+			int[][] leadPoints = {{8,14},{8,14},{8,14},{8,14}};
+			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
+			m_enemies.add(spec);
+		}
 		
 	}
 

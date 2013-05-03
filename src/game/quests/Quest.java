@@ -3,6 +3,7 @@ package game.quests;
 import java.util.ArrayList;
 
 import game.gameplayStates.GamePlayState;
+import game.interactables.Interactable;
 import game.player.Player;
 
 /**
@@ -28,11 +29,40 @@ public abstract class Quest {
 		m_isActive = true;
 	}
 	
+	/**
+	 * Triggered on each update.
+	 * @param state
+	 * @param player
+	 */
 	public void updateQuest(GamePlayState state, Player player) {
 		if(m_isActive==false) {
 			return;
 		}
 		if(m_goals.get(m_currentGoal).isAccomplished(state, player)) {
+			m_currentGoal += 1;
+			if (m_currentGoal >= m_goals.size()) {
+				m_isActive = false;
+				this.questOver(state, player);
+			} else {
+				String[] desc = m_goals.get(m_currentGoal).onStartText();
+				if(desc!=null) {
+					state.displayDialogue(desc);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Triggered on each interaction.
+	 * @param state
+	 * @param player
+	 * @param interactable
+	 */
+	public void updateQuest(GamePlayState state, Player player, Interactable interactable) {
+		if(m_isActive==false) {
+			return;
+		}
+		if(m_goals.get(m_currentGoal).isAccomplished(state, player, interactable)) {
 			m_currentGoal += 1;
 			if (m_currentGoal >= m_goals.size()) {
 				m_isActive = false;
@@ -49,6 +79,6 @@ public abstract class Quest {
 		return m_isActive;
 	}
 	
-	public abstract void questOver(GamePlayState state, Player player);
+	protected abstract void questOver(GamePlayState state, Player player);
 
 }

@@ -42,5 +42,9 @@ public abstract class GameObject {
 		DOOR_MAT,
 		BED,
 		STATIC,
+		PERSON,
+		ANIMAL,
+		FIRE_HYDRANT,
+		WRENCH,
 	}
 }

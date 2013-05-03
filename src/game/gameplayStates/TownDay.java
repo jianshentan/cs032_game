@@ -11,10 +11,12 @@ import game.Dialogue;
 import game.GameObject;
 import game.Person;
 import game.StateManager;
+import game.StaticObject;
 import game.interactables.Door;
 import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
+import game.interactables.Wrench;
 
 public class TownDay extends GamePlayState {
 
@@ -58,22 +60,18 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(1129, doorMat);
 			m_objects.put(1129, doorMat);
 			
-			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/human_2.png");
+			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
 			m_interactables.put(1127, person_1);
 			m_objects.put(1127, person_1); 
 			m_blocked[11][27] = true;
 			
-			Person person_2 = new Person(1625, 16*SIZE, 25*SIZE, "assets/characters/human_3.png");
+			Person person_2 = new Person(1625, 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new Wrench(-1,-1));
 			m_interactables.put(1625, person_2);
 			m_objects.put(1625, person_2);
 			m_blocked[16][25] = true;
 		}
-		m_dialogue = new HashMap<Integer, Dialogue>();
-		Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
-				{"can you help me find my cats? there are 5 of them."}, new String[]
-						{"", "yes", "no"});
 
-		m_dialogue.put(1127, person_1_dialogue);
+		
 	}
 
 	@Override
@@ -85,11 +83,31 @@ public class TownDay extends GamePlayState {
 				m_dialogueNum = 1127;
 				m_inDialogue = true;
 			}
+		// person_@: key = 1625
+		if (m_interactables.containsKey(1625) && m_dialogue.containsKey(1625))
+			if (i.getSquare()[0] == m_interactables.get(1625).getSquare()[0] &&
+				i.getSquare()[1] == m_interactables.get(1625).getSquare()[1]) {
+				m_dialogueNum = 1625;
+				m_inDialogue = true;
+			}
 	}
 
 	@Override
 	public void setupObjects(int city, int dream) {
-		// TODO Auto-generated method stub
+		//TODO: set up cats
+		
+		if(city==3) {
+			StaticObject fireHydrant = null;
+			try {
+				fireHydrant = new StaticObject(6*SIZE, 23*SIZE, "assets/firehydrant.png");
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			m_interactables.put(623, fireHydrant);
+			m_objects.put(623, fireHydrant);
+			m_blocked[6][23] = true;
+		}
 		
 	}
 
@@ -97,24 +115,22 @@ public class TownDay extends GamePlayState {
 	public void setupDialogue(GameContainer container, int city, int dream) {
 		int[] dialoguePos;
 		m_dialogue.clear();
-		if (city == 3 && dream == 3) {
-			Dialogue doorDialogue = new Dialogue(this, container, new String[] 
-					{"Its late out... Perhaps you should just hit the sack"}, null);
-			dialoguePos = new int[] {2, 2};
-			m_dialogue.put(positionToKey(dialoguePos), doorDialogue);
+		if (city == 3 && dream == 2) {
+			m_dialogue = new HashMap<Integer, Dialogue>();
+			Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
+					{"can you help me find my cats? there are 5 of them."}, new String[]
+							{"", "yes", "no"});
+			m_dialogue.put(1127, person_1_dialogue);
 			
-			Dialogue computerDialogue = new Dialogue(this, container, new String[]
-					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
-					"You can also visit find plenty of friends right here on the internet.. special friends."},
-					new String[] {"do you like cats or dogs", "cats", "dogs", "mouse"});
-			dialoguePos = new int[] {1, 4};
-			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+			Dialogue person2Dialogue = new Dialogue(this, container, new String[] 
+					{"Young man, for what reason have you let your mustache grow?",
+					"It really looks quite terrible on a face like ours.",
+					"Here's a wrench I found, maybe you can fix your face with it.",
+					"* you've received a wrench *"}, null);
+			dialoguePos = new int[] {16, 25};
+			m_dialogue.put(positionToKey(dialoguePos), person2Dialogue);
 		}
-		else if (city == 3 && dream == 2) {
-			Dialogue computerDialogue = new Dialogue(this, container, new String[]
-					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"}, null);
-			dialoguePos = new int[] {1, 4};
-			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+		else if (city == 2 && dream == 2) {
 		}
 	}
 
