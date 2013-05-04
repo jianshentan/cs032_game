@@ -78,7 +78,7 @@ public class TownDay extends GamePlayState {
 			
 			Person person_1 = new Person("person_1", 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
 			person_1.setDialogue(new String[] 
-					{"can you help me find my cats? there are 2 of them."});
+					{"Can you help me find my cats? There are 2 of them."});
 			this.addObject(person_1, true);
 			m_blocked[11][27] = true;
 			
@@ -139,6 +139,9 @@ public class TownDay extends GamePlayState {
 			m_blocked[13][11] = true;
 			
 			//TODO: add signs
+			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
+			sign1.setDialogue(new String[] {"The Horse Stables (formerly the zoo)"});
+			this.addObject(sign1, true);
 		}
 
 		
@@ -207,7 +210,9 @@ public class TownDay extends GamePlayState {
 			}
 		}
 		else if(city==2) {
-			
+			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"Can you do something about all" +
+					" the horses?"});
+			((Person) this.getObject("person_1")).setDialogue(new String[] {"My cats..."});
 		}
 		
 	}
