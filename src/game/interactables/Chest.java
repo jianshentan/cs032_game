@@ -10,6 +10,7 @@ import java.io.*;
 import java.net.URL;
 
 import game.GameObject;
+import game.collectables.BigPlug;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 import game.popup.MainFrame;
@@ -56,14 +57,12 @@ public class Chest extends GameObject implements Interactable{
 	}
 
 	@Override
-	public Interactable fireAction(GamePlayState state, Player p) {
+	public Interactable fireAction(GamePlayState state, Player p){
 		if(getSprite().equals(m_closed)){
 			m_popup.setVisible(true);
-			m_isOpen = true;
 			setSprite(m_open);
 		}else{
 			m_popup.setVisible(false);
-			m_isOpen = false;
 			setSprite(m_closed);
 		}
 		return this;

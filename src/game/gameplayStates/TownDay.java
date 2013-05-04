@@ -13,12 +13,14 @@ import game.GameObject;
 import game.Person;
 import game.StateManager;
 import game.StaticObject;
+import game.collectables.*;
 import game.interactables.Animal;
 import game.interactables.Door;
 import game.interactables.Horse;
 import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
+import game.interactables.Trashcan;
 import game.interactables.Wrench;
 import game.player.Player;
 import game.quests.Quest;
@@ -84,6 +86,18 @@ public class TownDay extends GamePlayState {
 			m_objects.put(1625, person_2);
 			m_blocked[16][25] = true;
 			
+			Person buttPlugPerson = new Person(1135, 4*SIZE, 8*SIZE, "assets/characters/human_2.png", new BigPlug());
+			buttPlugPerson.setDialogue(new String[]
+					{"!",
+					"You startled me!",
+					"Let's just keep this our little secret",
+					"Take this as payment",
+					"* You've recieved a butt-plug *"
+					});
+			m_interactables.put(1135, buttPlugPerson);
+			m_objects.put(1135, buttPlugPerson);
+			m_blocked[4][8] = true;
+			
 			Door dolphinDoor = new Door(813, 8*SIZE, 13*SIZE, StateManager.DOLPHIN_ENTRANCE, 2, 8);
 			m_interactables.put(813, dolphinDoor);
 			m_objects.put(813, dolphinDoor);
@@ -91,7 +105,10 @@ public class TownDay extends GamePlayState {
 			Door virtualRealityRoomDoor = new Door(2218, 22*SIZE, 17*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 3, 4);
 			m_interactables.put(2217, virtualRealityRoomDoor);
 			m_objects.put(2217, virtualRealityRoomDoor);
-			
+			//put somewhere more reasonable
+			Trashcan trash = new Trashcan(5555, 9*SIZE, 14*SIZE);
+			m_interactables.put(5555, trash);
+			m_objects.put(5555, trash);
 			//TODO: place cats
 			Animal cat1 = new Animal(StateManager.getKey(), "assets/cat1.png", this, m_player,
 					 14*SIZE, 17*SIZE, 23, 12);
@@ -148,6 +165,7 @@ public class TownDay extends GamePlayState {
 				m_dialogueNum = 813;
 				m_inDialogue = true;	
 			}
+		
 	}
 
 	@Override
@@ -230,7 +248,7 @@ public class TownDay extends GamePlayState {
 					"* you've received a wrench *"}, null);
 			dialoguePos = new int[] {16, 25};
 			m_dialogue.put(positionToKey(dialoguePos), person2Dialogue);
-			
+
 //			Dialogue dolphinDoor = new Dialogue(this, container, new String[]
 //					{"This is where it escaped... ", 
 //					"I've got to block it off so that it won't get away next time"}, null);
