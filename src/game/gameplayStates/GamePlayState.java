@@ -141,6 +141,22 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 */
 	public abstract void setupObjects(int city, int dream) throws SlickException;
 	
+	/**
+	 * This sets the state's BGM from a path.
+	 * @param path - Strign
+	 */
+	public void setMusic(String path) {
+		try {
+			m_bgm = new Sound(path);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Removes an object from the state.
+	 * @param key
+	 */
 	public void removeObject(int key) {
 		if (m_objects.containsKey(key))
 			m_objects.remove(key);
@@ -156,22 +172,35 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public abstract void setupDialogue(GameContainer container, int city, int dream) throws SlickException;
 	
 	@Override
-	public void enter(GameContainer container, StateBasedGame stateManager) throws SlickException {
+	public final void enter(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		m_player.setX(m_playerX);
 		m_player.setY(m_playerY);
 		m_player.setGame(this);	
 		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
 		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
+		if(m_bgm!=null) {
+			m_bgm.loop();
+		}
 		additionalEnter(container, stateManager);
 		m_entered = true;
 	}
 	
 	@Override
-	public void leave(GameContainer container, StateBasedGame stateManager) throws SlickException {
+	public final void leave(GameContainer container, StateBasedGame stateManager) throws SlickException {
+		if(m_bgm!=null)
+			m_bgm.stop();
+		this.additionalLeave(container, stateManager);
 	}
 	
+	/**
+	 * Used for defining additional behavior upon leaving state.
+	 * @param container
+	 * @param stateManager
+	 */
+	public void additionalLeave(GameContainer container, StateBasedGame stateManager) {}
+	
 	@Override
-	public void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
+	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
 		m_interactables = new HashMap<Integer, Interactable>();
@@ -183,7 +212,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	@Override
-	public void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
+	public final void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
 
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);

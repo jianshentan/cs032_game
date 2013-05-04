@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import game.Dialogue;
 import game.GameObject;
+import game.Person;
 import game.StateManager;
 import game.StaticObject;
 import game.gameplayStates.GamePlayState.simpleMap;
@@ -17,6 +18,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class VirtualRealityRoom extends GamePlayState {
+	
+	private String[] GUIDE_TEXT = new String[] {"Welcome to the virtual reality play house!",
+			"We provide a great virtual reality service that finds you your personal dream place",
+			"A guaranteed awesome experience.",
+			"Lucky you! Looks like we have one more spot left. Hop on in and let the chair bring you to your happy place"};
 
 	public VirtualRealityRoom(int stateID) {
 		m_stateID = stateID;
@@ -65,6 +71,13 @@ public class VirtualRealityRoom extends GamePlayState {
 			m_objects.put(61, VRC);
 			m_interactables.put(61, VRC);
 			m_blocked[6][1] = true;
+			
+			//
+			Person guide = new Person(12, 1*SIZE, 2*SIZE, "assets/characters/human_4.png", null);
+			guide.setDialogue(GUIDE_TEXT);
+			m_interactables.put(12, guide);
+			m_objects.put(12, guide);
+			m_blocked[1][2] = true;
 		}
 	}
 	

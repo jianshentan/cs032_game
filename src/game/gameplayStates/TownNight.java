@@ -74,6 +74,7 @@ public class TownNight extends GamePlayState {
 			//m_objects.put(1129, doorMat);
 			
 		}
+		//this.setMusic("/home/jack/Music/track01.wav");
 	}
 	
 	/**
