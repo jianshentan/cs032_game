@@ -67,7 +67,8 @@ public abstract class GameObject {
 		CORRECT_PLUG, 
 		BLOW_HOLE,
 		HORSE, 
-		TRASHCAN;
+		TRASHCAN, 
+		NONE;
 	}
 	
 	/**

@@ -1,15 +1,20 @@
 package game.interactables;
 
 import game.GameObject;
+import game.StateManager;
 import game.GameObject.Types;
+import game.gameplayStates.DolphinEntrance;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class BlowHole extends GameObject implements Interactable {
 	private int m_key;
@@ -28,7 +33,10 @@ public class BlowHole extends GameObject implements Interactable {
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		// TODO Auto-generated method stub
-		Types equipped = p.getUsing().getType();
+		Types equipped = Types.NONE;
+		if(p.getUsing()!=null){
+			equipped = p.getUsing().getType();
+		}
 		switch(equipped){
 			case SMALL_PLUG:{
 				p.getInventory().removeItem(Types.SMALL_PLUG);
@@ -42,7 +50,14 @@ public class BlowHole extends GameObject implements Interactable {
 				break;
 			}case CORRECT_PLUG:{
 				p.getInventory().removeItem(Types.CORRECT_PLUG);
-				//VICTORY ACTION
+				String[] di = {"You sigh with satisfaction as the plug gently slides into the hole"};
+				state.displayDialogue(di);
+				StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE, new FadeOutTransition(Color.white, 3000), 
+						new FadeInTransition(Color.white, 500));
+				DolphinEntrance destinationState = (DolphinEntrance) StateManager.getInstance().getState(StateManager.DOLPHIN_ENTRANCE);
+				destinationState.setPlayerLocation(2*SIZE, 2*SIZE);
+				destinationState.setFree();
+
 				break;
 			}
 			default:{

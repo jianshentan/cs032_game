@@ -60,7 +60,7 @@ public class GameOver extends BasicGameState {
 			
 			throws SlickException {
 		     m_inputDelta+= delta;
-		     if(m_inputDelta>1000){
+		     if(m_inputDelta>5000){
 		    	 StateManager s = (StateManager) stateManager;
 		    	 s.reset();
 		     }

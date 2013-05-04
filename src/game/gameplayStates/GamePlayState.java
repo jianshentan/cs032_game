@@ -7,6 +7,7 @@ import game.Loadable;
 import game.PauseMenu;
 import game.Scene;
 import game.StateManager;
+import game.GameObject.Types;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.player.Player;
@@ -449,6 +450,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		for(Entry<Integer, Interactable> e: m_interactables.entrySet()){
 			Interactable i = e.getValue();
 			int[] loc = i.getSquare();
+			if(i.getType()==Types.ANIMAL){
+				System.out.println(loc[0] + " " + loc[1] + " " + squareOn[0] + " " + squareOn[1]);
+			}
 			if((loc[0]==interactSquare[0]&&loc[1]==interactSquare[1])||(loc[0]==squareOn[0]&&loc[1]==squareOn[1])){
 				dialogueListener(i);
 				i.fireAction(this, m_player);
