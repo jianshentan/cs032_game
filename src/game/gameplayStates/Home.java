@@ -91,7 +91,7 @@ public class Home extends GamePlayState {
 		}
 		else if (city == 3 && dream == 2) {
 			super.removeObject("door");
-			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, -1, -1);
+			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, 11, 28);
 			this.addObject(door, true);
 			
 			super.removeObject("bed");
