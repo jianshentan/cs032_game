@@ -131,6 +131,8 @@ public class Enemy extends MovingObject{
 			if(!checkCollision(this, m_game.getPlayer())){
 				m_x+= x * delta*0.15f;
 				m_y+= y * delta*0.15f;
+			} else {
+				this.onPlayerContact();
 			}
 			
 		}else{
@@ -222,7 +224,7 @@ public class Enemy extends MovingObject{
 		m_currentSquare[0] = m_path.getX(i);
 		m_currentSquare[1] = m_path.getY(i);
 	}
-	private void updateSprite(){
+	protected void updateSprite(){
 		int xDiff = m_destination[0]-m_currentSquare[0];
 		int yDiff = m_destination[1]-m_currentSquare[1];
 		if(xDiff>0){
@@ -364,5 +366,13 @@ public class Enemy extends MovingObject{
 	//this is the event that fires when the ai doing the leading arrives at it's spot
 	protected void arriveEvent(){
 		m_ai = AIState.WAIT;
+	}
+	
+	/**
+	 * This runs whenever an enemy makes contact with a player. Default
+	 * action is noting.
+	 */
+	protected void onPlayerContact() {
+		
 	}
 }

@@ -29,6 +29,18 @@ public class StateManager extends StateBasedGame {
 	public static StateManager getInstance() {
 		return instance;
 	}
+	
+	private static int m_currentKey = 0;
+	
+	/**
+	 * This returns a key that is guaranteed unique among all game
+	 * objects.
+	 * @return int
+	 */
+	public static int getKey() {
+		m_currentKey +=1;
+		return m_currentKey;
+	}
 	  
 	// black box test states
 

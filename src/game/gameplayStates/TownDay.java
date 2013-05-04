@@ -1,5 +1,6 @@
 package game.gameplayStates;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
@@ -12,13 +13,16 @@ import game.GameObject;
 import game.Person;
 import game.StateManager;
 import game.StaticObject;
+import game.interactables.Animal;
 import game.interactables.Door;
 import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
 import game.interactables.Wrench;
+import game.player.Player;
 import game.quests.Quest;
 import game.quests.QuestGoal;
+import game.quests.QuestGoal.InteractionGoal;
 import game.quests.QuestReward;
 import game.quests.QuestStage;
 
@@ -82,6 +86,19 @@ public class TownDay extends GamePlayState {
 			Door dolphinDoor = new Door(813, 8*SIZE, 13*SIZE, StateManager.DOLPHIN_ENTRANCE, 2, 8);
 			m_interactables.put(813, dolphinDoor);
 			m_objects.put(813, dolphinDoor);
+			
+			//TODO: place cats
+			Animal cat1 = new Animal(StateManager.getKey(), "assets/cat1.png", this, m_player,
+					 14*SIZE, 17*SIZE, 23, 12);
+			m_interactables.put(cat1.getKey(), cat1);
+			//m_objects.put(cat1.getKey(), cat1);
+			m_enemies.add(cat1);
+			
+			Animal cat2 = new Animal(StateManager.getKey(), "assets/cat2.png", this, m_player,
+					 4*SIZE, 26*SIZE, 1, 18);
+			m_interactables.put(cat2.getKey(), cat2);
+			//m_objects.put(cat1.getKey(), cat2);
+			m_enemies.add(cat2);
 		}
 
 		
@@ -141,10 +158,21 @@ public class TownDay extends GamePlayState {
 				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
 						"Water sprays out everywhere."});
 				fireHydrantQuest.addStage(goal1);
+				//TODO: add a goal for the plug
 				m_player.addQuest(fireHydrantQuest);
 				fireHydrantQuest.startQuest(this);
 				m_quest1Given = true;
+				
+				//TODO: add cat quest
+				Quest catQuest = new Quest(1);
+				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(m_interactables.get(1127)));
+				QuestStage c2 = new QuestStage().setStartText(new String[]
+						{"You want to find some cats!"});
+				c2.addGoal(new QuestGoal.MultiInteractGoal(new ArrayList<Interactable>()));
 			}
+		}
+		else if(city==2) {
+			
 		}
 		
 	}

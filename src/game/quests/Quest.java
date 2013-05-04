@@ -45,7 +45,7 @@ public class Quest {
 	 * @param state
 	 * @param player
 	 */
-	public void updateQuest(GamePlayState state, Player player) {
+	public final void updateQuest(GamePlayState state, Player player) {
 		if(m_isActive==false) {
 			return;
 		}
@@ -74,7 +74,7 @@ public class Quest {
 	 * @param player
 	 * @param interactable
 	 */
-	public void updateQuest(GamePlayState state, Player player, Interactable interactable) {
+	public final void updateQuest(GamePlayState state, Player player, Interactable interactable) {
 		if(m_isActive==false) {
 			return;
 		}

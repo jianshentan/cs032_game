@@ -67,7 +67,6 @@ public class SaveGame {
 		writer.writeAttribute("currentState", String.valueOf(stateManager.getCurrentStateID()));
 		
 		p.writeToXML(writer);
-		
 		for(int id = 0; id< stateManager.getStateCount(); id++) {
 			currentState = stateManager.getState(id);
 			if(currentState == null || currentState.getClass() == MainMenu.class) {
