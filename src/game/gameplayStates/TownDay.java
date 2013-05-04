@@ -15,6 +15,7 @@ import game.StateManager;
 import game.StaticObject;
 import game.interactables.Animal;
 import game.interactables.Door;
+import game.interactables.Horse;
 import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
@@ -107,7 +108,8 @@ public class TownDay extends GamePlayState {
 			//TODO: add new people who give information about stuff
 			Person infoGiver1 = new Person(1116, 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
 			infoGiver1.setDialogue(new String[] {"Those dolphins are always up to no good.",
-					"I wish that someone would shove buttplugs up all their holes!"});
+					"They turned the old zoo into a horse stable!",
+					"I wish that someone would shove something up all their holes!"});
 			this.m_interactables.put(1116, infoGiver1);
 			this.m_objects.put(1116, infoGiver1);
 			m_blocked[11][16] = true;
@@ -187,6 +189,21 @@ public class TownDay extends GamePlayState {
 						{"You want to find some cats!"});
 				ArrayList<Interactable> cats = new ArrayList<Interactable>();
 				c2.addGoal(new QuestGoal.MultiInteractGoal(new ArrayList<Interactable>()));
+				
+				//TODO: add this after buttplug quest completed
+				/*
+			//	TODO: edit where horse ends up. start location is the dolphin entrance door.
+			//	Close all pop up windows too. 
+				Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
+				m_interactables.put(horse1.getKey(), horse1);
+				m_enemies.add(horse1);
+				
+				Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
+				s.setPlayerInvisible(true);
+				s.playScene();
+				
+			//	also need to get rid of horse image after chased enough.
+				*/
 			}
 		}
 		else if(city==2) {
