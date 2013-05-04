@@ -5,6 +5,10 @@ import java.util.HashMap;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
+/**
+ * A scene is the 
+ *
+ */
 public class Scene {
 	
 	private GamePlayState m_state;

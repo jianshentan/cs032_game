@@ -26,7 +26,7 @@ public class SmallPlug extends Collectable {
 	}
 
 	@Override
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		
 	}

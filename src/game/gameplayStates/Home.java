@@ -49,10 +49,6 @@ public class Home extends GamePlayState {
 
 		// set up objects that will not change regardless of the game state
 		if(!this.isLoaded()) {
-			//m_interactables = new HashMap<String, Interactable>();
-			//m_objects = new HashMap<String, GameObject>();
-//			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
-				
 			StaticObject posters = 
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
 			this.addObject(posters, false);
@@ -95,11 +91,12 @@ public class Home extends GamePlayState {
 		}
 		else if (city == 3 && dream == 2) {
 			super.removeObject("door");
-			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, -1, -1);
+			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, 11, 28);
 			this.addObject(door, true);
 			
 			super.removeObject("bed");
 			StaticObject bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
+			bed.setDialogue(new String[] {"But you just got up..."});
 			this.addObject(bed, true);
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
@@ -120,6 +117,9 @@ public class Home extends GamePlayState {
 		else if (city == 3 && dream == 2) {
 			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
 					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
+		}
+		else if(city == 2 && dream == 2) {
+			
 		}
 	}
 

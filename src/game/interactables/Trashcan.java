@@ -26,6 +26,7 @@ public class Trashcan extends GameObject implements Interactable{
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		// TODO Auto-generated method stub
+		System.out.println("interacting with trash can");
 		if(getSprite().equals(m_closed)){
 			state.displayDialogue(new String[]{"Everything in here seems pretty dirty", "Oh! Except that pink thing", "Better take it"});
 			try {

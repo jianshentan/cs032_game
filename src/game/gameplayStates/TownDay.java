@@ -165,21 +165,21 @@ public class TownDay extends GamePlayState {
 		//TODO: set up cats
 		
 		if(city==3) {
-			StaticObject fireHydrant = null;
-			try {
-				fireHydrant = new StaticObject("fireHydrant", 6*SIZE, 23*SIZE, "assets/firehydrant.png");
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			this.addObject(fireHydrant, true);
-			m_blocked[6][23] = true;
 			
 			if(m_quest1Given == false) {
 				
+				StaticObject fireHydrant = null;
+				try {
+					fireHydrant = new StaticObject("fireHydrant", 6*SIZE, 23*SIZE, "assets/firehydrant.png");
+				} catch (SlickException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				this.addObject(fireHydrant, true);
+				m_blocked[6][23] = true;
 				
 				Quest fireHydrantQuest = new Quest(0);
-				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant));
+				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
 				goal1.setReward(new QuestReward.WaterDownReward());
 				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
@@ -205,6 +205,7 @@ public class TownDay extends GamePlayState {
 			//	Close all pop up windows too. 
 
 				/*Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
+>>>>>>> 0764c30b041dfb0046006a717c60752a93fad1b6
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);*/
 
@@ -212,6 +213,9 @@ public class TownDay extends GamePlayState {
 			/*	Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
 				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
 				s.setPlayerInvisible(true);
+<<<<<<< HEAD
+				//s.playScene();
+=======
 				s.playScene();*/
 				
 			//	also need to get rid of horse image after chased enough.

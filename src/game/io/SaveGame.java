@@ -63,6 +63,7 @@ public class SaveGame {
 		XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(outputStream);
 		writer.writeStartDocument();
 		writer.writeStartElement("SaveData");
+		//TODO: first, write out all gameObjects
 		
 		writer.writeAttribute("currentState", String.valueOf(stateManager.getCurrentStateID()));
 		

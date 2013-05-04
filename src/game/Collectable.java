@@ -14,7 +14,7 @@ public abstract class Collectable extends GameObject {
 	
 	public abstract String getItemName();
 	public abstract String getItemText();
-	public abstract void writeToXML(XMLStreamWriter writer) throws XMLStreamException;
+	//public abstract void writeAttributes(XMLStreamWriter writer) throws XMLStreamException;
 	//public static Collectable loadFromNode(Node n);
 
 	/**
@@ -78,5 +78,16 @@ public abstract class Collectable extends GameObject {
 	 */
 	public void render(GameContainer container, StateBasedGame game, Graphics g) {
 		
+	}
+	
+	/**
+	 * Returns true if the two objects' names are equal.
+	 */
+	public boolean equals(Object o) {
+		if(o.getClass() == this.getClass()) {
+			Collectable c = (Collectable) o;
+			return this.getType()==c.getType();
+		}
+		return false;
 	}
 }

@@ -63,6 +63,37 @@ public abstract class QuestGoal {
 	}
 	
 	/**
+	 * Goal is to interact with some interactable of a given type.
+	 *
+	 */
+	public static class InteractionTypeGoal extends QuestGoal {
+		private Interactable m_targetInteractable;
+		
+		public InteractionTypeGoal(Interactable target) {
+			m_targetInteractable = target;
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player) {
+			return false;
+		}
+
+		/**
+		 * The goal is accomplished if the player interacts with the target interactable.
+		 */
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player,
+				Interactable interactable) {
+			//System.out.println("trying quest goal");
+			if(interactable == null || m_targetInteractable == null)
+				return false;
+			if(interactable.getType() == m_targetInteractable.getType())
+				return true;
+			return false;
+		}
+	}
+	
+	/**
 	 * Goal is to interact with multiple objects.
 	 *
 	 */

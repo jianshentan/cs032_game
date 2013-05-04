@@ -41,6 +41,7 @@ public class Animal extends Enemy implements Interactable {
 		this.setSprite(new Image(imagePath));
 		this.setLeadTo(xTarget, yTarget);
 		this.m_ai = AIState.LEAD;
+		m_normalIm = new Image(imagePath);
 		this.m_sprite = new Animation(new Image[] {new Image(imagePath)}, 1000, false);
 	} 
 
@@ -67,7 +68,7 @@ public class Animal extends Enemy implements Interactable {
 	}
 
 	@Override
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
 
 	}
