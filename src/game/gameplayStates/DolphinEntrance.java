@@ -1,5 +1,7 @@
 package game.gameplayStates;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import game.Dialogue;
@@ -9,6 +11,7 @@ import game.StaticObject;
 import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
+import game.popup.MainFrame;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -17,8 +20,36 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class DolphinEntrance extends GamePlayState {
 
+	private boolean m_isHorsesShown = false;
+	private ArrayList<Runnable> m_threads;
+	private int m_i;
+	
 	public DolphinEntrance(int id) {
 		m_stateID = id;
+	}
+	
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		if (!m_isHorsesShown) {
+			m_isHorsesShown = true;
+			// pop up!
+			for (m_i=0; m_i<100; m_i++) {
+				Runnable thread = new Runnable() {
+					public void run() {
+						try {
+							int randX = (int)(Math.random()*2260);
+							int randY = (int)(Math.random()*1300);
+							int randHorse = (int)(Math.random()*5)+1;
+							MainFrame frame = new MainFrame(randX, randY, 256, 256, 
+									"assets/popupHorses/popup_horse0"+randHorse+".png");
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				};
+				m_threads.add(thread);
+				thread.run();
+			}
+		}
 	}
 	
 	@Override
@@ -37,6 +68,8 @@ public class DolphinEntrance extends GamePlayState {
 				}
 			}
 		}
+		
+		m_threads = new ArrayList<Runnable>();
 		
 		if(!this.isLoaded()) {
 			m_interactables = new HashMap<Integer, Interactable>();

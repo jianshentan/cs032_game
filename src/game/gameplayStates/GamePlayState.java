@@ -250,7 +250,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 							   " | dreamState: " + StateManager.m_dreamState);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_8)) {
-			StateManager.getInstance().enterState(StateManager.DOLPHIN_STATE);
+			StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE);
 		}
 		
 	}

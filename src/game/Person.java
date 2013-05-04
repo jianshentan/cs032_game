@@ -66,8 +66,10 @@ public class Person extends GameObject implements Interactable{
 		if(this.m_dialogue!=null) {
 			state.displayDialogue(m_dialogue);
 		}
-		if (m_item != null) 
+		if (m_item != null) {
 			p.addToInventory(m_item);
+			m_item = null;
+		}
 		return this;
 	}
 	@Override
