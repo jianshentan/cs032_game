@@ -271,7 +271,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			if(o.renderAfter())
 				objectsToRenderAfter.add(o);
 			else
-				o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+					o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+				
 		}
 		// render player
 		if(m_invisiblePlayer == false)
@@ -408,11 +409,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param interactSquare
 	 * @return
 	 */
-	public Interactable interact(int[] interactSquare) {
+	public Interactable interact(int[] interactSquare, int[] squareOn) {
 		for(Entry<Integer, Interactable> e: m_interactables.entrySet()){
 			Interactable i = e.getValue();
 			int[] loc = i.getSquare();
-			if(loc[0]==interactSquare[0]&&loc[1]==interactSquare[1]){
+			if((loc[0]==interactSquare[0]&&loc[1]==interactSquare[1])||(loc[0]==squareOn[0]&&loc[1]==squareOn[1])){
 				dialogueListener(i);
 				i.fireAction(this, m_player);
 				return i;

@@ -166,9 +166,8 @@ public class Player extends MovingObject{
         	int currentY = (int) (m_y + (SIZE/2))/SIZE;
         	int[] dirOffset = Direction.getDirOffsets(m_dir);
         	int[] squareFacing = {currentX + dirOffset[0], currentY + dirOffset[1]};
-
-//        	m_room.interact(squareFacing);
-        	Interactable interactable = m_game.interact(squareFacing);
+        	int[] squareOn= {currentX, currentY};
+        	Interactable interactable = m_game.interact(squareFacing, squareOn);
         	for(Quest q : m_quests) {
     			q.updateQuest(m_game, this, interactable);
     		}
