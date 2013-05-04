@@ -76,6 +76,9 @@ public class TownNight extends GamePlayState {
 		}
 	}
 	
+	/**
+	 * Draws the night mask.
+	 */
 	public void additionalRender(GameContainer container, StateBasedGame stateManager, Graphics g) {
 		g.drawImage(m_nightMask, 0, 0);
 	}
@@ -126,8 +129,8 @@ public class TownNight extends GamePlayState {
 		m_player.removeQuest(1);
 		StateManager.m_dreamState -= 1;
 		StateManager.getInstance().enterState(StateManager.HOME_STATE, 
-				new FadeOutTransition(Color.black, 1000), 
-				new FadeInTransition(Color.black, 1000));
+				new FadeOutTransition(Color.black, 2000), 
+				new FadeInTransition(Color.black, 2000));
 	}
 
 }

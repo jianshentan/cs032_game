@@ -2,6 +2,9 @@ package game;
 
 import java.util.HashMap;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
 import org.newdawn.slick.Image;
 
 public abstract class GameObject {
@@ -14,7 +17,7 @@ public abstract class GameObject {
 	public float getY() {return m_y;}
 	public void setX(float x) { m_x = x; }
 	public void setY(float y) { m_y = y; }
-	public Image getImage() {return getSprite();}	
+	public Image getImage() {return getSprite();}
 	protected boolean m_renderAfter = false;
 	public void setRenderPriority(boolean s) {m_renderAfter = s;}
 	public boolean renderAfter() {return m_renderAfter;}
@@ -35,7 +38,7 @@ public abstract class GameObject {
 	}
 	
 	/**
-	 * By default, two things of the same type are equal.
+	 * By default, two GameObjects of the same type are equal.
 	 */
 	@Override
 	public boolean equals(Object o) {
@@ -62,5 +65,17 @@ public abstract class GameObject {
 		SMALL_PLUG,
 		BIG_PLUG,
 		CORRECT_PLUG;
+	}
+	
+	/**
+	 * Writes stuff to xml
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		//TODO- what needs to be written: position- x, y
+		//type, id?
+		//needs subclasses to write additional attributes
+		//References- save these as actual objects
 	}
 }

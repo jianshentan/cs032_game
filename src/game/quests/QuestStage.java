@@ -8,6 +8,8 @@ import game.player.Player;
 
 /**
  * This class represents a segment in a quest.
+ * Each stage has a goal/goals that need to be accomplished,
+ * and each 
  *
  */
 public class QuestStage {
