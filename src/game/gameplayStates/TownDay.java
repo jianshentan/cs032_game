@@ -103,6 +103,21 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(cat2.getKey(), cat2);
 			//m_objects.put(cat1.getKey(), cat2);
 			m_enemies.add(cat2);
+			
+			//TODO: add new people who give information about stuff
+			Person infoGiver1 = new Person(1116, 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
+			infoGiver1.setDialogue(new String[] {"Those dolphins are always up to no good.",
+					"I wish that someone would shove buttplugs up all their holes!"});
+			this.m_interactables.put(1116, infoGiver1);
+			this.m_objects.put(1116, infoGiver1);
+			m_blocked[11][16] = true;
+			
+			Person infoGiver2 = new Person(1311, 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
+			infoGiver2.setDialogue(new String[] {"Have you ever wondered why everyone in this town looks alike?",
+					"I actually like it this way."});
+			this.m_interactables.put(1311, infoGiver2);
+			this.m_objects.put(1311, infoGiver2);
+			m_blocked[13][11] = true;
 		}
 
 		
@@ -150,6 +165,8 @@ public class TownDay extends GamePlayState {
 			m_blocked[6][23] = true;
 			
 			if(m_quest1Given == false) {
+				
+				
 				Quest fireHydrantQuest = new Quest(0);
 				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(fireHydrant));
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
@@ -168,6 +185,7 @@ public class TownDay extends GamePlayState {
 				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(m_interactables.get(1127)));
 				QuestStage c2 = new QuestStage().setStartText(new String[]
 						{"You want to find some cats!"});
+				ArrayList<Interactable> cats = new ArrayList<Interactable>();
 				c2.addGoal(new QuestGoal.MultiInteractGoal(new ArrayList<Interactable>()));
 			}
 		}
@@ -184,7 +202,7 @@ public class TownDay extends GamePlayState {
 		if (city == 3 && dream == 2) {
 			m_dialogue = new HashMap<Integer, Dialogue>();
 			Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
-					{"can you help me find my cats? there are 5 of them."}, new String[]
+					{"can you help me find my cats? there are 2 of them."}, new String[]
 							{"", "yes", "no"});
 			m_dialogue.put(1127, person_1_dialogue);
 			

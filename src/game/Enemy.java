@@ -370,7 +370,7 @@ public class Enemy extends MovingObject{
 	
 	/**
 	 * This runs whenever an enemy makes contact with a player. Default
-	 * action is noting.
+	 * action is nothing.
 	 */
 	protected void onPlayerContact() {
 		
