@@ -87,6 +87,10 @@ public class TownDay extends GamePlayState {
 			m_interactables.put(813, dolphinDoor);
 			m_objects.put(813, dolphinDoor);
 			
+			Door virtualRealityRoomDoor = new Door(2218, 22*SIZE, 17*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 3, 4);
+			m_interactables.put(2217, virtualRealityRoomDoor);
+			m_objects.put(2217, virtualRealityRoomDoor);
+			
 			//TODO: place cats
 			Animal cat1 = new Animal(StateManager.getKey(), "assets/cat1.png", this, m_player,
 					 14*SIZE, 17*SIZE, 23, 12);
@@ -161,10 +165,6 @@ public class TownDay extends GamePlayState {
 			m_objects.put(623, fireHydrant);
 			m_blocked[6][23] = true;
 			
-//			InvisiblePortal portal = new InvisiblePortal(813, 8*SIZE, 13*SIZE, 
-//					StateManager.DOLPHIN_STATE, 3*SIZE, 13*SIZE);
-//			m_interactables.put(813, portal);
-//			m_objects.put(813, portal);
 			if(m_quest1Given == false) {
 				
 				
