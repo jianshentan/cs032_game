@@ -44,7 +44,7 @@ public class Chest extends GameObject implements Interactable{
 		m_thread = new Runnable() {
 			public void run() {
 				try {
-					m_popup = new MainFrame(200, 200, 256, 256, "assets/popup_horse.png");
+					m_popup = new MainFrame(200, 200, 256, 256, "assets/popupHorses/popup_horse01.png");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

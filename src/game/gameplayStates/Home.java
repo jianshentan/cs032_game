@@ -51,7 +51,7 @@ public class Home extends GamePlayState {
 		if(!this.isLoaded()) {
 			//m_interactables = new HashMap<String, Interactable>();
 			//m_objects = new HashMap<String, GameObject>();
-			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
+//			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
 				
 			StaticObject posters = 
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
@@ -69,12 +69,12 @@ public class Home extends GamePlayState {
 			
 			StaticObject table =
 				new StaticObject("table", SIZE, 4*SIZE, "assets/gameObjects/table.png");
+
 			m_blocked[1][4] = true;
 			m_blocked[1][5] = true;
 			this.addObject(table, true);
 		
 		}
-		
 
 	}
 	
@@ -83,6 +83,7 @@ public class Home extends GamePlayState {
 		if (city == 3 && dream == 3) {
 			super.removeObject("door");
 			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			door.setDialogue(new String[] {"Its late out... Perhaps you should just hit the sack"});
 			this.addObject(door, true);
 			
 			super.removeObject("bed");
@@ -108,26 +109,17 @@ public class Home extends GamePlayState {
 	
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
-		int[] dialoguePos;
-		m_dialogue.clear();
 		if (city == 3 && dream == 3) {
-			Dialogue doorDialogue = new Dialogue(this, container, new String[] 
-					{"Its late out... Perhaps you should just hit the sack"}, null);
-			dialoguePos = new int[] {2, 2};
-			m_dialogue.put(positionToKey(dialoguePos), doorDialogue);
+			((StaticObject)this.getInteractable("door")).setDialogue(new String[]
+					{"Its late out... Perhaps you should just hit the sack"});
 			
-			Dialogue computerDialogue = new Dialogue(this, container, new String[]
+			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
 					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
-					"You can also visit find plenty of friends right here on the internet.. special friends."},
-					new String[] {"do you like cats or dogs", "cats", "dogs", "mouse"});
-			dialoguePos = new int[] {1, 4};
-			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+					"You can also visit find plenty of friends right here on the internet.. special friends."});	
 		}
 		else if (city == 3 && dream == 2) {
-			Dialogue computerDialogue = new Dialogue(this, container, new String[]
-					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"}, null);
-			dialoguePos = new int[] {1, 4};
-			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
+					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
 		}
 	}
 
@@ -135,23 +127,6 @@ public class Home extends GamePlayState {
 
 	@Override
 	public void dialogueListener(Interactable i) {
-		// computer: key = 14
-		//TODO: refactor into the objects themselves
-		/*
-		if (m_interactables.containsKey(14) && m_dialogue.containsKey(14)) 
-			if (i.getSquare()[0] == m_interactables.get(14).getSquare()[0] && 
-				i.getSquare()[1] == m_interactables.get(14).getSquare()[1]) { 
-				m_dialogueNum = 14;
-				m_inDialogue = true;
-			}
-		// door: key = 22
-		if (m_interactables.containsKey(22) && m_dialogue.containsKey(22))
-			if (i.getSquare()[0] == m_interactables.get(22).getSquare()[0] &&
-				i.getSquare()[1] == m_interactables.get(22).getSquare()[1]) {
-				m_dialogueNum = 22;
-				m_inDialogue = true;
-			}
-		*/
 		
 	}
 	
