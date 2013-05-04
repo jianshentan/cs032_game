@@ -49,10 +49,6 @@ public class Home extends GamePlayState {
 
 		// set up objects that will not change regardless of the game state
 		if(!this.isLoaded()) {
-			//m_interactables = new HashMap<String, Interactable>();
-			//m_objects = new HashMap<String, GameObject>();
-//			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
-				
 			StaticObject posters = 
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
 			this.addObject(posters, false);

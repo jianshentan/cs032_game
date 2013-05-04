@@ -2,15 +2,9 @@ package game.gameplayStates;
 
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
-
-import game.Dialogue;
-import game.GameObject;
 import game.StateManager;
 import game.StaticObject;
-import game.interactables.Bed;
 import game.interactables.Interactable;
-import game.interactables.Interactables;
 import game.interactables.InvisiblePortal;
 import game.interactables.TableToHack;
 
@@ -49,9 +43,6 @@ public class VirtualRealityHome extends GamePlayState {
 		
 		//set up objects that will not change
 		if (!this.isLoaded()) {
-			//m_interactables = new HashMap<Integer, Interactable>();
-			//m_objects = new HashMap<Integer, GameObject>();
-			m_dialogue = new HashMap<Integer, Dialogue>();
 			
 			StaticObject posters = 
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/bieberPoster.png");
