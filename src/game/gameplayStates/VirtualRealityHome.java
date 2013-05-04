@@ -9,6 +9,7 @@ import game.StaticObject;
 import game.interactables.Bed;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
+import game.interactables.InvisiblePortal;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -25,7 +26,8 @@ public class VirtualRealityHome extends GamePlayState {
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		this.displayDialogue(new String[] {"Wait... this is my room.", 
-				"Why was I brought here? Why is justin beiber on my poster?"});
+				"Why was I brought here? Why is justin beiber on my poster?",
+				"... This can't be my room"});
 	}
 	
 	@Override
@@ -58,11 +60,18 @@ public class VirtualRealityHome extends GamePlayState {
 			
 			StaticObject bedTable = 
 				new StaticObject(4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
+			bedTable.setDialogue(new String[] {"\"wow i left my phone in the exact same place\"," +
+					"you see some text on your phone... ",
+					"\"JB is your luck, your curse... and your exit\""});
+			m_interactables.put(44, bedTable);
 			m_blocked[4][4] = true;
 			m_objects.put(44, bedTable);
 			
 			StaticObject table =
 				new StaticObject(SIZE, 4*SIZE, "assets/gameObjects/table.png");
+			table.setDialogue(new String[] {"you hope your computer can give you some answers...",
+					"\"404\"",
+					"you wonder if you can use your computer to hack the virtual machine chairs."});
 			m_interactables.put(14, table);
 			m_blocked[1][4] = true;
 			m_blocked[1][5] = true;
@@ -72,11 +81,15 @@ public class VirtualRealityHome extends GamePlayState {
 			m_interactables.put(22, door);
 			m_objects.put(22, door);
 			
-			Bed bed = new Bed(35, 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
-			m_interactables.put(35, bed);
+			StaticObject bed = new StaticObject(3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
 			m_objects.put(35, bed);
+			
+			InvisiblePortal invisiblePortal = 
+					new InvisiblePortal(42, 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);
+			m_interactables.put(42, invisiblePortal);
+			m_objects.put(42, invisiblePortal);
 		}
 		
 	}
