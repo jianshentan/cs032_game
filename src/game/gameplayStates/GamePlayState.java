@@ -63,6 +63,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	protected simpleMap m_map;
 	
+	@Deprecated
 	protected HashMap<Integer, Dialogue> m_dialogue;
 	protected int m_dialogueNum; // represents which dialogue to use
 	
@@ -86,8 +87,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 *  key is represented by 'xPos' + 'yPos'
 	 *  example: if object has position (2,3), key = 23.
 	 */
-	protected HashMap<Integer, GameObject> m_objects;
-	protected HashMap<Integer, Interactable> m_interactables;
+	private HashMap<String, GameObject> m_objects;
+	private HashMap<String, Interactable> m_interactables;
 	//true if the state is in a scene.
 	private boolean m_inScene; 
 	private Dialogue m_sceneDialogue;
@@ -155,10 +156,50 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	
 	/**
-	 * Removes an object from the state.
+	 * Resets the state's objects.
+	 */
+	public void clearObjects() {
+		m_objects = new HashMap<String, GameObject>();
+		m_interactables = new HashMap<String, Interactable>();
+	}
+	
+	/**
+	 * Adds a GameObject to the state. If the object is an interactable,
+	 * it is added to the list of interactables as well.
+	 * @param o
+	 */
+	public void addObject(GameObject o, boolean isInteractable) {
+		m_objects.put(o.getName(), o);
+		if(isInteractable) {
+			Interactable i = (Interactable) o;
+			m_interactables.put(i.getName(), i);
+		}
+	}
+	
+	/**
+	 * Gets a GameObject in the state.
+	 * @param key
+	 * @return GameObject, or null
+	 */
+	public GameObject getObject(String key) {
+		return m_objects.get(key);
+	}
+	
+	/**
+	 * Gets an interactable in the state.
+	 * @param key
+	 * @return Interactable, or null
+	 */
+	public Interactable getInteractable(String key) {
+		return m_interactables.get(key);
+	}
+	
+	/**
+	 * Removes an object from the state. Checks both
+	 * objects and interactables.
 	 * @param key
 	 */
-	public void removeObject(int key) {
+	public void removeObject(String key) {
 		if (m_objects.containsKey(key))
 			m_objects.remove(key);
 		if (m_interactables.containsKey(key))
@@ -204,8 +245,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
-		m_interactables = new HashMap<Integer, Interactable>();
-		m_objects = new HashMap<Integer, GameObject>();
+		m_interactables = new HashMap<String, Interactable>();
+		m_objects = new HashMap<String, GameObject>();
 		m_dialogue = new HashMap<Integer, Dialogue>();
 		m_enemies = new ArrayList<Enemy>();
 		
@@ -303,7 +344,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_tiledMap.render(-offsetX, -offsetY);
 		// render objects before player 
 		ArrayList<GameObject> objectsToRenderAfter = new ArrayList<GameObject>();
-		for (Entry<Integer, GameObject> e : m_objects.entrySet()) {
+		for (Entry<String, GameObject> e : m_objects.entrySet()) {
 			GameObject o = e.getValue();
 			if(o.renderAfter())
 				objectsToRenderAfter.add(o);
@@ -371,6 +412,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				}
 			}
 		}
+		for(Entry<String, GameObject> e : this.m_objects.entrySet()) {
+			if(e.getValue().isBlocking()) {
+				int[] position = e.getValue().getSquare();
+				m_blocked[position[0]][position[1]] = true;
+			}
+		}
 	}
 	
 	/**
@@ -399,6 +446,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		this.m_player = p;
 	}
 	
+	/**
+	 * Sets the player's start/end location.
+	 * @param xLoc
+	 * @param yLoc
+	 */
 	public void setPlayerLocation(int xLoc, int yLoc) {
 		m_playerX = xLoc;
 		m_playerY = yLoc;
@@ -414,7 +466,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param xLoc
 	 * @param yLoc
 	 */
-	public void removeObject(int key, int xLoc, int yLoc) {
+	public void removeObject(String key, int xLoc, int yLoc) {
 		m_interactables.remove(key);
 		m_blocked[xLoc][yLoc] = false;
 		m_objects.remove(key);
@@ -447,12 +499,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @return
 	 */
 	public Interactable interact(int[] interactSquare, int[] squareOn) {
-		for(Entry<Integer, Interactable> e: m_interactables.entrySet()){
+		for(Entry<String, Interactable> e: m_interactables.entrySet()){
 			Interactable i = e.getValue();
 			int[] loc = i.getSquare();
-			if(i.getType()==Types.ANIMAL){
-				System.out.println(loc[0] + " " + loc[1] + " " + squareOn[0] + " " + squareOn[1]);
-			}
 			if((loc[0]==interactSquare[0]&&loc[1]==interactSquare[1])||(loc[0]==squareOn[0]&&loc[1]==squareOn[1])){
 				dialogueListener(i);
 				i.fireAction(this, m_player);
@@ -462,6 +511,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		return null;
 	}
 	
+	@Deprecated
 	public abstract void dialogueListener(Interactable i);
 	
     public simpleMap getMap(){
@@ -470,7 +520,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	public ArrayList<Interactable> getInteractables() {
 		ArrayList<Interactable> ret = new ArrayList<Interactable>();
-		for (Entry<Integer, Interactable> e : m_interactables.entrySet()) {
+		for (Entry<String, Interactable> e : m_interactables.entrySet()) {
 			Interactable i = e.getValue();
 			ret.add(i);
 		}
@@ -520,7 +570,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		writer.writeAttribute("id", String.valueOf(this.m_stateID));
 
 		writer.writeStartElement("Interactables");
-		for (Entry<Integer, Interactable> e : m_interactables.entrySet()) {
+		for (Entry<String, Interactable> e : m_interactables.entrySet()) {
 			Interactable i = e.getValue();
 			i.writeToXML(writer);
 		}
@@ -532,8 +582,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	@Override
 	public GamePlayState loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
-		this.m_interactables = new HashMap<Integer, Interactable>();
-		this.m_objects = new HashMap<Integer, GameObject>();
+		this.m_interactables = new HashMap<String, Interactable>();
+		this.m_objects = new HashMap<String, GameObject>();
 		NodeList children = n.getChildNodes();
 		for(int i = 0; i<children.getLength(); i++) {
 			Node child = children.item(i);
@@ -546,8 +596,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 						Interactable o = Interactables.loadFromNode(c3);
 						if(o!=null) {
 							int[] square = o.getSquare();
-							this.m_interactables.put(positionToKey(square), o);
-							this.m_objects.put(positionToKey(square), (GameObject) o);
+							this.m_interactables.put(o.getName(), o);
+							this.m_objects.put(o.getName(), (GameObject) o);
 						}
 					}
 				}

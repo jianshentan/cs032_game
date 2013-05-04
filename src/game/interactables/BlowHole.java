@@ -17,17 +17,12 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
 public class BlowHole extends GameObject implements Interactable {
-	private int m_key;
-	public BlowHole(int key, int xLoc, int yLoc) throws SlickException{
-		m_key = key;
+
+	public BlowHole(String name, int xLoc, int yLoc) throws SlickException{
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
 		setSprite(new Image("assets/colors/clear.png")); 
-	}
-	@Override
-	public int getKey() {
-		// TODO Auto-generated method stub
-		return m_key;
 	}
 
 	@Override
@@ -53,7 +48,7 @@ public class BlowHole extends GameObject implements Interactable {
 				String[] di = {"You sigh with satisfaction as the plug gently slides into the hole"};
 				state.displayDialogue(di);
 				StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE, new FadeOutTransition(Color.white, 3000), 
-						new FadeInTransition(Color.white, 500));
+						new FadeInTransition(Color.white, 1000));
 				DolphinEntrance destinationState = (DolphinEntrance) StateManager.getInstance().getState(StateManager.DOLPHIN_ENTRANCE);
 				destinationState.setPlayerLocation(2*SIZE, 2*SIZE);
 				destinationState.setFree();

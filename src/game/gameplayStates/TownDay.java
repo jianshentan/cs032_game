@@ -74,27 +74,31 @@ public class TownDay extends GamePlayState {
 		
 		if (!this.isLoaded()) {
 			// setup objects
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();	
+			//m_interactables = new HashMap<String, Interactable>();
+			//m_objects = new HashMap<String, GameObject>();	
 			
-			PortalObject portal = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2, 3);
-			m_interactables.put(1129, portal);
-			m_objects.put(1129, portal);
+			PortalObject portal = new InvisiblePortal("portal", 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2, 3);
+			this.addObject(portal, true);
 			
-			StaticObject doormat = new StaticObject(11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
-			m_objects.put(1128, doormat);
+			StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
+			this.addObject(doormat, false);
 			
-			Person person_1 = new Person(1127, 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
-			m_interactables.put(1127, person_1);
-			m_objects.put(1127, person_1); 
+			Person person_1 = new Person("person_1", 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
+			person_1.setDialogue(new String[] 
+					{"Can you help me find my cats? There are 2 of them."});
+			this.addObject(person_1, true);
 			m_blocked[11][27] = true;
 			
-			Person person_2 = new Person(1625, 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new Wrench(-1,-1));
-			m_interactables.put(1625, person_2);
-			m_objects.put(1625, person_2);
+			Person wrenchGiver = new Person("wrenchGiver", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new Wrench(-1,-1));
+			wrenchGiver.setDialogue(new String[] 
+					{"Young man, for what reason have you let your mustache grow?",
+					"It really looks quite terrible on a face like ours.",
+					"Here's a wrench I found, maybe you can fix your face with it.",
+					"* you've received a wrench *"});
+			this.addObject(wrenchGiver, true);
 			m_blocked[16][25] = true;
 			
-			Person buttPlugPerson = new Person(1135, 4*SIZE, 8*SIZE, "assets/characters/human_2.png", new BigPlug());
+			Person buttPlugPerson = new Person("buttPlugPerson", 4*SIZE, 8*SIZE, "assets/characters/human_2.png", new BigPlug());
 			buttPlugPerson.setDialogue(new String[]
 					{"!",
 					"You startled me!",
@@ -102,51 +106,49 @@ public class TownDay extends GamePlayState {
 					"Take this as payment",
 					"* You've recieved a butt-plug *"
 					});
-			m_interactables.put(1135, buttPlugPerson);
-			m_objects.put(1135, buttPlugPerson);
+			this.addObject(buttPlugPerson, true);
 			m_blocked[4][8] = true;
 			
-			Door dolphinDoor = new Door(813, 8*SIZE, 13*SIZE, StateManager.DOLPHIN_ENTRANCE, 2, 8);
-			m_interactables.put(813, dolphinDoor);
-			m_objects.put(813, dolphinDoor);
+			Door dolphinDoor = new Door("dolphinDoor", 8*SIZE, 13*SIZE, StateManager.DOLPHIN_ENTRANCE, 2, 8);
+			this.addObject(dolphinDoor, true);
 			
-			Door virtualRealityRoomDoor = new Door(2218, 22*SIZE, 17*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 3, 4);
-			m_interactables.put(2217, virtualRealityRoomDoor);
-			m_objects.put(2217, virtualRealityRoomDoor);
+			Door virtualRealityRoomDoor = new Door("virtualRealityRoomDoor", 22*SIZE, 17*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 3, 4);
+			this.addObject(virtualRealityRoomDoor, true);
 			//put somewhere more reasonable
-			Trashcan trash = new Trashcan(5555, 9*SIZE, 14*SIZE);
-			m_interactables.put(5555, trash);
-			m_objects.put(5555, trash);
+			Trashcan trash = new Trashcan("trash", 9*SIZE, 14*SIZE);
+			this.addObject(trash, true);
+			
 			//TODO: place cats
-			Animal cat1 = new Animal(StateManager.getKey(), "assets/cat1.png", this, m_player,
+			Animal cat1 = new Animal("cat1", "assets/cat1.png", this, m_player,
 					 14*SIZE, 17*SIZE, 23, 12);
-			m_interactables.put(cat1.getKey(), cat1);
+			this.addObject(cat1, true);
 			//m_objects.put(cat1.getKey(), cat1);
 			m_enemies.add(cat1);
 			
-			Animal cat2 = new Animal(StateManager.getKey(), "assets/cat2.png", this, m_player,
+			Animal cat2 = new Animal("cat2", "assets/cat2.png", this, m_player,
 					 4*SIZE, 26*SIZE, 1, 18);
-			m_interactables.put(cat2.getKey(), cat2);
+			this.addObject(cat2, true);
 			//m_objects.put(cat1.getKey(), cat2);
 			m_enemies.add(cat2);
 			
 			//TODO: add new people who give information about stuff
-			Person infoGiver1 = new Person(1116, 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
-			infoGiver1.setDialogue(new String[] {"Those dolphins are always up to no good.",
+			Person dolphinHater = new Person("dolphinHater", 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
+			dolphinHater.setDialogue(new String[] {"Those dolphins are always up to no good.",
 					"They turned the old zoo into a horse stable!",
 					"I wish that someone would shove something up all their holes!"});
-			this.m_interactables.put(1116, infoGiver1);
-			this.m_objects.put(1116, infoGiver1);
+			this.addObject(dolphinHater, true);
 			m_blocked[11][16] = true;
 			
-			Person infoGiver2 = new Person(1311, 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
+			Person infoGiver2 = new Person("infoGiver2", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
 			infoGiver2.setDialogue(new String[] {"Have you ever wondered why everyone in this town looks alike?",
 					"I actually like it this way."});
-			this.m_interactables.put(1311, infoGiver2);
-			this.m_objects.put(1311, infoGiver2);
+			this.addObject(infoGiver2, true);
 			m_blocked[13][11] = true;
 			
 			//TODO: add signs
+			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
+			sign1.setDialogue(new String[] {"The Horse Stables (formerly the zoo)"});
+			this.addObject(sign1, true);
 		}
 
 		
@@ -154,27 +156,7 @@ public class TownDay extends GamePlayState {
 
 	@Override
 	public void dialogueListener(Interactable i) {
-		// person_1: key = 1127
-		if (m_interactables.containsKey(1127) && m_dialogue.containsKey(1127)) 
-			if (i.getSquare()[0] == m_interactables.get(1127).getSquare()[0] && 
-				i.getSquare()[1] == m_interactables.get(1127).getSquare()[1]) { 
-				m_dialogueNum = 1127;
-				m_inDialogue = true;
-			}
-		// person_2: key = 1625
-		if (m_interactables.containsKey(1625) && m_dialogue.containsKey(1625))
-			if (i.getSquare()[0] == m_interactables.get(1625).getSquare()[0] &&
-				i.getSquare()[1] == m_interactables.get(1625).getSquare()[1]) {
-				m_dialogueNum = 1625;
-				m_inDialogue = true;
-			}
-		// dolphin door: key = 813;
-		if (m_interactables.containsKey(813) && m_dialogue.containsKey(813))
-			if (i.getSquare()[0] == m_interactables.get(1625).getSquare()[0] &&
-				i.getSquare()[1] == m_interactables.get(1625).getSquare()[1]) {
-				m_dialogueNum = 813;
-				m_inDialogue = true;	
-			}
+
 		
 	}
 
@@ -185,13 +167,12 @@ public class TownDay extends GamePlayState {
 		if(city==3) {
 			StaticObject fireHydrant = null;
 			try {
-				fireHydrant = new StaticObject(6*SIZE, 23*SIZE, "assets/firehydrant.png");
+				fireHydrant = new StaticObject("fireHydrant", 6*SIZE, 23*SIZE, "assets/firehydrant.png");
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			m_interactables.put(623, fireHydrant);
-			m_objects.put(623, fireHydrant);
+			this.addObject(fireHydrant, true);
 			m_blocked[6][23] = true;
 			
 			if(m_quest1Given == false) {
@@ -212,7 +193,7 @@ public class TownDay extends GamePlayState {
 				
 				//TODO: add cat quest
 				Quest catQuest = new Quest(1);
-				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(m_interactables.get(1127)));
+				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(this.getInteractable("person_1")));
 				QuestStage c2 = new QuestStage().setStartText(new String[]
 						{"You want to find some cats!"});
 				ArrayList<Interactable> cats = new ArrayList<Interactable>();
@@ -222,9 +203,11 @@ public class TownDay extends GamePlayState {
 				
 			//	TODO: edit where horse ends up. start location is the dolphin entrance door.
 			//	Close all pop up windows too. 
-			/*	Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
-				m_interactables.put(horse1.getKey(), horse1);
+
+				/*Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
+				this.addObject(horse1, true);
 				m_enemies.add(horse1);*/
+
 				
 			/*	Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
 				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
@@ -236,7 +219,9 @@ public class TownDay extends GamePlayState {
 			}
 		}
 		else if(city==2) {
-			
+			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"Can you do something about all" +
+					" the horses?"});
+			((Person) this.getObject("person_1")).setDialogue(new String[] {"My cats..."});
 		}
 		
 	}
@@ -246,19 +231,7 @@ public class TownDay extends GamePlayState {
 		int[] dialoguePos;
 		m_dialogue.clear();
 		if (city == 3 && dream == 2) {
-			m_dialogue = new HashMap<Integer, Dialogue>();
-			Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
-					{"can you help me find my cats? there are 2 of them."}, new String[]
-							{"", "yes", "no"});
-			m_dialogue.put(1127, person_1_dialogue);
 			
-			Dialogue person2Dialogue = new Dialogue(this, container, new String[] 
-					{"Young man, for what reason have you let your mustache grow?",
-					"It really looks quite terrible on a face like ours.",
-					"Here's a wrench I found, maybe you can fix your face with it.",
-					"* you've received a wrench *"}, null);
-			dialoguePos = new int[] {16, 25};
-			m_dialogue.put(positionToKey(dialoguePos), person2Dialogue);
 
 //			Dialogue dolphinDoor = new Dialogue(this, container, new String[]
 //					{"This is where it escaped... ", 

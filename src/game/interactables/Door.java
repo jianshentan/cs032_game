@@ -14,9 +14,9 @@ import org.newdawn.slick.SlickException;
 
 public class Door extends PortalObject {
 	
-	public Door(int key, int xLoc, int yLoc, 
+	public Door(String name, int xLoc, int yLoc, 
 				int destination, int xDestination, int yDestination) throws SlickException {
-		super(key, xLoc, yLoc, destination, xDestination, yDestination);
+		super(name, xLoc, yLoc, destination, xDestination, yDestination);
 		setSprite(new Image("assets/gameObjects/door.png"));
 	}
 

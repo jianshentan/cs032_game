@@ -22,7 +22,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class DolphinEntrance extends GamePlayState {
 
-	private boolean m_isHorsesShown = false, m_freed = false;
+	private boolean m_isHorsesShown = false, m_freed = false, m_rendered = false;
 	private ArrayList<Runnable> m_threads;
 	private int m_i;
 	private ArrayList<MainFrame> m_frames;
@@ -30,18 +30,35 @@ public class DolphinEntrance extends GamePlayState {
 		m_frames = new ArrayList<MainFrame>();
 		m_stateID = id;
 	}
-	
-	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta){
 		if (m_freed){
-			m_freed = false;
-			TownDay td = (TownDay) stateManager.getState(StateManager.TOWN_DAY_STATE);
-			td.setFree();
-			Runnable freeHorsesThread = new Runnable() {
-				public void run() {
-					freeHorses();
+			if(m_rendered){
+				m_freed = false;
+				TownDay td = (TownDay) stateManager.getState(StateManager.TOWN_DAY_STATE);
+				td.setFree();
+				Runnable freeHorsesThread = new Runnable() {
+					public void run() {
+						freeHorses();
+					}
+				};
+				freeHorsesThread.run();
+			}else{
+				long time = System.currentTimeMillis();
+				for(MainFrame frame: m_frames){
+					while(System.currentTimeMillis()-time<10){
+						
+					}
+					time = System.currentTimeMillis();
+					frame.toFront();
 				}
-			};
-			freeHorsesThread.run();
+				m_rendered = true;
+			}
+				
+		}
+	}
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		if(m_freed){
+			
 			String[] di2 = {"I guess blowing up that dolphin freed the horses from it's control", "Or something"};
 			this.displayDialogue(di2);
 		}
@@ -95,27 +112,24 @@ public class DolphinEntrance extends GamePlayState {
 		m_threads = new ArrayList<Runnable>();
 		
 		if(!this.isLoaded()) {
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();
+			//m_interactables = new HashMap<String, Interactable>();
+			//m_objects = new HashMap<String, GameObject>();
 			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
 			
-			StaticObject entrance = new StaticObject(SIZE, 0, "assets/dolphinProtectors.png");
+			StaticObject entrance = new StaticObject("entrance", SIZE, 0, "assets/dolphinProtectors.png");
 			entrance.setRenderPriority(true);
-			m_objects.put(10, entrance);
+			this.addObject(entrance, false);
 			
 			
-			InvisiblePortal portalA = new InvisiblePortal(21, 2*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
-			InvisiblePortal portalB = new InvisiblePortal(31, 3*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
-			m_objects.put(21, portalA);
-			m_objects.put(31, portalB);
-			m_interactables.put(21,  portalA);
-			m_interactables.put(31,  portalB);
+			InvisiblePortal portalA = new InvisiblePortal("portalA", 2*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
+			InvisiblePortal portalB = new InvisiblePortal("portalB", 3*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
+			this.addObject(portalA, true);
+			this.addObject(portalB, true);
 			
-			StaticObject doormat = new StaticObject(2*SIZE, 8*SIZE, "assets/gameObjects/doormat.png");
-			m_objects.put(28, doormat);
-			InvisiblePortal portalC = new InvisiblePortal(28, 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
-			m_objects.put(29, portalC);
-			m_interactables.put(29, portalC);
+			StaticObject doormat = new StaticObject("doormat", 2*SIZE, 8*SIZE, "assets/gameObjects/doormat.png");
+			this.addObject(doormat, false);
+			InvisiblePortal portalC = new InvisiblePortal("portalC", 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
+			this.addObject(portalC, true);
 		}
 	}
 	public void setFree(){
@@ -123,9 +137,7 @@ public class DolphinEntrance extends GamePlayState {
 	}
 	public void freeHorses(){
 		long time = System.currentTimeMillis();
-		for(MainFrame frame: m_frames){
-			frame.toFront();
-		}
+		
 		for(MainFrame frame: m_frames){
 			while(System.currentTimeMillis()-time<500){
 				

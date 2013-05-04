@@ -8,9 +8,9 @@ import org.newdawn.slick.SlickException;
 
 public class VisiblePortal extends PortalObject {
 
-	public VisiblePortal(int key, int xLoc, int yLoc, int destination,
+	public VisiblePortal(String name, int xLoc, int yLoc, int destination,
 			int xDestination, int yDestination, String path) throws SlickException {
-		super(key, xLoc, yLoc, destination, xDestination, yDestination);
+		super(name, xLoc, yLoc, destination, xDestination, yDestination);
 		setSprite(new Image(path));
 	}
 

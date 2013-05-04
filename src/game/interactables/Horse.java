@@ -20,14 +20,12 @@ import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
 public class Horse extends Enemy implements Interactable{
-
-	private int m_key;
 	
 	public Horse(int key, GamePlayState room, Player player, float x, float y,int xTarget, int yTarget) throws SlickException {
 		super(room, player, x, y);
 		SpriteSheet horsesheet = new SpriteSheet("assets/HorseStampede.png",256,256);
 		this.setSprite(horsesheet.getSprite(0,0));
-		this.m_key = key;
+		//this.m_key = key;
 		this.setLeadTo(xTarget, yTarget);
 		this.m_ai = AIState.LEAD;
 		int [] duration = {200,200};
@@ -44,11 +42,6 @@ public class Horse extends Enemy implements Interactable{
 	}
 
 	
-	@Override
-	public int getKey() {
-		return m_key;
-	}
-
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		// TODO Auto-generated method stub
