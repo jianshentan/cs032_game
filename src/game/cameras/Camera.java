@@ -7,4 +7,5 @@ public abstract class Camera {
 	}
 	public abstract int[] getOffset();
 	public abstract int[] getPlayerOffset();
+	public abstract void shake(int shakeL);
 }
