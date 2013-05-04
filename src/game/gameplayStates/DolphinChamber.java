@@ -8,6 +8,7 @@ import game.Scene;
 import game.StateManager;
 import game.StaticObject;
 import game.gameplayStates.GamePlayState.simpleMap;
+import game.interactables.BlowHole;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 
@@ -45,10 +46,13 @@ public class DolphinChamber extends GamePlayState {
 			
 			InvisiblePortal portalA = new InvisiblePortal(314, 3*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 2,2);
 			InvisiblePortal portalB = new InvisiblePortal(414, 4*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 3,2);
+			BlowHole bh = new BlowHole(808, 3*SIZE, 3*SIZE);
 			m_objects.put(314, portalA);
 			m_objects.put(414, portalB);
+			m_objects.put(808, bh);
 			m_interactables.put(314,  portalA);
 			m_interactables.put(414,  portalB);
+			m_interactables.put(808, bh);
 		}
 		this.setBlockedTiles();
 	}

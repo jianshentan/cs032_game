@@ -8,6 +8,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
 
+import game.AIState;
+import game.Direction;
 import game.Enemy;
 import game.GameObject;
 import game.GameObject.Types;
@@ -19,35 +21,38 @@ import game.player.Player;
 
 public class Horse extends Enemy implements Interactable{
 
-	private int key;
-	private Image m_norm, m_run;
+	private int m_key;
 	
-	public Horse(GamePlayState room, Player player, float x, float y) throws SlickException {
+	public Horse(int key, GamePlayState room, Player player, float x, float y,int xTarget, int yTarget) throws SlickException {
 		super(room, player, x, y);
-		
 		SpriteSheet horsesheet = new SpriteSheet("assets/Horses.png",128,128);
-		
-		
+		this.setSprite(horsesheet.getSprite(0,0));
+		this.m_key = key;
+		this.setLeadTo(xTarget, yTarget);
+		this.m_ai = AIState.LEAD;
+		int [] duration = {200,200};
+		this.m_sprite = new Animation(new Image[] {horsesheet.getSprite(0,0),horsesheet.getSprite(1,0)}, duration, true);
+		m_up = m_sprite;
+        m_down = m_sprite;
+        m_left = m_sprite;
+        m_right = m_sprite;	
+        
+        m_up_stand = m_sprite;
+        m_down_stand = m_sprite;
+        m_left_stand = m_sprite;
+        m_right_stand = m_sprite;
 	}
 
 	
-	
-	
 	@Override
 	public int getKey() {
-		return key;
+		return m_key;
 	}
 
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int[] getSquare() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	@Override
@@ -58,8 +63,7 @@ public class Horse extends Enemy implements Interactable{
 
 	@Override
 	public Types getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return GameObject.Types.HORSE;
 	}
 
 }

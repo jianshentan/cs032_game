@@ -64,7 +64,9 @@ public abstract class GameObject {
 		PLUG,
 		SMALL_PLUG,
 		BIG_PLUG,
-		CORRECT_PLUG;
+		CORRECT_PLUG, 
+		BLOW_HOLE,
+		HORSE;
 	}
 	
 	/**
