@@ -3,12 +3,15 @@ package game.collectables;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+
 import game.Collectable;
 
 public class CorrectPlug extends Collectable {
 
-	public CorrectPlug(){
-		
+	public CorrectPlug() throws SlickException{
+		setSprite(new Image("assets/CorrectPlug.png"));
 	}
 
 	@Override

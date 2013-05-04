@@ -294,10 +294,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	@Override
 	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) 
 			throws SlickException {
-		int halfWidth = container.getWidth()/2;
-		int halfHeight = container.getHeight()/2;
-		int offsetX = (int)m_player.getX()-halfWidth;
-		int offsetY = (int)m_player.getY()-halfHeight;
+		int halfWidth = container.getWidth()/2-SIZE/2;
+		int halfHeight = container.getHeight()/2-SIZE/2;
+		int offsetX = ((int)m_player.getX())-halfWidth;
+		int offsetY = ((int)m_player.getY())-halfHeight;
 		// render map
 		m_tiledMap.render(-offsetX, -offsetY);
 		// render objects before player 

@@ -68,6 +68,7 @@ public abstract class GameObject {
 		BLOW_HOLE,
 		HORSE,
 		TABLE_TO_HACK,
+		TRASHCAN;
 	}
 	
 	/**
