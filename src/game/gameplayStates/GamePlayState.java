@@ -8,6 +8,8 @@ import game.PauseMenu;
 import game.Scene;
 import game.StateManager;
 import game.GameObject.Types;
+import game.cameras.Camera;
+import game.cameras.PlayerCamera;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.player.Player;
@@ -43,7 +45,7 @@ import org.w3c.dom.NodeList;
 public abstract class GamePlayState extends BasicGameState implements Loadable<GamePlayState> {
 	
 	protected int m_subState = 0;
-	
+	protected Camera m_camera;
 	protected boolean m_isPaused = false;
 	protected boolean m_inDialogue = false;
 	protected PauseMenu m_pauseMenu = null;
@@ -244,6 +246,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	@Override
 	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
+		m_camera = new PlayerCamera(container, m_player);
 		m_pauseMenu = new PauseMenu(this, container);
 		m_interactables = new HashMap<String, Interactable>();
 		m_objects = new HashMap<String, GameObject>();
@@ -336,10 +339,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	@Override
 	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) 
 			throws SlickException {
-		int halfWidth = container.getWidth()/2-SIZE/2;
-		int halfHeight = container.getHeight()/2-SIZE/2;
-		int offsetX = ((int)m_player.getX())-halfWidth;
-		int offsetY = ((int)m_player.getY())-halfHeight;
+		int[] offsets = m_camera.getOffset();
+		int offsetX = offsets[0];
+		int offsetY = offsets[1];
+		int[] playerOffsets = m_camera.getPlayerOffset();
 		// render map
 		m_tiledMap.render(-offsetX, -offsetY);
 		// render objects before player 
@@ -356,7 +359,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 		// render player
 		if(m_invisiblePlayer == false)
-			m_player.getAnimation().draw(halfWidth, halfHeight);
+			m_player.getAnimation().draw(playerOffsets[0], playerOffsets[1]);
 		// render enemies
 		if (m_enemies != null)
 			for(Enemy m_enemy : m_enemies)
@@ -581,7 +584,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 		writer.writeEndElement();
 	}
-
+	public void setCamera(Camera c){
+		m_camera = c;
+	}
 	@Override
 	public GamePlayState loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
 		this.m_interactables = new HashMap<String, Interactable>();
