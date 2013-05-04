@@ -1,5 +1,6 @@
 package game.gameplayStates;
 
+import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.popup.MainFrame;
 
+import org.lwjgl.util.Dimension;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -20,15 +22,46 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class DolphinEntrance extends GamePlayState {
 
-	private boolean m_isHorsesShown = false;
+	private boolean m_isHorsesShown = false, m_freed = false, m_rendered = false;
 	private ArrayList<Runnable> m_threads;
 	private int m_i;
-	
+	private ArrayList<MainFrame> m_frames;
 	public DolphinEntrance(int id) {
+		m_frames = new ArrayList<MainFrame>();
 		m_stateID = id;
 	}
-	
+	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta){
+		if (m_freed){
+			if(m_rendered){
+				m_freed = false;
+				TownDay td = (TownDay) stateManager.getState(StateManager.TOWN_DAY_STATE);
+				td.setFree();
+				Runnable freeHorsesThread = new Runnable() {
+					public void run() {
+						freeHorses();
+					}
+				};
+				freeHorsesThread.run();
+			}else{
+				long time = System.currentTimeMillis();
+				for(MainFrame frame: m_frames){
+					while(System.currentTimeMillis()-time<10){
+						
+					}
+					time = System.currentTimeMillis();
+					frame.toFront();
+				}
+				m_rendered = true;
+			}
+				
+		}
+	}
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		if(m_freed){
+			
+			String[] di2 = {"I guess blowing up that dolphin freed the horses from it's control", "Or something"};
+			this.displayDialogue(di2);
+		}
 		if (!m_isHorsesShown) {
 			this.displayDialogue(new String[] {"You realize that you are in the zoo.",
 					"Or rather, what used to be the zoo before it was converted " +
@@ -36,15 +69,17 @@ public class DolphinEntrance extends GamePlayState {
 					"Maybe if you free the horses, this place will be closed down for good..."});
 			m_isHorsesShown = true;
 			// pop up!
+			final java.awt.Dimension ScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			for (m_i=0; m_i<20; m_i++) {
 				Runnable thread = new Runnable() {
 					public void run() {
 						try {
-							int randX = (int)(Math.random()*2260);
-							int randY = (int)(Math.random()*1300);
+							int randX = (int)(Math.random()*(ScreenSize.getWidth()-300));
+							int randY = (int)(Math.random()*(ScreenSize.getHeight()-300));
 							int randHorse = (int)(Math.random()*5)+1;
 							MainFrame frame = new MainFrame(randX, randY, 256, 256, 
 									"assets/popupHorses/popup_horse0"+randHorse+".png");
+							m_frames.add(frame);
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
@@ -53,6 +88,7 @@ public class DolphinEntrance extends GamePlayState {
 				m_threads.add(thread);
 				thread.run();
 			}
+
 		}
 	}
 	
@@ -96,7 +132,21 @@ public class DolphinEntrance extends GamePlayState {
 			this.addObject(portalC, true);
 		}
 	}
-
+	public void setFree(){
+		m_freed = true;
+	}
+	public void freeHorses(){
+		long time = System.currentTimeMillis();
+		
+		for(MainFrame frame: m_frames){
+			while(System.currentTimeMillis()-time<500){
+				
+			}
+			time = System.currentTimeMillis();
+			frame.setVisible(false);
+		}
+		
+	}
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
 		// TODO Auto-generated method stub

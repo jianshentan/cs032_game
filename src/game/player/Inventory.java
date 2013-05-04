@@ -131,9 +131,11 @@ public class Inventory implements Loadable<Inventory> {
 		if(m_using.getType()==item)
 			m_using = null;
 		for(int i = 0; i<m_items.length; i++) {
-			if(m_items[i].getType()==item) {
-				m_items[i] = null;
-				break;
+			if(m_items[i]!=null){
+				if(m_items[i].getType()==item) {
+					m_items[i] = null;
+					break;
+				}
 			}
 		}
 	}

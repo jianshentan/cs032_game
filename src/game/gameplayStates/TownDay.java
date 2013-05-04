@@ -33,11 +33,18 @@ import game.quests.QuestStage;
 public class TownDay extends GamePlayState {
 	
 	private boolean m_quest1Given;
-
+	private boolean m_horsesFreed;
 	public TownDay(int stateID) {
 		m_stateID = stateID;
 	}
 	
+	@Override
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager){
+		if(m_horsesFreed){
+			m_horsesFreed = false;
+			//@Annalia- this is where you should fire the horse scene from -adding them to scene or whatever					
+		}
+	}
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		m_playerX = SIZE*11;
@@ -77,6 +84,8 @@ public class TownDay extends GamePlayState {
 			this.addObject(doormat, false);
 			
 			Person person_1 = new Person("person_1", 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
+			person_1.setDialogue(new String[] 
+					{"Can you help me find my cats? There are 2 of them."});
 			this.addObject(person_1, true);
 			m_blocked[11][27] = true;
 			
@@ -107,7 +116,8 @@ public class TownDay extends GamePlayState {
 			this.addObject(virtualRealityRoomDoor, true);
 			//put somewhere more reasonable
 			Trashcan trash = new Trashcan("trash", 9*SIZE, 14*SIZE);
-			this.addObject(trash, false);
+			this.addObject(trash, true);
+			
 			//TODO: place cats
 			Animal cat1 = new Animal("cat1", "assets/cat1.png", this, m_player,
 					 14*SIZE, 17*SIZE, 23, 12);
@@ -136,6 +146,9 @@ public class TownDay extends GamePlayState {
 			m_blocked[13][11] = true;
 			
 			//TODO: add signs
+			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
+			sign1.setDialogue(new String[] {"The Horse Stables (formerly the zoo)"});
+			this.addObject(sign1, true);
 		}
 
 		
@@ -143,29 +156,7 @@ public class TownDay extends GamePlayState {
 
 	@Override
 	public void dialogueListener(Interactable i) {
-		/* TODO: refactor this stuff into people individually
-		// person_1: key = 1127
-		if (m_interactables.containsKey(1127) && m_dialogue.containsKey(1127)) 
-			if (i.getSquare()[0] == m_interactables.get(1127).getSquare()[0] && 
-				i.getSquare()[1] == m_interactables.get(1127).getSquare()[1]) { 
-				m_dialogueNum = 1127;
-				m_inDialogue = true;
-			}
-		// person_2: key = 1625
-		if (m_interactables.containsKey(1625) && m_dialogue.containsKey(1625))
-			if (i.getSquare()[0] == m_interactables.get(1625).getSquare()[0] &&
-				i.getSquare()[1] == m_interactables.get(1625).getSquare()[1]) {
-				m_dialogueNum = 1625;
-				m_inDialogue = true;
-			}
-		// dolphin door: key = 813;
-		if (m_interactables.containsKey(813) && m_dialogue.containsKey(813))
-			if (i.getSquare()[0] == m_interactables.get(1625).getSquare()[0] &&
-				i.getSquare()[1] == m_interactables.get(1625).getSquare()[1]) {
-				m_dialogueNum = 813;
-				m_inDialogue = true;	
-			}
-		*/
+
 		
 	}
 
@@ -202,7 +193,7 @@ public class TownDay extends GamePlayState {
 				
 				//TODO: add cat quest
 				Quest catQuest = new Quest(1);
-				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(this.getInteractable("cat1")));
+				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(this.getInteractable("person_1")));
 				QuestStage c2 = new QuestStage().setStartText(new String[]
 						{"You want to find some cats!"});
 				ArrayList<Interactable> cats = new ArrayList<Interactable>();
@@ -212,21 +203,25 @@ public class TownDay extends GamePlayState {
 				
 			//	TODO: edit where horse ends up. start location is the dolphin entrance door.
 			//	Close all pop up windows too. 
-				Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
+
+				/*Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
 				this.addObject(horse1, true);
-				m_enemies.add(horse1);
+				m_enemies.add(horse1);*/
+
 				
-				Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
+			/*	Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
 				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
 				s.setPlayerInvisible(true);
-				s.playScene();
+				s.playScene();*/
 				
 			//	also need to get rid of horse image after chased enough.
 				
 			}
 		}
 		else if(city==2) {
-			
+			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"Can you do something about all" +
+					" the horses?"});
+			((Person) this.getObject("person_1")).setDialogue(new String[] {"My cats..."});
 		}
 		
 	}
@@ -236,19 +231,7 @@ public class TownDay extends GamePlayState {
 		int[] dialoguePos;
 		m_dialogue.clear();
 		if (city == 3 && dream == 2) {
-			m_dialogue = new HashMap<Integer, Dialogue>();
-			Dialogue person_1_dialogue = new Dialogue(this, container, new String[] 
-					{"can you help me find my cats? there are 2 of them."}, new String[]
-							{"", "yes", "no"});
-			m_dialogue.put(1127, person_1_dialogue);
 			
-			Dialogue person2Dialogue = new Dialogue(this, container, new String[] 
-					{"Young man, for what reason have you let your mustache grow?",
-					"It really looks quite terrible on a face like ours.",
-					"Here's a wrench I found, maybe you can fix your face with it.",
-					"* you've received a wrench *"}, null);
-			dialoguePos = new int[] {16, 25};
-			m_dialogue.put(positionToKey(dialoguePos), person2Dialogue);
 
 //			Dialogue dolphinDoor = new Dialogue(this, container, new String[]
 //					{"This is where it escaped... ", 
@@ -258,5 +241,7 @@ public class TownDay extends GamePlayState {
 		else if (city == 2 && dream == 2) {
 		}
 	}
-
+	public void setFree(){
+		m_horsesFreed = true;
+	}
 }

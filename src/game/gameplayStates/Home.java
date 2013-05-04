@@ -60,8 +60,8 @@ public class Home extends GamePlayState {
 			StaticObject bedTable = 
 				new StaticObject("bedTable", 4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
 			bedTable.setRenderPriority(true);
-			m_blocked[4][4] = true;
 			this.addObject(bedTable, false);
+			m_blocked[4][4] = true;
 			
 			StaticObject table =
 				new StaticObject("table", SIZE, 4*SIZE, "assets/gameObjects/table.png");
@@ -123,23 +123,6 @@ public class Home extends GamePlayState {
 
 	@Override
 	public void dialogueListener(Interactable i) {
-		// computer: key = 14
-		//TODO: refactor into the objects themselves
-		/*
-		if (m_interactables.containsKey(14) && m_dialogue.containsKey(14)) 
-			if (i.getSquare()[0] == m_interactables.get(14).getSquare()[0] && 
-				i.getSquare()[1] == m_interactables.get(14).getSquare()[1]) { 
-				m_dialogueNum = 14;
-				m_inDialogue = true;
-			}
-		// door: key = 22
-		if (m_interactables.containsKey(22) && m_dialogue.containsKey(22))
-			if (i.getSquare()[0] == m_interactables.get(22).getSquare()[0] &&
-				i.getSquare()[1] == m_interactables.get(22).getSquare()[1]) {
-				m_dialogueNum = 22;
-				m_inDialogue = true;
-			}
-		*/
 		
 	}
 	

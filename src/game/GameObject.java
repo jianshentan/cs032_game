@@ -123,7 +123,8 @@ public abstract class GameObject {
 		SMALL_PLUG,
 		BIG_PLUG,
 		CORRECT_PLUG, 
-		BLOW_HOLE,
+		BLOW_HOLE, 
+		NONE,
 		HORSE,
 		TABLE_TO_HACK,
 		TRASHCAN;
