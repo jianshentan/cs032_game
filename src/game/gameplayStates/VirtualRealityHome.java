@@ -1,5 +1,7 @@
 package game.gameplayStates;
 
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 
 import game.Dialogue;
@@ -10,6 +12,7 @@ import game.interactables.Bed;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.interactables.InvisiblePortal;
+import game.interactables.TableToHack;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -67,17 +70,21 @@ public class VirtualRealityHome extends GamePlayState {
 			m_blocked[4][4] = true;
 			m_objects.put(44, bedTable);
 			
-			StaticObject table =
-				new StaticObject(SIZE, 4*SIZE, "assets/gameObjects/table.png");
-			table.setDialogue(new String[] {"you hope your computer can give you some answers...",
-					"\"404\"",
-					"you wonder if you can use your computer to hack the virtual machine chairs."});
-			m_interactables.put(14, table);
-			m_blocked[1][4] = true;
-			m_blocked[1][5] = true;
-			m_objects.put(14, table);
+			// you interact with the table to hack the system
+			TableToHack table;
+			try {
+				table = new TableToHack(14, SIZE, 4*SIZE);			
+				m_interactables.put(14, table);
+				m_blocked[1][4] = true;
+				m_blocked[1][5] = true;
+				m_objects.put(14, table);
+			} catch (FileNotFoundException e) { e.printStackTrace();
+			} catch (UnsupportedEncodingException e) { e.printStackTrace();}
+
 			
 			StaticObject door = new StaticObject(2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			door.setDialogue(new String[] {"The door appears to be fake...",
+					"Looks like you're locked in this virtual reality state"});
 			m_interactables.put(22, door);
 			m_objects.put(22, door);
 			

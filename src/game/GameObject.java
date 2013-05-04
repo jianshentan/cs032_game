@@ -66,7 +66,8 @@ public abstract class GameObject {
 		BIG_PLUG,
 		CORRECT_PLUG, 
 		BLOW_HOLE,
-		HORSE;
+		HORSE,
+		TABLE_TO_HACK,
 	}
 	
 	/**
