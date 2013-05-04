@@ -119,6 +119,8 @@ public class TownDay extends GamePlayState {
 			this.m_interactables.put(1311, infoGiver2);
 			this.m_objects.put(1311, infoGiver2);
 			m_blocked[13][11] = true;
+			
+			//TODO: add signs
 		}
 
 		

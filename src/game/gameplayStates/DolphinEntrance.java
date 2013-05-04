@@ -33,7 +33,7 @@ public class DolphinEntrance extends GamePlayState {
 			this.displayDialogue(new String[] {"You realize that you are in the zoo.",
 					"Or rather, what used to be the zoo before it was converted " +
 					"into a horse repository.",
-					"You feel the need to liberate the horses from their dolphin-brained oppressor."});
+					"Maybe if you free the horses, this place will be closed down for good..."});
 			m_isHorsesShown = true;
 			// pop up!
 			for (m_i=0; m_i<20; m_i++) {
