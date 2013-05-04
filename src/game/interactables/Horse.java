@@ -25,7 +25,7 @@ public class Horse extends Enemy implements Interactable{
 	
 	public Horse(int key, GamePlayState room, Player player, float x, float y,int xTarget, int yTarget) throws SlickException {
 		super(room, player, x, y);
-		SpriteSheet horsesheet = new SpriteSheet("assets/Horses.png",128,128);
+		SpriteSheet horsesheet = new SpriteSheet("assets/HorseStampede.png",256,256);
 		this.setSprite(horsesheet.getSprite(0,0));
 		this.m_key = key;
 		this.setLeadTo(xTarget, yTarget);

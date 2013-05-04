@@ -199,6 +199,7 @@ public class TownDay extends GamePlayState {
 				m_enemies.add(horse1);
 				
 				Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
+				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
 				s.setPlayerInvisible(true);
 				s.playScene();
 				
