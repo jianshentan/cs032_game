@@ -33,11 +33,18 @@ import game.quests.QuestStage;
 public class TownDay extends GamePlayState {
 	
 	private boolean m_quest1Given;
-
+	private boolean m_horsesFreed;
 	public TownDay(int stateID) {
 		m_stateID = stateID;
 	}
 	
+	@Override
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager){
+		if(m_horsesFreed){
+			m_horsesFreed = false;
+			//@Annalia- this is where you should fire the horse scene from -adding them to scene or whatever					
+		}
+	}
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		m_playerX = SIZE*11;
@@ -196,14 +203,20 @@ public class TownDay extends GamePlayState {
 				
 			//	TODO: edit where horse ends up. start location is the dolphin entrance door.
 			//	Close all pop up windows too. 
-				Horse horse1 = new Horse("horse1", this, m_player, 7*SIZE, 13*SIZE, 11, 28);
+
+				/*Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
+>>>>>>> 0764c30b041dfb0046006a717c60752a93fad1b6
 				this.addObject(horse1, true);
-				m_enemies.add(horse1);
+				m_enemies.add(horse1);*/
+
 				
-				Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
+			/*	Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
 				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
 				s.setPlayerInvisible(true);
+<<<<<<< HEAD
 				//s.playScene();
+=======
+				s.playScene();*/
 				
 			//	also need to get rid of horse image after chased enough.
 				
@@ -232,5 +245,7 @@ public class TownDay extends GamePlayState {
 		else if (city == 2 && dream == 2) {
 		}
 	}
-
+	public void setFree(){
+		m_horsesFreed = true;
+	}
 }

@@ -7,6 +7,7 @@ import game.Loadable;
 import game.PauseMenu;
 import game.Scene;
 import game.StateManager;
+import game.GameObject.Types;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
 import game.player.Player;

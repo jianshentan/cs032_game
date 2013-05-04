@@ -4,7 +4,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import game.GameObject;
-import game.collectables.BigPlug;
+import game.collectables.CorrectPlug;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 import game.popup.MainFrame;
@@ -26,10 +26,11 @@ public class Trashcan extends GameObject implements Interactable{
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		// TODO Auto-generated method stub
+		System.out.println("interacting with trash can");
 		if(getSprite().equals(m_closed)){
 			state.displayDialogue(new String[]{"Everything in here seems pretty dirty", "Oh! Except that pink thing", "Better take it"});
 			try {
-				p.addToInventory(new BigPlug());
+				p.addToInventory(new CorrectPlug());
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
