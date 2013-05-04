@@ -48,17 +48,20 @@ public class VirtualRealityRoom extends GamePlayState {
 			StaticObject VRCperson1 = new StaticObject(2*SIZE, SIZE-20, "assets/gameObjects/VRCperson01.png");
 			VRCperson1.setDialogue(new String[] {"This person is clearly out of it."});
 			m_objects.put(21, VRCperson1);
-			
+			m_blocked[2][1] = true;
+
 			StaticObject VRCperson2 = new StaticObject(4*SIZE, SIZE-20, "assets/gameObjects/VRCperson02.png");
 			VRCperson2.setDialogue(new String[] {"This person is clearly out of it."});
 			m_objects.put(41, VRCperson2);
-			
+			m_blocked[4][1] = true;
+
 			StaticObject VRCperson3 = new StaticObject(8*SIZE, SIZE-20, "assets/gameObjects/VRCperson03.png");
 			VRCperson3.setDialogue(new String[] {"This person is clearly out of it."});
 			m_objects.put(81, VRCperson3);
+			m_blocked[8][1] = true;
 			
 			VisiblePortal VRC = new VisiblePortal(61, 6*SIZE, SIZE, 
-					StateManager.HOME_STATE, -1, -1, "assets/gameObjects/virtualRealityChair.png");
+					StateManager.VIRTUAL_REALITY_HOME_STATE, -1, -1, "assets/gameObjects/virtualRealityChair.png");
 			m_objects.put(61, VRC);
 			m_interactables.put(61, VRC);
 			m_blocked[6][1] = true;
