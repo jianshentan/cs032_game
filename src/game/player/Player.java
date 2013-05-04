@@ -230,7 +230,7 @@ public class Player extends MovingObject{
 				//this.m_inInventory = false;
 			}
 			if(m_currentItem.isConsumable()) {
-				this.m_inventory.removeItem(getUsing());
+				this.m_inventory.removeItem(getUsing().getType());
 				m_currentItem = null;
 			}
 		}

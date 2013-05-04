@@ -126,11 +126,12 @@ public class Inventory implements Loadable<Inventory> {
 		}
 	}
 	
-	public void removeItem(Collectable item) {
-		if(m_using==item)
+	public void removeItem(Types item) {
+		
+		if(m_using.getType()==item)
 			m_using = null;
 		for(int i = 0; i<m_items.length; i++) {
-			if(m_items[i]==item) {
+			if(m_items[i].getType()==item) {
 				m_items[i] = null;
 				break;
 			}
