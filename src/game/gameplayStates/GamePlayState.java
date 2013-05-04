@@ -23,6 +23,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.particles.ParticleEmitter;
 import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
@@ -72,7 +73,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	
 	
-	private boolean m_entered;
+	private boolean m_entered; //true if the state has been entered.
 	/**
 	 * Returns true if the state has been entered.
 	 * @return
@@ -91,6 +92,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private Dialogue m_sceneDialogue;
 	private boolean m_invisiblePlayer; //true if the player is invisible.
 	public void setInvisiblePlayer(boolean b) { m_invisiblePlayer = b; }
+	
+	protected Sound m_bgm; //background music
+	
 	
 	public void setPauseState(boolean state) { m_isPaused = state; }
 	public boolean getPauseState() { return m_isPaused; }

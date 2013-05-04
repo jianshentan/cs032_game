@@ -46,10 +46,15 @@ public class VirtualRealityRoom extends GamePlayState {
 			
 			// load up some chairs!
 			StaticObject VRCperson1 = new StaticObject(2*SIZE, SIZE-20, "assets/gameObjects/VRCperson01.png");
+			VRCperson1.setDialogue(new String[] {"This person is clearly out of it."});
 			m_objects.put(21, VRCperson1);
+			
 			StaticObject VRCperson2 = new StaticObject(4*SIZE, SIZE-20, "assets/gameObjects/VRCperson02.png");
+			VRCperson2.setDialogue(new String[] {"This person is clearly out of it."});
 			m_objects.put(41, VRCperson2);
+			
 			StaticObject VRCperson3 = new StaticObject(8*SIZE, SIZE-20, "assets/gameObjects/VRCperson03.png");
+			VRCperson3.setDialogue(new String[] {"This person is clearly out of it."});
 			m_objects.put(81, VRCperson3);
 			
 			VisiblePortal VRC = new VisiblePortal(61, 6*SIZE, SIZE, 
@@ -57,6 +62,14 @@ public class VirtualRealityRoom extends GamePlayState {
 			m_objects.put(61, VRC);
 			m_interactables.put(61, VRC);
 			m_blocked[6][1] = true;
+		}
+	}
+	
+	@Override
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		if(isEntered() == false) { //TODO: conditions also involve global city/dream state
+			this.displayDialogue(new String[] {"\"We've been waiting for you\", you hear a booming voice say.",
+					"\"Your chair is the third from the left.\""});
 		}
 	}
 
