@@ -6,6 +6,7 @@ import game.GameObject;
 import game.PauseMenu;
 import game.StateManager;
 import game.StaticObject;
+import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Bed;
 import game.interactables.Chest;
 import game.interactables.ChickenWing;
@@ -42,27 +43,9 @@ public class Home extends GamePlayState {
 		m_playerY = SIZE*4;
 		
 		// set up map
-		
-		if(m_mapPath != null) {
-			m_tiledMap = new TiledMap(m_mapPath);
-		}
-		else
-			try {
-				m_tiledMap = new TiledMap("assets/maps/home.tmx");
-			} catch (SlickException e) {
-				System.out.println("ERROR: Could not load home.tmx");
-			}
-		m_map = new simpleMap();
-		m_blocked = new boolean[m_tiledMap.getWidth()][m_tiledMap.getHeight()];
-		for (int xAxis=0; xAxis<m_tiledMap.getWidth(); xAxis++) {
-			for (int yAxis=0; yAxis<m_tiledMap.getHeight(); yAxis++) {
-				int tileID = m_tiledMap.getTileId(xAxis, yAxis, 0);
-				String value = m_tiledMap.getTileProperty(tileID, "blocked", "false");
-				if ("true".equals(value)) {
-					m_blocked[xAxis][yAxis] = true;
-				}
-			}
-		}
+		this.m_tiledMap = new TiledMap("assets/maps/home.tmx");
+		this.m_map = new simpleMap();	
+		this.setBlockedTiles();
 
 		// set up objects that will not change regardless of the game state
 		if(!this.isLoaded()) {
