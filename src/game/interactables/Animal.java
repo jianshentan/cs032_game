@@ -45,6 +45,10 @@ public class Animal extends Enemy implements Interactable {
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		// TODO Auto-generated method stub
+		state.displayDialogue(new String[] {"Fortunately, you are well trained " +
+				"in cat tranquilization techniques.",
+				"However, you have no space in your pockets to put a cat."
+		});
 		return this;
 	}
 

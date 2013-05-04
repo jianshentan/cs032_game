@@ -103,7 +103,8 @@ public class TownDay extends GamePlayState {
 			//TODO: add new people who give information about stuff
 			Person infoGiver1 = new Person(1116, 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
 			infoGiver1.setDialogue(new String[] {"Those dolphins are always up to no good.",
-					"I wish that someone would shove buttplugs up all their holes!"});
+					"They turned the old zoo into a horse stable!",
+					"I wish that someone would shove something up all their holes!"});
 			this.m_interactables.put(1116, infoGiver1);
 			this.m_objects.put(1116, infoGiver1);
 			m_blocked[11][16] = true;
