@@ -19,23 +19,26 @@ import game.player.Player;
  *
  */
 public class Animal extends Enemy implements Interactable {
-	
-	private int m_key;
-	
-	public Animal(int key, String imagePath, GamePlayState room, Player player, float x, float y,
+		
+	public Animal(String imagePath, GamePlayState room, Player player, float x, float y,
 			int xTarget, int yTarget) throws SlickException {
 		super(room, player, x, y);
+		this.setName("cat");
 		this.setSprite(new Image(imagePath));
-		this.m_key = key;
 		this.setLeadTo(xTarget, yTarget);
 		this.m_ai = AIState.LEAD;
 		this.m_sprite = new Animation(new Image[] {new Image(imagePath)}, 1000, false);
 	}
-
-	@Override
-	public int getKey() {
-		return m_key;
-	}
+	
+	public Animal(String name, String imagePath, GamePlayState room, Player player, float x, float y,
+			int xTarget, int yTarget) throws SlickException {
+		super(room, player, x, y);
+		this.setName(name);
+		this.setSprite(new Image(imagePath));
+		this.setLeadTo(xTarget, yTarget);
+		this.m_ai = AIState.LEAD;
+		this.m_sprite = new Animation(new Image[] {new Image(imagePath)}, 1000, false);
+	} 
 
 	@Override
 	protected void updateSprite() {

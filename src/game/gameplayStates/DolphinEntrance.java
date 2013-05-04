@@ -76,27 +76,24 @@ public class DolphinEntrance extends GamePlayState {
 		m_threads = new ArrayList<Runnable>();
 		
 		if(!this.isLoaded()) {
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();
+			//m_interactables = new HashMap<String, Interactable>();
+			//m_objects = new HashMap<String, GameObject>();
 			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
 			
-			StaticObject entrance = new StaticObject(SIZE, 0, "assets/dolphinProtectors.png");
+			StaticObject entrance = new StaticObject("entrance", SIZE, 0, "assets/dolphinProtectors.png");
 			entrance.setRenderPriority(true);
-			m_objects.put(10, entrance);
+			this.addObject(entrance, false);
 			
 			
-			InvisiblePortal portalA = new InvisiblePortal(21, 2*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
-			InvisiblePortal portalB = new InvisiblePortal(31, 3*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
-			m_objects.put(21, portalA);
-			m_objects.put(31, portalB);
-			m_interactables.put(21,  portalA);
-			m_interactables.put(31,  portalB);
+			InvisiblePortal portalA = new InvisiblePortal("portalA", 2*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
+			InvisiblePortal portalB = new InvisiblePortal("portalB", 3*SIZE, SIZE, StateManager.DOLPHIN_STATE, -1,-1);
+			this.addObject(portalA, true);
+			this.addObject(portalB, true);
 			
-			StaticObject doormat = new StaticObject(2*SIZE, 8*SIZE, "assets/gameObjects/doormat.png");
-			m_objects.put(28, doormat);
-			InvisiblePortal portalC = new InvisiblePortal(28, 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
-			m_objects.put(29, portalC);
-			m_interactables.put(29, portalC);
+			StaticObject doormat = new StaticObject("doormat", 2*SIZE, 8*SIZE, "assets/gameObjects/doormat.png");
+			this.addObject(doormat, false);
+			InvisiblePortal portalC = new InvisiblePortal("portalC", 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
+			this.addObject(portalC, true);
 		}
 	}
 

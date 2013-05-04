@@ -51,12 +51,11 @@ public class Kitchen extends GamePlayState {
 		
 		if(!this.isLoaded()) {
 			// setup objects
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();
+			//m_interactables = new HashMap<String, Interactable>();
+			//m_objects = new HashMap<String, GameObject>();
 			
-			Door door = new Door(20, 2*SIZE, 0*SIZE, StateManager.ROOM_STATE, 6, 8);
-			m_interactables.put(20, door);
-			m_objects.put(20, door);
+			Door door = new Door("door", 2*SIZE, 0*SIZE, StateManager.ROOM_STATE, 6, 8);
+			this.addObject(door, true);
 		}
 	}
 

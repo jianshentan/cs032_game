@@ -29,19 +29,16 @@ public class Chest extends GameObject implements Interactable{
 	private boolean m_isOpen;
 	private MainFrame m_popup;
 	private Runnable m_thread;
+
 	
-	private int m_key;
-	@Override
-	public int getKey() {return m_key;}
-	
-	public Chest(int key, int xLoc, int yLoc) throws SlickException{
+	public Chest(String name, int xLoc, int yLoc) throws SlickException{
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
 		m_closed = new Image("assets/chestClose.png");
 		m_open = new Image("assets/chestOpen.png");
 		setSprite(m_closed);
 		m_isOpen = false;
-		m_key = key;
 		
 		
 		m_thread = new Runnable() {
@@ -93,7 +90,8 @@ public class Chest extends GameObject implements Interactable{
 	public static Chest loadFromNode(Node node) throws SlickException {
 		int xLoc = (int) Double.parseDouble(node.getAttributes().getNamedItem("m_x").getNodeValue());
 		int yLoc = (int) Double.parseDouble(node.getAttributes().getNamedItem("m_y").getNodeValue());
+		String name = node.getAttributes().getNamedItem("name").getNodeValue();
 		int[] position = {xLoc, yLoc};
-		return new Chest(GamePlayState.positionToKey(position), xLoc, yLoc);
+		return new Chest(name, xLoc, yLoc);
 	}
 }

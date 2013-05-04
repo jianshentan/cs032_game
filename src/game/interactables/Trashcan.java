@@ -12,16 +12,13 @@ import game.popup.MainFrame;
 public class Trashcan extends GameObject implements Interactable{
 	private Image m_open, m_closed;
 	
-	private int m_key;
-	@Override
-	public int getKey() {return m_key;}
-	public Trashcan(int key, int xLoc, int yLoc) throws SlickException{
+	public Trashcan(String name, int xLoc, int yLoc) throws SlickException{
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
 		m_closed = new Image("assets/chestClose.png");
 		m_open = new Image("assets/chestOpen.png");
 		setSprite(m_closed);
-		m_key = key;
 	}
 
 

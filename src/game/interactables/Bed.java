@@ -16,9 +16,9 @@ import game.player.Player;
 
 public class Bed extends PortalObject {
 
-	public Bed(int key, int xLoc, int yLoc,
+	public Bed(String name, int xLoc, int yLoc,
 			int destination, int xDestination, int yDestination) throws SlickException {
-		super(key, xLoc, yLoc, destination, xDestination, yDestination);
+		super(name, xLoc, yLoc, destination, xDestination, yDestination);
 		setSprite(new Image("assets/gameObjects/bed.png"));
 	}
 

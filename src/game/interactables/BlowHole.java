@@ -12,17 +12,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class BlowHole extends GameObject implements Interactable {
-	private int m_key;
-	public BlowHole(int key, int xLoc, int yLoc) throws SlickException{
-		m_key = key;
+
+	public BlowHole(String name, int xLoc, int yLoc) throws SlickException{
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
 		setSprite(new Image("assets/colors/clear.png")); 
-	}
-	@Override
-	public int getKey() {
-		// TODO Auto-generated method stub
-		return m_key;
 	}
 
 	@Override

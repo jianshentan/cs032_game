@@ -12,9 +12,10 @@ import game.gameplayStates.GamePlayState;
 public class Wrench extends Collectable {
 
 	public Wrench(int xLoc, int yLoc) throws SlickException {
+		super();
+		this.setName("wrench");
 		m_x = xLoc;
 		m_y = yLoc;
-		this.setKey(GamePlayState.positionToKey(getSquare()));
 		setSprite(new Image("assets/gameObjects/wrench.png"));	
 	}
 

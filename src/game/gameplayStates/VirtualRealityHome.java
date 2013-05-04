@@ -46,50 +46,46 @@ public class VirtualRealityHome extends GamePlayState {
 		
 		//set up objects that will not change
 		if (!this.isLoaded()) {
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();
+			//m_interactables = new HashMap<Integer, Interactable>();
+			//m_objects = new HashMap<Integer, GameObject>();
 			m_dialogue = new HashMap<Integer, Dialogue>();
 			
 			StaticObject posters = 
-				new StaticObject(3*SIZE, 1*SIZE, "assets/gameObjects/bieberPoster.png");
-			m_objects.put(31, posters);
+				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/bieberPoster.png");
+			this.addObject(posters, false);
 			
 			StaticObject carpet = 
-				new StaticObject(3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
-			m_objects.put(23, carpet);
+				new StaticObject("carpet", 3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
+			this.addObject(carpet, false);
 			
 			StaticObject bedTable = 
-				new StaticObject(4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
+				new StaticObject("bedTable", 4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
 			bedTable.setDialogue(new String[] {"\"wow i left my phone in the exact same place\"," +
 					"you see some text on your phone... ",
 					"\"JB is your luck, your curse... and your exit\""});
-			m_interactables.put(44, bedTable);
+			this.addObject(bedTable, true);
 			m_blocked[4][4] = true;
-			m_objects.put(44, bedTable);
 			
 			StaticObject table =
-				new StaticObject(SIZE, 4*SIZE, "assets/gameObjects/table.png");
+				new StaticObject("table", SIZE, 4*SIZE, "assets/gameObjects/table.png");
 			table.setDialogue(new String[] {"you hope your computer can give you some answers...",
 					"\"404\"",
 					"you wonder if you can use your computer to hack the virtual machine chairs."});
-			m_interactables.put(14, table);
+			this.addObject(table, true);
 			m_blocked[1][4] = true;
 			m_blocked[1][5] = true;
-			m_objects.put(14, table);
 			
-			StaticObject door = new StaticObject(2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
-			m_interactables.put(22, door);
-			m_objects.put(22, door);
+			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			this.addObject(door, true);
 			
-			StaticObject bed = new StaticObject(3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
+			StaticObject bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
-			m_objects.put(35, bed);
+			this.addObject(bed, false);
 			
 			InvisiblePortal invisiblePortal = 
-					new InvisiblePortal(42, 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);
-			m_interactables.put(42, invisiblePortal);
-			m_objects.put(42, invisiblePortal);
+					new InvisiblePortal("invisiblePortal", 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);
+			this.addObject(invisiblePortal, true);
 		}
 		
 	}

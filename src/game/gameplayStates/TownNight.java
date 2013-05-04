@@ -63,11 +63,11 @@ public class TownNight extends GamePlayState {
 		
 		if (!this.isLoaded()) {
 			// setup objects
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();	
+			//m_interactables = new HashMap<Integer, Interactable>();
+			//m_objects = new HashMap<Integer, GameObject>();	
 			
-			StaticObject dolphinDoor = new StaticObject(8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
-			m_objects.put(813, dolphinDoor);
+			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
+			this.addObject(dolphinDoor, false);
 			
 			//PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
 			//m_interactables.put(1129, doorMat);
