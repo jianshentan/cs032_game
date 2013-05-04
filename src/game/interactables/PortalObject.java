@@ -17,10 +17,6 @@ public abstract class PortalObject extends GameObject implements Interactable {
 
 	protected int m_destination;
 	protected int m_xDestination, m_yDestination;
-	protected int m_key;
-	
-	@Override 
-	public int getKey() {return m_key;}
 	
 	/**
 	 * classes that inherit from this needs to define a spritePath 
@@ -34,11 +30,11 @@ public abstract class PortalObject extends GameObject implements Interactable {
 	 * 		  location state will use the default initial position
 	 * @throws SlickException
 	 */
-	public PortalObject(int key, int xLoc, int yLoc,
+	public PortalObject(String name, int xLoc, int yLoc,
 						int destination, int xDestination, int yDestination) throws SlickException {
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
-		m_key = key;
 		m_destination = destination;
 		m_xDestination = xDestination;
 		m_yDestination = yDestination;

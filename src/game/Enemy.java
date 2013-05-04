@@ -71,7 +71,6 @@ public class Enemy extends MovingObject{
         m_sprite = m_right_stand;
         //set ai, this should also be passed in
         m_ai = AIState.LEAD;
-        
 	}
 	/*
 	 * Set the square that the AI needs to lead the main character to.

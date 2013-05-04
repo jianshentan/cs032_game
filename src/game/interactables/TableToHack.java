@@ -16,12 +16,11 @@ import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
 public class TableToHack extends GameObject implements Interactable {
-	private int m_key;
 	private int m_stage = 0;
 
-	public TableToHack(int key, int xLoc, int yLoc) 
+	public TableToHack(String name, int xLoc, int yLoc) 
 			throws SlickException, FileNotFoundException, UnsupportedEncodingException {
-		m_key = key;
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
 		
@@ -30,11 +29,6 @@ public class TableToHack extends GameObject implements Interactable {
 		PrintWriter writer = new PrintWriter("brain.txt", "UTF-8");
 		writer.print("HackCode:");
 		writer.close();	
-	}
-
-	@Override
-	public int getKey() {
-		return m_key;
 	}
 
 	@Override

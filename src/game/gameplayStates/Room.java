@@ -68,27 +68,23 @@ public class Room extends GamePlayState {
 
 		if(!this.isLoaded()) {
 			// setup objects
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();
+			//m_interactables = new HashMap<Integer, Interactable>();
+			//m_objects = new HashMap<Integer, GameObject>();
 
-			Chest chest = new Chest(23, 2*SIZE, 3*SIZE);
-			m_interactables.put(23, chest);
+			Chest chest = new Chest("chest", 2*SIZE, 3*SIZE);
+			this.addObject(chest, true);
 			m_blocked[2][3] = true;		
-			m_objects.put(23, chest);
 
-			ChickenWing chickenWing = new ChickenWing(6*SIZE, 3*SIZE);
-			m_interactables.put(63, chickenWing);
+			ChickenWing chickenWing = new ChickenWing("chickenWing", 6*SIZE, 3*SIZE);
+			this.addObject(chickenWing, true);
 			m_blocked[6][3] = true;      
-			m_objects.put(63, chickenWing);
 
-			Cigarette cigarette = new Cigarette(8*SIZE, 4*SIZE);
-			m_interactables.put(84, cigarette);
+			Cigarette cigarette = new Cigarette("cigarette", 8*SIZE, 4*SIZE);
+			this.addObject(cigarette, true);
 			m_blocked[8][4] = true;
-			m_objects.put(84, cigarette);
 			
-			Door door = new Door(67, 6*SIZE, 7*SIZE, StateManager.KITCHEN_STATE, 2, 1);
-			m_interactables.put(67, door);
-			m_objects.put(67, door);
+			Door door = new Door("door", 6*SIZE, 7*SIZE, StateManager.KITCHEN_STATE, 2, 1);
+			this.addObject(door, true);
 		}
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};

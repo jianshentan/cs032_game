@@ -16,12 +16,13 @@ import javax.xml.stream.XMLStreamWriter;
 public interface Interactable {
 	
 	/**
-	 * Returns the key.
-	 * @return
+	 * Returns the name of the interactable.
+	 * Names should be unique within a GameState.
+	 * @return String
 	 */
-	public int getKey();
+	public String getName();
 	/**
-	 * 
+	 * Fires the interactable's action.
 	 * @return this interactable
 	 */
 	public Interactable fireAction(GamePlayState state, Player p);

@@ -49,89 +49,77 @@ public class Home extends GamePlayState {
 
 		// set up objects that will not change regardless of the game state
 		if(!this.isLoaded()) {
-			m_interactables = new HashMap<Integer, Interactable>();
-			m_objects = new HashMap<Integer, GameObject>();
-			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
+			//m_interactables = new HashMap<String, Interactable>();
+			//m_objects = new HashMap<String, GameObject>();
+//			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
 				
 			StaticObject posters = 
-				new StaticObject(3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
-			m_objects.put(31, posters);
+				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
+			this.addObject(posters, false);
 			
 			StaticObject carpet = 
-				new StaticObject(3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
-			m_objects.put(23, carpet);
+				new StaticObject("carpet", 3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
+			this.addObject(carpet, false);
 			
 			StaticObject bedTable = 
-				new StaticObject(4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
+				new StaticObject("bedTable", 4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
+			bedTable.setRenderPriority(true);
 			m_blocked[4][4] = true;
-			m_objects.put(44, bedTable);
+			this.addObject(bedTable, false);
 			
 			StaticObject table =
-				new StaticObject(SIZE, 4*SIZE, "assets/gameObjects/table.png");
-			m_interactables.put(14, table);
+				new StaticObject("table", SIZE, 4*SIZE, "assets/gameObjects/table.png");
+
 			m_blocked[1][4] = true;
 			m_blocked[1][5] = true;
-			m_objects.put(14, table);
+			this.addObject(table, true);
 		
 		}
-		
 
 	}
 	
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
 		if (city == 3 && dream == 3) {
-			super.removeObject(22);
-			StaticObject door = new StaticObject(2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
-			m_interactables.put(22, door);
-			m_objects.put(22, door);
+			super.removeObject("door");
+			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			door.setDialogue(new String[] {"Its late out... Perhaps you should just hit the sack"});
+			this.addObject(door, true);
 			
-			super.removeObject(35);
-			Bed bed = new Bed(35, 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
-			m_interactables.put(35, bed);
+			super.removeObject("bed");
+			Bed bed = new Bed("bed", 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
-			m_objects.put(35, bed);
+			this.addObject(bed, true);
 
 		}
 		else if (city == 3 && dream == 2) {
-			super.removeObject(22);
-			PortalObject door = new Door(22, 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, -1, -1);
-			m_interactables.put(22, door);
-			m_objects.put(22, door);
+			super.removeObject("door");
+			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, -1, -1);
+			this.addObject(door, true);
 			
-			super.removeObject(35);
-			StaticObject bed = new StaticObject(3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
-			m_interactables.put(35, bed);
+			super.removeObject("bed");
+			StaticObject bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
+			this.addObject(bed, true);
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
-			m_objects.put(35, bed);
 
 		}
 	}
 	
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
-		int[] dialoguePos;
-		m_dialogue.clear();
 		if (city == 3 && dream == 3) {
-			Dialogue doorDialogue = new Dialogue(this, container, new String[] 
-					{"Its late out... Perhaps you should just hit the sack"}, null);
-			dialoguePos = new int[] {2, 2};
-			m_dialogue.put(positionToKey(dialoguePos), doorDialogue);
+			((StaticObject)this.getInteractable("door")).setDialogue(new String[]
+					{"Its late out... Perhaps you should just hit the sack"});
 			
-			Dialogue computerDialogue = new Dialogue(this, container, new String[]
+			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
 					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
-					"You can also visit find plenty of friends right here on the internet.. special friends."},
-					new String[] {"do you like cats or dogs", "cats", "dogs", "mouse"});
-			dialoguePos = new int[] {1, 4};
-			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+					"You can also visit find plenty of friends right here on the internet.. special friends."});	
 		}
 		else if (city == 3 && dream == 2) {
-			Dialogue computerDialogue = new Dialogue(this, container, new String[]
-					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"}, null);
-			dialoguePos = new int[] {1, 4};
-			m_dialogue.put(positionToKey(dialoguePos), computerDialogue);
+			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
+					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
 		}
 	}
 
@@ -140,6 +128,8 @@ public class Home extends GamePlayState {
 	@Override
 	public void dialogueListener(Interactable i) {
 		// computer: key = 14
+		//TODO: refactor into the objects themselves
+		/*
 		if (m_interactables.containsKey(14) && m_dialogue.containsKey(14)) 
 			if (i.getSquare()[0] == m_interactables.get(14).getSquare()[0] && 
 				i.getSquare()[1] == m_interactables.get(14).getSquare()[1]) { 
@@ -153,6 +143,7 @@ public class Home extends GamePlayState {
 				m_dialogueNum = 22;
 				m_inDialogue = true;
 			}
+		*/
 		
 	}
 	

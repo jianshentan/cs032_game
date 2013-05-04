@@ -33,10 +33,10 @@ public class Cigarette extends Collectable implements Interactable {
 		this.m_particleSystem.addEmitter(emitter);
 	}
 	
-	public Cigarette(int xLoc, int yLoc) throws SlickException {
+	public Cigarette(String name, int xLoc, int yLoc) throws SlickException {
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
-		this.setKey(GamePlayState.positionToKey(getSquare()));
 		setSprite(new Image("assets/cigarette.png"));
 		m_emitter = new FireEmitter(300,300,20);
 		m_particleSystem = new ParticleSystem("assets/particles/smoke_1.png");
@@ -45,7 +45,7 @@ public class Cigarette extends Collectable implements Interactable {
 
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
-		state.removeObject(this.getKey(), (int) m_x/SIZE, (int) this.m_y/SIZE);
+		state.removeObject(this.getName(), (int) m_x/SIZE, (int) this.m_y/SIZE);
 		return this;
 	}
 

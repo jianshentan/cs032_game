@@ -17,15 +17,15 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class ChickenWing extends Collectable implements Interactable{
 	
-	public ChickenWing(int xLoc, int yLoc) throws SlickException {
+	public ChickenWing(String name, int xLoc, int yLoc) throws SlickException {
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
-		this.setKey(GamePlayState.positionToKey(getSquare()));
 		setSprite(new Image("assets/chickenWing.png"));
 	}
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
-		state.removeObject(this.getKey(), (int) m_x/SIZE, (int) this.m_y/SIZE);
+		state.removeObject(this.getName(), (int) m_x/SIZE, (int) this.m_y/SIZE);
 		return this;
 	}
 	

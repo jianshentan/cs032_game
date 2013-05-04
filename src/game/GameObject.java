@@ -1,7 +1,5 @@
 package game;
 
-import java.util.HashMap;
-
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -12,6 +10,8 @@ public abstract class GameObject {
 	private Image m_sprite;
 	public static final int SIZE = 64;
 	protected float m_x, m_y;
+	protected String m_name; //name of the object
+	private final int m_id;
 	
 	public float getX() {return m_x;}
 	public float getY() {return m_y;}
@@ -21,6 +21,51 @@ public abstract class GameObject {
 	protected boolean m_renderAfter = false;
 	public void setRenderPriority(boolean s) {m_renderAfter = s;}
 	public boolean renderAfter() {return m_renderAfter;}
+	
+	/**
+	 * This automatically sets the ID, and adds the object to the
+	 * global table.
+	 */
+	public GameObject() {
+		m_id = StateManager.getKey();
+		StateManager.addObject(m_id, this);
+	}
+	
+	/**
+	 * Initializes the GameObject with a name.
+	 * @param name
+	 */
+	public GameObject(String name) {
+		m_id = StateManager.getKey();
+		StateManager.addObject(m_id, this);
+		m_name = name;
+	}
+	
+	/**
+	 * Returns the key of the object in the global table.
+	 * This is guaranteed to be globally unique.
+	 * @return int key
+	 */
+	public final int getKey() {
+		return m_id;
+	}
+	
+	/**
+	 * Returns the name of the object.
+	 * Name is guaranteed to be unique within a GameState.
+	 * @return
+	 */
+	public final String getName() {
+		return m_name;
+	}
+	
+	/**
+	 * Sets the name of the object.
+	 * @param s
+	 */
+	public final void setName(String s) {
+		m_name = s;
+	}
 	
 //	public abstract int[] getSquare();
 	public abstract Types getType();
@@ -32,6 +77,11 @@ public abstract class GameObject {
 		this.m_sprite = m_sprite;
 	}
 
+	/**
+	 * Returns the position of the object on the tile map,
+	 * in tiled coordinates. 
+	 * @return [x, y] in tiled coordinates
+	 */
 	public int[] getSquare() {
 		int[] loc = {(int)m_x/SIZE, (int)m_y/SIZE};
 		return loc;
@@ -47,6 +97,14 @@ public abstract class GameObject {
 			return o1.getType() == this.getType();
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns true if the object blocks.
+	 * @return
+	 */
+	public boolean isBlocking() {
+		return true;
 	}
 	
 	public enum Types {

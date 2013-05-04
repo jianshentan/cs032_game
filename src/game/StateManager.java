@@ -1,6 +1,7 @@
 package game;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.DolphinEntrance;
@@ -23,9 +24,12 @@ import org.newdawn.slick.state.StateBasedGame;
 public class StateManager extends StateBasedGame {
 	
 	private static final StateManager instance;
+	//Used to store all game objects
+	private static HashMap<Integer, GameObject> gameObjects;
 	  
 	static {
 	    instance = new StateManager();
+	    gameObjects = new HashMap<Integer, GameObject>();
 	}
 	 
 	public static StateManager getInstance() {
@@ -42,6 +46,24 @@ public class StateManager extends StateBasedGame {
 	public static int getKey() {
 		m_currentKey +=1;
 		return m_currentKey;
+	}
+	
+	/**
+	 * Adds an object to the global object store.
+	 * @param key
+	 * @param o
+	 */
+	public static void addObject(int key, GameObject o) {
+		gameObjects.put(key, o);
+	}
+	
+	/**
+	 * Gets an object.
+	 * @param key
+	 * @return GameObject, or null
+	 */
+	public static GameObject getObject(int key) {
+		return gameObjects.get(key);
 	}
 	  
 	// black box test states

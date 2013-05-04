@@ -18,6 +18,11 @@ public class MovingObject extends GameObject{
 	
 	public MovingObject(GamePlayState game){
 		m_game = game;
+		this.setName("MovingObject");
+	}
+	public MovingObject(String name, GamePlayState game) {
+		super(name);
+		m_game = game;
 	}
 	/**
 	 * Moves the MovingObject in the given direction, with the given
@@ -77,6 +82,10 @@ public class MovingObject extends GameObject{
 				return false;
 			}
 		}
+	}
+	@Override
+	public boolean isBlocking() {
+		return false;
 	}
 	@Override
 	public int[] getSquare() {

@@ -17,13 +17,12 @@ public class Person extends GameObject implements Interactable{
 	private Image m_up, m_down, m_left, m_right;
 	private Direction m_dir;
 	private String[] m_dialogue;
-	private int key;
 	private Collectable m_item = null;
 	
-	public Person(int key, int xLoc, int yLoc, String spritefile, Collectable item) throws SlickException {
+	public Person(String name, int xLoc, int yLoc, String spritefile, Collectable item) throws SlickException {
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
-		this.key = key;
 		
 		if (item != null)
 			m_item = item;
@@ -42,10 +41,6 @@ public class Person extends GameObject implements Interactable{
 		this.m_dialogue = text;
 	}
 	
-	@Override
-	public int getKey() {
-		return key;
-	}
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		Direction playerfacing = p.getDirection();

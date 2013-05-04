@@ -17,17 +17,14 @@ import org.newdawn.slick.SlickException;
  */
 public class StaticObject extends GameObject implements Interactable{
 	
-	private int m_key;
-	public int getKey() {return m_key;}
-
 	private String[] m_dialogue;
 	
-	public StaticObject(int xLoc, int yLoc, String spritePath) throws SlickException {
+	public StaticObject(String name, int xLoc, int yLoc, String spritePath) throws SlickException {
+		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
 		String s1 = String.valueOf(xLoc);
 		String s2 = String.valueOf(yLoc);
-		m_key = Integer.parseInt(s1+s2);
 		setSprite(new Image(spritePath));
 	}
 	
