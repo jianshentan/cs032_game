@@ -111,6 +111,7 @@ public class Home extends GamePlayState {
 			
 			super.removeObject("bed");
 			Bed bed = new Bed("bed", 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
+			this.addObject(bed, true);
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
 
