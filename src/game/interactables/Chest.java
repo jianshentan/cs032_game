@@ -71,14 +71,10 @@ public class Chest extends GameObject implements Interactable{
 	}
 	
 	@Override
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
-		writer.writeStartElement("Interactable");
-		writer.writeAttribute("type", Types.CHEST.toString());
-		writer.writeAttribute("m_x", String.valueOf(this.m_x));
-		writer.writeAttribute("m_y", String.valueOf(this.m_y));
+
 		writer.writeAttribute("m_isOpen", String.valueOf(this.m_isOpen));
-		writer.writeEndElement();
 	}
 	
 	/**

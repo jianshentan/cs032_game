@@ -1,7 +1,6 @@
 package game.quests;
 
 import game.Collectable;
-import game.GameObject;
 import game.StateManager;
 import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
@@ -62,6 +61,20 @@ public abstract class QuestReward {
 		public void onAccomplished(GamePlayState state, Player player) {
 			DolphinChamber d = (DolphinChamber) StateManager.getInstance().getState(StateManager.DOLPHIN_STATE);
 			d.waterDown(true);
+		}
+		
+	}
+	
+	/**
+	 * This reward launches a horse stampede.
+	 *
+	 */
+	public static class HorseStampedeReward extends QuestReward {
+
+		@Override
+		public void onAccomplished(GamePlayState state, Player player) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}

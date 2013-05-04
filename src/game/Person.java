@@ -68,7 +68,7 @@ public class Person extends GameObject implements Interactable{
 		return this;
 	}
 	@Override
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		
 	}

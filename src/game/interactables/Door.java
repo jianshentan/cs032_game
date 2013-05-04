@@ -26,8 +26,7 @@ public class Door extends PortalObject {
 	}
 
 	@Override
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
-		// TODO Auto-generated method stub
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		
 	}
 

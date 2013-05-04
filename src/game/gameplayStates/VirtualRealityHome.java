@@ -63,7 +63,7 @@ public class VirtualRealityHome extends GamePlayState {
 			
 			StaticObject bedTable = 
 				new StaticObject("bedTable", 4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
-			bedTable.setDialogue(new String[] {"\"wow i left my phone in the exact same place\"," +
+			bedTable.setDialogue(new String[] {"\"Wow I left my phone in the exact same place\"," +
 					"you see some text on your phone... ",
 					"\"JB is your luck, your curse... and your exit\""});
 			bedTable.setRenderPriority(true);
@@ -81,6 +81,7 @@ public class VirtualRealityHome extends GamePlayState {
 			} catch (UnsupportedEncodingException e) { e.printStackTrace();}
 
 			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			door.setDialogue(new String[] {"The door seems to be locked."});
 			this.addObject(door, true);
 			
 			StaticObject bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");

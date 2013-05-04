@@ -88,15 +88,19 @@ public abstract class GameObject {
 	}
 	
 	/**
-	 * By default, two GameObjects of the same type are equal.
+	 * By default, two GameObjects of the same name are equal.
 	 */
 	@Override
 	public boolean equals(Object o) {
 		if(o.getClass() == this.getClass()) {
 			GameObject o1 = (GameObject) o;
-			return o1.getType() == this.getType();
+			return o1.getKey() == this.getKey();
 		}
 		return false;
+	}
+	
+	public int hashCode() {
+		return this.m_id;
 	}
 	
 	/**
@@ -134,10 +138,31 @@ public abstract class GameObject {
 	 * @param writer
 	 * @throws XMLStreamException
 	 */
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public final void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		//TODO- what needs to be written: position- x, y
 		//type, id?
 		//needs subclasses to write additional attributes
 		//References- save these as actual objects
+		writer.writeStartElement("GameObject");
+		writer.writeAttribute("m_id", String.valueOf(this.getKey()));
+		writer.writeAttribute("m_name", this.m_name);
+		writer.writeAttribute("type", this.getType().toString());
+		writer.writeAttribute("m_x", String.valueOf(this.m_x));
+		writer.writeAttribute("m_y", String.valueOf(this.m_y));
+		writer.writeAttribute("m_renderAfter", String.valueOf(m_renderAfter));
+		
+		this.writeAttributes(writer);
+		
+		writer.writeEndElement();
+	}
+	
+	/**
+	 * Override this to write additional attributes.
+	 * No need to write start/end element tags, stuff in GameObject.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
+		
 	}
 }

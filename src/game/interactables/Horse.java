@@ -21,8 +21,9 @@ import game.player.Player;
 
 public class Horse extends Enemy implements Interactable{
 	
-	public Horse(int key, GamePlayState room, Player player, float x, float y,int xTarget, int yTarget) throws SlickException {
+	public Horse(String name, GamePlayState room, Player player, float x, float y,int xTarget, int yTarget) throws SlickException {
 		super(room, player, x, y);
+		this.setName(name);
 		SpriteSheet horsesheet = new SpriteSheet("assets/HorseStampede.png",256,256);
 		this.setSprite(horsesheet.getSprite(0,0));
 		//this.m_key = key;
@@ -49,7 +50,7 @@ public class Horse extends Enemy implements Interactable{
 	}
 
 	@Override
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub
 		
 	}

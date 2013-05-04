@@ -392,7 +392,8 @@ public class Player extends MovingObject{
 	 * @param writer
 	 * @throws XMLStreamException
 	 */
-	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
+		//TODO: this is fail
 		writer.writeStartElement("Player");
 		writer.writeAttribute("m_x", String.valueOf(m_x));
 		writer.writeAttribute("m_y", String.valueOf(m_y));
