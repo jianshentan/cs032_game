@@ -30,9 +30,13 @@ public class DolphinEntrance extends GamePlayState {
 	
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if (!m_isHorsesShown) {
+			this.displayDialogue(new String[] {"You realize that you are in the zoo.",
+					"Or rather, what used to be the zoo before it was converted " +
+					"into a horse repository.",
+					"You feel the need to liberate the horses from their dolphin-brained oppressor."});
 			m_isHorsesShown = true;
 			// pop up!
-			for (m_i=0; m_i<100; m_i++) {
+			for (m_i=0; m_i<20; m_i++) {
 				Runnable thread = new Runnable() {
 					public void run() {
 						try {

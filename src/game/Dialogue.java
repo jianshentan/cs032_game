@@ -103,7 +103,7 @@ public class Dialogue {
 		if (!m_selectionMode) {
 			if (m_currTextBlock < m_text.size()) {
 				List<String> text = m_text.get(m_currTextBlock);
-				for (int i=0; i<m_currLine; i++) {
+				for (int i=0; i<m_numLines; i++) {
 					if (text.size() > i) {
 						String line = text.get(i);
 						g.drawString(line, m_x + 25, 25 + m_y + i*m_font.getLineHeight());
@@ -149,7 +149,7 @@ public class Dialogue {
         }
         if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE) && !m_selectionMode){
         	//System.out.println("updating");
-        	if (m_currLine >= m_numLines) {
+        	if (m_currLine >= 1 || m_currTextBlock!=0) {
         		m_currLine = 0;
         		// got to next text block
         		if (m_currTextBlock >= m_numTextBlocks-1) {
