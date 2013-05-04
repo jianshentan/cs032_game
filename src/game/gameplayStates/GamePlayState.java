@@ -252,6 +252,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_8)) {
 			StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE);
 		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_7)) {
+			StateManager.getInstance().enterState(StateManager.VIRTUAL_REALITY_ROOM_STATE);
+		}
 		
 	}
 	

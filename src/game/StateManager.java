@@ -10,6 +10,7 @@ import game.gameplayStates.Kitchen;
 import game.gameplayStates.Room;
 import game.gameplayStates.TownDay;
 import game.gameplayStates.TownNight;
+import game.gameplayStates.VirtualRealityHome;
 import game.gameplayStates.VirtualRealityRoom;
 import game.io.LoadGame;
 import game.player.Player;
@@ -51,6 +52,7 @@ public class StateManager extends StateBasedGame {
 	
 	// real states
 	public static final int GAME_OVER_STATE = 99;
+	public static final int VIRTUAL_REALITY_HOME_STATE = 7;
 	public static final int VIRTUAL_REALITY_ROOM_STATE = 6;
 	public static final int DOLPHIN_ENTRANCE = 5;
 	public static final int DOLPHIN_STATE = 4;
@@ -128,6 +130,8 @@ public class StateManager extends StateBasedGame {
 			addState(dolphinEntrance);
 			VirtualRealityRoom virtualRealityRoom = new VirtualRealityRoom(VIRTUAL_REALITY_ROOM_STATE);
 			addState(virtualRealityRoom);
+			VirtualRealityHome virtualRealityHome = new VirtualRealityHome(VIRTUAL_REALITY_HOME_STATE);
+			addState(virtualRealityHome);
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
@@ -136,6 +140,7 @@ public class StateManager extends StateBasedGame {
 			dolphinChamber.setPlayer(m_player);
 			dolphinEntrance.setPlayer(m_player);
 			virtualRealityRoom.setPlayer(m_player);
+			virtualRealityHome.setPlayer(m_player);
 		}
 		GameOver go = new GameOver(GAME_OVER_STATE);
 		addState(go);
@@ -163,6 +168,7 @@ public class StateManager extends StateBasedGame {
 			getState(DOLPHIN_STATE).init(container, this);
 			getState(DOLPHIN_ENTRANCE).init(container, this);
 			getState(VIRTUAL_REALITY_ROOM_STATE).init(container, this);
+			getState(VIRTUAL_REALITY_HOME_STATE).init(container, this);
 		}
 		
 		if(this.m_loader==null) {
@@ -206,6 +212,7 @@ public class StateManager extends StateBasedGame {
 			addState(dolphinEntrance);
 			VirtualRealityRoom virtualRealityRoom = new VirtualRealityRoom(VIRTUAL_REALITY_ROOM_STATE);
 			addState(virtualRealityRoom);
+			VirtualRealityHome virtualRealityHome = new VirtualRealityHome(VIRTUAL_REALITY_HOME_STATE);
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
@@ -214,6 +221,7 @@ public class StateManager extends StateBasedGame {
 			dolphinChamber.setPlayer(m_player);
 			dolphinEntrance.setPlayer(m_player);
 			virtualRealityRoom.setPlayer(m_player);
+			virtualRealityHome.setPlayer(m_player);
 		}
 		
 		GameOver go = new GameOver(GAME_OVER_STATE);
