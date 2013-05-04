@@ -11,6 +11,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import game.Dialogue;
 import game.GameObject;
 import game.Person;
+import game.Scene;
 import game.StateManager;
 import game.StaticObject;
 import game.interactables.Animal;
@@ -193,7 +194,7 @@ public class TownDay extends GamePlayState {
 				c2.addGoal(new QuestGoal.MultiInteractGoal(new ArrayList<Interactable>()));
 				
 				//TODO: add this after buttplug quest completed
-				/*
+				
 			//	TODO: edit where horse ends up. start location is the dolphin entrance door.
 			//	Close all pop up windows too. 
 				Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
@@ -201,11 +202,12 @@ public class TownDay extends GamePlayState {
 				m_enemies.add(horse1);
 				
 				Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
+				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
 				s.setPlayerInvisible(true);
 				s.playScene();
 				
 			//	also need to get rid of horse image after chased enough.
-				*/
+				
 			}
 		}
 		else if(city==2) {
