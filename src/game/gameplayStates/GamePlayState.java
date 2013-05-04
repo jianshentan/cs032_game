@@ -346,10 +346,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		ArrayList<GameObject> objectsToRenderAfter = new ArrayList<GameObject>();
 		for (Entry<String, GameObject> e : m_objects.entrySet()) {
 			GameObject o = e.getValue();
+			if(o instanceof Enemy)
+				continue;
 			if(o.renderAfter())
 				objectsToRenderAfter.add(o);
 			else
-					o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+				o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 				
 		}
 		// render player
