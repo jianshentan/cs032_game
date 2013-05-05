@@ -50,7 +50,7 @@ public class TownDay extends Town{
 				horse1 = new Horse("horseHerd", this, m_player, 6*SIZE, 14*SIZE, horse_stops);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
-				Scene s = new Scene(this,m_player,new int[][] {{6,14},{11,22},{11,28}});
+				Scene s = new Scene(this,m_player,new float[][] {{6,14},{11,22},{11,28}});
 				s.setCamera(true);
 				s.playScene();
 				

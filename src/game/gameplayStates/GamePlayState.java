@@ -49,6 +49,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected boolean m_isPaused = false;
 	protected boolean m_inDialogue = false;
 	protected PauseMenu m_pauseMenu = null;
+	protected boolean m_disableTopLayer = false;
 	
 	int m_stateID = 0;
 	protected int inputDelta = 0;
@@ -285,7 +286,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			stateManager.enterState(StateManager.GAME_OVER_STATE);
 		}
 
-		if (!m_isPaused && !m_inDialogue){
+		if (!m_isPaused && !m_inDialogue && !m_inScene){
 			m_player.update(container, delta);
 			if (m_enemies != null) {
 				int enemiesCount = m_enemies.size();
@@ -400,11 +401,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		for (GameObject o : objectsToRenderAfter)
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 	
+		if (!m_disableTopLayer) {
 		// render health
 		m_player.getHealth().render();
 		
 		// render inventory
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
+		}
 		
 		if (m_inDialogue) {
 			if(m_inScene)
@@ -573,7 +576,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_inDialogue = false;
 		m_invisiblePlayer = false;
 		m_camera = new PlayerCamera(StateManager.getInstance().getContainer(),m_player);
+		additionalExitScene();
 	}
+	
+	/**
+	 * Override if more needs to be done upon exiting scene
+	 */
+	public void additionalExitScene(){}
 	
 	public void exitDialogueScene() {
 		//m_inScene = false;
@@ -681,6 +690,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	//why is this in the class!?
 	//it needs to call set the state to game over.
+	//lol
 	public void gameOverEvent(){
 		//s.enterState(s.GAME_OVER_STATE);
 		System.out.println("GAME OVER");

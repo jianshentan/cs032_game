@@ -126,7 +126,7 @@ public class Room extends GamePlayState {
 	
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if(this.isEntered()==false) {
-			int[][] path = {{4,8}, {1,5}};
+			float[][] path = {{4,8}, {1,5}};
 			Scene s = new Scene(this, this.getPlayer(), path);
 			//s.playScene();
 		}

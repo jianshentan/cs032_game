@@ -10,7 +10,7 @@ import game.player.Player;
 public class SceneCamera extends Camera {
 
 	private double m_xOffset, m_yOffset;
-	private int[][] m_path;
+	private float[][] m_path;
 	private double m_currentXDest, m_currentYDest;
 	private int m_pathStage;
 	private Player m_player;
@@ -18,8 +18,9 @@ public class SceneCamera extends Camera {
 	private int m_shakeLength = 0, m_shakeX=0;
 	private boolean m_shake;
 	private long m_initialTime = 0;
+	private float m_speed = 1; // default
 	
-	public SceneCamera(int[][] path, Player p, GamePlayState state) {
+	public SceneCamera(float[][] path, Player p, GamePlayState state) {
 		m_path = path;
 		m_pathStage = 0;
 		m_currentXDest = path[0][0]*64;
@@ -28,6 +29,14 @@ public class SceneCamera extends Camera {
 		m_yOffset = m_currentYDest;
 		m_player = p;
 		m_state = state;
+	}
+	
+	/**
+	 * speed is determined by s*0.1*delta
+	 * @param s
+	 */
+	public void setSpeed(float s) {
+		m_speed = s;
 	}
 	
 	@Override
@@ -81,8 +90,8 @@ public class SceneCamera extends Camera {
 		}
 		double x = Math.signum(m_currentXDest - m_xOffset);
 		double y = Math.signum(m_currentYDest - m_yOffset);
-		m_xOffset += x * delta*0.1;
-		m_yOffset += y * delta*0.1;
+		m_xOffset += x * delta*0.1*m_speed;
+		m_yOffset += y * delta*0.1*m_speed;
 		
 	}
 

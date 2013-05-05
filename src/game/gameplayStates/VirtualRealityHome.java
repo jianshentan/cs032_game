@@ -88,13 +88,10 @@ public class VirtualRealityHome extends GamePlayState {
 			m_tv.setDialogue(new String[] {"Nothing good on. Not even teen mom"});
 			this.addObject(m_tv, true);*/
 
-			
-			InvisiblePortal invisiblePortal = 
-					new InvisiblePortal("invisiblePortal", 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);
-			this.addObject(invisiblePortal, true);
 		}
 		
 	}
+	
 	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {
 		if(m_door!=m_table.getDoor()){
 			m_door = m_table.getDoor();
@@ -118,6 +115,18 @@ public class VirtualRealityHome extends GamePlayState {
 			}
 		}*/
 	}
+	
+	public void completePuzzles() {
+		InvisiblePortal invisiblePortal;
+		try {
+			StateManager.m_cityState--;
+			invisiblePortal = new InvisiblePortal("invisiblePortal", 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);
+			this.addObject(invisiblePortal, true);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
 		// TODO Auto-generated method stub
