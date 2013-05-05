@@ -40,10 +40,6 @@ public class DolphinChamber extends GamePlayState {
 		m_playerY = SIZE*13;
 		
 		if(!this.isLoaded()) {
-			//m_interactables = new HashMap<String, Interactable>();
-			//m_objects = new HashMap<String, GameObject>();
-			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
-			
 			InvisiblePortal portalA = new InvisiblePortal("portalA", 3*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 2,2);
 			InvisiblePortal portalB = new InvisiblePortal("portalB", 4*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 3,2);
 			BlowHole bh = new BlowHole("bh", 3*SIZE, 3*SIZE);
