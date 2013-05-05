@@ -30,7 +30,7 @@ import game.quests.QuestGoal.InteractionGoal;
 import game.quests.QuestReward;
 import game.quests.QuestStage;
 
-public class TownDay extends GamePlayState {
+public class TownDay extends Town{
 	
 	private boolean m_quest1Given;
 	private boolean m_horsesFreed;
@@ -80,8 +80,6 @@ public class TownDay extends GamePlayState {
 			PortalObject portal = new InvisiblePortal("portal", 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2, 3);
 			this.addObject(portal, true);
 			
-			StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
-			this.addObject(doormat, false);
 			
 			Person person_1 = new Person("person_1", 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
 			person_1.setDialogue(new String[] 
@@ -161,7 +159,7 @@ public class TownDay extends GamePlayState {
 	}
 
 	@Override
-	public void setupObjects(int city, int dream) throws SlickException {
+	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//TODO: set up cats
 		
 		if(city==3) {
@@ -184,7 +182,7 @@ public class TownDay extends GamePlayState {
 				goal1.setReward(new QuestReward.WaterDownReward());
 				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
 				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
-						"Water sprays out everywhere."});
+						"Water sprays out everywhere before evaporating instantly."});
 				fireHydrantQuest.addStage(goal1);
 				//TODO: add a goal for the plug
 				m_player.addQuest(fireHydrantQuest);
@@ -205,7 +203,6 @@ public class TownDay extends GamePlayState {
 			//	Close all pop up windows too. 
 
 				/*Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
->>>>>>> 0764c30b041dfb0046006a717c60752a93fad1b6
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);*/
 
@@ -213,9 +210,8 @@ public class TownDay extends GamePlayState {
 			/*	Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
 				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
 				s.setPlayerInvisible(true);
-<<<<<<< HEAD
+
 				//s.playScene();
-=======
 				s.playScene();*/
 				
 			//	also need to get rid of horse image after chased enough.
@@ -226,6 +222,13 @@ public class TownDay extends GamePlayState {
 			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"Can you do something about all" +
 					" the horses?"});
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"My cats..."});
+			
+			this.removeObject("dolphinDoor");
+			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
+			dolphinDoor.setDialogue(new String[] {"The door is locked.",
+					"\"Stables closed due to disturbances,\"" +
+					" a sign on the door reads."});
+			this.addObject(dolphinDoor, true);
 		}
 		
 	}

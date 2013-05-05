@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="32" height="32" tilewidth="64" tileheight="64">
- <tileset firstgid="1" name="yellow1" tilewidth="64" tileheight="64">
-  <image source="../colors/yellow1.png" width="64" height="64"/>
- </tileset>
- <tileset firstgid="2" name="pink1" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="pink1" tilewidth="64" tileheight="64">
   <image source="../colors/pink1.png" width="64" height="64"/>
   <tile id="0">
    <properties>
@@ -11,7 +8,7 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="3" name="blue2" tilewidth="64" tileheight="64">
+ <tileset firstgid="2" name="blue2" tilewidth="64" tileheight="64">
   <image source="../colors/blue2.png" width="64" height="64"/>
   <tile id="0">
    <properties>
@@ -19,13 +16,10 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="4" name="blue3" tilewidth="64" tileheight="64">
+ <tileset firstgid="3" name="blue3" tilewidth="64" tileheight="64">
   <image source="../colors/blue3.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="5" name="grey1" tilewidth="64" tileheight="64">
-  <image source="../colors/grey1.png" width="64" height="64"/>
- </tileset>
- <tileset firstgid="6" name="blue1" tilewidth="64" tileheight="64">
+ <tileset firstgid="4" name="blue1" tilewidth="64" tileheight="64">
   <image source="../colors/blue1.png" width="64" height="64"/>
   <tile id="0">
    <properties>
@@ -33,9 +27,31 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="5" name="black" tilewidth="64" tileheight="64">
+  <image source="../colors/black.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="6" name="blackBlue" tilewidth="64" tileheight="64">
+  <image source="../tiles/black_blue_pattern.png" width="64" height="64"/>
+ </tileset>
+ <tileset firstgid="7" name="blocked_floor" tilewidth="64" tileheight="64">
+  <image source="../tiles/blocked_black_blue_pattern.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="8" name="walkthough_black_blue_pattern" tilewidth="64" tileheight="64">
+  <image source="../tiles/walkthough_black_blue_pattern.png" width="64" height="64"/>
+ </tileset>
  <layer name="Tile Layer 1" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztlUEOxSAIRIn29/5H/isTQwdhLCRduJhV0Scw0CYi7ejopX5KVZwOWEiHn9PHXb3hr751Q5k+ZupQyZ/z+wLfqsulpM9U8BFPa6c+nqd13Vdi+HM+3gx43kC18fgRryHfofiduRzxtzz9dAHGKud7umvI63mklxYPnWfqsMNfsbo856Ka781ldOYY/ugt8gvDZ3zPzj/j/Tk+4w3Rf7HmI1+ht2Xxm4q1+J6sPbbizh7SeVn5R/sT4bN71+PoHLL3PpMPs/89RXd5FZ/dJVncav0BypUL/A==
+   eJztlkkShCAMRbGd+v4n7o1U/Up/yGAoXbB4K4FnyKB7KWWfTG5yCEZ5PsTFmP6cPEa5418aHFf8jMw6ri4LI/0Y3xv8rXtZBbhnlJ/5JJH76eUa/S1n1I/xaD2g1Qa7G8tc0WqN1R1bH+nLun4r//W0Ekcv5g3Oqmg5t+QS+QJsv+ceIv4TYPtlX2T7W89afWntOY+/5hZzEfF76t7b/57ax77PeAfrt1j6WQ2zd8vy45k9v8YS8Ncawhmjxe/5P9D83rmrxS9jyJ77nng881/jab+Vp7xRfj7vEjY=
   </data>
  </layer>
 </map>

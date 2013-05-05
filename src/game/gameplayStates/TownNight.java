@@ -1,5 +1,6 @@
 package game.gameplayStates;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.Color;
@@ -12,6 +13,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
+import game.Enemy;
 import game.GameObject;
 import game.Spectre;
 import game.StateManager;
@@ -25,7 +27,7 @@ import game.quests.QuestGoal;
 import game.quests.QuestGoal.LocationGoal;
 import game.quests.QuestStage;
 
-public class TownNight extends GamePlayState {
+public class TownNight extends Town {
 
 	private Image m_nightMask;
 	
@@ -62,16 +64,8 @@ public class TownNight extends GamePlayState {
 		}
 		
 		if (!this.isLoaded()) {
-			// setup objects
-			//m_interactables = new HashMap<Integer, Interactable>();
-			//m_objects = new HashMap<Integer, GameObject>();	
-			
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
 			this.addObject(dolphinDoor, false);
-			
-			//PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
-			//m_interactables.put(1129, doorMat);
-			//m_objects.put(1129, doorMat);
 			
 		}
 		//this.setMusic("/home/jack/Music/track01.wav");
@@ -91,7 +85,7 @@ public class TownNight extends GamePlayState {
 	}
 
 	@Override
-	public void setupObjects(int city, int dream) throws SlickException {
+	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//setup enemies
 		if(dream==3) {
 			//TODO: set up some other stuff... text quests?
@@ -113,6 +107,12 @@ public class TownNight extends GamePlayState {
 			learning.startQuest(this);
 			m_player.addQuest(learning);
 		}
+		if(dream==2) {
+			m_enemies = new ArrayList<Enemy>();
+			int[][] leadPoints = {{22,18},{22,18},{22,18},{22,18}};
+			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
+			m_enemies.add(spec);
+		}
 		
 	}
 
@@ -123,7 +123,7 @@ public class TownNight extends GamePlayState {
 	}
 	
 	/**
-	 * This brings the player back home.
+	 * This brings the player back home, and decrements dream state by 1.
 	 */
 	@Override
 	public void stateEnd(int endCode) {
