@@ -131,7 +131,8 @@ public abstract class GameObject {
 		NONE,
 		HORSE,
 		TABLE_TO_HACK,
-		TRASHCAN;
+		TRASHCAN, 
+		VIRTUAL_DOOR;
 	}
 	
 	/**
