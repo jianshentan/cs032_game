@@ -68,12 +68,6 @@ public class Animal extends Enemy implements Interactable {
 	}
 
 	@Override
-	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Types getType() {
 		return GameObject.Types.ANIMAL;
 	}

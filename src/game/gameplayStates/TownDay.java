@@ -30,7 +30,7 @@ import game.quests.QuestGoal.InteractionGoal;
 import game.quests.QuestReward;
 import game.quests.QuestStage;
 
-public class TownDay extends GamePlayState {
+public class TownDay extends Town{
 	
 	private boolean m_quest1Given;
 	private boolean m_horsesFreed;
@@ -80,8 +80,6 @@ public class TownDay extends GamePlayState {
 			PortalObject portal = new InvisiblePortal("portal", 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2, 3);
 			this.addObject(portal, true);
 			
-			StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
-			this.addObject(doormat, false);
 			
 			Person person_1 = new Person("person_1", 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
 			person_1.setDialogue(new String[] 
@@ -161,7 +159,7 @@ public class TownDay extends GamePlayState {
 	}
 
 	@Override
-	public void setupObjects(int city, int dream) throws SlickException {
+	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//TODO: set up cats
 		
 		if(city==3) {

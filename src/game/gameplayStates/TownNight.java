@@ -25,7 +25,7 @@ import game.quests.QuestGoal;
 import game.quests.QuestGoal.LocationGoal;
 import game.quests.QuestStage;
 
-public class TownNight extends GamePlayState {
+public class TownNight extends Town {
 
 	private Image m_nightMask;
 	
@@ -62,16 +62,8 @@ public class TownNight extends GamePlayState {
 		}
 		
 		if (!this.isLoaded()) {
-			// setup objects
-			//m_interactables = new HashMap<Integer, Interactable>();
-			//m_objects = new HashMap<Integer, GameObject>();	
-			
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
 			this.addObject(dolphinDoor, false);
-			
-			//PortalObject doorMat = new InvisiblePortal(1129, 11*SIZE, 29*SIZE, StateManager.HOME_STATE, 2*SIZE, 3*SIZE);
-			//m_interactables.put(1129, doorMat);
-			//m_objects.put(1129, doorMat);
 			
 		}
 		//this.setMusic("/home/jack/Music/track01.wav");
@@ -91,7 +83,7 @@ public class TownNight extends GamePlayState {
 	}
 
 	@Override
-	public void setupObjects(int city, int dream) throws SlickException {
+	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//setup enemies
 		if(dream==3) {
 			//TODO: set up some other stuff... text quests?
