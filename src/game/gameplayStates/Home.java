@@ -102,6 +102,20 @@ public class Home extends GamePlayState {
 			m_blocked[4][5] = true;
 
 		}
+		
+		else if (city == 2 && dream == 2) {
+			super.removeObject("door");
+			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+			door.setDialogue(new String[] {"It's late out... Perhaps you should just hit the sack."});
+			this.addObject(door, true);
+			
+			super.removeObject("bed");
+			Bed bed = new Bed("bed", 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
+			this.addObject(bed, true);
+			m_blocked[3][5] = true;
+			m_blocked[4][5] = true;
+
+		}
 	}
 	
 	@Override

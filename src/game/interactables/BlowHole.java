@@ -52,6 +52,8 @@ public class BlowHole extends GameObject implements Interactable {
 				DolphinEntrance destinationState = (DolphinEntrance) StateManager.getInstance().getState(StateManager.DOLPHIN_ENTRANCE);
 				destinationState.setPlayerLocation(2*SIZE, 2*SIZE);
 				destinationState.setFree();
+				//quest is over, decrement city state
+				StateManager.m_cityState--;
 
 				break;
 			}

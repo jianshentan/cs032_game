@@ -1,5 +1,6 @@
 package game.gameplayStates;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.Color;
@@ -12,6 +13,7 @@ import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
+import game.Enemy;
 import game.GameObject;
 import game.Spectre;
 import game.StateManager;
@@ -105,6 +107,12 @@ public class TownNight extends Town {
 			learning.startQuest(this);
 			m_player.addQuest(learning);
 		}
+		if(dream==2) {
+			m_enemies = new ArrayList<Enemy>();
+			int[][] leadPoints = {{22,18},{22,18},{22,18},{22,18}};
+			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
+			m_enemies.add(spec);
+		}
 		
 	}
 
@@ -115,7 +123,7 @@ public class TownNight extends Town {
 	}
 	
 	/**
-	 * This brings the player back home.
+	 * This brings the player back home, and decrements dream state by 1.
 	 */
 	@Override
 	public void stateEnd(int endCode) {
