@@ -140,7 +140,7 @@ public abstract class GameObject {
 	 * @param writer
 	 * @throws XMLStreamException
 	 */
-	public final void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		//TODO- what needs to be written: position- x, y
 		//type, id?
 		//needs subclasses to write additional attributes
@@ -148,7 +148,8 @@ public abstract class GameObject {
 		writer.writeStartElement("GameObject");
 		writer.writeAttribute("m_id", String.valueOf(this.getKey()));
 		writer.writeAttribute("m_name", this.m_name);
-		writer.writeAttribute("type", this.getType().toString());
+		if(this.getType()!=null)
+			writer.writeAttribute("type", this.getType().toString());
 		writer.writeAttribute("m_x", String.valueOf(this.m_x));
 		writer.writeAttribute("m_y", String.valueOf(this.m_y));
 		writer.writeAttribute("m_renderAfter", String.valueOf(m_renderAfter));

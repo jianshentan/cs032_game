@@ -74,6 +74,7 @@ public class VirtualRealityHome extends GamePlayState {
 			} catch (FileNotFoundException e) { e.printStackTrace();
 			} catch (UnsupportedEncodingException e) { e.printStackTrace();}
 			
+
 			m_vdoor = new VirtualDoor("door", 2*SIZE, 2*SIZE);
 			this.addObject(m_vdoor, true);
 			
@@ -86,6 +87,7 @@ public class VirtualRealityHome extends GamePlayState {
 			/*m_tv = new StaticObject("bed", 4*SIZE, 4*SIZE, "assets/colors/clear.png");
 			m_tv.setDialogue(new String[] {"Nothing good on. Not even teen mom"});
 			this.addObject(m_tv, true);*/
+
 			
 			InvisiblePortal invisiblePortal = 
 					new InvisiblePortal("invisiblePortal", 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);

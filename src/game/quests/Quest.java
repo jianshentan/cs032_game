@@ -2,6 +2,7 @@ package game.quests;
 
 import java.util.ArrayList;
 
+import game.StateManager;
 import game.gameplayStates.GamePlayState;
 import game.interactables.Interactable;
 import game.player.Player;
@@ -13,15 +14,19 @@ import game.player.Player;
  */
 public class Quest {
 	
-	protected int m_questID;
+	private int m_questID;
+	private String m_name;
+	public String getName() {return m_name;}
 	public int getID() { return m_questID; }
 	protected ArrayList<QuestStage> m_goals;
 	protected int m_currentGoal;
 	public int getProgress() { return m_currentGoal; }
 	protected boolean m_isActive;
 	
-	public Quest(int id) {
-		this.m_questID = id;
+	public Quest(String name) {
+		this.m_questID = StateManager.getKey();
+		StateManager.addQuest(m_questID, this);
+		this.m_name = name;
 		this.m_goals = new ArrayList<QuestStage>();
 		this.m_currentGoal = 0;
 		this.m_isActive = false;

@@ -40,10 +40,25 @@ public class TownDay extends Town{
 	
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager){
+
 		if(m_horsesFreed){
 			m_horsesFreed = false;
-			//@Annalia- this is where you should fire the horse scene from -adding them to scene or whatever					
-		}
+
+			Horse horse1;
+			try {
+				int[][] horse_stops = {{6,14},{11,22},{11,28}};
+				horse1 = new Horse("horseHerd", this, m_player, 6*SIZE, 14*SIZE, horse_stops);
+				this.addObject(horse1, true);
+				m_enemies.add(horse1);
+				Scene s = new Scene(this,m_player,new int[][] {{6,14},{11,22},{11,28}});
+				s.setCamera(true);
+				s.playScene();
+				
+			} catch (SlickException e) {
+				System.err.println("horse error!");
+			}
+		
+		} 
 	}
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
@@ -147,6 +162,7 @@ public class TownDay extends Town{
 			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
 			sign1.setDialogue(new String[] {"The Horse Stables (formerly the zoo)"});
 			this.addObject(sign1, true);
+			
 		}
 
 		
@@ -176,7 +192,7 @@ public class TownDay extends Town{
 				this.addObject(fireHydrant, true);
 				m_blocked[6][23] = true;
 				
-				Quest fireHydrantQuest = new Quest(0);
+				Quest fireHydrantQuest = new Quest("fireHydrantQuest");
 				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
 				goal1.setReward(new QuestReward.WaterDownReward());
@@ -190,12 +206,16 @@ public class TownDay extends Town{
 				m_quest1Given = true;
 				
 				//TODO: add cat quest
-				Quest catQuest = new Quest(1);
+				Quest catQuest = new Quest("catQuest");
 				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(this.getInteractable("person_1")));
 				QuestStage c2 = new QuestStage().setStartText(new String[]
 						{"You want to find some cats!"});
 				ArrayList<Interactable> cats = new ArrayList<Interactable>();
-				c2.addGoal(new QuestGoal.MultiInteractGoal(new ArrayList<Interactable>()));
+				cats.add(getInteractable("cat1"));
+				cats.add(getInteractable("cat2"));
+				c2.addGoal(new QuestGoal.MultiInteractGoal(cats));
+				catQuest.addStage(c1);
+				catQuest.addStage(c2);
 				
 				//TODO: add this after buttplug quest completed
 				

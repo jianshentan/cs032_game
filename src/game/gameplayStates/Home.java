@@ -116,6 +116,20 @@ public class Home extends GamePlayState {
 			m_blocked[4][5] = true;
 
 		}
+		
+		else if (city == 2 && dream == 1) {
+			super.removeObject("door");
+			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, 11, 28);
+			this.addObject(door, true);
+			
+			super.removeObject("bed");
+			StaticObject bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
+			bed.setDialogue(new String[] {"But you just got up..."});
+			this.addObject(bed, true);
+			m_blocked[3][5] = true;
+			m_blocked[4][5] = true;
+
+		}
 	}
 	
 	@Override
@@ -151,6 +165,13 @@ public class Home extends GamePlayState {
 						"It seems that the strange humanoid escaped into the zoo. " + 
 						"Perhaps you could somehow block off the zoo, so it won't escape there next time..."});
 			this.m_previousDreamState = StateManager.m_dreamState;
+		}
+		
+		if(StateManager.m_dreamState==1 && StateManager.m_dreamState!= this.m_previousDreamState) {
+			this.displayDialogue(new String[] {"Now  where did that darn mysterious humanoid escape to " +
+					"this time?",
+					"You know something about some entertainment center. Could you close it down?"});
+			this.m_previousDreamState = 1;
 		}
 	}
 

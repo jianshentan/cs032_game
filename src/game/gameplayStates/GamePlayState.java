@@ -67,6 +67,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	@Deprecated
 	protected HashMap<Integer, Dialogue> m_dialogue;
+	@Deprecated
 	protected int m_dialogueNum; // represents which dialogue to use
 	
 	private boolean m_loaded; //true if the state has already been loaded from file.
@@ -207,6 +208,20 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_interactables.containsKey(key))
 			m_interactables.remove(key);
 	}
+	
+	/**
+	 * Removes an enemy from the state, given its name.
+	 * @param name
+	 */
+	public void removeEnemy(String name) {
+		for(int i = 0; i<m_enemies.size(); i++) {
+			Enemy e = m_enemies.get(i);
+			if(e.getName().equals(name)) {
+				m_enemies.remove(i);
+				break;
+			}
+		}
+	}
 	/**
 	 * sets up the dialogue in this state based on the state of the game
 	 * called on enter state
@@ -246,6 +261,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	@Override
 	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
+		if(this.isLoaded()==false) {
 		m_camera = new PlayerCamera(container, m_player);
 		m_pauseMenu = new PauseMenu(this, container);
 		m_interactables = new HashMap<String, Interactable>();
@@ -254,11 +270,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_enemies = new ArrayList<Enemy>();
 		
 		this.additionalInit(container, stateManager);
+		this.m_loaded = true;
+		}
 	}
 	
 	@Override
 	public final void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-
+		
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
@@ -269,10 +287,15 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
-			if (m_enemies != null)
+			if (m_enemies != null) {
+				int enemiesCount = m_enemies.size();
 				for(Enemy e : m_enemies) {
 					e.update(delta);
+					if(m_enemies.size()!= enemiesCount) {
+						break;
+					}
 				}
+			}
 		}
 				
 		if (m_inDialogue) {
@@ -295,6 +318,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			}
 			inputDelta = 500;
 		}
+		
+		if(this.m_inDialogue==false)
+			this.m_camera.update(delta);
 
 		this.additionalUpdate(container, stateManager, delta);
 
@@ -358,6 +384,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				
 		}
 		// render player
+		
 		if(m_invisiblePlayer == false)
 			m_player.getAnimation().draw(playerOffsets[0], playerOffsets[1]);
 		// render enemies
@@ -545,10 +572,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_inScene = false;
 		m_inDialogue = false;
 		m_invisiblePlayer = false;
+		m_camera = new PlayerCamera(StateManager.getInstance().getContainer(),m_player);
 	}
 	
 	public void exitDialogueScene() {
-		m_inScene = false;
+		//m_inScene = false;
 		m_inDialogue = false;
 	}
 	
@@ -569,20 +597,57 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @throws XMLStreamException
 	 */
 	public void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
-		writer.writeStartElement("Room");
+		writer.writeStartElement("GamePlayState");
 		if(m_mapPath!=null)
 			writer.writeAttribute("m_mapPath", m_mapPath);
 		writer.writeAttribute("id", String.valueOf(this.m_stateID));
 
+		writer.writeAttribute("m_playerX", String.valueOf(m_playerX));
+		writer.writeAttribute("m_playerY", String.valueOf(m_playerY));
+		//write attributes...
+		this.writeAttributes(writer);
+		writer.writeCharacters("\n");
+		
+		writer.writeStartElement("GameObjects");
+		for (Entry<String, GameObject> e : m_objects.entrySet()) {
+			writer.writeStartElement("GameObject");
+			writer.writeAttribute("name", e.getKey());
+			writer.writeAttribute("id", String.valueOf(e.getValue().getKey()));
+			writer.writeEndElement();
+			writer.writeCharacters("\n");
+		}
+		writer.writeEndElement();
+		writer.writeCharacters("\n");
+		
 		writer.writeStartElement("Interactables");
 		for (Entry<String, Interactable> e : m_interactables.entrySet()) {
-			Interactable i = e.getValue();
-			i.writeToXML(writer);
+			writer.writeStartElement("Interactable");
+			writer.writeAttribute("name", e.getKey());
+			writer.writeAttribute("id", String.valueOf(e.getValue().getKey()));
+			writer.writeEndElement();
+			writer.writeCharacters("\n");
 		}
-		//TODO: add enemy
 		writer.writeEndElement();
-
+		writer.writeCharacters("\n");
+		
+		writer.writeStartElement("Enemies");
+		for(Enemy e : m_enemies) {
+			writer.writeStartElement("Enemy");
+			writer.writeAttribute("id", String.valueOf(e.getKey()));
+			writer.writeCharacters("\n");
+		}
 		writer.writeEndElement();
+		
+		writer.writeEndElement();
+	}
+	
+	/**
+	 * Writes additional subclass-specific attributes.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
+		
 	}
 	public void setCamera(Camera c){
 		m_camera = c;
@@ -603,12 +668,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				for(int j = 0; j< interactables.getLength(); j++) {
 					Node c3 = interactables.item(j);
 					if(c3.getNodeName().equals("Interactable")) {
-						Interactable o = Interactables.loadFromNode(c3);
-						if(o!=null) {
-							int[] square = o.getSquare();
-							this.m_interactables.put(o.getName(), o);
-							this.m_objects.put(o.getName(), (GameObject) o);
-						}
+						String name = c3.getAttributes().getNamedItem("name").getNodeValue();
+						int id = Integer.parseInt(c3.getAttributes().getNamedItem("id").getNodeValue());
+						GameObject o = StateManager.getObject(id);
+						this.m_objects.put(name, o);
 					}
 				}
 			}

@@ -73,11 +73,13 @@ public class Animal extends Enemy implements Interactable {
 	}
 	@Override
 	protected void arriveEvent(){
+		/*TODO: there is a bug around here
 		try {
 			this.setSprite(new Image("assets/cat4.png"));
 			this.m_sprite = new Animation(new Image[]{ new Image("assets/cat4.png")}, 1000, false);
 		} catch (SlickException e) {
 		}
+		*/
 	}
 	public int[] getSquare(){
 		int[] square = new int[2];

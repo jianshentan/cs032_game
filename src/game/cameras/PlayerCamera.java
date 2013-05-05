@@ -37,9 +37,14 @@ public class PlayerCamera extends Camera {
 		// TODO Auto-generated method stub
 		return new int[]{m_halfWidth + m_shakeX, m_halfHeight};
 	}
+	@Override
 	public void shake(int shakeL){
 		m_shakeLength = shakeL;
 		m_initialTime = System.currentTimeMillis();
 		m_shake = true;
+	}
+	@Override
+	public void update(int delta) {
+		
 	}
 }

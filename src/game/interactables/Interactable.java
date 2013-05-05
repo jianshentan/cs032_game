@@ -1,7 +1,6 @@
 package game.interactables;
 
 import game.GameObject;
-import game.GameObject.Types;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
@@ -15,6 +14,11 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public interface Interactable {
 	
+	/**
+	 * Returns the globally unique key.
+	 * @return
+	 */
+	public int getKey();
 	/**
 	 * Returns the name of the interactable.
 	 * Names should be unique within a GameState.

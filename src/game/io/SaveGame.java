@@ -7,12 +7,18 @@ import java.io.FileOutputStream;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.w3c.dom.Document;
 
 import game.MainMenu;
+import game.StateManager;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
@@ -53,12 +59,18 @@ public class SaveGame {
 	 * @param stateManager
 	 * @throws FileNotFoundException 
 	 * @throws XMLStreamException 
+	 * @throws TransformerFactoryConfigurationError 
+	 * @throws TransformerConfigurationException 
 	 */
-	public void save(StateBasedGame stateManager) throws FileNotFoundException, XMLStreamException {
+	public void save(StateBasedGame stateManager) throws FileNotFoundException, XMLStreamException, TransformerConfigurationException, TransformerFactoryConfigurationError {
 		FileOutputStream outputStream = new FileOutputStream(new File(m_savePath));
 		GameState currentState = stateManager.getCurrentState();
 		GamePlayState room = (GamePlayState) currentState;
 		Player p = room.getPlayer();
+		
+		Transformer transformer = TransformerFactory.newInstance().newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		
 		XMLOutputFactory xmlFactory = XMLOutputFactory.newFactory();
 		XMLStreamWriter writer = xmlFactory.createXMLStreamWriter(outputStream);
 		writer.writeStartDocument();
@@ -66,8 +78,11 @@ public class SaveGame {
 		//TODO: first, write out all gameObjects
 		
 		writer.writeAttribute("currentState", String.valueOf(stateManager.getCurrentStateID()));
+		writer.writeCharacters("\n");
+		StateManager.writeToXML(writer);
 		
 		p.writeToXML(writer);
+		writer.writeCharacters("\n");
 		for(int id = 0; id< stateManager.getStateCount(); id++) {
 			currentState = stateManager.getState(id);
 			if(currentState == null || currentState.getClass() == MainMenu.class) {
@@ -76,6 +91,7 @@ public class SaveGame {
 			room = (GamePlayState) currentState;
 			
 			room.writeToXML(writer);
+			writer.writeCharacters("\n");
 		}
 		writer.writeEndElement();
 		writer.writeEndDocument();
