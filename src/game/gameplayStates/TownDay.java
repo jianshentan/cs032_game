@@ -40,10 +40,25 @@ public class TownDay extends Town{
 	
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager){
+
 		if(m_horsesFreed){
 			m_horsesFreed = false;
-			//@Annalia- this is where you should fire the horse scene from -adding them to scene or whatever					
-		}
+
+			Horse horse1;
+			try {
+				int[][] horse_stops = {{6,14},{11,22},{11,28}};
+				horse1 = new Horse("horseHerd", this, m_player, 6*SIZE, 14*SIZE, horse_stops);
+				this.addObject(horse1, true);
+				m_enemies.add(horse1);
+				Scene s = new Scene(this,m_player,new int[][] {{6,14},{11,22},{11,28}});
+				s.setCamera(true);
+				s.playScene();
+				
+			} catch (SlickException e) {
+				System.err.println("horse error!");
+			}
+		
+		} 
 	}
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
