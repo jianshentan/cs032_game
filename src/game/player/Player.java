@@ -273,9 +273,9 @@ public class Player extends MovingObject{
 	 * Removes a quest with the given ID.
 	 * @param id
 	 */
-	public void removeQuest(int id) {
+	public void removeQuest(String name) {
 		for(int i = 0; i<m_quests.size(); i++) {
-			if(m_quests.get(i).getID()==id) {
+			if(m_quests.get(i).getName().equals(name)) {
 				m_quests.remove(i);
 				break;
 			}

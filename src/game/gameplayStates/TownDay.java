@@ -176,7 +176,7 @@ public class TownDay extends Town{
 				this.addObject(fireHydrant, true);
 				m_blocked[6][23] = true;
 				
-				Quest fireHydrantQuest = new Quest(0);
+				Quest fireHydrantQuest = new Quest("fireHydrantQuest");
 				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
 				goal1.setReward(new QuestReward.WaterDownReward());
@@ -190,7 +190,7 @@ public class TownDay extends Town{
 				m_quest1Given = true;
 				
 				//TODO: add cat quest
-				Quest catQuest = new Quest(1);
+				Quest catQuest = new Quest("catQuest");
 				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(this.getInteractable("person_1")));
 				QuestStage c2 = new QuestStage().setStartText(new String[]
 						{"You want to find some cats!"});

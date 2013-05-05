@@ -170,6 +170,7 @@ public class Enemy extends MovingObject{
 	public void roamUpdate(){
 		//finds the path from current point to next point in the roam list
 		if(m_roamCounter>=m_patrolPoints.length){
+			this.arriveEvent();
 			m_roamCounter=0;
 		}
 		//get the next patrol point

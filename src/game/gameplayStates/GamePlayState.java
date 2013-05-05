@@ -283,10 +283,15 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
-			if (m_enemies != null)
+			if (m_enemies != null) {
+				int enemiesCount = m_enemies.size();
 				for(Enemy e : m_enemies) {
 					e.update(delta);
+					if(m_enemies.size()!= enemiesCount) {
+						break;
+					}
 				}
+			}
 		}
 				
 		if (m_inDialogue) {

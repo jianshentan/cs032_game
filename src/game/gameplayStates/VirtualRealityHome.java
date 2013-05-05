@@ -76,9 +76,11 @@ public class VirtualRealityHome extends GamePlayState {
 			this.addObject(door, true);
 			
 			StaticObject bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
+			bed.setDialogue(new String[] {"You try lying down for a while, but you can't seem to " +
+					"fall asleep."});
 			m_blocked[3][5] = true;
 			m_blocked[4][5] = true;
-			this.addObject(bed, false);
+			this.addObject(bed, true);
 			
 			InvisiblePortal invisiblePortal = 
 					new InvisiblePortal("invisiblePortal", 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);
