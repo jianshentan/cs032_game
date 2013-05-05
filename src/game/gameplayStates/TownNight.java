@@ -33,7 +33,7 @@ public class TownNight extends Town {
 	
 	public TownNight(int stateID) throws SlickException {
 		m_stateID = stateID;
-		m_nightMask = new Image("assets/nightMask.png");
+		m_nightMask = new Image("assets/nightMask_white.png");
 	}
 	
 	@Override

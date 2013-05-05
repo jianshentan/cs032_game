@@ -75,8 +75,9 @@ public class DolphinChamber extends GamePlayState {
 	
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if(this.isEntered()==false && m_waterDown == false) {
-			Scene s = new Scene(this, m_player, new int[][] {{3,4},{3,13}});
-			s.setPlayerInvisible(true);
+			Scene s = new Scene(this, m_player, new int[][] {{3,13}, {3,4},{3,13}});
+			//s.setPlayerInvisible(true);
+			s.setCamera(true);
 			s.playScene();
 			this.displayDialogue(new String[] {"Water, everywhere. Too bad you can't swim.",
 					"Is there a way to drain the water?"});

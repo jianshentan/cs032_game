@@ -207,6 +207,20 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_interactables.containsKey(key))
 			m_interactables.remove(key);
 	}
+	
+	/**
+	 * Removes an enemy from the state, given its name.
+	 * @param name
+	 */
+	public void removeEnemy(String name) {
+		for(int i = 0; i<m_enemies.size(); i++) {
+			Enemy e = m_enemies.get(i);
+			if(e.getName().equals(name)) {
+				m_enemies.remove(i);
+				break;
+			}
+		}
+	}
 	/**
 	 * sets up the dialogue in this state based on the state of the game
 	 * called on enter state
@@ -258,7 +272,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	@Override
 	public final void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-
+		
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
@@ -295,6 +309,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			}
 			inputDelta = 500;
 		}
+		
+		if(this.m_inDialogue==false)
+			this.m_camera.update(delta);
 
 		this.additionalUpdate(container, stateManager, delta);
 
@@ -358,6 +375,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				
 		}
 		// render player
+		
 		if(m_invisiblePlayer == false)
 			m_player.getAnimation().draw(playerOffsets[0], playerOffsets[1]);
 		// render enemies
@@ -545,10 +563,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_inScene = false;
 		m_inDialogue = false;
 		m_invisiblePlayer = false;
+		m_camera = new PlayerCamera(StateManager.getInstance().getContainer(),m_player);
 	}
 	
 	public void exitDialogueScene() {
-		m_inScene = false;
+		//m_inScene = false;
 		m_inDialogue = false;
 	}
 	
