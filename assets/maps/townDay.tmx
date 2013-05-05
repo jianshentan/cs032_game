@@ -49,9 +49,105 @@
  <tileset firstgid="8" name="walkthough_black_blue_pattern" tilewidth="64" tileheight="64">
   <image source="../tiles/walkthough_black_blue_pattern.png" width="64" height="64"/>
  </tileset>
+ <tileset firstgid="9" name="vertical_wall_right" tilewidth="64" tileheight="64">
+  <image source="../tiles/vertical_wall_right.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="10" name="vertical_wall_left" tilewidth="64" tileheight="64">
+  <image source="../tiles/vertical_wall_left.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="11" name="horizontal_wall_top" tilewidth="64" tileheight="64">
+  <image source="../tiles/horizontal_wall_top.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="12" name="horizontal_wall_bottom" tilewidth="64" tileheight="64">
+  <image source="../tiles/horizontal_wall_bottom.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="13" name="top_right_corner_wall" tilewidth="64" tileheight="64">
+  <image source="../tiles/top_right_corner_wall.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="14" name="bottom_left_corner_wall" tilewidth="64" tileheight="64">
+  <image source="../tiles/bottom_left_corner_wall.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="15" name="bottom_right_corner_wall" tilewidth="64" tileheight="64">
+  <image source="../tiles/bottom_right_corner_wall.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="16" name="top_left_corner_wall" tilewidth="64" tileheight="64">
+  <image source="../tiles/top_left_corner_wall.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="17" name="top_left_corner_wallB" tilewidth="64" tileheight="64">
+  <image source="../tiles/top_left_corner_wallB.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="18" name="top_right_corner_wallB" tilewidth="64" tileheight="64">
+  <image source="../tiles/top_right_corner_wallB.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="19" name="bottom_left_corner_wallB" tilewidth="64" tileheight="64">
+  <image source="../tiles/bottom_left_corner_wallB.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="20" name="bottom_right_corner_wallB" tilewidth="64" tileheight="64">
+  <image source="../tiles/bottom_right_corner_wallB.png" width="64" height="64"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="Tile Layer 1" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztlkkShCAMRbGd+v4n7o1U/Up/yGAoXbB4K4FnyKB7KWWfTG5yCEZ5PsTFmP6cPEa5418aHFf8jMw6ri4LI/0Y3xv8rXtZBbhnlJ/5JJH76eUa/S1n1I/xaD2g1Qa7G8tc0WqN1R1bH+nLun4r//W0Ekcv5g3Oqmg5t+QS+QJsv+ceIv4TYPtlX2T7W89afWntOY+/5hZzEfF76t7b/57ax77PeAfrt1j6WQ2zd8vy45k9v8YS8Ncawhmjxe/5P9D83rmrxS9jyJ77nng881/jab+Vp7xRfj7vEjY=
+   eJztlskOwzAIRJ21e7r+/7c2hyIhMhhwnUqRephTYj8DY8yQUhr+2rRus05Clx+yXrNGocNK/BawkLbIR7mVWpN/dO69Nr9RNH7iRzoLXb/ke+Mkfg1vST6PL8onL0X6gMXX8tIJ8TURH0T4iCcVrY/lf87XmKV8Ho91ByxvoNx4+prlNeQ79H8b4JJP6f8+Lf3UAUYu5p7tRbJq7qkl154JrffmoZS/Y0Lr5b2ozde+affSe+cifKotr0WUP2UYXv/nzvxMdg+WPc77/nhrZvVgyUceRmerxed75viWmgI+eYj3GCv+yHxg8aN914pfxmDNQiX8e1rOWyTpAe/bP2X2fBTmM8KPzAUefg2ulpuS2VbTGyRbFFs=
   </data>
  </layer>
 </map>
