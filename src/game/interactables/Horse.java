@@ -20,15 +20,17 @@ import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
 public class Horse extends Enemy implements Interactable{
+	private GamePlayState room;
 	
-	public Horse(String name, GamePlayState room, Player player, float x, float y,int xTarget, int yTarget) throws SlickException {
+	public Horse(String name, GamePlayState room, Player player, float x, float y,int[][] patrolpoints) throws SlickException {
 		super(room, player, x, y);
+		this.room = room;
 		this.setName(name);
 		SpriteSheet horsesheet = new SpriteSheet("assets/HorseStampede.png",256,256);
 		this.setSprite(horsesheet.getSprite(0,0));
 		//this.m_key = key;
-		this.setLeadTo(xTarget, yTarget);
-		this.m_ai = AIState.LEAD;
+		this.setPatrolPoints(patrolpoints);
+		this.m_ai = AIState.ROAM;
 		int [] duration = {200,200};
 		this.m_sprite = new Animation(new Image[] {horsesheet.getSprite(0,0),horsesheet.getSprite(1,0)}, duration, true);
 		m_up = m_sprite;
@@ -58,6 +60,13 @@ public class Horse extends Enemy implements Interactable{
 	@Override
 	public Types getType() {
 		return GameObject.Types.HORSE;
+	}
+	
+	@Override
+	protected void arriveEvent(){
+		m_ai = AIState.WAIT;
+		room.removeObject(this.getName());
+		room.removeEnemy(this.getName());
 	}
 
 }
