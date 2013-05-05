@@ -147,6 +147,7 @@ public class TownDay extends Town{
 			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
 			sign1.setDialogue(new String[] {"The Horse Stables (formerly the zoo)"});
 			this.addObject(sign1, true);
+			
 		}
 
 		
@@ -195,7 +196,11 @@ public class TownDay extends Town{
 				QuestStage c2 = new QuestStage().setStartText(new String[]
 						{"You want to find some cats!"});
 				ArrayList<Interactable> cats = new ArrayList<Interactable>();
-				c2.addGoal(new QuestGoal.MultiInteractGoal(new ArrayList<Interactable>()));
+				cats.add(getInteractable("cat1"));
+				cats.add(getInteractable("cat2"));
+				c2.addGoal(new QuestGoal.MultiInteractGoal(cats));
+				catQuest.addStage(c1);
+				catQuest.addStage(c2);
 				
 				//TODO: add this after buttplug quest completed
 				

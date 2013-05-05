@@ -2,6 +2,10 @@ package game;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.DolphinEntrance;
@@ -275,6 +279,20 @@ public class StateManager extends StateBasedGame {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Writes GameObjects to the writer.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public static void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("GameObjects");
+		for(Entry<Integer, GameObject> e : gameObjects.entrySet()) {
+			e.getValue().writeToXML(writer);
+			writer.writeCharacters("\n");
+		}
+		writer.writeEndElement();
 	}
 
 }
