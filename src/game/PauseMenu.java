@@ -103,10 +103,7 @@ public class PauseMenu {
 				//Save and quit
         		try {
 					SaveGame.getInstance().save(stateManager);
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (XMLStreamException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

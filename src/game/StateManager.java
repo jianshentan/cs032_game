@@ -2,6 +2,10 @@ package game;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.DolphinEntrance;
@@ -15,6 +19,7 @@ import game.gameplayStates.VirtualRealityHome;
 import game.gameplayStates.VirtualRealityRoom;
 import game.io.LoadGame;
 import game.player.Player;
+import game.quests.Quest;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -26,10 +31,12 @@ public class StateManager extends StateBasedGame {
 	private static final StateManager instance;
 	//Used to store all game objects
 	private static HashMap<Integer, GameObject> gameObjects;
+	private static HashMap<Integer, Quest> quests;
 	  
 	static {
 	    instance = new StateManager();
 	    gameObjects = new HashMap<Integer, GameObject>();
+	    quests = new HashMap<Integer, Quest>();
 	}
 	 
 	public static StateManager getInstance() {
@@ -57,6 +64,7 @@ public class StateManager extends StateBasedGame {
 		gameObjects.put(key, o);
 	}
 	
+	
 	/**
 	 * Gets an object.
 	 * @param key
@@ -64,6 +72,19 @@ public class StateManager extends StateBasedGame {
 	 */
 	public static GameObject getObject(int key) {
 		return gameObjects.get(key);
+	}
+	
+	/**
+	 * Adds a quest to the global object store.
+	 * @param key
+	 * @param q
+	 */
+	public static void addQuest(int key, Quest q) {
+		quests.put(key, q);
+	}
+	
+	public static Quest getQuest(int key) {
+		return quests.get(key);
 	}
 	  
 	// black box test states
@@ -258,6 +279,20 @@ public class StateManager extends StateBasedGame {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Writes GameObjects to the writer.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public static void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("GameObjects");
+		for(Entry<Integer, GameObject> e : gameObjects.entrySet()) {
+			e.getValue().writeToXML(writer);
+			writer.writeCharacters("\n");
+		}
+		writer.writeEndElement();
 	}
 
 }

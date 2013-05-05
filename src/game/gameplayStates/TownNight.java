@@ -93,7 +93,7 @@ public class TownNight extends Town {
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
 			m_enemies.add(spec);
 			
-			Quest learning = new Quest(1);
+			Quest learning = new Quest("learning");
 			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))
 					.setStartText(new String[] 
 							{"Who... is that mysterious humanoid figure with no face, you wonder",
@@ -127,7 +127,7 @@ public class TownNight extends Town {
 	 */
 	@Override
 	public void stateEnd(int endCode) {
-		m_player.removeQuest(1);
+		m_player.removeQuest("learning");
 		StateManager.m_dreamState -= 1;
 		StateManager.getInstance().enterState(StateManager.HOME_STATE, 
 				new FadeOutTransition(Color.black, 2000), 
