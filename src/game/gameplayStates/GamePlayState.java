@@ -587,6 +587,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void setCamera(Camera c){
 		m_camera = c;
 	}
+	public void shakeCamera(int length){
+		m_camera.shake(length);
+	}
 	@Override
 	public GamePlayState loadFromXML(Node n, GameContainer c, StateManager g) throws SlickException {
 		this.m_interactables = new HashMap<String, Interactable>();

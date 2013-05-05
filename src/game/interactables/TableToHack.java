@@ -16,15 +16,17 @@ import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
 public class TableToHack extends GameObject implements Interactable {
-	private int m_stage = 0;
-
+	private int m_stage = 2;
+	private File m_json;
 	public TableToHack(String name, int xLoc, int yLoc) 
 			throws SlickException, FileNotFoundException, UnsupportedEncodingException {
 		super(name);
+		//TODO - start w/ cleanup of existing files
 		m_x = xLoc;
 		m_y = yLoc;
 		
 		// stage 1
+		this.writeJSON();
 		setSprite(new Image("assets/gameObjects/table.png"));
 		PrintWriter writer = new PrintWriter("brain.txt", "UTF-8");
 		writer.print("HackCode:");
@@ -68,18 +70,34 @@ public class TableToHack extends GameObject implements Interactable {
 						"\"Ignore all spaces and like the horse-friend 'hen'\"",
 						"\"And like Davinci, dear fibonacci shares\"",
 						"\"A commonality - the answer. Name it with care.\""});
-			}
-			if (queryAnswer2().compareTo("112358") == 0) {
+			}else if (queryAnswer2().compareTo("112358") == 0) {
 				m_stage++;
 				state.displayDialogue(new String[] {"The screen turns white again and the buzzing continues",
 						"The whole room suddenly starts to shake a litte...",
 						".. but just barely enough to notice. You realize that you must be breaking something "+
 						"about the virtual reality space with these puzzles",
 						"\"\""});
+				this.writeJSON();
+				state.shakeCamera(2000);	
+			}else{
+				state.displayDialogue(new String[] {"The computer spits out some text",
+						"File leonardo.txt found: password failed. Re-reading poem",
+						"\"Like a new born pheonix or bathtub foam\"",
+						"\"make from nothingness the fibonacci poem\"",
+						"\"Starting at nothing to no greater than 10,\"",
+						"\"Ignore all spaces and like the horse-friend 'hen'\"",
+						"\"And like Davinci, dear fibonacci shares\"",
+						"\"A commonality - the answer. Name it with care.\""});
 			}
 		}
 		else if (m_stage == 2) {
-			
+			if (queryAnswer3().compareTo("404")==0){
+				state.displayDialogue(new String[] {
+						"Looks like another file appeared",
+						"VirtalRealityState.JSON",
+						"Maybe you should be careful"
+				});
+			}
 		}
 		return null;
 	}
@@ -93,7 +111,18 @@ public class TableToHack extends GameObject implements Interactable {
 				" you are trapped in the virtual world forever"});
 		// state.shakeRoom() 
 	}
-	
+	public String queryAnswer3() {
+		String ret = "";
+		FileReader fileReader;
+		try {
+			fileReader = new FileReader("");
+		}catch (FileNotFoundException e){
+			return "404";
+		}catch (IOException e) {
+			System.out.println("Query 3 IOException");
+		}
+		return ret;
+	}
 	public String queryAnswer2() {
 		String ret = "";
 		FileReader fileReader;
@@ -138,5 +167,33 @@ public class TableToHack extends GameObject implements Interactable {
 	public Types getType() {
 		return Types.TABLE_TO_HACK;
 	}
-
+	private void writeJSON(){
+		try {
+			PrintWriter writer = new PrintWriter("virtualREALity.JSON", "UTF-8");
+			writer.print(""+
+			"{\n"+
+			"\t\"scenario home\": {\n"+
+			"\t\t\"player\": {\n"+
+			"\t\t\t\"hunger\":\"low\",\n"+
+			"\t\t\t\"happiness\":\"unhappy\",\n"+
+			"\t\t\t\"sex appeal\":\"minimal\",\n"+
+			"\t\t\t\"drive\":\"complacent\",\n"+
+			"\t\t},\n"+
+			"\t\t\"room\": {\n"+
+			"\t\t\t\"bed\":\"uncomfortable\",\n"+
+			"\t\t\t\"television\":\"distracting\",\n"+
+			"\t\t\t\"door\":\"locked\",\n"+
+			"\t\t\t\"computer\":\"misleading\",\n"+
+			"\t\t}\n"+
+			"\t}\n"+
+			"}");
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }

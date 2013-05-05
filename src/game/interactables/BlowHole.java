@@ -47,7 +47,8 @@ public class BlowHole extends GameObject implements Interactable {
 				p.getInventory().removeItem(Types.CORRECT_PLUG);
 				String[] di = {"You sigh with satisfaction as the plug gently slides into the hole"};
 				state.displayDialogue(di);
-				StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE, new FadeOutTransition(Color.white, 3000), 
+				state.shakeCamera(4000);
+				StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE, new FadeOutTransition(Color.white, 4000), 
 						new FadeInTransition(Color.white, 1000));
 				DolphinEntrance destinationState = (DolphinEntrance) StateManager.getInstance().getState(StateManager.DOLPHIN_ENTRANCE);
 				destinationState.setPlayerLocation(2*SIZE, 2*SIZE);
