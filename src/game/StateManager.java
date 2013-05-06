@@ -11,6 +11,7 @@ import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.DolphinEntrance;
 import game.gameplayStates.GamePlayState;
 import game.gameplayStates.Home;
+import game.gameplayStates.HospitalMaze;
 import game.gameplayStates.Kitchen;
 import game.gameplayStates.Room;
 import game.gameplayStates.TownDay;
@@ -95,6 +96,7 @@ public class StateManager extends StateBasedGame {
 	
 	// real states
 	public static final int GAME_OVER_STATE = 99;
+	public static final int HOSPITAL_MAZE_STATE = 8;
 	public static final int VIRTUAL_REALITY_HOME_STATE = 7;
 	public static final int VIRTUAL_REALITY_ROOM_STATE = 6;
 	public static final int DOLPHIN_ENTRANCE = 5;
@@ -175,6 +177,8 @@ public class StateManager extends StateBasedGame {
 			addState(virtualRealityRoom);
 			VirtualRealityHome virtualRealityHome = new VirtualRealityHome(VIRTUAL_REALITY_HOME_STATE);
 			addState(virtualRealityHome);
+			HospitalMaze hospitalMaze = new HospitalMaze(HOSPITAL_MAZE_STATE);
+			addState(hospitalMaze);
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
@@ -184,6 +188,7 @@ public class StateManager extends StateBasedGame {
 			dolphinEntrance.setPlayer(m_player);
 			virtualRealityRoom.setPlayer(m_player);
 			virtualRealityHome.setPlayer(m_player);
+			hospitalMaze.setPlayer(m_player);
 		}
 		GameOver go = new GameOver(GAME_OVER_STATE);
 		addState(go);
@@ -212,6 +217,7 @@ public class StateManager extends StateBasedGame {
 			getState(DOLPHIN_ENTRANCE).init(container, this);
 			getState(VIRTUAL_REALITY_ROOM_STATE).init(container, this);
 			getState(VIRTUAL_REALITY_HOME_STATE).init(container, this);
+			getState(HOSPITAL_MAZE_STATE).init(container, this);
 		}
 		
 		if(this.m_loader==null) {
@@ -256,6 +262,9 @@ public class StateManager extends StateBasedGame {
 			VirtualRealityRoom virtualRealityRoom = new VirtualRealityRoom(VIRTUAL_REALITY_ROOM_STATE);
 			addState(virtualRealityRoom);
 			VirtualRealityHome virtualRealityHome = new VirtualRealityHome(VIRTUAL_REALITY_HOME_STATE);
+			HospitalMaze hospitalMaze = new HospitalMaze(HOSPITAL_MAZE_STATE);
+			addState(hospitalMaze);
+			
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
@@ -265,6 +274,7 @@ public class StateManager extends StateBasedGame {
 			dolphinEntrance.setPlayer(m_player);
 			virtualRealityRoom.setPlayer(m_player);
 			virtualRealityHome.setPlayer(m_player);
+			hospitalMaze.setPlayer(m_player);
 		}
 		
 		GameOver go = new GameOver(GAME_OVER_STATE);
