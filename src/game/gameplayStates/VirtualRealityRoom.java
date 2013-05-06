@@ -11,6 +11,11 @@ import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.interactables.VisiblePortal;
+import game.interactables.Wrench;
+import game.quests.Quest;
+import game.quests.QuestGoal;
+import game.quests.QuestReward;
+import game.quests.QuestStage;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -18,6 +23,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class VirtualRealityRoom extends GamePlayState {
+	
+	private boolean m_questGiven = false;
+	private boolean m_questComplete = false;
 	
 	private String[] GUIDE_TEXT = new String[] {"Welcome to the virtual reality play house!",
 			"We provide a great virtual reality service that finds you your personal dream place",
@@ -88,8 +96,24 @@ public class VirtualRealityRoom extends GamePlayState {
 
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
-		// TODO Auto-generated method stub
+		if (city == 2) {
 
+			if(m_questGiven == false) {
+								
+//				Quest virtualRealityQuest= new Quest("virtualRealityQuest");
+//				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));
+//				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
+//				goal1.setReward(new QuestReward.WaterDownReward());
+//				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
+//				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
+//						"Water sprays out everywhere before evaporating instantly."});
+//				fireHydrantQuest.addStage(goal1);
+//				//TODO: add a goal for the plug
+//				m_player.addQuest(fireHydrantQuest);
+//				fireHydrantQuest.startQuest(this);
+//				m_questGiven = true;
+			}
+		}
 	}
 
 	@Override

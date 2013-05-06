@@ -109,6 +109,9 @@ public class Player extends MovingObject{
 	public void setGame(GamePlayState game) {
 		m_game = game;
 	}
+	public GamePlayState getGame() {
+		return m_game;
+	}
 
 
 	public void playerControls(GameContainer container, int delta, Input input) {

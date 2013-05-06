@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import game.Collectable;
 import game.gameplayStates.GamePlayState;
+import game.gameplayStates.VirtualRealityRoom;
 import game.interactables.Interactable;
 import game.player.Player;
 
@@ -225,6 +226,30 @@ public abstract class QuestGoal {
 			return false;
 		}
 		
+	}
+	
+	/**
+	 * When player beats virtual reality room
+	 * 
+	 */
+	public static class VirtualRealityGoal extends QuestGoal {
+		
+		public VirtualRealityGoal() {
+			
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player) {
+			VirtualRealityRoom room = (VirtualRealityRoom)player.getGame();
+			return false;
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player,
+				Interactable interactable) {
+			// TODO Auto-generated method stub
+			return false;
+		}
 	}
 	
 }
