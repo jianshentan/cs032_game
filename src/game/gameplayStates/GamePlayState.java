@@ -286,7 +286,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			stateManager.enterState(StateManager.GAME_OVER_STATE);
 		}
 
-		if (!m_isPaused && !m_inDialogue && !m_inScene){
+		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
 			if (m_enemies != null) {
 				int enemiesCount = m_enemies.size();
