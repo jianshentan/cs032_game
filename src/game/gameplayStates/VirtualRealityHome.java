@@ -35,7 +35,6 @@ public class VirtualRealityHome extends GamePlayState {
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 		throws SlickException {
 		
-		
 		// set player initial location
 		m_playerX = SIZE*2;
 		m_playerY = SIZE*4;

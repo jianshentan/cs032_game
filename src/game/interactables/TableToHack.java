@@ -26,16 +26,17 @@ public class TableToHack extends GameObject implements Interactable {
 	public TableToHack(String name, int xLoc, int yLoc) 
 			throws SlickException, FileNotFoundException, UnsupportedEncodingException {
 		super(name);
-		//TODO - start w/ cleanup of existing files
 		m_x = xLoc;
 		m_y = yLoc;
-		
 		// stage 1
-		this.writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "distracting", "locked");
 		setSprite(new Image("assets/gameObjects/table.png"));
 		PrintWriter writer = new PrintWriter("brain.txt", "UTF-8");
 		writer.print("HackCode:");
 		writer.close();	
+		File l = new File("leonardo.txt");
+		l.delete();
+		File j = new File("virtualREALity.JSON");
+		j.delete();
 	}
 
 	@Override
@@ -57,6 +58,8 @@ public class TableToHack extends GameObject implements Interactable {
 			}
 			else if (queryAnswer1().compareTo("mule") == 0) { // right answer
 				m_stage++;
+				File l = new File("leonardo.txt");
+				l.delete();
 				state.displayDialogue(new String[] {"The screen turns white and you hear a slight buzzing",
 						"You wonder to yourself if that even did anything.",
 						"More text appears on the screen: \"Like a new born pheonix or bathtub foam\"",
