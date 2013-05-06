@@ -15,6 +15,13 @@ public class PlayerCamera extends Camera {
 		m_halfHeight = container.getHeight()/2-32;
 		m_player=p;
 	}
+	
+	public void refreshCamera(GameContainer container, Player p) {
+		m_halfWidth = container.getWidth()/2-32;
+		m_halfHeight = container.getHeight()/2-32;
+		m_player=p;	
+	}
+	
 	@Override
 	public int[] getOffset() {
 		// TODO Auto-generated method stub
@@ -47,4 +54,5 @@ public class PlayerCamera extends Camera {
 	public void update(int delta) {
 		
 	}
+
 }

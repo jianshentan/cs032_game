@@ -11,6 +11,11 @@ import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.interactables.VisiblePortal;
+import game.interactables.Wrench;
+import game.quests.Quest;
+import game.quests.QuestGoal;
+import game.quests.QuestReward;
+import game.quests.QuestStage;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
@@ -18,6 +23,9 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class VirtualRealityRoom extends GamePlayState {
+	
+	private boolean m_questGiven = false;
+	private boolean m_questComplete = false;
 	
 	private String[] GUIDE_TEXT = new String[] {"Welcome to the virtual reality play house!",
 			"We provide a great virtual reality service that finds you your personal dream place",
@@ -88,8 +96,35 @@ public class VirtualRealityRoom extends GamePlayState {
 
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
-		// TODO Auto-generated method stub
+		if (city == 2) {
 
+			if(m_questGiven == false) {
+								
+				Quest virtualRealityQuest= new Quest("virtualRealityQuest");
+				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.VirtualRealityGoal());
+				goal1.setReward(new QuestReward.Quest2Reward());
+				virtualRealityQuest.addStage(goal1);
+				m_player.addQuest(virtualRealityQuest);
+				virtualRealityQuest.startQuest(this);
+				m_questGiven = true;
+			}
+		}
+		else if (city == 1) {
+			removeObject("VRC");
+			StaticObject VRC = null;
+			try {
+				VRC = new StaticObject("VRC", 6*GameObject.SIZE, GameObject.SIZE, 
+						"assets/gameObjects/virtualRealityChair.png");
+				VRC.setDialogue(new String[] {"You try sitting on the chair, but you don't end up in your " +
+						"happy place."});
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+			addObject(VRC, true);
+			Person guide = (Person) getObject("guide");
+			guide.setDialogue(new String[] {"Oops. Looks like something broke. You don't happen to know " +
+					"anything about that, do you?"});
+		}
 	}
 
 	@Override

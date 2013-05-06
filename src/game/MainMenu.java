@@ -50,7 +50,7 @@ public class MainMenu extends BasicGameState {
 	@Override
 	public void init(GameContainer container, StateBasedGame stateManager)
 			throws SlickException {
-		m_background = new Image("assets/MainMenuBackgroundImage.jpg");
+		m_background = new Image("assets/MainMenuBackgroundImage.png");
 		m_startButton = new Image("assets/steakTile.png");
 	}
 
@@ -59,24 +59,24 @@ public class MainMenu extends BasicGameState {
 			throws SlickException {
 		m_background.draw(0,0);
 		
-		g.setColor(Color.black);
-		g.drawString("continue", m_width/2 - 100, m_height/2 -50);
-		g.drawString("new", m_width/2 - 100, m_height/2 - 0);
-		g.drawString("options", m_width/2 - 100, m_height/2 + 50);
-		g.drawString("quit", m_width/2 - 100, m_height/2 + 100);
+		g.setColor(Color.white);
+		g.drawString("continue", m_width/2 - 35, m_height/2 + 35);
+		g.drawString("new", m_width/2 - 15, m_height/2 + 70);
+		g.drawString("options", m_width/2 -30, m_height/2 + 105);
+		g.drawString("quit", m_width/2 -20, m_height/2 + 140);
 		
 		switch (m_selection) {
 		case 0:
-			g.drawString("<", m_width/2 + 100, m_height/2 - 50);
+			g.drawString("<", m_width/2 + 50, m_height/2 + 35);
 			break;
 		case 1:
-			g.drawString("<", m_width/2 + 100, m_height/2 - 0);
+			g.drawString("<", m_width/2 + 30, m_height/2 + 70);
 			break;
 		case 2:
-			g.drawString("<", m_width/2 + 100, m_height/2 + 50);
+			g.drawString("<", m_width/2 + 45, m_height/2 + 105);
 			break;
 		case 3:
-			g.drawString("<", m_width/2 + 100, m_height/2 + 100);
+			g.drawString("<", m_width/2 + 35, m_height/2 + 140);
 			break;
 		}
 	}

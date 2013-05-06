@@ -17,6 +17,7 @@ import org.newdawn.slick.SlickException;
 
 import game.GameObject;
 import game.gameplayStates.GamePlayState;
+import game.gameplayStates.VirtualRealityHome;
 import game.player.Player;
 
 public class TableToHack extends GameObject implements Interactable {
@@ -65,7 +66,7 @@ public class TableToHack extends GameObject implements Interactable {
 						"More text appears on the screen: \"Like a new born pheonix or bathtub foam\"",
 						"\"make from nothingness the fibonacci poem\"",
 						"\"Starting at nothing to no greater than 10,\"",
-						"\"Ignore all spaces and like the horse-friend 'hen'\"",
+						"\"Ignore all spaces to hack me again\"",
 						"\"And like Davinci, dear fibonacci shares\"",
 						"\"A commonality - the answer. Name it with care.\""});
 			}
@@ -75,7 +76,7 @@ public class TableToHack extends GameObject implements Interactable {
 				state.displayDialogue(new String[] {"\"Like a new born pheonix or bathtub foam\"",
 						"\"make from nothingness the fibonacci poem\"",
 						"\"Starting at nothing to no greater than 10,\"",
-						"\"Ignore all spaces and like the horse-friend 'hen'\"",
+						"\"Ignore all spaces to hack me again\"",
 						"\"And like Davinci, dear fibonacci shares\"",
 						"\"A commonality - the answer. Name it with care.\""});
 			}else if (queryAnswer2().compareTo("112358") == 0) {
@@ -98,7 +99,7 @@ public class TableToHack extends GameObject implements Interactable {
 						"\"Like a new born pheonix or bathtub foam\"",
 						"\"make from nothingness the fibonacci poem\"",
 						"\"Starting at nothing to no greater than 10,\"",
-						"\"Ignore all spaces and like the horse-friend 'hen'\"",
+						"\"Ignore all spaces to hack me again\"",
 						"\"And like Davinci, dear fibonacci shares\"",
 						"\"A commonality - the answer. Name it with care.\""});
 			}
@@ -116,10 +117,20 @@ public class TableToHack extends GameObject implements Interactable {
 				writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "distracting", "locked");
 			} else{
 				parseAnswer3(state, st);
+				finish(state);
 			}
 		}
 		return null;
 	}
+	
+	/**
+	 * called when finish with puzzles
+	 * @param state
+	 */
+	public void finish(GamePlayState state) {
+		((VirtualRealityHome)state).completePuzzles();
+	}
+	
 	//this method figures out what dialogs to play based on the mood put into the JSON
 	public void parseAnswer3(GamePlayState state, String st){
 		String[] results = st.split("\n");

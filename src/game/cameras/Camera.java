@@ -1,5 +1,9 @@
 package game.cameras;
 
+import game.player.Player;
+
+import org.newdawn.slick.GameContainer;
+
 /**
  * Cameras allow a certain portion of a map to be shown.
  *
@@ -21,4 +25,6 @@ public abstract class Camera {
 	public abstract int[] getPlayerOffset();
 	public abstract void shake(int shakeL);
 	public abstract void update(int delta);
+	
+	public abstract void refreshCamera(GameContainer container, Player p);
 }

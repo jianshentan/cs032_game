@@ -24,6 +24,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -49,6 +50,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected boolean m_isPaused = false;
 	protected boolean m_inDialogue = false;
 	protected PauseMenu m_pauseMenu = null;
+	protected boolean m_disableTopLayer = false;
 	
 	int m_stateID = 0;
 	protected int inputDelta = 0;
@@ -65,6 +67,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	protected simpleMap m_map;
 	
+	
+	// hack - variables for hospitalBase
+	protected Image m_flash;
+	protected boolean m_isFlash = false;
+	
 	@Deprecated
 	protected HashMap<Integer, Dialogue> m_dialogue;
 	@Deprecated
@@ -75,6 +82,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
+	
+	private boolean[][] m_isInitialized; //values are indexed by cityState, dreamState. True if the state
+	//has been visited for that city/dream state combo.
 	
 	
 	
@@ -235,8 +245,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_player.setX(m_playerX);
 		m_player.setY(m_playerY);
 		m_player.setGame(this);	
-		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
-		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
+		if(m_isInitialized[StateManager.m_cityState][StateManager.m_dreamState]==false) {
+			setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
+			setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
+			m_isInitialized[StateManager.m_cityState][StateManager.m_dreamState] = true;
+		}
 		if(m_bgm!=null) {
 			m_bgm.loop();
 		}
@@ -262,15 +275,16 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
 		if(this.isLoaded()==false) {
-		m_camera = new PlayerCamera(container, m_player);
-		m_pauseMenu = new PauseMenu(this, container);
-		m_interactables = new HashMap<String, Interactable>();
-		m_objects = new HashMap<String, GameObject>();
-		m_dialogue = new HashMap<Integer, Dialogue>();
-		m_enemies = new ArrayList<Enemy>();
-		
-		this.additionalInit(container, stateManager);
-		this.m_loaded = true;
+			m_isInitialized = new boolean[4][4];
+			m_camera = new PlayerCamera(container, m_player);
+			m_pauseMenu = new PauseMenu(this, container);
+			m_interactables = new HashMap<String, Interactable>();
+			m_objects = new HashMap<String, GameObject>();
+			m_dialogue = new HashMap<Integer, Dialogue>();
+			m_enemies = new ArrayList<Enemy>();
+
+			this.additionalInit(container, stateManager);
+			this.m_loaded = true;
 		}
 	}
 	
@@ -299,10 +313,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 				
 		if (m_inDialogue) {
-			if(m_inScene)
+			//if(m_inScene)
 				m_sceneDialogue.update(container, stateManager, delta);
-			else
-				m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
+			//else
+			//	m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
 		}
 
 		Input input = container.getInput();
@@ -357,7 +371,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_7)) {
-			StateManager.getInstance().enterState(StateManager.VIRTUAL_REALITY_ROOM_STATE);
+			StateManager.getInstance().enterState(StateManager.HOSPITAL_MAZE_STATE);
+		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_6)) {
+			StateManager.getInstance().enterState(StateManager.HOSPITAL_BASE_STATE);
 		}
 		
 	}
@@ -369,6 +386,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		int offsetX = offsets[0];
 		int offsetY = offsets[1];
 		int[] playerOffsets = m_camera.getPlayerOffset();
+		// render background - used in hospital base
+		if (m_isFlash)
+			m_flash.draw(0,0);
 		// render map
 		m_tiledMap.render(-offsetX, -offsetY);
 		// render objects before player 
@@ -400,17 +420,19 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		for (GameObject o : objectsToRenderAfter)
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
 	
+		if (!m_disableTopLayer) {
 		// render health
 		m_player.getHealth().render();
 		
 		// render inventory
 		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
+		}
 		
 		if (m_inDialogue) {
-			if(m_inScene)
+			//if(m_inScene)
 				m_sceneDialogue.render(g);
-			else if(m_dialogue.get(m_dialogueNum)!=null) 
-				m_dialogue.get(m_dialogueNum).render(g);
+			//else if(m_dialogue.get(m_dialogueNum)!=null) 
+			//	m_dialogue.get(m_dialogueNum).render(g);
 		}
 		
 
@@ -573,7 +595,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_inDialogue = false;
 		m_invisiblePlayer = false;
 		m_camera = new PlayerCamera(StateManager.getInstance().getContainer(),m_player);
+		additionalExitScene();
 	}
+	
+	/**
+	 * Override if more needs to be done upon exiting scene
+	 */
+	public void additionalExitScene(){}
 	
 	public void exitDialogueScene() {
 		//m_inScene = false;
@@ -585,7 +613,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param dialogue
 	 */
 	public void displayDialogue(String[] dialogue) {
-		m_inScene = true;
+		//m_inScene = true;
 		m_inDialogue = true;
 		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);	
 	}
@@ -681,6 +709,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	}
 	//why is this in the class!?
 	//it needs to call set the state to game over.
+	//lol
 	public void gameOverEvent(){
 		//s.enterState(s.GAME_OVER_STATE);
 		System.out.println("GAME OVER");

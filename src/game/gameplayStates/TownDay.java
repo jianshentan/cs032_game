@@ -50,7 +50,7 @@ public class TownDay extends Town{
 				horse1 = new Horse("horseHerd", this, m_player, 6*SIZE, 14*SIZE, horse_stops);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
-				Scene s = new Scene(this,m_player,new int[][] {{6,14},{11,22},{11,28}});
+				Scene s = new Scene(this,m_player,new float[][] {{6,14},{11,22},{11,28}});
 				s.setCamera(true);
 				s.playScene();
 				
@@ -131,6 +131,9 @@ public class TownDay extends Town{
 			Trashcan trash = new Trashcan("trash", 9*SIZE, 14*SIZE);
 			this.addObject(trash, true);
 			
+			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_MAZE_STATE, -1, -1); 
+			this.addObject(hospitalDoor, true);
+			
 			//TODO: place cats
 			Animal cat1 = new Animal("cat1", "assets/cat1.png", this, m_player,
 					 14*SIZE, 17*SIZE, 23, 12);
@@ -153,8 +156,10 @@ public class TownDay extends Town{
 			m_blocked[11][16] = true;
 			
 			Person infoGiver2 = new Person("infoGiver2", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
-			infoGiver2.setDialogue(new String[] {"Have you ever wondered why everyone in this town looks alike?",
-					"I actually like it this way."});
+			infoGiver2.setDialogue(new String[] {"So you want to destroy the zoo, hmm?",
+					"It's all run by a giant dolphin brain.",
+					"You'll have to kill that dolphin.",
+					"Too bad. I like dolphins."});
 			this.addObject(infoGiver2, true);
 			m_blocked[13][11] = true;
 			

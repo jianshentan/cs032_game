@@ -17,6 +17,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.TrueTypeFont;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -39,6 +40,9 @@ public class Inventory implements Loadable<Inventory> {
 	
 	private Image m_cursor;
 	
+	private TrueTypeFont m_itemName;
+	private TrueTypeFont m_itemDesc;
+	
 	public Inventory(GameContainer container) throws SlickException {
 		// set up box to display text in
 		m_font = container.getDefaultFont();
@@ -51,8 +55,14 @@ public class Inventory implements Loadable<Inventory> {
 		m_items = new Collectable[16];
 		
 		// load sprites
-		m_cursor = new Image("assets/redSquare.png");
+		m_cursor = new Image("assets/colors/white.png");
 		m_cursor.setAlpha((float)0.3);
+		
+		java.awt.Font font1 = new java.awt.Font("SansSerif", java.awt.Font.BOLD, 12);
+		m_itemName = new TrueTypeFont(font1, false);
+			
+		java.awt.Font font2 = new java.awt.Font("SansSerif", java.awt.Font.BOLD, 10);
+		m_itemDesc = new TrueTypeFont(font2, false);
 	}
 	
 	public void update(GameContainer container, int delta) {
@@ -98,13 +108,15 @@ public class Inventory implements Loadable<Inventory> {
 		// draw item text
 		if (m_items[m_pointer] != null) {
 			String itemName = m_items[m_pointer].getItemName();
-			g.setColor(Color.red);
-			g.drawString(itemName, m_textBox[0], m_textBox[1]);
-			ArrayList<String> itemText = wrap(m_items[m_pointer].getItemText(), BLOCKSIZE*2);
-			g.setColor(Color.blue);
+			g.setColor(Color.white);
+			g.setFont(m_itemName);
+			g.drawString(itemName, 10 + m_textBox[0], m_textBox[1]);
+			ArrayList<String> itemText = wrap(m_items[m_pointer].getItemText(), BLOCKSIZE*2 + 30);
+			g.setFont(m_itemDesc);
+			g.setColor(Color.white);
 			for (int i=0; i<itemText.size(); i++)
 				g.drawString(itemText.get(i), 
-							 m_textBox[0],
+							 10 + m_textBox[0],
 							 m_textBox[1] + (i+1)*m_font.getLineHeight());
 		}
 		// draw cursor
@@ -126,9 +138,12 @@ public class Inventory implements Loadable<Inventory> {
 		}
 	}
 	
+	/**
+	 * Removes the first item of a given type.
+	 * @param item
+	 */
 	public void removeItem(Types item) {
-		
-		if(m_using.getType()==item)
+		if(m_using!=null && m_using.getType()==item)
 			m_using = null;
 		for(int i = 0; i<m_items.length; i++) {
 			if(m_items[i]!=null){
@@ -139,6 +154,28 @@ public class Inventory implements Loadable<Inventory> {
 			}
 		}
 	}
+	
+	/**
+	 * Removes the first item with a given name.
+	 * @param name
+	 */
+	public void removeItem(String name) {
+		if(m_using!=null && m_using.getName().equals(name)) {
+			m_using = null;
+		}
+		for(int i = 0; i<m_items.length; i++) {
+			if(m_items[i]!=null && m_items[i].getName().equals(name)) {
+				m_items[i] = null;
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Returns true if the inventory contains an item of the given type.
+	 * @param item
+	 * @return
+	 */
 	public boolean contains(Types item){
 		for(int i = 0; i< m_items.length; i++) {
 			if(m_items[i]!=null){

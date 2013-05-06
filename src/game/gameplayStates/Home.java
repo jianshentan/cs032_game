@@ -4,8 +4,10 @@ import game.Dialogue;
 import game.Enemy;
 import game.GameObject;
 import game.PauseMenu;
+import game.Scene;
 import game.StateManager;
 import game.StaticObject;
+import game.cameras.PlayerCamera;
 import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Bed;
 import game.interactables.Chest;
@@ -25,7 +27,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class Home extends GamePlayState {
-	
+	private int m_startEndState = 0; // 0 represents start, 1 represents playing, 2 represents end
 	private int m_previousDreamState;
 
 	public Home(int stateID) {
@@ -39,7 +41,7 @@ public class Home extends GamePlayState {
 		
 		m_previousDreamState = StateManager.m_dreamState;
 		// set player initial location
-		m_playerX = SIZE*2;
+		m_playerX = SIZE*2 + 32;
 		m_playerY = SIZE*4;
 		
 		// set up map
@@ -151,6 +153,10 @@ public class Home extends GamePlayState {
 		}
 	}
 
+	
+	public void additionalExitScene() {
+		this.m_disableTopLayer = false;
+	}
 
 
 	@Override
@@ -160,18 +166,48 @@ public class Home extends GamePlayState {
 	
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
-		if(StateManager.m_dreamState==2 && StateManager.m_dreamState != this.m_previousDreamState) {
-			this.displayDialogue(new String[] {"You wake up. What a strange dream.",
-						"It seems that the strange humanoid escaped into the zoo. " + 
-						"Perhaps you could somehow block off the zoo, so it won't escape there next time..."});
-			this.m_previousDreamState = StateManager.m_dreamState;
-		}
+		if (m_startEndState == 0) {
+			StaticObject door;
+			try {
+				door = new StaticObject("entry_door", 32 + 2*SIZE, -14*SIZE, "assets/gameObjects/door.png");
+				this.addObject(door, false);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+			StaticObject text;
+			try {
+				text = new StaticObject("entry_text", 32 + (-1*SIZE), -12*SIZE, "assets/entryText.png");
+				this.addObject(text, false);
+			} catch (SlickException e) {
+				
+			}
 		
-		if(StateManager.m_dreamState==1 && StateManager.m_dreamState!= this.m_previousDreamState) {
-			this.displayDialogue(new String[] {"Now  where did that darn mysterious humanoid escape to " +
-					"this time?",
-					"You know something about some entertainment center. Could you close it down?"});
-			this.m_previousDreamState = 1;
+			Scene s = new Scene(this, m_player, new float[][] {{(float)2.5, -19},{(float)2.5,4}});
+			s.setCamera(true);
+			// testing purposes
+			s.setCameraSpeed((float)4);
+			//s.setCameraSpeed((float)0.3);
+			this.m_disableTopLayer = true;
+			s.playScene();
+			m_startEndState++;
+		}
+		else if (m_startEndState == 1) {
+			if(StateManager.m_dreamState==2 && StateManager.m_dreamState != this.m_previousDreamState) {
+				this.displayDialogue(new String[] {"You wake up. What a strange dream.",
+							"It seems that the strange humanoid escaped into the zoo. " + 
+							"Perhaps you could somehow block off the zoo, so it won't escape there next time..."});
+				this.m_previousDreamState = StateManager.m_dreamState;
+			}
+			
+			if(StateManager.m_dreamState==1 && StateManager.m_dreamState!= this.m_previousDreamState) {
+				this.displayDialogue(new String[] {"Now  where did that darn mysterious humanoid escape to " +
+						"this time?",
+						"You know something about some entertainment center. Could you close it down?"});
+				this.m_previousDreamState = 1;
+			}
+		}
+		else if (m_startEndState == 2) {
+			
 		}
 	}
 

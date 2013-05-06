@@ -40,10 +40,6 @@ public class DolphinChamber extends GamePlayState {
 		m_playerY = SIZE*13;
 		
 		if(!this.isLoaded()) {
-			//m_interactables = new HashMap<String, Interactable>();
-			//m_objects = new HashMap<String, GameObject>();
-			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
-			
 			InvisiblePortal portalA = new InvisiblePortal("portalA", 3*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 2,2);
 			InvisiblePortal portalB = new InvisiblePortal("portalB", 4*SIZE, 14*SIZE, StateManager.DOLPHIN_ENTRANCE, 3,2);
 			BlowHole bh = new BlowHole("bh", 3*SIZE, 3*SIZE);
@@ -75,7 +71,7 @@ public class DolphinChamber extends GamePlayState {
 	
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if(this.isEntered()==false && m_waterDown == false) {
-			Scene s = new Scene(this, m_player, new int[][] {{3,13}, {3,4},{3,13}});
+			Scene s = new Scene(this, m_player, new float[][] {{3,13}, {3,4},{3,13}});
 			//s.setPlayerInvisible(true);
 			s.setCamera(true);
 			s.playScene();
@@ -93,7 +89,10 @@ public class DolphinChamber extends GamePlayState {
 			m_playerY = SIZE*13;
 			this.setBlockedTiles();
 			if(m_showWaterDownText == false) {
-				this.displayDialogue(new String[] {"Hey, look, the water is gone!"});
+				this.displayDialogue(new String[] {"Hey, look, the water is gone!",
+						"Problem: it's a well-known fact that giant dolphins can live for up to five days " +
+						"without water.",
+						"You'll have to take care of it somehow."});
 			}
 		}
 		

@@ -1,8 +1,6 @@
 package game.gameplayStates;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,17 +12,12 @@ import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
 import game.Enemy;
-import game.GameObject;
 import game.Spectre;
 import game.StateManager;
 import game.StaticObject;
-import game.interactables.Door;
 import game.interactables.Interactable;
-import game.interactables.InvisiblePortal;
-import game.interactables.PortalObject;
 import game.quests.Quest;
 import game.quests.QuestGoal;
-import game.quests.QuestGoal.LocationGoal;
 import game.quests.QuestStage;
 
 public class TownNight extends Town {
@@ -97,7 +90,8 @@ public class TownNight extends Town {
 			Quest learning = new Quest("learning");
 			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))
 					.setStartText(new String[] 
-							{"Who... is that mysterious humanoid figure with no face, you wonder",
+							{"Who... is that mysterious humanoid figure with no face, you wonder.",
+							"It looks so much like you, yet at the same time so unlike you.",
 							"You feel a compulsion to follow it."});
 			learning.addStage(stage1);
 			QuestStage stage2 = new QuestStage()
@@ -113,6 +107,15 @@ public class TownNight extends Town {
 			int[][] leadPoints = {{22,18},{22,18},{22,18},{22,18}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
 			m_enemies.add(spec);
+			
+			Quest learning = new Quest("learning");
+			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))
+					.setStartText(new String[] 
+							{"You have been expecting this.",
+							"The figure is back. Where will it lead you this time?"});
+			learning.addStage(stage1);
+			learning.startQuest(this);
+			m_player.addQuest(learning);
 		}
 		
 	}
