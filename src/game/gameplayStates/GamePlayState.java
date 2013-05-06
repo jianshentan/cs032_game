@@ -24,6 +24,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -65,6 +66,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	//protected Rectangle m_viewport;
 
 	protected simpleMap m_map;
+	
+	
+	// hack - variables for hospitalBase
+	protected Image m_flash;
+	protected boolean m_isFlash = false;
 	
 	@Deprecated
 	protected HashMap<Integer, Dialogue> m_dialogue;
@@ -367,6 +373,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_7)) {
 			StateManager.getInstance().enterState(StateManager.HOSPITAL_MAZE_STATE);
 		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_6)) {
+			StateManager.getInstance().enterState(StateManager.HOSPITAL_BASE_STATE);
+		}
 		
 	}
 	
@@ -377,6 +386,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		int offsetX = offsets[0];
 		int offsetY = offsets[1];
 		int[] playerOffsets = m_camera.getPlayerOffset();
+		// render background - used in hospital base
+		if (m_isFlash)
+			m_flash.draw(0,0);
 		// render map
 		m_tiledMap.render(-offsetX, -offsetY);
 		// render objects before player 

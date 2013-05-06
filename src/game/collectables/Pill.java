@@ -1,13 +1,18 @@
 package game.collectables;
 
+import java.awt.Toolkit;
+import java.io.IOException;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import game.Collectable;
 import game.GameObject;
 import game.gameplayStates.GamePlayState;
+import game.gameplayStates.HospitalMaze;
 import game.interactables.Interactable;
 import game.player.Player;
+import game.popup.MainFrame;
 
 /**
  * Pills are simple collectable items used in the hospital quest.
@@ -49,6 +54,7 @@ public class Pill extends Collectable implements Interactable{
 	public Interactable fireAction(GamePlayState state, Player p) {
 		state.removeObject(this.getName(), (int) m_x/SIZE, (int) this.m_y/SIZE);
 		//TODO: fire some windows?
+		((HospitalMaze)state).makePillFrame(getName());
 		return this;
 	}
 	

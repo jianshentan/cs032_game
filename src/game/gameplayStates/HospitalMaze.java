@@ -1,10 +1,15 @@
 package game.gameplayStates;
 
+import java.awt.Toolkit;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import game.StateManager;
 import game.collectables.Pill;
 import game.interactables.Door;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
+import game.popup.MainFrame;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -13,14 +18,84 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class HospitalMaze extends GamePlayState {
+	
+	private ArrayList<MainFrame> m_frames;
+	private java.awt.Dimension m_screenSize;
 
 	public HospitalMaze(int stateID) {
 		m_stateID = stateID;
 	}
 
+	public void makePillFrame(String name) {
+		String path = "";
+		if(name.compareTo("alprazolam") == 0)
+			path = "assets/pillOnHorse/h01.png";
+		else if (name.compareTo("citalopram") == 0)
+			path = "assets/pillOnHorse/h02.png";
+		else if (name.compareTo("sertraline") == 0)
+			path = "assets/pillOnHorse/h03.png";
+		else if (name.compareTo("lorazepam") == 0)
+			path = "assets/pillOnHorse/h04.png";
+		else if (name.compareTo("fluoxetine HCL") == 0)
+			path = "assets/pillOnHorse/h05.png";
+		else if (name.compareTo("escitalopram") == 0)
+			path = "assets/pillOnHorse/h06.png";
+		else if (name.compareTo("trazodone HCL") == 0)
+			path = "assets/pillOnHorse/h07.png";
+		else if (name.compareTo("duloxetine") == 0)
+			path = "assets/pillOnHorse/h08.png";
+		else 
+			System.out.println("ERROR: could not get pill");
+		makeWindow(path);
+	}
+	
+	class Window implements Runnable {
+		private String m_path;
+		public void setPath(String path) {
+			m_path = path;
+		}
+		public void run() {
+			try {
+				int randX = (int)(Math.random()*(m_screenSize.getWidth()-192));
+				int randY = (int)(Math.random()*(m_screenSize.getHeight()-192));
+				int randHorse = (int)(Math.random()*5)+1;
+				MainFrame frame = new MainFrame(randX, randY, 192, 192, m_path);
+				m_frames.add(frame);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	public void makeWindow(String path) {
+//		Runnable thread = new Runnable() {
+//			private String m_path;
+//			public void setPath(String path) {
+//				m_path = path;
+//			}
+//			public void run() {
+//				try {
+//					int randX = (int)(Math.random()*(m_screenSize.getWidth()-192));
+//					int randY = (int)(Math.random()*(m_screenSize.getHeight()-192));
+//					int randHorse = (int)(Math.random()*5)+1;
+//					MainFrame frame = new MainFrame(randX, randY, 192, 192, m_path);
+//					m_frames.add(frame);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		};	
+		Window thread = new Window();
+		thread.setPath(path);
+		thread.run();
+	}
+	
 	
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
+		m_frames = new ArrayList<MainFrame>();
+		m_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		AppGameContainer gc = (AppGameContainer) container;
 		try {
 			gc.setDisplayMode(192, 192, false);
@@ -43,7 +118,7 @@ public class HospitalMaze extends GamePlayState {
 		this.setBlockedTiles();
 		
 		if (!this.isLoaded()) {
-			PortalObject door = new Door("hospitalMazeExit", 10*SIZE, 0*SIZE, StateManager.TOWN_DAY_STATE, -1, -1);
+			PortalObject door = new Door("hospitalMazeExit", 10*SIZE, 0*SIZE, StateManager.HOSPITAL_BASE_STATE, -1, -1);
 			addObject(door, true);
 		}
 	}

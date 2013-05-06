@@ -29,15 +29,15 @@ public class Holder extends GameObject implements Interactable {
 	 * @param x
 	 * @param y
 	 */
-	public Holder(String name, String openImgPath, String closedImgPath, float x, float y) {
+	public Holder(String name, float x, float y) {
 		super(name);
 		this.setX(x);
 		this.setY(y);
 		try {
-			this.m_openPath = openImgPath;
-			this.m_openSprite = new Image(openImgPath);
-			this.m_closedPath = closedImgPath;
-			this.m_closedSprite = new Image(closedImgPath);
+			this.m_openPath = "assets/gameObjects/holder_opened.png";
+			this.m_openSprite = new Image(m_openPath);
+			this.m_closedPath = "assets/gameObjects/holder_closed.png";
+			this.m_closedSprite = new Image(m_closedPath);
 			this.setSprite(m_openSprite);
 		} catch (SlickException e) {
 			e.printStackTrace();
