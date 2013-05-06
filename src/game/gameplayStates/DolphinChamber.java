@@ -89,7 +89,10 @@ public class DolphinChamber extends GamePlayState {
 			m_playerY = SIZE*13;
 			this.setBlockedTiles();
 			if(m_showWaterDownText == false) {
-				this.displayDialogue(new String[] {"Hey, look, the water is gone!"});
+				this.displayDialogue(new String[] {"Hey, look, the water is gone!",
+						"Problem: it's a well-known fact that giant dolphins can live for up to five days " +
+						"without water.",
+						"You'll have to take care of it somehow."});
 			}
 		}
 		
