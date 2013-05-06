@@ -46,6 +46,10 @@ public class HospitalEntrance extends GamePlayState {
 			
 			StaticObject counter = new StaticObject("counter", 5*SIZE, 5*SIZE, "assets/gameObjects/hospitalReceptionTable.png");
 			this.addObject(counter, false);
+			m_blocked[5][6] = true;
+			m_blocked[6][6] = true;
+			m_blocked[7][6] = true;
+			m_blocked[7][5] = true;
 		}
 	}
 
