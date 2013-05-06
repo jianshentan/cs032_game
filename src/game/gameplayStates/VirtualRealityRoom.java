@@ -100,19 +100,30 @@ public class VirtualRealityRoom extends GamePlayState {
 
 			if(m_questGiven == false) {
 								
-//				Quest virtualRealityQuest= new Quest("virtualRealityQuest");
-//				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));
-//				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
-//				goal1.setReward(new QuestReward.WaterDownReward());
-//				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
-//				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
-//						"Water sprays out everywhere before evaporating instantly."});
-//				fireHydrantQuest.addStage(goal1);
-//				//TODO: add a goal for the plug
-//				m_player.addQuest(fireHydrantQuest);
-//				fireHydrantQuest.startQuest(this);
-//				m_questGiven = true;
+				Quest virtualRealityQuest= new Quest("virtualRealityQuest");
+				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.VirtualRealityGoal());
+				goal1.setReward(new QuestReward.Quest2Reward());
+				virtualRealityQuest.addStage(goal1);
+				m_player.addQuest(virtualRealityQuest);
+				virtualRealityQuest.startQuest(this);
+				m_questGiven = true;
 			}
+		}
+		else if (city == 1) {
+			removeObject("VRC");
+			StaticObject VRC = null;
+			try {
+				VRC = new StaticObject("VRC", 6*GameObject.SIZE, GameObject.SIZE, 
+						"assets/gameObjects/virtualRealityChair.png");
+				VRC.setDialogue(new String[] {"You try sitting on the chair, but you don't end up in your " +
+						"happy place."});
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+			addObject(VRC, true);
+			Person guide = (Person) getObject("guide");
+			guide.setDialogue(new String[] {"Oops. Looks like something broke. You don't happen to know " +
+					"anything about that, do you?"});
 		}
 	}
 

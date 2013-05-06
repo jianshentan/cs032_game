@@ -40,6 +40,12 @@ public class VirtualDoor extends GameObject implements Interactable {
 	public void setOpen(boolean b){
 		m_open = b;
 	}
+	/**
+	 * Returns true if the door is open.
+	 */
+	public boolean isOpen() {
+		return m_open;
+	}
 
 
 	@Override

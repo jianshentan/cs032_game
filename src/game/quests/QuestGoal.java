@@ -3,9 +3,12 @@ package game.quests;
 import java.util.ArrayList;
 
 import game.Collectable;
+import game.StateManager;
 import game.gameplayStates.GamePlayState;
+import game.gameplayStates.VirtualRealityHome;
 import game.gameplayStates.VirtualRealityRoom;
 import game.interactables.Interactable;
+import game.interactables.VirtualDoor;
 import game.player.Player;
 
 /**
@@ -229,7 +232,8 @@ public abstract class QuestGoal {
 	}
 	
 	/**
-	 * When player beats virtual reality room
+	 * When player beats virtual reality room- more specifically,
+	 * when VirtualDoor is open and the player is back in the VR room.
 	 * 
 	 */
 	public static class VirtualRealityGoal extends QuestGoal {
@@ -240,14 +244,24 @@ public abstract class QuestGoal {
 
 		@Override
 		public boolean isAccomplished(GamePlayState state, Player player) {
-			VirtualRealityRoom room = (VirtualRealityRoom)player.getGame();
+			if(player.getGame() instanceof VirtualRealityRoom) {
+				VirtualRealityHome home = (VirtualRealityHome)StateManager.getInstance()
+						.getState(StateManager.VIRTUAL_REALITY_HOME_STATE);
+				VirtualDoor door = (VirtualDoor) home.getObject("door");
+				return door.isOpen();
+			}
 			return false;
 		}
 
 		@Override
 		public boolean isAccomplished(GamePlayState state, Player player,
 				Interactable interactable) {
-			// TODO Auto-generated method stub
+			if(player.getGame() instanceof VirtualRealityRoom) {
+				VirtualRealityHome home = (VirtualRealityHome)StateManager.getInstance()
+						.getState(StateManager.VIRTUAL_REALITY_HOME_STATE);
+				VirtualDoor door = (VirtualDoor) home.getObject("door");
+				return door.isOpen();
+			}
 			return false;
 		}
 	}
