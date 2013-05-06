@@ -153,8 +153,10 @@ public class TownDay extends Town{
 			m_blocked[11][16] = true;
 			
 			Person infoGiver2 = new Person("infoGiver2", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
-			infoGiver2.setDialogue(new String[] {"Have you ever wondered why everyone in this town looks alike?",
-					"I actually like it this way."});
+			infoGiver2.setDialogue(new String[] {"So you want to destroy the zoo, hmm?",
+					"It's all run by a giant dolphin brain.",
+					"You'll have to kill that dolphin.",
+					"Too bad. I like dolphins."});
 			this.addObject(infoGiver2, true);
 			m_blocked[13][11] = true;
 			
