@@ -77,6 +77,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
 	
+	private boolean[][] m_isInitialized; //values are indexed by cityState, dreamState. True if the state
+	//has been visited for that city/dream state combo.
+	
 	
 	
 	private boolean m_entered; //true if the state has been entered.
@@ -236,8 +239,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_player.setX(m_playerX);
 		m_player.setY(m_playerY);
 		m_player.setGame(this);	
-		setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
-		setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
+		if(m_isInitialized[StateManager.m_cityState][StateManager.m_dreamState]==false) {
+			setupObjects(StateManager.m_cityState, StateManager.m_dreamState);
+			setupDialogue(container, StateManager.m_cityState, StateManager.m_dreamState);
+			m_isInitialized[StateManager.m_cityState][StateManager.m_dreamState] = true;
+		}
 		if(m_bgm!=null) {
 			m_bgm.loop();
 		}
@@ -263,15 +269,16 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
 		if(this.isLoaded()==false) {
-		m_camera = new PlayerCamera(container, m_player);
-		m_pauseMenu = new PauseMenu(this, container);
-		m_interactables = new HashMap<String, Interactable>();
-		m_objects = new HashMap<String, GameObject>();
-		m_dialogue = new HashMap<Integer, Dialogue>();
-		m_enemies = new ArrayList<Enemy>();
-		
-		this.additionalInit(container, stateManager);
-		this.m_loaded = true;
+			m_isInitialized = new boolean[4][4];
+			m_camera = new PlayerCamera(container, m_player);
+			m_pauseMenu = new PauseMenu(this, container);
+			m_interactables = new HashMap<String, Interactable>();
+			m_objects = new HashMap<String, GameObject>();
+			m_dialogue = new HashMap<Integer, Dialogue>();
+			m_enemies = new ArrayList<Enemy>();
+
+			this.additionalInit(container, stateManager);
+			this.m_loaded = true;
 		}
 	}
 	
@@ -286,7 +293,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			stateManager.enterState(StateManager.GAME_OVER_STATE);
 		}
 
-		if (!m_isPaused && !m_inDialogue && !m_inScene){
+		if (!m_isPaused && !m_inDialogue){
 			m_player.update(container, delta);
 			if (m_enemies != null) {
 				int enemiesCount = m_enemies.size();
@@ -300,10 +307,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 				
 		if (m_inDialogue) {
-			if(m_inScene)
+			//if(m_inScene)
 				m_sceneDialogue.update(container, stateManager, delta);
-			else
-				m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
+			//else
+			//	m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
 		}
 
 		Input input = container.getInput();
@@ -410,10 +417,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 		
 		if (m_inDialogue) {
-			if(m_inScene)
+			//if(m_inScene)
 				m_sceneDialogue.render(g);
-			else if(m_dialogue.get(m_dialogueNum)!=null) 
-				m_dialogue.get(m_dialogueNum).render(g);
+			//else if(m_dialogue.get(m_dialogueNum)!=null) 
+			//	m_dialogue.get(m_dialogueNum).render(g);
 		}
 		
 
@@ -594,7 +601,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param dialogue
 	 */
 	public void displayDialogue(String[] dialogue) {
-		m_inScene = true;
+		//m_inScene = true;
 		m_inDialogue = true;
 		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);	
 	}
