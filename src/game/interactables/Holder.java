@@ -45,6 +45,14 @@ public class Holder extends GameObject implements Interactable {
 		}
 		return this;
 	}
+	
+	/**
+	 * Returns the holder's item held.
+	 * @return
+	 */
+	public Collectable getItemHeld() {
+		return m_itemHeld;
+	}
 
 	@Override
 	public Types getType() {
