@@ -371,7 +371,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_7)) {
-			StateManager.getInstance().enterState(StateManager.HOSPITAL_MAZE_STATE);
+			StateManager.getInstance().enterState(StateManager.HOSPITAL_ENTRANCE_STATE);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_6)) {
 			StateManager.getInstance().enterState(StateManager.HOSPITAL_BASE_STATE);

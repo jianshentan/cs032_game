@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import game.Person;
 import game.StateManager;
 import game.collectables.Pill;
 import game.interactables.Door;
@@ -137,7 +138,7 @@ public class HospitalMaze extends GamePlayState {
 		Pill lorazepam = new Pill("lorazepam", "assets/pills/p04.png", 16*SIZE, 11*SIZE);
 		addObject(lorazepam, true);
 		
-		Pill fluoxetine_HCL = new Pill("fluoxetine HCL", "assets/pills/p05.png", 9*SIZE, 18*SIZE);
+		Pill fluoxetine_HCL = new Pill("fluoxetine HCL", "assets/pills/p05.png", 9*SIZE, 12*SIZE);
 		addObject(fluoxetine_HCL, true);
 		
 		Pill escitalopram = new Pill("escitalopram", "assets/pills/p06.png", 2*SIZE, 18*SIZE);
