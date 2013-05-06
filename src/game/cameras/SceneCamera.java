@@ -58,7 +58,7 @@ public class SceneCamera extends Camera {
 		int[] offset = this.getOffset();
 		double playerOffsetX = -offset[0] + m_player.getX();
 		double playerOffsetY = -offset[1] + m_player.getY();
-		System.out.println(String.format("scene updating %f %f", playerOffsetX, playerOffsetY));
+		//System.out.println(String.format("scene updating %f %f", playerOffsetX, playerOffsetY));
 		return new int[] {(int) playerOffsetX, (int) playerOffsetY};
 	}
 

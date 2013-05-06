@@ -22,6 +22,7 @@ import game.StateManager;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
+import com.thoughtworks.xstream.XStream;
 /**
  * Creates a save game file.
  *

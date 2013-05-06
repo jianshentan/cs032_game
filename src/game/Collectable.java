@@ -81,7 +81,7 @@ public abstract class Collectable extends GameObject {
 	}
 	
 	/**
-	 * Returns true if the two objects' names are equal.
+	 * Returns true if the two objects' types are equal.
 	 */
 	public boolean equals(Object o) {
 		if(o.getClass() == this.getClass()) {

@@ -138,9 +138,12 @@ public class Inventory implements Loadable<Inventory> {
 		}
 	}
 	
+	/**
+	 * Removes the first item of a given type.
+	 * @param item
+	 */
 	public void removeItem(Types item) {
-		
-		if(m_using.getType()==item)
+		if(m_using!=null && m_using.getType()==item)
 			m_using = null;
 		for(int i = 0; i<m_items.length; i++) {
 			if(m_items[i]!=null){
@@ -151,6 +154,28 @@ public class Inventory implements Loadable<Inventory> {
 			}
 		}
 	}
+	
+	/**
+	 * Removes the first item with a given name.
+	 * @param name
+	 */
+	public void removeItem(String name) {
+		if(m_using!=null && m_using.getName().equals(name)) {
+			m_using = null;
+		}
+		for(int i = 0; i<m_items.length; i++) {
+			if(m_items[i]!=null && m_items[i].getName().equals(name)) {
+				m_items[i] = null;
+				break;
+			}
+		}
+	}
+	
+	/**
+	 * Returns true if the inventory contains an item of the given type.
+	 * @param item
+	 * @return
+	 */
 	public boolean contains(Types item){
 		for(int i = 0; i< m_items.length; i++) {
 			if(m_items[i]!=null){
