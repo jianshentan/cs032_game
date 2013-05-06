@@ -1,5 +1,7 @@
 package game.cameras;
 
+import org.newdawn.slick.GameContainer;
+
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
@@ -92,6 +94,12 @@ public class SceneCamera extends Camera {
 		double y = Math.signum(m_currentYDest - m_yOffset);
 		m_xOffset += x * delta*0.1*m_speed;
 		m_yOffset += y * delta*0.1*m_speed;
+		
+	}
+
+	@Override
+	public void refreshCamera(GameContainer container, Player p) {
+		// TODO Auto-generated method stub
 		
 	}
 

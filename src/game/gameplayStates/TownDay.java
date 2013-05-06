@@ -131,6 +131,9 @@ public class TownDay extends Town{
 			Trashcan trash = new Trashcan("trash", 9*SIZE, 14*SIZE);
 			this.addObject(trash, true);
 			
+			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_MAZE_STATE, -1, -1); 
+			this.addObject(hospitalDoor, true);
+			
 			//TODO: place cats
 			Animal cat1 = new Animal("cat1", "assets/cat1.png", this, m_player,
 					 14*SIZE, 17*SIZE, 23, 12);
