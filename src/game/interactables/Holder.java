@@ -15,13 +15,26 @@ import game.player.Player;
 public class Holder extends GameObject implements Interactable {
 
 	private Collectable m_itemHeld;
-	private String m_imgPath;
+	private String m_openPath;
+	private String m_closedPath;
 	
-	public Holder(String name, String imgPath) {
+	private Image m_openSprite;
+	private Image m_closedSprite;
+	
+	/**
+	 * Takes in a name, and paths to open and closed images.
+	 * @param name
+	 * @param openImgPath
+	 * @param closedImgPath
+	 */
+	public Holder(String name, String openImgPath, String closedImgPath) {
 		super(name);
 		try {
-			this.m_imgPath = imgPath;
-			this.setSprite(new Image(imgPath));
+			this.m_openPath = openImgPath;
+			this.m_openSprite = new Image(openImgPath);
+			this.m_closedPath = closedImgPath;
+			this.m_closedSprite = new Image(closedImgPath);
+			this.setSprite(m_openSprite);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -38,10 +51,12 @@ public class Holder extends GameObject implements Interactable {
 			if(p.getUsing()!=null) {
 				m_itemHeld = p.getUsing();
 				p.getInventory().removeItem(p.getUsing().getName());
+				this.setSprite(m_closedSprite);
 			}
 		} else {
 			p.addToInventory(m_itemHeld);
 			m_itemHeld = null;
+			this.setSprite(m_openSprite);
 		}
 		return this;
 	}
