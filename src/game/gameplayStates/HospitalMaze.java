@@ -1,11 +1,7 @@
 package game.gameplayStates;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
 import game.StateManager;
+import game.collectables.Pill;
 import game.interactables.Door;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
@@ -54,7 +50,29 @@ public class HospitalMaze extends GamePlayState {
 	
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
-		// TODO Auto-generated method stub
+		Pill alprazolam = new Pill("alprazolam", "assets/pills/p01.png", 18*SIZE, 17*SIZE);
+		addObject(alprazolam, true);
+		
+		Pill citalopram = new Pill("citalopram", "assets/pills/p02.png", 15*SIZE, 9*SIZE);
+		addObject(citalopram, true);
+		
+		Pill sertraline = new Pill("sertraline", "assets/pills/p03.png", 18*SIZE, 5*SIZE);
+		addObject(sertraline, true);
+		
+		Pill lorazepam = new Pill("lorazepam", "assets/pills/p04.png", 16*SIZE, 11*SIZE);
+		addObject(lorazepam, true);
+		
+		Pill fluoxetine_HCL = new Pill("fluoxetine HCL", "assets/pills/p05.png", 9*SIZE, 18*SIZE);
+		addObject(fluoxetine_HCL, true);
+		
+		Pill escitalopram = new Pill("escitalopram", "assets/pills/p06.png", 2*SIZE, 18*SIZE);
+		addObject(escitalopram, true);
+		
+		Pill trazodone_HCL = new Pill("trazodone HCL", "assets/pills/p07.png", 1*SIZE, 12*SIZE);
+		addObject(trazodone_HCL, true);
+		
+		Pill duloxetine = new Pill("duloxetine", "assets/pills/p08.png", 4*SIZE, 5*SIZE);
+		addObject(duloxetine, true);
 
 	}
 

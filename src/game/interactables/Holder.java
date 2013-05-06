@@ -22,13 +22,17 @@ public class Holder extends GameObject implements Interactable {
 	private Image m_closedSprite;
 	
 	/**
-	 * Takes in a name, and paths to open and closed images.
+	 * Takes in a name, and paths to open and closed images, as well as a location.
 	 * @param name
 	 * @param openImgPath
 	 * @param closedImgPath
+	 * @param x
+	 * @param y
 	 */
-	public Holder(String name, String openImgPath, String closedImgPath) {
+	public Holder(String name, String openImgPath, String closedImgPath, float x, float y) {
 		super(name);
+		this.setX(x);
+		this.setY(y);
 		try {
 			this.m_openPath = openImgPath;
 			this.m_openSprite = new Image(openImgPath);

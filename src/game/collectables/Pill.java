@@ -17,8 +17,10 @@ public class Pill extends Collectable implements Interactable{
 	
 	private String m_imgPath;
 	
-	public Pill(String name, String imgPath) {
+	public Pill(String name, String imgPath, float x, float y) {
 		super(name);
+		this.setX(x);
+		this.setY(y);
 		m_imgPath = imgPath;
 		try {
 			this.setSprite(new Image(imgPath));
