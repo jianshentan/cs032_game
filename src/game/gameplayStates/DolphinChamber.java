@@ -57,7 +57,7 @@ public class DolphinChamber extends GamePlayState {
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
 		// TODO Auto-generated method stub
-
+		this.setMusic("assets/sounds/DolphinCompiled.wav");
 	}
 
 	@Override
