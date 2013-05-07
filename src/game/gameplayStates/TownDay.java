@@ -207,6 +207,7 @@ public class TownDay extends Town{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				fireHydrant.setDialogue(new String[] {"This is a fire hydrant."});
 				this.addObject(fireHydrant, true);
 				m_blocked[6][23] = true;
 				
