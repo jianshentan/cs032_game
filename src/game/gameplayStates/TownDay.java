@@ -103,11 +103,11 @@ public class TownDay extends Town{
 			this.addObject(portal, true);
 			
 			
-			Person person_1 = new Person("person_1", 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
+			Person person_1 = new Person("person_1", 9*SIZE, 22*SIZE, "assets/characters/human_2.png", null);
 			person_1.setDialogue(new String[] 
 					{"\"Can you help me find my cats? There are 2 of them.\""});
 			this.addObject(person_1, true);
-			m_blocked[11][27] = true;
+			m_blocked[9][22] = true;
 			
 			Person wrenchGiver = new Person("wrenchGiver", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new Wrench(-1,-1));
 			wrenchGiver.setDialogue(new String[] 
