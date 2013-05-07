@@ -149,7 +149,11 @@ public class HospitalBase extends GamePlayState {
 		}
 		
 		// TODO: test this. not sure if working
-		this.sleep(5000);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		
 		int destination = StateManager.TOWN_DAY_STATE;
 		StateManager.getInstance().enterState(destination, 
