@@ -90,7 +90,9 @@ public abstract class QuestReward {
 
 		@Override
 		public void onAccomplished(GamePlayState state, Player player) {
+			
 			StateManager.m_cityState--;
+			
 			player.getGame().displayDialogue(new String[] {"\"Well done,\" " +
 					"you hear the booming voice say."});
 			VirtualRealityRoom room = (VirtualRealityRoom) StateManager.getInstance()
