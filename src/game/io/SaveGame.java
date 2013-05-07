@@ -15,7 +15,6 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 
 import org.newdawn.slick.state.GameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.w3c.dom.Document;
 
 import game.MainMenu;
 import game.StateManager;
@@ -30,7 +29,6 @@ public class SaveGame {
 	
 	private static SaveGame instance;
 	private String m_savePath;
-	private Document m_saveDoc;
 	
 	public static SaveGame getInstance() {
 		if(instance==null) {

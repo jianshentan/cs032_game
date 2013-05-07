@@ -32,6 +32,7 @@ public class HospitalBase extends GamePlayState {
 		try {
 			gc.setDisplayMode(192, 192, false);
 			m_camera.refreshCamera(gc, m_player);
+			m_player.getInventory().setMini(true);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -95,6 +96,14 @@ public class HospitalBase extends GamePlayState {
 
 	}
 
+	/**
+	 * On leaving, deactivate mini inventory
+	 */
+	@Override
+	public void additionalLeave(GameContainer container, StateBasedGame stateManager) {
+		m_player.getInventory().setMini(false);
+	}
+	
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream)
 			throws SlickException {

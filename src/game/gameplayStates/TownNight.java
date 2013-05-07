@@ -23,7 +23,7 @@ import game.quests.QuestStage;
 public class TownNight extends Town {
 
 	private Image m_nightMask;
-	
+	private int m_dream = 3;
 	public TownNight(int stateID) throws SlickException {
 		m_stateID = stateID;
 		m_nightMask = new Image("assets/nightMask_white.png");
@@ -80,6 +80,7 @@ public class TownNight extends Town {
 	@Override
 	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//setup enemies
+		m_dream = dream;
 		if(dream==3) {
 			//TODO: set up some other stuff... text quests?
 			int[][] leadPoints = {{8,14},{8,14},{8,14},{8,14}};

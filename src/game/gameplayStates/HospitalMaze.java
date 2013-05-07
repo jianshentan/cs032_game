@@ -11,6 +11,10 @@ import game.interactables.Door;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
 import game.popup.MainFrame;
+import game.quests.Quest;
+import game.quests.QuestGoal;
+import game.quests.QuestReward;
+import game.quests.QuestStage;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -84,6 +88,7 @@ public class HospitalMaze extends GamePlayState {
 		try {
 			gc.setDisplayMode(192, 192, false);
 			m_camera.refreshCamera(gc, m_player);
+			m_player.getInventory().setMini(true);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -132,7 +137,22 @@ public class HospitalMaze extends GamePlayState {
 		
 		Pill duloxetine = new Pill("duloxetine", "assets/pills/p08.png", 4*SIZE, 5*SIZE);
 		addObject(duloxetine, true);
-
+		
+		//setting up quest
+		Quest quest3 = new Quest("quest3");
+		QuestStage stage1 = new QuestStage();
+		stage1.addGoal(new QuestGoal.Quest3Goal());
+		stage1.setReward(new QuestReward.Quest3Reward());
+		quest3.addStage(stage1);
+		m_player.addQuest(quest3);
+	}
+	
+	/**
+	 * On leaving, deactivate mini inventory
+	 */
+	@Override
+	public void additionalLeave(GameContainer container, StateBasedGame stateManager) {
+		m_player.getInventory().setMini(false);
 	}
 
 	@Override

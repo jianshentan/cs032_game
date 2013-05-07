@@ -128,7 +128,7 @@ public class TownDay extends Town{
 			Door virtualRealityRoomDoor = new Door("virtualRealityRoomDoor", 22*SIZE, 17*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 3, 4);
 			this.addObject(virtualRealityRoomDoor, true);
 			//put somewhere more reasonable
-			Trashcan trash = new Trashcan("trash", 9*SIZE, 14*SIZE);
+			Trashcan trash = new Trashcan("trash", 20*SIZE, 12*SIZE);
 			this.addObject(trash, true);
 			
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 
