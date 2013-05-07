@@ -133,7 +133,8 @@ public class Inventory implements Loadable<Inventory> {
 				Collectable c = m_items[j];
 				if(c!=null) {
 					Image img = c.getImage();
-					g.drawImage(img, 10 + (i%4)*(5+bs), 10 + (10+bs)*(i/4), 10+ bs + (10+bs)*(i%4), 10+bs+(10+bs)*(i/4), 
+					g.drawImage(img, 10 + (i%4)*(5+bs), 10 + (10+bs)*(i/4), 
+							10+ bs + (5+bs)*(i%4), 10+bs+(10+bs)*(i/4), 
 							0, 0, img.getWidth(), img.getHeight());
 				}
 			}

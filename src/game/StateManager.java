@@ -28,6 +28,7 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.w3c.dom.Node;
 
 public class StateManager extends StateBasedGame {
 	
@@ -320,6 +321,14 @@ public class StateManager extends StateBasedGame {
 			writer.writeCharacters("\n");
 		}
 		writer.writeEndElement();
+	}
+	
+	/**
+	 * Loads all the GameObjects.
+	 * @param node
+	 */
+	public static void loadObjects(Node node) {
+		
 	}
 
 }

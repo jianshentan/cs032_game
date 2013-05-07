@@ -46,8 +46,13 @@ private String m_loadPath;
 		DocumentBuilder b = f.newDocumentBuilder();
 		Document d = b.parse(input);
 		Node root = d.getFirstChild();
+		
 		NodeList players = d.getElementsByTagName("Player");
 		Node p = players.item(0);
+		
+		NodeList objects = d.getElementsByTagName("GameObjects");
+		//load all the objects
+		
 		
 		NodeList rooms = d.getElementsByTagName("Room");
 		
