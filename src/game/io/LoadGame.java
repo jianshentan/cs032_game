@@ -1,6 +1,7 @@
 package game.io;
 
 import game.StateManager;
+import game.cameras.PlayerCamera;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
@@ -66,10 +67,11 @@ private String m_loadPath;
 		int id = Integer.parseInt(root.getAttributes().getNamedItem("currentState").getNodeValue());
 		GamePlayState r2 = (GamePlayState) stateManager.getState(id);
 		Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
-		r2.setPlayer(player);
 		System.out.println(player.getX());
 		System.out.println(player.getY());
 		r2.setPlayerLocation((int) player.getX(), (int) player.getY());
+		r2.setPlayer(player);
+		r2.setCamera(new PlayerCamera(stateManager.getContainer(), player));
 		player.setGame(r2);
 		
 		//Player player = Player.loadFromNode(p, r);

@@ -82,7 +82,7 @@ public class TownNight extends Town {
 		//setup enemies
 		this.setMusic("assets/sounds/fuckaduck2.wav");
 		m_dream = dream;
-		if(dream==3) {
+		if(dream==4) {
 			//TODO: set up some other stuff... text quests?
 			int[][] leadPoints = {{8,14},{8,14},{8,14},{8,14}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
@@ -103,8 +103,7 @@ public class TownNight extends Town {
 			learning.startQuest(this);
 			m_player.addQuest(learning);
 		}
-		
-		if(dream==2) {
+		if(dream==3) {
 			m_enemies = new ArrayList<Enemy>();
 			int[][] leadPoints = {{22,18},{22,18},{22,18},{22,18}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
@@ -120,7 +119,7 @@ public class TownNight extends Town {
 			m_player.addQuest(learning);
 		}
 		
-		if(dream==1) {
+		if(dream==2) {
 			m_enemies = new ArrayList<Enemy>();
 			int[][] leadPoints = {{5,22},{5,22},{5,22},{5,22}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);

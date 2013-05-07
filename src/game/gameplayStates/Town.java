@@ -37,6 +37,22 @@ public abstract class Town extends GamePlayState {
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
 		this.addObject(doormat, false);
 		
+		if (city == 4) {
+			
+		}
+		else if (city == 3) {
+			
+		}
+		else if (city == 2) {
+			
+		}
+		else if (city == 1) {
+			
+		}
+		else if (city == 0) {
+			
+		}
+		
 		// townDay and townNight will call this
 		additionalSetupObjects(city, dream);
 	}

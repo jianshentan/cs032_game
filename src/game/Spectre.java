@@ -19,7 +19,7 @@ public class Spectre extends Enemy {
 		}
 		//set sprites
 		SpriteSheet spectreSprite = new SpriteSheet("assets/characters/humanoid.png", 64, 64);
-		this.setLeadTo(destinations[3-StateManager.m_dreamState][0], destinations[3-StateManager.m_dreamState][1]);
+		this.setLeadTo(destinations[4-StateManager.m_dreamState][0], destinations[4-StateManager.m_dreamState][1]);
 		
 		Image [] standingUp = {spectreSprite.getSprite(1,0), spectreSprite.getSprite(1,0)};
         Image [] standingDown = {spectreSprite.getSprite(0,0), spectreSprite.getSprite(0,0)};

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
@@ -35,6 +37,8 @@ public class TownDay extends Town{
 	
 	private boolean m_quest1Given;
 	private boolean m_horsesFreed;
+	private Image m_overlay;
+	
 	public TownDay(int stateID) {
 		m_stateID = stateID;
 	}
@@ -176,6 +180,12 @@ public class TownDay extends Town{
 
 		
 	}
+	
+	@Override
+	public void additionalRender(GameContainer container, StateBasedGame stateManager, Graphics g) {
+		if(m_overlay!=null)
+			g.drawImage(m_overlay, 0, 0);
+	}
 
 	@Override
 	public void dialogueListener(Interactable i) {
@@ -186,7 +196,7 @@ public class TownDay extends Town{
 	@Override
 	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		
-		if(city==3) {
+		if(city==4) {
 			
 			if(m_quest1Given == false) {
 				
@@ -229,7 +239,9 @@ public class TownDay extends Town{
 				
 			}
 		}
-		else if(city==2) {
+		else if(city==3) {
+			m_overlay = new Image("assets/black_15.png");
+			
 			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"Can you do something about all" +
 					" the horses? I hate horses.\""});
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
@@ -246,7 +258,8 @@ public class TownDay extends Town{
 					" a sign on the door reads."});
 			this.addObject(dolphinDoor, true);
 		}
-		else if(city==1) {
+		else if(city==2) {
+			m_overlay = new Image("assets/black_40.png");
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
 				"\"They were so beautiful...\""});
@@ -256,7 +269,6 @@ public class TownDay extends Town{
 
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
-
 	}
 	public void setFree(){
 		m_horsesFreed = true;

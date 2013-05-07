@@ -78,7 +78,7 @@ public class Home extends GamePlayState {
 	
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
-		if (city == 3 && dream == 3) {
+		if (city == 4 && dream == 4) {
 			super.removeObject("door");
 			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
 			door.setDialogue(new String[] {"Its late out... Perhaps you should just hit the sack"});
@@ -91,7 +91,7 @@ public class Home extends GamePlayState {
 			this.addObject(bed, true);
 
 		}
-		else if (city == 3 && dream == 2) {
+		else if (city == 4 && dream == 3) {
 			super.removeObject("door");
 			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, 11, 28);
 			this.addObject(door, true);
@@ -105,7 +105,7 @@ public class Home extends GamePlayState {
 
 		}
 		
-		else if (city == 2 && dream == 2) {
+		else if (city == 3 && dream == 3) {
 			super.removeObject("door");
 			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
 			door.setDialogue(new String[] {"It's late out... Perhaps you should just hit the sack."});
@@ -119,7 +119,7 @@ public class Home extends GamePlayState {
 
 		}
 		
-		else if (city == 2 && dream == 1) {
+		else if (city == 3 && dream == 2) {
 			super.removeObject("door");
 			PortalObject door = new Door("door", 2*SIZE, 2*SIZE, StateManager.TOWN_DAY_STATE, 11, 28);
 			this.addObject(door, true);
@@ -136,7 +136,7 @@ public class Home extends GamePlayState {
 	
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
-		if (city == 3 && dream == 3) {
+		if (city == 4 && dream == 4) {
 			((StaticObject)this.getInteractable("door")).setDialogue(new String[]
 					{"Its late out... Perhaps you should just hit the sack"});
 			
@@ -144,11 +144,11 @@ public class Home extends GamePlayState {
 					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
 					"You can also visit find plenty of friends right here on the internet.. special friends."});	
 		}
-		else if (city == 3 && dream == 2) {
+		else if (city == 4 && dream == 3) {
 			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
 					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
 		}
-		else if(city == 2 && dream == 2) {
+		else if(city == 3 && dream == 3) {
 			
 		}
 	}
@@ -192,26 +192,26 @@ public class Home extends GamePlayState {
 			m_startEndState++;
 		}
 		else if (m_startEndState == 1) {
-			if(StateManager.m_dreamState==2 && StateManager.m_dreamState != this.m_previousDreamState) {
+			if(StateManager.m_dreamState==3 && StateManager.m_dreamState != this.m_previousDreamState) {
 				this.displayDialogue(new String[] {"You wake up. What a strange dream.",
 							"It seems that the strange humanoid escaped into the zoo.", 
 							"Perhaps you could block off, or destroy, the zoo, so it won't escape there next time..."});
 				this.m_previousDreamState = StateManager.m_dreamState;
 			}
 			
-			if(StateManager.m_dreamState==1 && StateManager.m_dreamState!= this.m_previousDreamState) {
-				this.displayDialogue(new String[] {"Now where did that darn mysterious humanoid escape to " +
+			if(StateManager.m_dreamState==2 && StateManager.m_dreamState!= this.m_previousDreamState) {
+				this.displayDialogue(new String[] {"Now  where did that darn mysterious humanoid escape to " +
 						"this time?",
 						"You remember a little bit. The entertainment center. That's where it escaped to.",
 						"You think about destroying the entertainment center."});
-				this.m_previousDreamState = 1;
+				this.m_previousDreamState = StateManager.m_dreamState;
 			}
-			if(StateManager.m_dreamState==0 && StateManager.m_dreamState!= this.m_previousDreamState) {
+			if(StateManager.m_dreamState==1 && StateManager.m_dreamState!= this.m_previousDreamState) {
 				this.displayDialogue(new String[] {"You should be used to this now, but it still " +
 						"somehow feels strange.",
 						"It escaped to the hospital this time.",
 						"Destroying the hospital would be bad, but.. do you really have a choice?"});
-				this.m_previousDreamState = 0;
+				this.m_previousDreamState = 1;
 			}
 		}
 		else if (m_startEndState == 2) {

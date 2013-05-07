@@ -49,7 +49,7 @@ public class HospitalEntrance extends GamePlayState {
 
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
-		if (city == 1) {
+		if (city == 2) {
 			Person nurse = new Person("hospitalMazePerson", 9*SIZE, 6*SIZE,"assets/characters/woman_1.png", null);
 			nurse.setDialogue(new String[] {"\"Help! I'm a nurse working in the hospital... \"", 
 					"\"The power just went out on us. Oh god, I've really messed up.\"",

@@ -163,7 +163,7 @@ public class Inventory implements Loadable<Inventory> {
 							0, 0, img.getWidth(), img.getHeight());
 				}
 			}
-			if(m_miniItems[m_pointer]!=null) {
+			if(m_pointer < m_miniItems.length && m_miniItems[m_pointer]!=null) {
 				g.drawString(m_miniItems[m_pointer].getItemName(), 10, 90);
 			}
 			if(m_using!=null) {
