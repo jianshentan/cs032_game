@@ -25,11 +25,13 @@ public class DolphinEntrance extends GamePlayState {
 
 	private boolean m_isHorsesShown = false, m_freed = false, m_rendered = false, m_horseSounds = false;
 	private ArrayList<Runnable> m_threads;
-	private int m_i;
+	private int m_i, m_lastNoise, m_nextNoise, m_lastSound=-1;
 	private ArrayList<MainFrame> m_frames;
 	public DolphinEntrance(int id) {
 		m_frames = new ArrayList<MainFrame>();
 		m_stateID = id;
+		m_nextNoise = 0;
+		m_lastNoise = 0;
 	}
 	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta){
 		if (m_freed){
@@ -56,6 +58,16 @@ public class DolphinEntrance extends GamePlayState {
 			}
 				
 		}
+		if(m_horseSounds){
+			m_nextNoise+=delta;
+			if(m_nextNoise>m_lastNoise){
+				m_lastNoise = 1500+(int)(Math.random()*1000)-500;
+				m_nextNoise = 0;
+				
+				playHorseNoise();
+				
+			}
+		}
 	}
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if(m_freed){
@@ -69,6 +81,7 @@ public class DolphinEntrance extends GamePlayState {
 					"into a horse repository.",
 					"Maybe if you free the horses, this place will be closed down for good..."});
 			m_isHorsesShown = true;
+			m_horseSounds = true;
 			// pop up!
 			final java.awt.Dimension ScreenSize = Toolkit.getDefaultToolkit().getScreenSize();
 			for (m_i=0; m_i<20; m_i++) {
@@ -132,7 +145,7 @@ public class DolphinEntrance extends GamePlayState {
 			InvisiblePortal portalC = new InvisiblePortal("portalC", 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
 			this.addObject(portalC, true);
 			
-			StaticObject note = new StaticObject("note", 4*SIZE, 5*SIZE, "assets/gameObjects/notepad.png");
+			/*StaticObject note = new StaticObject("note", 4*SIZE, 5*SIZE, "assets/gameObjects/notepad.png");
 			note.setDialogue(new String[] {"Hmm... why would there be a random note on the ground?",
 					"Never minding that, you read it.",
 					"\"Hello, adventurer!\"",
@@ -140,7 +153,7 @@ public class DolphinEntrance extends GamePlayState {
 					"\"I would advise you to reconsider. The chamber is filled with WATER, which is, " +
 					"as you might know, toxic for your sustained health.\"",
 					"\"You are well advised to find some clever method of lowering the water level.\""});
-			this.addObject(note, true);
+			this.addObject(note, true);*/
 		}
 	}
 	public void setFree(){
@@ -152,10 +165,15 @@ public class DolphinEntrance extends GamePlayState {
 		
 		try {
 			Sound release = new Sound("assets/sounds/CageOpening.wav");
+			int cage = 0;
 			for(MainFrame frame: m_frames){
 				while(System.currentTimeMillis()-time<500){
 					
 				}
+				if(cage%5==0){
+					playHorseNoise();
+				}
+				cage+=1;
 				time = System.currentTimeMillis();
 				release.play();
 				frame.setVisible(false);
@@ -170,7 +188,7 @@ public class DolphinEntrance extends GamePlayState {
 				frame.setVisible(false);
 			}
 		}
-		
+		m_horseSounds = false;
 	}
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
@@ -189,6 +207,69 @@ public class DolphinEntrance extends GamePlayState {
 	public void dialogueListener(Interactable i) {
 		// TODO Auto-generated method stub
 
+	}
+	public void playHorseNoise(){
+		try{
+			int sw = (int) (Math.random()*10);
+			while(sw==m_lastSound){
+				sw =(int) (Math.random()*10);
+			}
+			m_lastSound = sw;
+			switch(sw){
+			case 0: {
+				Sound noise = new Sound("assets/sounds/HorseNoise1.wav");
+				noise.play();
+				break;
+			}
+			case 1: {
+				Sound noise = new Sound("assets/sounds/HorseNoise2.wav");
+				noise.play();
+				break;
+			}
+			case 2: {
+				Sound noise = new Sound("assets/sounds/HorseNoise3.wav");
+				noise.play();
+				break;
+			}
+			case 3: {
+				Sound noise = new Sound("assets/sounds/HorseNoise4.wav");
+				noise.play();
+				break;
+			}
+			case 4: {
+				Sound noise = new Sound("assets/sounds/HorseNoise5.wav");
+				noise.play();
+				break;
+			}
+			case 5: {
+				Sound noise = new Sound("assets/sounds/HorseNoise6.wav");
+				noise.play();
+				break;
+			}
+			case 6: {
+				Sound noise = new Sound("assets/sounds/HorseNoise7.wav");
+				noise.play();
+				break;
+			}
+			case 7: {
+				Sound noise = new Sound("assets/sounds/HorseNoise8.wav");
+				noise.play();
+				break;
+			}
+			case 8: {
+				Sound noise = new Sound("assets/sounds/HorseNoise9.wav");
+				noise.play();
+				break;
+			}
+			default: {
+				Sound noise = new Sound("assets/sounds/HorseNoise10.wav");
+				noise.play();
+				break;
+			}
+			}
+		}catch(SlickException e){
+			e.printStackTrace();
+		}
 	}
 
 }

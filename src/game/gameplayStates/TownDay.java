@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -50,6 +51,8 @@ public class TownDay extends Town{
 				horse1 = new Horse("horseHerd", this, m_player, 6*SIZE, 14*SIZE, horse_stops);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
+				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
+				gallop.play();
 				Scene s = new Scene(this,m_player,new float[][] {{6,14},{11,22},{11,28}});
 				s.setCamera(true);
 				s.playScene();
