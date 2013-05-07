@@ -6,6 +6,7 @@ import javax.xml.stream.XMLStreamWriter;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import game.AIState;
 import game.Enemy;
@@ -60,6 +61,13 @@ public class Animal extends Enemy implements Interactable {
 				"*scritch*",
 				"Maybe you need to brush up on your training"
 		});
+		try {
+			new Sound("assets/sounds/Cat Scream.wav").play();
+			
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		p.getHealth().updateHealth(-5);
 		this.setSprite(m_normalIm);
 		System.out.println("Sprites set");

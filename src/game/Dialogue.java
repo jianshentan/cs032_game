@@ -168,7 +168,7 @@ public class Dialogue {
         	else
         		m_currLine++;
         	m_inputDelta=200;
-        }			
+        }	
         // if space in selection mode
         if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE) && m_selectionMode){
         	m_game.setDialogueState(false);

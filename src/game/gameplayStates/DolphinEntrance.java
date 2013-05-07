@@ -9,6 +9,7 @@ import game.Dialogue;
 import game.GameObject;
 import game.StateManager;
 import game.StaticObject;
+import game.collectables.SmallPlug;
 import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
@@ -17,12 +18,13 @@ import game.popup.MainFrame;
 import org.lwjgl.util.Dimension;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class DolphinEntrance extends GamePlayState {
 
-	private boolean m_isHorsesShown = false, m_freed = false, m_rendered = false;
+	private boolean m_isHorsesShown = false, m_freed = false, m_rendered = false, m_horseSounds = false;
 	private ArrayList<Runnable> m_threads;
 	private int m_i;
 	private ArrayList<MainFrame> m_frames;
@@ -130,6 +132,19 @@ public class DolphinEntrance extends GamePlayState {
 			this.addObject(doormat, false);
 			InvisiblePortal portalC = new InvisiblePortal("portalC", 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
 			this.addObject(portalC, true);
+			
+			SmallPlug smallPlug = new SmallPlug("smallPlug", 1*SIZE, 3*SIZE);
+			this.addObject(smallPlug, true);
+			
+			StaticObject note = new StaticObject("note", 4*SIZE, 5*SIZE, "assets/gameObjects/notepad.png");
+			note.setDialogue(new String[] {"Hmm... why would there be a random note on the ground?",
+					"Never minding that, you read it.",
+					"\"Hello, adventurer!\"",
+					"\"Perhaps you wished to enter the domain of the GREAT SUPERINTELLIGENT DOLPHIN.\"",
+					"\"I would advise you to reconsider. The chamber is filled with WATER, which is, " +
+					"as you might know, toxic for your sustained health.\"",
+					"\"You are well advised to find some clever method of lowering the water level.\""});
+			this.addObject(note, true);
 		}
 	}
 	public void setFree(){
@@ -138,12 +153,26 @@ public class DolphinEntrance extends GamePlayState {
 	public void freeHorses(){
 		long time = System.currentTimeMillis();
 		
-		for(MainFrame frame: m_frames){
-			while(System.currentTimeMillis()-time<500){
-				
+		
+		try {
+			Sound release = new Sound("assets/sounds/CageOpening.wav");
+			for(MainFrame frame: m_frames){
+				while(System.currentTimeMillis()-time<500){
+					
+				}
+				time = System.currentTimeMillis();
+				release.play();
+				frame.setVisible(false);
 			}
-			time = System.currentTimeMillis();
-			frame.setVisible(false);
+
+		} catch (SlickException e) {
+			for(MainFrame frame: m_frames){
+				while(System.currentTimeMillis()-time<500){
+					
+				}
+				time = System.currentTimeMillis();
+				frame.setVisible(false);
+			}
 		}
 		
 	}

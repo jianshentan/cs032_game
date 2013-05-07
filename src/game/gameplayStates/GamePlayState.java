@@ -26,6 +26,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.particles.ParticleEmitter;
@@ -44,14 +45,14 @@ import org.w3c.dom.NodeList;
  * -- text/dialouge 
  */
 public abstract class GamePlayState extends BasicGameState implements Loadable<GamePlayState> {
-	
+
 	protected int m_subState = 0;
 	protected Camera m_camera;
 	protected boolean m_isPaused = false;
 	protected boolean m_inDialogue = false;
 	protected PauseMenu m_pauseMenu = null;
 	protected boolean m_disableTopLayer = false;
-	
+
 	int m_stateID = 0;
 	protected int inputDelta = 0;
 	public enum Direction {UP, DOWN, LEFT, RIGHT}
@@ -66,36 +67,36 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	//protected Rectangle m_viewport;
 
 	protected simpleMap m_map;
-	
-	
+
+
 	// hack - variables for hospitalBase
 	protected Image m_flash;
 	protected boolean m_isFlash = false;
-	
+
 	@Deprecated
 	protected HashMap<Integer, Dialogue> m_dialogue;
 	@Deprecated
 	protected int m_dialogueNum; // represents which dialogue to use
-	
+
 	private boolean m_loaded; //true if the state has already been loaded from file.
 	public boolean isLoaded() { return m_loaded; }
-	
+
 	private boolean m_isActive; //true if the state is the active state
 	public boolean isActive() { return m_isActive; }
-	
+
 	private boolean[][] m_isInitialized; //values are indexed by cityState, dreamState. True if the state
 	//has been visited for that city/dream state combo.
-	
-	
-	
+
+
+
 	private boolean m_entered; //true if the state has been entered.
 	/**
 	 * Returns true if the state has been entered.
 	 * @return
 	 */
 	public boolean isEntered() { return m_entered; }
-	
-	
+
+
 	/**
 	 *  key is represented by 'xPos' + 'yPos'
 	 *  example: if object has position (2,3), key = 23.
@@ -107,16 +108,26 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private Dialogue m_sceneDialogue;
 	private boolean m_invisiblePlayer; //true if the player is invisible.
 	public void setInvisiblePlayer(boolean b) { m_invisiblePlayer = b; }
-	
-	protected Sound m_bgm; //background music
-	
-	
+
+	protected Music m_bgm; //background music
+
+	/**
+	 * mini mode
+	 */
+	private boolean m_mini;
+	/**
+	 * Sets the state's mini mode.
+	 * @param b
+	 */
+	public void setMini(boolean b) { m_mini = b; }
+
+
 	public void setPauseState(boolean state) { m_isPaused = state; }
 	public boolean getPauseState() { return m_isPaused; }
-	
+
 	public void setDialogueState(boolean state) { m_inDialogue = state; }
 	public boolean getDialogueState() { return m_inDialogue; }
-	
+
 	/**
 	 * This is used by subclasses to do level-specific initialization.
 	 * @param container
@@ -124,7 +135,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @throws SlickException 
 	 */
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {}
-	
+
 	/**
 	 * This is used by subclasses to add updating functionality.
 	 * @param container
@@ -132,7 +143,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param delta
 	 */
 	public void additionalUpdate(GameContainer container, StateBasedGame stateManager, int delta) {}
-	
+
 	/**
 	 * This is used by subclasses to add rendering functionality.
 	 * @param container
@@ -140,12 +151,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param g
 	 */
 	public void additionalRender(GameContainer container, StateBasedGame stateManager, Graphics g) {}
-	
+
 	/**
 	 * this is used by subclasses to add on enter functionality
 	 */
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {}
-	
+
 	/**
 	 * sets up the objects in this state based on the state of the game
 	 * called on enter state
@@ -155,19 +166,20 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * @param dream - state of the dreams (how many are left)
 	 */
 	public abstract void setupObjects(int city, int dream) throws SlickException;
-	
+
 	/**
 	 * This sets the state's BGM from a path.
-	 * @param path - Strign
+	 * @param path - String
 	 */
 	public void setMusic(String path) {
 		try {
-			m_bgm = new Sound(path);
+			m_bgm = new Music(path);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+
 	/**
 	 * Resets the state's objects.
 	 */
@@ -175,7 +187,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_objects = new HashMap<String, GameObject>();
 		m_interactables = new HashMap<String, Interactable>();
 	}
-	
+
 	/**
 	 * Adds a GameObject to the state. If the object is an interactable,
 	 * it is added to the list of interactables as well.
@@ -188,7 +200,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			m_interactables.put(i.getName(), i);
 		}
 	}
-	
+
 	/**
 	 * Gets a GameObject in the state.
 	 * @param key
@@ -197,7 +209,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public GameObject getObject(String key) {
 		return m_objects.get(key);
 	}
-	
+
 	/**
 	 * Gets an interactable in the state.
 	 * @param key
@@ -206,7 +218,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public Interactable getInteractable(String key) {
 		return m_interactables.get(key);
 	}
-	
+
 	/**
 	 * Removes an object from the state. Checks both
 	 * objects and interactables.
@@ -218,7 +230,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (m_interactables.containsKey(key))
 			m_interactables.remove(key);
 	}
-	
+
 	/**
 	 * Removes an enemy from the state, given its name.
 	 * @param name
@@ -239,7 +251,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 * NOTE: dialogue that are in all states of this gameplaystate are created in the additionalInit method
 	 */
 	public abstract void setupDialogue(GameContainer container, int city, int dream) throws SlickException;
-	
+
 	@Override
 	public final void enter(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		m_player.setX(m_playerX);
@@ -256,21 +268,21 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		additionalEnter(container, stateManager);
 		m_entered = true;
 	}
-	
+
 	@Override
 	public final void leave(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		if(m_bgm!=null)
 			m_bgm.stop();
 		this.additionalLeave(container, stateManager);
 	}
-	
+
 	/**
 	 * Used for defining additional behavior upon leaving state.
 	 * @param container
 	 * @param stateManager
 	 */
 	public void additionalLeave(GameContainer container, StateBasedGame stateManager) {}
-	
+
 	@Override
 	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
@@ -287,10 +299,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			this.m_loaded = true;
 		}
 	}
-	
+
 	@Override
 	public final void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-		
+
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
@@ -311,10 +323,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				}
 			}
 		}
-				
+
 		if (m_inDialogue) {
 			//if(m_inScene)
-				m_sceneDialogue.update(container, stateManager, delta);
+			m_sceneDialogue.update(container, stateManager, delta);
 			//else
 			//	m_dialogue.get(m_dialogueNum).update(container, stateManager, delta);
 		}
@@ -330,9 +342,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				else
 					m_isPaused = false;
 			}
+			if(m_mini)
+				m_isPaused = false;
 			inputDelta = 500;
 		}
-		
+
 		if(this.m_inDialogue==false)
 			this.m_camera.update(delta);
 
@@ -344,28 +358,28 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				StateManager.m_cityState++;
 			inputDelta = 200;
 			System.out.println("cityState: " + StateManager.m_cityState + 
-						   	   " | dreamState: " + StateManager.m_dreamState);
+					" | dreamState: " + StateManager.m_dreamState);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_MINUS)) {
 			if (StateManager.m_cityState > 0)
 				StateManager.m_cityState--;
 			inputDelta = 200;
 			System.out.println("cityState: " + StateManager.m_cityState + 
-				   	   		   " | dreamState: " + StateManager.m_dreamState);	
+					" | dreamState: " + StateManager.m_dreamState);	
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_0)) {
 			if (StateManager.m_dreamState < 4)
 				StateManager.m_dreamState++;
 			inputDelta = 200;
 			System.out.println("cityState: " + StateManager.m_cityState + 
-				   	   		   " | dreamState: " + StateManager.m_dreamState);
+					" | dreamState: " + StateManager.m_dreamState);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_9)) {
 			if (StateManager.m_dreamState > 0)
 				StateManager.m_dreamState--;
 			inputDelta = 200;
 			System.out.println("cityState: " + StateManager.m_cityState + 
-							   " | dreamState: " + StateManager.m_dreamState);
+					" | dreamState: " + StateManager.m_dreamState);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_8)) {
 			StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE);
@@ -376,9 +390,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_6)) {
 			StateManager.getInstance().enterState(StateManager.HOSPITAL_BASE_STATE);
 		}
-		
+
 	}
-	
+
 	@Override
 	public void render(GameContainer container, StateBasedGame stateManager, Graphics g) 
 			throws SlickException {
@@ -401,55 +415,55 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				objectsToRenderAfter.add(o);
 			else
 				o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
-				
+
 		}
 		// render player
-		
+
 		if(m_invisiblePlayer == false)
 			m_player.getAnimation().draw(playerOffsets[0], playerOffsets[1]);
 		// render enemies
 		if (m_enemies != null)
 			for(Enemy m_enemy : m_enemies)
 				m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
-		
+
 		// render item usage
 		if (m_player.m_usingItem)
 			m_player.renderItem(container, stateManager, g);
-		
+
 		// render objects after player
 		for (GameObject o : objectsToRenderAfter)
 			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
-	
-		if (!m_disableTopLayer) {
-		// render health
-		m_player.getHealth().render();
-		
-		// render inventory
-		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
-		}
-		
+
+
+		this.additionalRender(container, stateManager, g);
+
 		if (m_inDialogue) {
-			//if(m_inScene)
-				m_sceneDialogue.render(g);
-			//else if(m_dialogue.get(m_dialogueNum)!=null) 
-			//	m_dialogue.get(m_dialogueNum).render(g);
+			m_sceneDialogue.render(g);
 		}
-		
+
+		if (!m_disableTopLayer) {
+			// render health
+			if(!m_mini)
+				m_player.getHealth().render();
+
+			// render inventory
+			if (m_player.m_inInventory) { m_player.getInventory().render(g); }
+		}
+
+
 
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.render(g);
-		
-		this.additionalRender(container, stateManager, g);
 	}
-	
+
 	/**
 	 * This is called in order to end the game state.
 	 * @param endCode
 	 */
 	public void stateEnd(int endCode) {
-		
+
 	}
-	
+
 	/**
 	 * Sets the blocked tiles, using the tiledMap, assuming m_tiledMap is already
 	 * initialized.
@@ -473,7 +487,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			}
 		}
 	}
-	
+
 	/**
 	 * Given a position as an array of two integers, returns
 	 * an integer consisting of the two integers concatenated.
@@ -485,7 +499,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		String s2 = String.valueOf(position[1]);
 		return Integer.parseInt(s1+s2);
 	}
-	
+
 
 	@Override
 	public int getID() {
@@ -499,7 +513,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void setPlayer(Player p) {
 		this.m_player = p;
 	}
-	
+
 	/**
 	 * Sets the player's start/end location.
 	 * @param xLoc
@@ -513,7 +527,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public String getMapPath() {
 		return this.m_mapPath;
 	}
-	
+
 	/**
 	 * Removes a given object, and unblocks the map space it occupied.
 	 * @param key
@@ -525,28 +539,28 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_blocked[xLoc][yLoc] = false;
 		m_objects.remove(key);
 	}
-	
+
 	/**
 	 * Returns true if the tile is blocked, and false otherwise.
 	 * @param x
 	 * @param y
 	 * @return
 	 */
-    public boolean blocked(int x, int y) {
-    	return m_blocked[x][y];
-    }
-    
-    /**
-     * Sets tile at x,y to blocked, and returns true.
-     * @param x
-     * @param y
-     * @return
-     */
-    public boolean blockTile(int x, int y) {
-    	m_blocked[x][y] = true;
-    	return m_blocked[x][y];
-    }
-    
+	public boolean blocked(int x, int y) {
+		return m_blocked[x][y];
+	}
+
+	/**
+	 * Sets tile at x,y to blocked, and returns true.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public boolean blockTile(int x, int y) {
+		m_blocked[x][y] = true;
+		return m_blocked[x][y];
+	}
+
 	/**
 	 * Fires an interaction, and returns the Interactable of an interaction.
 	 * @param interactSquare
@@ -564,13 +578,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 		return null;
 	}
-	
+
 	@Deprecated
 	public abstract void dialogueListener(Interactable i);
-	
-    public simpleMap getMap(){
-    	return m_map;
-    }
+
+	public simpleMap getMap(){
+		return m_map;
+	}
 
 	public ArrayList<Interactable> getInteractables() {
 		ArrayList<Interactable> ret = new ArrayList<Interactable>();
@@ -580,8 +594,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 		return ret;
 	}
-	
-	
+
+
 	/**
 	 * Enters a scene.
 	 * @param scene
@@ -589,7 +603,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public void enterScene() {
 		m_inScene = true;
 	}
-	
+
 	public void exitScene() {
 		m_inScene = false;
 		m_inDialogue = false;
@@ -597,17 +611,17 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_camera = new PlayerCamera(StateManager.getInstance().getContainer(),m_player);
 		additionalExitScene();
 	}
-	
+
 	/**
 	 * Override if more needs to be done upon exiting scene
 	 */
 	public void additionalExitScene(){}
-	
+
 	public void exitDialogueScene() {
 		//m_inScene = false;
 		m_inDialogue = false;
 	}
-	
+
 	/**
 	 * Enters a particular dialogue
 	 * @param dialogue
@@ -635,7 +649,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		//write attributes...
 		this.writeAttributes(writer);
 		writer.writeCharacters("\n");
-		
+
 		writer.writeStartElement("GameObjects");
 		for (Entry<String, GameObject> e : m_objects.entrySet()) {
 			writer.writeStartElement("GameObject");
@@ -646,7 +660,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 		writer.writeEndElement();
 		writer.writeCharacters("\n");
-		
+
 		writer.writeStartElement("Interactables");
 		for (Entry<String, Interactable> e : m_interactables.entrySet()) {
 			writer.writeStartElement("Interactable");
@@ -657,7 +671,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 		writer.writeEndElement();
 		writer.writeCharacters("\n");
-		
+
 		writer.writeStartElement("Enemies");
 		for(Enemy e : m_enemies) {
 			writer.writeStartElement("Enemy");
@@ -665,17 +679,17 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			writer.writeCharacters("\n");
 		}
 		writer.writeEndElement();
-		
+
 		writer.writeEndElement();
 	}
-	
+
 	/**
 	 * Writes additional subclass-specific attributes.
 	 * @param writer
 	 * @throws XMLStreamException
 	 */
 	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
-		
+
 	}
 	public void setCamera(Camera c){
 		m_camera = c;
@@ -698,6 +712,19 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 					if(c3.getNodeName().equals("Interactable")) {
 						String name = c3.getAttributes().getNamedItem("name").getNodeValue();
 						int id = Integer.parseInt(c3.getAttributes().getNamedItem("id").getNodeValue());
+						Interactable o = (Interactable) StateManager.getObject(id);
+						this.m_interactables.put(name, o);
+					}
+				}
+			}
+			if(child.getNodeName().equals("GameObjects")) {
+				Node c2 = child;
+				NodeList interactables = c2.getChildNodes();
+				for(int j = 0; j< interactables.getLength(); j++) {
+					Node c3 = interactables.item(j);
+					if(c3.getNodeName().equals("GameObject")) {
+						String name = c3.getAttributes().getNamedItem("name").getNodeValue();
+						int id = Integer.parseInt(c3.getAttributes().getNamedItem("id").getNodeValue());
 						GameObject o = StateManager.getObject(id);
 						this.m_objects.put(name, o);
 					}
@@ -717,7 +744,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	class simpleMap implements TileBasedMap{
 		final int HEIGHT = m_tiledMap.getHeight();
 		final int WIDTH = m_tiledMap.getWidth();
-		
+
 		public float getCost(PathFindingContext ctx, int x, int y){
 			return 1.0f;
 		}
