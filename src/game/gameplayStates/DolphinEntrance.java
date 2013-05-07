@@ -23,7 +23,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 public class DolphinEntrance extends GamePlayState {
 
-	private boolean m_isHorsesShown = false, m_freed = false, m_rendered = false;
+	private boolean m_isHorsesShown = false, m_freed = false, m_rendered = false, m_horseSounds = false;
 	private ArrayList<Runnable> m_threads;
 	private int m_i;
 	private ArrayList<MainFrame> m_frames;
