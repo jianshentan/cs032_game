@@ -28,6 +28,7 @@ import org.newdawn.slick.tiled.TiledMap;
 public class HospitalBase extends GamePlayState {
 	
 	private AppGameContainer m_container;
+	private boolean m_firstTimeEnter = true;
 
 	public HospitalBase(int stateID) {
 		m_stateID = stateID;
@@ -44,10 +45,14 @@ public class HospitalBase extends GamePlayState {
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		WindowThread thread = new WindowThread();
-		thread.setSize(new int[] {479,291});
-		thread.setPath("assets/hospitalMeme.png");
-		thread.run();
+		
+		if (m_firstTimeEnter) {
+			WindowThread thread = new WindowThread();
+			thread.setSize(new int[] {479,291});
+			thread.setPath("assets/hospitalMeme.png");
+			thread.run();
+		}
+		m_firstTimeEnter = false;
 	}
 	
 	

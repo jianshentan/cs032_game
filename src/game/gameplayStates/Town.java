@@ -39,6 +39,24 @@ public abstract class Town extends GamePlayState {
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
 		this.addObject(doormat, false);
 		
+		//hospital stuff
+		StaticObject hospital = new StaticObject("hospital", 4*SIZE, 17*SIZE, "assets/town/hospital.png");
+		this.addObject(hospital, false);
+		hospital.setRenderPriority(true);
+		StaticObject hospitalTop = new StaticObject("hospitalTop", 4*SIZE+4, 17*SIZE, "assets/town/hospitalTop.png");
+		this.addObject(hospitalTop, false);
+		hospitalTop.setRenderPriority(true);
+		
+		StaticObject hospitalTower = new StaticObject("hospitalTower", 2*SIZE, 15*SIZE, 
+				"assets/town/hospitalTower.png");
+		this.addObject(hospitalTower, false);
+		hospitalTower.setRenderPriority(true);
+		StaticObject hospitalTowerTop = new StaticObject("hospitalTowerTop", 2*SIZE+4, 15*SIZE, 
+				"assets/town/hospitalTowerTop.png");
+		hospitalTowerTop.setRenderPriority(true);
+		this.addObject(hospitalTowerTop, false);
+		
+		
 		StaticObject tree1 = new StaticObject("tree1", 11*SIZE, 18*SIZE, "assets/gameObjects/tree_normal.png");
 		this.addObject(tree1, false);
 		tree1.setRenderPriority(true);
