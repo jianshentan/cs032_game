@@ -50,7 +50,7 @@ public class HospitalMaze extends GamePlayState {
 		makeWindow(path);
 	}
 	
-	class Window implements Runnable {
+	class WindowThread implements Runnable {
 		private String m_path;
 		public void setPath(String path) {
 			m_path = path;
@@ -70,24 +70,7 @@ public class HospitalMaze extends GamePlayState {
 	}
 	
 	public void makeWindow(String path) {
-//		Runnable thread = new Runnable() {
-//			private String m_path;
-//			public void setPath(String path) {
-//				m_path = path;
-//			}
-//			public void run() {
-//				try {
-//					int randX = (int)(Math.random()*(m_screenSize.getWidth()-192));
-//					int randY = (int)(Math.random()*(m_screenSize.getHeight()-192));
-//					int randHorse = (int)(Math.random()*5)+1;
-//					MainFrame frame = new MainFrame(randX, randY, 192, 192, m_path);
-//					m_frames.add(frame);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		};	
-		Window thread = new Window();
+		WindowThread thread = new WindowThread();
 		thread.setPath(path);
 		thread.run();
 	}
