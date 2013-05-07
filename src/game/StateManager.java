@@ -155,7 +155,7 @@ public class StateManager extends StateBasedGame {
 	}
 	
 	public void setup() throws SlickException {
-		
+		this.m_app.setShowFPS(false);
 		// Test states
 		if (m_debugMode) {
 			Room room = new Room(ROOM_STATE);
@@ -317,6 +317,8 @@ public class StateManager extends StateBasedGame {
 	public static void writeToXML(XMLStreamWriter writer) throws XMLStreamException {
 		writer.writeStartElement("GameObjects");
 		for(Entry<Integer, GameObject> e : gameObjects.entrySet()) {
+			if(e.getValue() instanceof Player)
+				continue;
 			e.getValue().writeToXML(writer);
 			writer.writeCharacters("\n");
 		}

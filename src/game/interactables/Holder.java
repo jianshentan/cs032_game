@@ -22,10 +22,8 @@ public class Holder extends GameObject implements Interactable {
 	private Image m_closedSprite;
 	
 	/**
-	 * Takes in a name, and paths to open and closed images, as well as a location.
+	 * Takes in a name and a location.
 	 * @param name
-	 * @param openImgPath
-	 * @param closedImgPath
 	 * @param x
 	 * @param y
 	 */

@@ -33,6 +33,7 @@ public class HospitalBase extends GamePlayState {
 			gc.setDisplayMode(192, 192, false);
 			m_camera.refreshCamera(gc, m_player);
 			m_player.getInventory().setMini(true);
+			this.setMini(true);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}

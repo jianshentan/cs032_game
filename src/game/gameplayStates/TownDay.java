@@ -98,26 +98,26 @@ public class TownDay extends Town{
 			
 			Person person_1 = new Person("person_1", 11*SIZE, 27*SIZE, "assets/characters/human_2.png", null);
 			person_1.setDialogue(new String[] 
-					{"Can you help me find my cats? There are 2 of them."});
+					{"\"Can you help me find my cats? There are 2 of them.\""});
 			this.addObject(person_1, true);
 			m_blocked[11][27] = true;
 			
 			Person wrenchGiver = new Person("wrenchGiver", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new Wrench(-1,-1));
 			wrenchGiver.setDialogue(new String[] 
-					{"Young man, for what reason have you let your mustache grow?",
-					"It really looks quite terrible on a face like ours.",
-					"Here's a wrench I found, maybe you can fix your face with it.",
+					{"\"Young man, for what reason have you let your mustache grow?\"",
+					"\"It really looks quite terrible on a face like ours.\"",
+					"\"Here's a wrench I found, maybe you can fix your face with it.\"",
 					"* you've received a wrench *"});
 			this.addObject(wrenchGiver, true);
 			m_blocked[16][25] = true;
 			
 			Person buttPlugPerson = new Person("buttPlugPerson", 4*SIZE, 8*SIZE, "assets/characters/human_2.png", new BigPlug());
 			buttPlugPerson.setDialogue(new String[]
-					{"!",
-					"You startled me!",
-					"Let's just keep this our little secret",
-					"Take this as payment",
-					"* You've recieved a butt-plug *"
+					{"\"!\"",
+					"\"You startled me!\"",
+					"\"Let's just keep this our little secret\"",
+					"\"Take this as payment\"",
+					"* You've received a butt-plug *"
 					});
 			this.addObject(buttPlugPerson, true);
 			m_blocked[4][8] = true;
@@ -149,21 +149,24 @@ public class TownDay extends Town{
 			
 			//TODO: add new people who give information about stuff
 			Person dolphinHater = new Person("dolphinHater", 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
-			dolphinHater.setDialogue(new String[] {"Those dolphins are always up to no good.",
-					"They turned the old zoo into a horse stable!",
-					"I wish that someone would shove something up all their holes!"});
+			dolphinHater.setDialogue(new String[] {
+					"\"Those dolphins are always up to no good.\"",
+					"\"They turned the old zoo into a horse stable!\"",
+					"\"I wish that someone would shove something up all their holes!\""});
 			this.addObject(dolphinHater, true);
 			m_blocked[11][16] = true;
 			
-			Person infoGiver2 = new Person("infoGiver2", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
-			infoGiver2.setDialogue(new String[] {"Have you ever wondered why everyone in this town looks alike?",
-					"I actually like it this way."});
-			this.addObject(infoGiver2, true);
+			Person optimist = new Person("optimist", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
+			optimist.setDialogue(new String[] {
+					"\"You know what I think about this town?\"",
+					"\"I think it's a great place to live.\"",
+					"\"We have the best fire response system in the world!\""});
+			this.addObject(optimist, true);
 			m_blocked[13][11] = true;
 			
 			//TODO: add signs
 			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
-			sign1.setDialogue(new String[] {"The Horse Stables (formerly the zoo)"});
+			sign1.setDialogue(new String[] {"\"The Horse Stables (formerly the zoo)\""});
 			this.addObject(sign1, true);
 			
 		}
@@ -179,7 +182,6 @@ public class TownDay extends Town{
 
 	@Override
 	public void additionalSetupObjects(int city, int dream) throws SlickException {
-		//TODO: set up cats
 		
 		if(city==3) {
 			
@@ -201,7 +203,7 @@ public class TownDay extends Town{
 				goal1.setReward(new QuestReward.WaterDownReward());
 				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
 				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
-						"Water sprays out everywhere before evaporating instantly."});
+						"A great column of water sprays upward like a geyser. There are pretty rainbows."});
 				fireHydrantQuest.addStage(goal1);
 				//TODO: add a goal for the plug
 				m_player.addQuest(fireHydrantQuest);
@@ -220,31 +222,19 @@ public class TownDay extends Town{
 				catQuest.addStage(c1);
 				catQuest.addStage(c2);
 				
-				//TODO: add this after buttplug quest completed
 				
-			//	TODO: edit where horse ends up. start location is the dolphin entrance door.
-			//	Close all pop up windows too. 
-
-				/*Horse horse1 = new Horse(StateManager.getKey(), this, m_player, 7*SIZE, 13*SIZE, 11, 28);
-				this.addObject(horse1, true);
-				m_enemies.add(horse1);*/
-
-				
-			/*	Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28}});
-				//Scene s = new Scene(this, m_player, new int[][] {{7,13},{11,28},{7,13}}); <-- should end up outside zoo, not exact coordinates because i bad
-				s.setPlayerInvisible(true);
-
-				//s.playScene();
-				s.playScene();*/
-				
-			//	also need to get rid of horse image after chased enough.
 				
 			}
 		}
 		else if(city==2) {
-			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"Can you do something about all" +
-					" the horses?"});
-			((Person) this.getObject("person_1")).setDialogue(new String[] {"My cats..."});
+			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"Can you do something about all" +
+					" the horses? I hate horses.\""});
+			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
+			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
+					"\"They were so beautiful...\""});
+			((Person) this.getObject("wrenchGiver")).setDialogue(new String[] {"\"Young man, for what reason " +
+					"have you not fixed your face yet?\"",
+					"\"Did you do something else with that wrench I gave you?\""});
 			
 			this.removeObject("dolphinDoor");
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
@@ -253,23 +243,17 @@ public class TownDay extends Town{
 					" a sign on the door reads."});
 			this.addObject(dolphinDoor, true);
 		}
+		else if(city==1) {
+			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
+			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
+				"\"They were so beautiful...\""});
+		}
 		
 	}
 
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
-		int[] dialoguePos;
-		m_dialogue.clear();
-		if (city == 3 && dream == 2) {
-			
 
-//			Dialogue dolphinDoor = new Dialogue(this, container, new String[]
-//					{"This is where it escaped... ", 
-//					"I've got to block it off so that it won't get away next time"}, null);
-//			m_dialogue.put(813, dolphinDoor);
-		}
-		else if (city == 2 && dream == 2) {
-		}
 	}
 	public void setFree(){
 		m_horsesFreed = true;
