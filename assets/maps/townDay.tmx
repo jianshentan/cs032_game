@@ -145,9 +145,12 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="21" name="greybrick" tilewidth="64" tileheight="64">
+  <image source="../tiles/greybrick.jpg" width="64" height="64"/>
+ </tileset>
  <layer name="Tile Layer 1" width="32" height="32">
   <data encoding="base64" compression="zlib">
-   eJztlkkOgzAMRcNUKG3pxP3PWpCIZP3asZ0CElIXb0fy4iEmTQih+XNoHhMX4Laja5w4AeeN/CXj4jiin8stsqW/N+y7h78QoP4SuAL3H/2WGOk51ugt9NP4vP7YS545oPmlvFQAXePpA4+f8yHe+mj9T/2SM9c/12ueox1xSXdA6w0uN5bY2wVP33P+0uGNfTou33cC2nlozPWyV03Qat4ua1oB9OHZUrVP5aEX1lM4P54N1+C9WNsv1V+6l9Y75/HH2tJaeP2DEIen/1P3/x30GYwzzvr/sfgtMxj9XA9zZ1vLT/dM+TWKDH/soYqJS4rf8z7Q/Kk56oWrjfYWyvE/w/d7K4I9YP33D4k9X5n59Pg97wKLfw2vlJuct63EB4BbFPE=
+   eJztltsOgyAMhvE0ndt0B9//WaeJJM2/llJEE5NdfHfCV3pAGudc8+fUPGduwONA1zRzAa47+UvGxXFGP5dbZE9/H7HvEf5CgPpL4A6MG/0xZ6Rx5Ogt9LcEq9/3kuUe0PxSXirAx2TtA4uf8yHW+mj9T/2SM9W/1Gu5RzvikmYA/aF6xPp7p/ca13ecvzR4fZ9O6/edgBYPPXO97lUTtJq365pWAH0YW6j2oTz0wnoK58fYcA3ORW6/VH9pLmNnzuL3taW1sPoH4RyW/g/N/8fpdzD9Hud8Swyx/2L0cz3MxZbLT/cM+TWKBL/voYo5l3R+y/tA84fuUStcbbS3UIr/5X7fWx7sgdh//xDY852YT4vf8i6I8efwSrlJedtKfAE82RUe
   </data>
  </layer>
 </map>

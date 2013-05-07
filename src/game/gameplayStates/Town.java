@@ -56,6 +56,9 @@ public abstract class Town extends GamePlayState {
 		hospitalTowerTop.setRenderPriority(true);
 		this.addObject(hospitalTowerTop, false);
 		
+		// zoo
+		StaticObject zoo = new StaticObject("zooBuilding", 7*SIZE, 11*SIZE, "assets/town/zoo.png");
+		this.addObject(zoo, false);
 		
 		StaticObject tree1 = new StaticObject("tree1", 11*SIZE, 18*SIZE, "assets/gameObjects/tree_normal.png");
 		this.addObject(tree1, false);
@@ -116,10 +119,13 @@ public abstract class Town extends GamePlayState {
 		// draw all door images (not necessarily functionlity);
 		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(hospitalDoor, false);
+		hospitalDoor.setRenderPriority(true);
 		StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(dolphinDoor, false);
+		dolphinDoor.setRenderPriority(true);
 		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoor", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(virtualRealityDoor, false);
+		virtualRealityDoor.setRenderPriority(true);
 		
 		// townDay and townNight will call this
 		additionalSetupObjects(city, dream);

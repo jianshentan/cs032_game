@@ -46,7 +46,7 @@ public class TownDay extends Town{
 	
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager){
-	//	m_horsesFreed = true;
+		m_horsesFreed = true;
 		if(m_horsesFreed){
 			m_horsesFreed = false;
 
