@@ -29,8 +29,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="13" height="22">
   <data encoding="base64" compression="zlib">
-   eJyVlEsKADEIQ1Pw/mee1YCkxqQLQdo+Ej+0ANRDYDg7Q0xMv0uYzm3MnzOjAo1NdRzTfR+RT962upy3wu1BeWOfG+OCGaXB58xMc3c6XBP3Mem101Fvkh1ln85borcxKlc9SGe67Yvqwcsf8gFkCwJ1
+   eJyVVEkKADEMMtD/v3lOA8UaTQ5CKRWXhB4AZwGIuxLoOLXgYMgpvFrq7Q9cnKlO4tz61ZyVN5creeNOnTf26TgJzOk0+J45au5JhzOpPejyuB5Vb27P0h4oPaezyeNmmzqYztTtS9fB5g/5AInvAn8=
   </data>
  </layer>
- <imagelayer name="horse" width="13" height="22"/>
 </map>
