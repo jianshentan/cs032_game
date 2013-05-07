@@ -208,6 +208,7 @@ public class TownDay extends Town{
 			if(m_quest1Given == false) {
 				
 				StaticObject fireHydrant = (StaticObject)this.getObject("fireHydrant");
+				fireHydrant.setDialogue(new String[] {"This is a fire hydrant."});
 				
 				Quest fireHydrantQuest = new Quest("fireHydrantQuest");
 				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));

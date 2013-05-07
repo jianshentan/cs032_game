@@ -81,7 +81,7 @@ public class Home extends GamePlayState {
 		if (city == dream) {
 			super.removeObject("door");
 			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
-			door.setDialogue(new String[] {"Its late out... Perhaps you should just hit the sack"});
+			door.setDialogue(new String[] {"It's late out... Perhaps you should just hit the sack"});
 			this.addObject(door, true);
 			
 			super.removeObject("bed");

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
@@ -70,7 +71,7 @@ public abstract class QuestReward {
 	}
 	
 	/**
-	 * This reward adds a game object to the map.
+	 * This reward completes part of quest 1.
 	 *
 	 */
 	public static class WaterDownReward extends QuestReward {
@@ -79,6 +80,14 @@ public abstract class QuestReward {
 		public void onAccomplished(GamePlayState state, Player player) {
 			DolphinChamber d = (DolphinChamber) StateManager.getInstance().getState(StateManager.DOLPHIN_STATE);
 			d.waterDown(true);
+			GamePlayState townDay = (GamePlayState) StateManager.getInstance().getState(StateManager.TOWN_DAY_STATE);
+			StaticObject fireHydrant = (StaticObject) townDay.getObject("fireHydrant");
+			fireHydrant.setDialogue(new String[] {"The fire hydrant still has water gushing out of it."});
+			try {
+				fireHydrant.setSprite(new Image("assets/gameObjects/firehydrantbroken.png"));
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}

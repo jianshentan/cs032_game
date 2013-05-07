@@ -112,9 +112,9 @@ public class StateManager extends StateBasedGame {
 	public static final int MAINMENU_STATE = 0;
 	
 	// this represents the city degradation. 4 beings the least degraded and 0 being the most
-	public static int m_cityState = 2;
+	public static int m_cityState = 4;
 	// this represents the number of dreams you have left
-	public static int m_dreamState = 2;
+	public static int m_dreamState = 3;
 	
 	
 	private AppGameContainer m_app;
