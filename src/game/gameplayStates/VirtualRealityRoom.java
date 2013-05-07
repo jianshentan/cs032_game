@@ -27,10 +27,10 @@ public class VirtualRealityRoom extends GamePlayState {
 	private boolean m_questGiven = false;
 	private boolean m_questComplete = false;
 	
-	private String[] GUIDE_TEXT = new String[] {"Welcome to the virtual reality play house!",
-			"We provide a great virtual reality service that finds you your personal dream place",
-			"A guaranteed awesome experience.",
-			"Lucky you! Looks like we have one more spot left. Hop on in and let the chair bring you to your happy place"};
+	private String[] GUIDE_TEXT = new String[] {"\"Welcome to the virtual reality play house!\"",
+			"\"We provide a great virtual reality service that finds you your personal dream place\"",
+			"\"A guaranteed awesome experience.\"",
+			"\"Lucky you! Looks like we have one more spot left. Hop on in and let the chair bring you to your happy place\""};
 
 	public VirtualRealityRoom(int stateID) {
 		m_stateID = stateID;
@@ -89,8 +89,8 @@ public class VirtualRealityRoom extends GamePlayState {
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if(isEntered() == false) { //TODO: conditions also involve global city/dream state
-			this.displayDialogue(new String[] {"\"We've been waiting for you\", you hear a booming voice say.",
-					"\"Your chair is the third from the left.\""});
+			//this.displayDialogue(new String[] {"\"We've been waiting for you\", you hear a booming voice say.",
+			//		"\"Your chair is the third from the left.\""});
 		}
 	}
 
@@ -122,8 +122,8 @@ public class VirtualRealityRoom extends GamePlayState {
 			}
 			addObject(VRC, true);
 			Person guide = (Person) getObject("guide");
-			guide.setDialogue(new String[] {"Oops. Looks like something broke. You don't happen to know " +
-					"anything about that, do you?"});
+			guide.setDialogue(new String[] {"\"Oops. Looks like something broke. You don't happen to know " +
+					"anything about that, do you?\""});
 		}
 	}
 

@@ -98,7 +98,7 @@ public class Player extends MovingObject{
         m_dir = Direction.RIGHT;
         
         // Set up health bar (x-coordinate, y-coordinate, max health)
-        m_health = new Health(10,30,50);
+        m_health = new Health(10,10,50);
         
         m_inventory = new Inventory(container);
         

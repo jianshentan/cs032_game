@@ -51,6 +51,18 @@ public abstract class Town extends GamePlayState {
 		m_blocked[19][7] = true;
 		m_blocked[20][7] = true;
 		
+		StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
+		sign1.setDialogue(new String[] {"\"Horse Stables (formerly the zoo)\""});
+		this.addObject(sign1, true);
+		
+		StaticObject sign2 = new StaticObject("sign2", 6*SIZE, 21*SIZE, "assets/gameObjects/sign.png");
+		sign2.setDialogue(new String[] {"\"Hospital\""});
+		this.addObject(sign2, true);
+		
+		StaticObject fireHydrant = new StaticObject("fireHydrant", 6*SIZE, 23*SIZE, "assets/firehydrant.png");
+		this.addObject(fireHydrant, true);
+		m_blocked[6][23] = true;
+		
 		if (city == 4) {
 			
 		}
@@ -74,6 +86,8 @@ public abstract class Town extends GamePlayState {
 			tree_2.setSprite(new Image("assets/gameObjects/treebroken.png"));
 			tree_1.setRenderPriority(false);
 			tree_2.setRenderPriority(false);
+			
+			this.getObject("fireHydrant").setSprite(new Image("assets/gameObjects/firehydrantbroken.png"));
 			
 			m_blocked[19][7] = false;
 			m_blocked[20][7] = false;
