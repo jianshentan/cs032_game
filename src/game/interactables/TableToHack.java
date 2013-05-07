@@ -48,6 +48,7 @@ public class TableToHack extends GameObject implements Interactable {
 							"\"404\"",
 							"You wonder if you can use your computer to hack the virtual machine chairs.",
 							"\"Dig deeper in to virtual world. Dig deeper into YOUR virtual world.\"",
+							"\"You must think outside the box: even beyond the box in which this world exists\"",
 							"\"Find the brain that is the clue. Clean our minds and keep it true.\"",
 							"Curious curious curious. You ponder deeply at what your computer is trying to tell you.",
 							"Finally, a strange message pops up on the screen: \"male donkey + female horse = ?\""});

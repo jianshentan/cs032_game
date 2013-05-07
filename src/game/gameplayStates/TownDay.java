@@ -20,8 +20,8 @@ import game.interactables.Door;
 import game.interactables.Horse;
 import game.interactables.InvisiblePortal;
 import game.interactables.Interactable;
+import game.interactables.OutsideTrashcan;
 import game.interactables.PortalObject;
-import game.interactables.Trashcan;
 import game.interactables.Wrench;
 import game.quests.Quest;
 import game.quests.QuestGoal;
@@ -135,7 +135,7 @@ public class TownDay extends Town{
 			Door virtualRealityRoomDoor = new Door("virtualRealityRoomDoor", 22*SIZE, 17*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 3, 4);
 			this.addObject(virtualRealityRoomDoor, true);
 			//put somewhere more reasonable
-			Trashcan trash = new Trashcan("trash", 20*SIZE, 12*SIZE);
+			OutsideTrashcan trash = new OutsideTrashcan("trash", 20*SIZE, 12*SIZE);
 			this.addObject(trash, true);
 			
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 

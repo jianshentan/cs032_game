@@ -155,7 +155,10 @@ public abstract class GameObject {
 		TRASHCAN, 
 		VIRTUAL_DOOR,
 		PILL,
-		HOLDER;
+		HOLDER, 
+		REALITY_EXECUTABLE, 
+		OUTSIDE_TRASHCAN,
+		VIRTUAL_TRASHCAN;
 	}
 	
 	/**

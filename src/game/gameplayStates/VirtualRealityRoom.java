@@ -120,8 +120,8 @@ public class VirtualRealityRoom extends GamePlayState {
 			}
 			addObject(VRC, true);
 			Person guide = (Person) getObject("guide");
-			guide.setDialogue(new String[] {"\"Oops. Looks like something broke. You don't happen to know " +
-					"anything about that, do you?\""});
+			guide.setDialogue(new String[] {"We're closed. For good."});
+
 		}
 	}
 
@@ -131,7 +131,9 @@ public class VirtualRealityRoom extends GamePlayState {
 		// TODO Auto-generated method stub
 
 	}
-
+	public void setRuined(){
+		
+	}
 	@Override
 	public void dialogueListener(Interactable i) {
 		// TODO Auto-generated method stub

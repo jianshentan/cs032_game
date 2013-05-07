@@ -22,10 +22,9 @@ public class VirtualDoor extends GameObject implements Interactable {
 	}
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
-		System.out.println("HERE?");
 		if(m_open){
 			VirtualRealityHome home = (VirtualRealityHome) state;
-			home.finish();
+			home.stage3Complete();
 		}else{
 			state.displayDialogue(new String[] {"The door seems to be locked. You kick it a few times and only manage to bruise your toe. It hurts. Or... you think it hurts. Which might be the same thing. You decide you don't like virtual reality very much"});
 		}
