@@ -53,7 +53,7 @@ public class Scene {
 		if(m_invisiblePlayer)
 			m_state.setInvisiblePlayer(true);
 		if(!m_camera) {
-			// conver to int[][]
+			// convert to int[][]
 			int[][] locations = new int[m_locations.length][];
 			for (int i=0; i<m_locations.length; i++) {
 				locations[i] = new int[2];

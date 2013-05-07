@@ -1,6 +1,7 @@
 package game.gameplayStates;
 
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import game.StateManager;
@@ -11,16 +12,22 @@ import game.interactables.Holder;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.interactables.PortalObject;
+import game.popup.CloseFrame;
 import game.popup.MainFrame;
 
 import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class HospitalBase extends GamePlayState {
+	
+	private AppGameContainer m_container;
 
 	public HospitalBase(int stateID) {
 		m_stateID = stateID;
@@ -28,15 +35,45 @@ public class HospitalBase extends GamePlayState {
 
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
-		AppGameContainer gc = (AppGameContainer) container;
+		m_container = (AppGameContainer) container;
 		try {
-			gc.setDisplayMode(192, 192, false);
-			m_camera.refreshCamera(gc, m_player);
+			m_container.setDisplayMode(192, 192, false);
+			m_camera.refreshCamera(m_container, m_player);
 			m_player.getInventory().setMini(true);
 			this.setMini(true);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
+		WindowThread thread = new WindowThread();
+		thread.setSize(new int[] {479,291});
+		thread.setPath("assets/hospitalMeme.png");
+		thread.run();
+	}
+	
+	
+	class WindowThread implements Runnable {
+		private String m_path;
+		private java.awt.Dimension m_screenSize;
+		private int[] m_size = new int[2];
+		
+		public void setSize(int[] size) {
+			m_size[0] = size[0];
+			m_size[1] = size[1];
+		}
+		public void setPath(String path) {
+			m_path = path;
+			m_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		}
+		public void run() {
+			try {
+				int randX = (int)(Math.random()*(m_screenSize.getWidth()-m_size[0]));
+				int randY = (int)(Math.random()*(m_screenSize.getHeight()-m_size[1]));
+				CloseFrame frame = new CloseFrame(randX, randY, m_size[0], m_size[1], m_path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
 	}
 	
 	@Override
@@ -97,6 +134,31 @@ public class HospitalBase extends GamePlayState {
 
 	}
 
+	
+	@Override
+	public void additionalExitScene() {
+		System.out.println("Exiting scene in hospital base");
+		
+		try {
+			m_container.setDisplayMode(600, 600, false);
+			m_camera.refreshCamera(m_container, m_player);
+			m_player.getInventory().setMini(false);
+			this.setMini(false);
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		
+		// TODO: test this. not sure if working
+		this.sleep(5000);
+		
+		int destination = StateManager.TOWN_DAY_STATE;
+		StateManager.getInstance().enterState(destination, 
+				new FadeOutTransition(Color.black, 1000), 
+				new FadeInTransition(Color.black, 1000));
+		GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(destination);
+		destinationState.setPlayerLocation(8*64, 22*64);
+	}
+	
 	/**
 	 * On leaving, deactivate mini inventory
 	 */
