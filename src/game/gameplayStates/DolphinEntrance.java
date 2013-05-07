@@ -9,6 +9,7 @@ import game.Dialogue;
 import game.GameObject;
 import game.StateManager;
 import game.StaticObject;
+import game.collectables.SmallPlug;
 import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
@@ -131,6 +132,9 @@ public class DolphinEntrance extends GamePlayState {
 			this.addObject(doormat, false);
 			InvisiblePortal portalC = new InvisiblePortal("portalC", 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
 			this.addObject(portalC, true);
+			
+			SmallPlug smallPlug = new SmallPlug("smallPlug", 1*SIZE, 3*SIZE);
+			this.addObject(smallPlug, true);
 			
 			StaticObject note = new StaticObject("note", 4*SIZE, 5*SIZE, "assets/gameObjects/notepad.png");
 			note.setDialogue(new String[] {"Hmm... why would there be a random note on the ground?",

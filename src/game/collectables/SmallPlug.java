@@ -7,11 +7,17 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import game.Collectable;
+import game.gameplayStates.GamePlayState;
+import game.interactables.Interactable;
+import game.player.Player;
 
-public class SmallPlug extends Collectable {
+public class SmallPlug extends Collectable implements Interactable {
 	
-	public SmallPlug() throws SlickException{
-		setSprite(new Image("assets/smallPlug.png"));
+	public SmallPlug(String name, int x, int y) throws SlickException{
+		super(name);
+		this.setX(x);
+		this.setY(y);
+		setSprite(new Image("assets/SmallPlug.png"));
 	}
 	@Override
 	public String getItemName() {
@@ -35,6 +41,11 @@ public class SmallPlug extends Collectable {
 	public Types getType() {
 		// TODO Auto-generated method stub
 		return Types.SMALL_PLUG;
+	}
+	@Override
+	public Interactable fireAction(GamePlayState state, Player p) {
+		state.removeObject(this.getName());
+		return this;
 	}
 
 }
