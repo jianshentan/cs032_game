@@ -20,7 +20,7 @@ public class CloseFrame extends JDialog {
 		setMaximumSize(new Dimension(width, height));
         BufferedImage image = ImageIO.read(new File(path));
 		setContentPane(new ImagePanel(image));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setUndecorated(false);
 		pack();
 		setVisible(true);

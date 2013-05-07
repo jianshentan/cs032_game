@@ -73,12 +73,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	protected Image m_flash;
 	protected boolean m_isFlash = false;
 	
-	
-	// sleep
-	private int m_sleepCounter;
-	private boolean m_sleep = false;
-	private int m_sleepTimer;
-
 	@Deprecated
 	protected HashMap<Integer, Dialogue> m_dialogue;
 	@Deprecated
@@ -308,16 +302,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	@Override
 	public final void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
-
-		if (m_sleep) {
-			m_sleepCounter++;
-			if (m_sleepCounter > m_sleepTimer) {
-				m_sleep = false;
-				m_sleepCounter = 0;
-				m_sleepTimer = 0;
-			}
-			return;
-		}
 		
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
@@ -648,11 +632,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		//m_inScene = true;
 		m_inDialogue = true;
 		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);	
-	}
-
-	public void sleep(int time) {
-		m_sleep = true;
-		m_sleepTimer = time;
 	}
 	
 	/**
