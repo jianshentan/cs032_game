@@ -10,7 +10,6 @@ import game.StaticObject;
 import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
 import game.gameplayStates.VirtualRealityRoom;
-import game.interactables.VisiblePortal;
 import game.player.Player;
 
 /**
@@ -99,6 +98,20 @@ public abstract class QuestReward {
 			Person guide = (Person) room.getObject("guide");
 			guide.setDialogue(new String[] {"Oops. Looks like something broke. You don't happen to know " +
 					"anything about that, do you?"});
+		}
+		
+	}
+	
+	/**
+	 * Reward for quest 3
+	 *
+	 */
+	public static class Quest3Reward extends QuestReward {
+
+		@Override
+		public void onAccomplished(GamePlayState state, Player player) {
+			// TODO Auto-generated method stub
+			
 		}
 		
 	}

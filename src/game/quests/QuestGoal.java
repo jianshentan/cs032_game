@@ -7,6 +7,7 @@ import game.StateManager;
 import game.gameplayStates.GamePlayState;
 import game.gameplayStates.VirtualRealityHome;
 import game.gameplayStates.VirtualRealityRoom;
+import game.interactables.Holder;
 import game.interactables.Interactable;
 import game.interactables.VirtualDoor;
 import game.player.Player;
@@ -264,6 +265,53 @@ public abstract class QuestGoal {
 			}
 			return false;
 		}
+	}
+	
+	/**
+	 * Goals for quest 3
+	 *
+	 */
+	public static class Quest3Goal extends QuestGoal {
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player) {
+			try {
+				Holder topLeft = (Holder) state.getObject("topLeft_holder");
+				Holder topMiddle = (Holder) state.getObject("topMiddle_holder");
+				Holder topRight = (Holder) state.getObject("topRight_holder");
+				Holder middleLeft = (Holder) state.getObject("middleLeft_holder");
+				Holder middleRight = (Holder) state.getObject("middleRight_holder");
+				Holder bottomLeft = (Holder) state.getObject("bottomLeft_holder");
+				Holder bottomMiddle = (Holder) state.getObject("bottomMiddle_holder");
+				Holder bottomRight = (Holder) state.getObject("bottomRight_holder");
+				if(topLeft.getItemHeld().getName().equals("alprazolam")==false)
+					return false;
+				if(topMiddle.getItemHeld().getName().equals("citalopram")==false)
+					return false;
+				if(topRight.getItemHeld().getName().equals("sertraline")==false)
+					return false;
+				if(middleLeft.getItemHeld().getName().equals("lorazepam")==false)
+					return false;
+				if(middleRight.getItemHeld().getName().equals("fluoxetine HCL")==false)
+					return false;
+				if(bottomLeft.getItemHeld().getName().equals("escitalopram")==false)
+					return false;
+				if(bottomMiddle.getItemHeld().getName().equals("trazodone HCL")==false)
+					return false;
+				if(bottomRight.getItemHeld().getName().equals("duloxetine")==false)
+					return false;
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+
+		@Override
+		public boolean isAccomplished(GamePlayState state, Player player,
+				Interactable interactable) {
+			return this.isAccomplished(state, player);
+		}
+		
 	}
 	
 }
