@@ -611,6 +611,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_inDialogue = false;
 		m_invisiblePlayer = false;
 		m_camera = new PlayerCamera(StateManager.getInstance().getContainer(),m_player);
+		m_player.exitScene();
 		additionalExitScene();
 	}
 

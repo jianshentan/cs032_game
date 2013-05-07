@@ -76,6 +76,9 @@ public class SaveGame {
 		//TODO: first, write out all gameObjects
 		
 		writer.writeAttribute("currentState", String.valueOf(stateManager.getCurrentStateID()));
+		writer.writeAttribute("cityState", String.valueOf(StateManager.m_cityState));
+		writer.writeAttribute("dreamState", String.valueOf(StateManager.m_dreamState));
+		
 		writer.writeCharacters("\n");
 		StateManager.writeToXML(writer);
 		
@@ -120,6 +123,21 @@ public class SaveGame {
 		
 		writer.writeEndDocument();
 		writer.close();
+	}
+	
+	/**
+	 * Saves a boolean array
+	 * @param array
+	 * @throws XMLStreamException 
+	 */
+	public static void save(XMLStreamWriter writer, boolean[][] array) throws XMLStreamException { 
+		for(int i = 0; i<array.length; i++) {
+			writer.writeStartElement(String.valueOf(i));
+			for(int j = 0; j<array[i].length; j++) {
+				writer.writeAttribute(String.valueOf(j), String.valueOf(array[i][j]));
+			}
+			writer.writeEndElement();
+		}
 	}
 	
 

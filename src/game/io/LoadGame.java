@@ -64,7 +64,11 @@ private String m_loadPath;
 			//Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
 			state.loadFromXML(roomNode, stateManager.getContainer(), stateManager);
 		}
+		
 		int id = Integer.parseInt(root.getAttributes().getNamedItem("currentState").getNodeValue());
+		StateManager.m_cityState = Integer.parseInt(root.getAttributes().getNamedItem("cityState").getNodeValue());
+		StateManager.m_dreamState = Integer.parseInt(root.getAttributes().getNamedItem("dreamState").getNodeValue());
+		
 		GamePlayState r2 = (GamePlayState) stateManager.getState(id);
 		Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
 		System.out.println(player.getX());
