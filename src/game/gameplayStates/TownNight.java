@@ -61,7 +61,7 @@ public class TownNight extends Town {
 			this.addObject(dolphinDoor, false);
 			
 		}
-		//this.setMusic("/home/jack/Music/track01.wav");
+		
 	}
 	
 	/**
@@ -80,6 +80,7 @@ public class TownNight extends Town {
 	@Override
 	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//setup enemies
+		this.setMusic("assets/sounds/fuckaduck2.wav");
 		m_dream = dream;
 		if(dream==3) {
 			//TODO: set up some other stuff... text quests?
@@ -136,6 +137,7 @@ public class TownNight extends Town {
 		StateManager.getInstance().enterState(StateManager.HOME_STATE, 
 				new FadeOutTransition(Color.black, 2000), 
 				new FadeInTransition(Color.black, 2000));
+		
 	}
 
 }

@@ -3,6 +3,7 @@ package game.interactables;
 import game.GameObject;
 import game.StateManager;
 import game.GameObject.Types;
+import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.DolphinEntrance;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
@@ -47,14 +48,9 @@ public class BlowHole extends GameObject implements Interactable {
 				p.getInventory().removeItem(Types.CORRECT_PLUG);
 				String[] di = {"You sigh with satisfaction as the plug gently slides into the hole"};
 				state.displayDialogue(di);
-				state.shakeCamera(4000);
-				StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE, new FadeOutTransition(Color.white, 4000), 
-						new FadeInTransition(Color.white, 1000));
-				DolphinEntrance destinationState = (DolphinEntrance) StateManager.getInstance().getState(StateManager.DOLPHIN_ENTRANCE);
-				destinationState.setPlayerLocation(2*SIZE, 2*SIZE);
-				destinationState.setFree();
-				//quest is over, decrement city state
-				StateManager.m_cityState--;
+				//state.e
+				DolphinChamber dc = (DolphinChamber) state;
+				dc.endEvent();
 
 				break;
 			}

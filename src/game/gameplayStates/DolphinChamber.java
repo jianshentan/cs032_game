@@ -12,9 +12,13 @@ import game.interactables.BlowHole;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class DolphinChamber extends GamePlayState {
@@ -68,7 +72,24 @@ public class DolphinChamber extends GamePlayState {
 		// TODO Auto-generated method stub
 
 	}
-	
+	public void endEvent(){
+		this.shakeCamera(4000);
+		Sound explosion;
+		try {
+			explosion = new Sound("assets/sounds/Explosions.wav");
+			explosion.play();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		StateManager.getInstance().enterState(StateManager.DOLPHIN_ENTRANCE, new FadeOutTransition(Color.white, 4000), 
+		new FadeInTransition(Color.white, 1000));
+		DolphinEntrance destinationState = (DolphinEntrance) StateManager.getInstance().getState(StateManager.DOLPHIN_ENTRANCE);
+		destinationState.setPlayerLocation(2*SIZE, 2*SIZE);
+		destinationState.setFree();
+		//quest is over, decrement city state
+		StateManager.m_cityState--;
+	}
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		if(this.isEntered()==false && m_waterDown == false) {
 			Scene s = new Scene(this, m_player, new float[][] {{3,13}, {3,4},{3,13}});

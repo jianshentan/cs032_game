@@ -26,6 +26,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.particles.ParticleEmitter;
@@ -108,7 +109,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private boolean m_invisiblePlayer; //true if the player is invisible.
 	public void setInvisiblePlayer(boolean b) { m_invisiblePlayer = b; }
 	
-	protected Sound m_bgm; //background music
+	protected Music m_bgm; //background music
 	
 	
 	public void setPauseState(boolean state) { m_isPaused = state; }
@@ -162,11 +163,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 */
 	public void setMusic(String path) {
 		try {
-			m_bgm = new Sound(path);
+			m_bgm = new Music(path);
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
+
 	
 	/**
 	 * Resets the state's objects.
@@ -337,7 +339,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			this.m_camera.update(delta);
 
 		this.additionalUpdate(container, stateManager, delta);
-
+		
 		// for testing purposes only
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_EQUALS)) {
 			if (StateManager.m_cityState < 3)

@@ -17,6 +17,7 @@ import game.popup.MainFrame;
 import org.lwjgl.util.Dimension;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -138,12 +139,26 @@ public class DolphinEntrance extends GamePlayState {
 	public void freeHorses(){
 		long time = System.currentTimeMillis();
 		
-		for(MainFrame frame: m_frames){
-			while(System.currentTimeMillis()-time<500){
-				
+		
+		try {
+			Sound release = new Sound("assets/sounds/CageOpening.wav");
+			for(MainFrame frame: m_frames){
+				while(System.currentTimeMillis()-time<500){
+					
+				}
+				time = System.currentTimeMillis();
+				release.play();
+				frame.setVisible(false);
 			}
-			time = System.currentTimeMillis();
-			frame.setVisible(false);
+
+		} catch (SlickException e) {
+			for(MainFrame frame: m_frames){
+				while(System.currentTimeMillis()-time<500){
+					
+				}
+				time = System.currentTimeMillis();
+				frame.setVisible(false);
+			}
 		}
 		
 	}
