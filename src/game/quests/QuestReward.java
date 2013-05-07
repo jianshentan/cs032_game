@@ -93,8 +93,8 @@ public abstract class QuestReward {
 			
 			StateManager.m_cityState--;
 			
-			player.getGame().displayDialogue(new String[] {"\"Well done,\" " +
-					"you hear the booming voice say."});
+			player.getGame().displayDialogue(new String[] {"\"Why...?,\" " +
+					"you hear the booming voice say, now only a whimper"});
 			VirtualRealityRoom room = (VirtualRealityRoom) StateManager.getInstance()
 					.getState(StateManager.VIRTUAL_REALITY_ROOM_STATE);
 			room.removeObject("VRC");
@@ -109,8 +109,7 @@ public abstract class QuestReward {
 			}
 			room.addObject(VRC, true);
 			Person guide = (Person) room.getObject("guide");
-			guide.setDialogue(new String[] {"Oops. Looks like something broke. You don't happen to know " +
-					"anything about that, do you?"});
+			guide.setDialogue(new String[] {"What happened in there? There was a flash, and now no one will wake up!"});
 		}
 		
 	}
