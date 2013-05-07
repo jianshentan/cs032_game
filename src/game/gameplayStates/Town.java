@@ -4,6 +4,7 @@ import game.StaticObject;
 import game.interactables.Interactable;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public abstract class Town extends GamePlayState {
@@ -25,6 +26,7 @@ public abstract class Town extends GamePlayState {
 		StaticObject building01 = new StaticObject("building01",
 			14*SIZE, 18*SIZE, "assets/town/building01.png");	
 		this.addObject(building01, false);
+		building01.setRenderPriority(true);
 		StaticObject buildingWalkThrough01A = new StaticObject("buildingWalkThrough01A",
 			14*SIZE, 18*SIZE, "assets/town/building_walkthrough01A.png");
 		this.addObject(buildingWalkThrough01A, false);
@@ -36,6 +38,18 @@ public abstract class Town extends GamePlayState {
 		
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
 		this.addObject(doormat, false);
+		
+		StaticObject tree1 = new StaticObject("tree1", 11*SIZE, 18*SIZE, "assets/gameObjects/tree_normal.png");
+		this.addObject(tree1, false);
+		tree1.setRenderPriority(true);
+		m_blocked[11][20] = true;
+		m_blocked[12][20] = true;
+		
+		StaticObject tree2 = new StaticObject("tree2", 19*SIZE, 5*SIZE, "assets/gameObjects/tree_normal.png");
+		this.addObject(tree2, false);
+		tree2.setRenderPriority(true);
+		m_blocked[19][7] = true;
+		m_blocked[20][7] = true;
 		
 		if (city == 4) {
 			
@@ -51,6 +65,20 @@ public abstract class Town extends GamePlayState {
 		}
 		else if (city == 0) {
 			
+		}
+		
+		if (city < 4) {
+			StaticObject tree_1 = (StaticObject)this.getObject("tree1");
+			tree_1.setSprite(new Image("assets/gameObjects/treebroken.png"));
+			StaticObject tree_2 = (StaticObject)this.getObject("tree2");
+			tree_2.setSprite(new Image("assets/gameObjects/treebroken.png"));
+			tree_1.setRenderPriority(false);
+			tree_2.setRenderPriority(false);
+			
+			m_blocked[19][7] = false;
+			m_blocked[20][7] = false;
+			m_blocked[11][20] = false;
+			m_blocked[12][20] = false;
 		}
 		
 		// townDay and townNight will call this
