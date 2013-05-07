@@ -67,6 +67,13 @@ public class Person extends GameObject implements Interactable{
 		}
 		return this;
 	}
+	/**
+	 * Sets the item the person gives out.
+	 */
+	public void setItem(Collectable c) {
+		this.m_item = c;
+	}
+	
 	@Override
 	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		// TODO Auto-generated method stub

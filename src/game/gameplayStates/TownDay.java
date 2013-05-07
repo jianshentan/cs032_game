@@ -19,6 +19,7 @@ import game.StateManager;
 import game.StaticObject;
 import game.collectables.*;
 import game.interactables.Animal;
+import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Horse;
 import game.interactables.InvisiblePortal;
@@ -45,27 +46,32 @@ public class TownDay extends Town{
 	
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager){
-
+		m_horsesFreed = true;
 		if(m_horsesFreed){
 			m_horsesFreed = false;
 
 			Horse horse1;
 			try {
-				int[][] horse_stops = {{6,14},{11,22},{11,28}};
-				horse1 = new Horse("horseHerd", this, m_player, 6*SIZE, 14*SIZE, horse_stops);
+				int[][] horse_stops = {{10,14},{12,10},{19,6},{19,4},{19,6},{12,10},{23,14},{10,20},{4,22},{4,28},{11,28}};
+				horse1 = new Horse("horseHerd", this, m_player, 10*SIZE, 14*SIZE, horse_stops);
+				
+				horse1.setRenderPriority(9);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
+				this.getObject("tree1").setRenderPriority(false);
+				this.getObject("tree2").setRenderPriority(false);
 				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
 				gallop.play();
-				Scene s = new Scene(this,m_player,new float[][] {{6,14},{11,22},{11,28}});
+				//TODO: make gallop sound longer, since gallop scene is now longer.
+				Scene s = new Scene(this,m_player,new float[][]  {{11,14},{13,11},{17,10},{21,6},{17,6},{13,8},{16,17},{22,17},{23,16},{20,16},{14,17},{9,24},{4,24},{6,28},{12,29}});
 				s.setCamera(true);
 				s.playScene();
 				
 			} catch (SlickException e) {
 				System.err.println("horse error!");
 			}
-		
-		} 
+		}
+
 	}
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager) throws SlickException {
@@ -139,7 +145,10 @@ public class TownDay extends Town{
 			this.addObject(trash, true);
 			
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 
+			hospitalDoor.setRenderPriority(7);
 			this.addObject(hospitalDoor, true);
+			
+			
 			
 			//TODO: place cats
 			Animal cat1 = new Animal("cat1", "assets/cat1.png", this, m_player,
@@ -172,9 +181,7 @@ public class TownDay extends Town{
 			m_blocked[13][11] = true;
 			
 			//TODO: add signs
-			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
-			sign1.setDialogue(new String[] {"\"The Horse Stables (formerly the zoo)\""});
-			this.addObject(sign1, true);
+			
 			
 		}
 
@@ -200,15 +207,8 @@ public class TownDay extends Town{
 			
 			if(m_quest1Given == false) {
 				
-				StaticObject fireHydrant = null;
-				try {
-					fireHydrant = new StaticObject("fireHydrant", 6*SIZE, 23*SIZE, "assets/firehydrant.png");
-				} catch (SlickException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				this.addObject(fireHydrant, true);
-				m_blocked[6][23] = true;
+				StaticObject fireHydrant = (StaticObject)this.getObject("fireHydrant");
+				fireHydrant.setDialogue(new String[] {"This is a fire hydrant."});
 				
 				Quest fireHydrantQuest = new Quest("fireHydrantQuest");
 				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));
@@ -218,7 +218,7 @@ public class TownDay extends Town{
 				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
 						"A great column of water sprays upward like a geyser. There are pretty rainbows."});
 				fireHydrantQuest.addStage(goal1);
-				//TODO: add a goal for the plug
+
 				m_player.addQuest(fireHydrantQuest);
 				fireHydrantQuest.startQuest(this);
 				m_quest1Given = true;
@@ -247,9 +247,12 @@ public class TownDay extends Town{
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
 					"\"They were so beautiful...\""});
+			((Person) this.getObject("wrenchGiver")).setItem(new Cigarette("cigarette", -1, -1));
 			((Person) this.getObject("wrenchGiver")).setDialogue(new String[] {"\"Young man, for what reason " +
 					"have you not fixed your face yet?\"",
-					"\"Did you do something else with that wrench I gave you?\""});
+					"\"Did you do something else with that wrench I gave you?\"",
+					"\"Here, take this cigarette. It might save your life someday.\"",
+					"* You've received a cigarette *"});
 			
 			this.removeObject("dolphinDoor");
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
@@ -257,6 +260,29 @@ public class TownDay extends Town{
 					"\"Stables closed due to disturbances,\"" +
 					" a sign on the door reads."});
 			this.addObject(dolphinDoor, true);
+			
+			this.getObject("tree1").setSprite(new Image("assets/gameObjects/treebroken.png"));
+			this.getObject("tree2").setSprite(new Image("assets/gameObjects/treebroken.png"));
+			m_blocked[19][7] = false;
+			m_blocked[20][7] = false;
+			m_blocked[11][20] = false;
+			m_blocked[12][20] = false;
+			
+			
+			Animal cat1 = (Animal)this.getObject("cat1");
+			Animal cat2 = (Animal)this.getObject("cat2");
+			int[] cat1_loc = cat1.getSquare();
+			int[] cat2_loc = cat2.getSquare();
+			
+			m_enemies.remove(cat1);
+			m_enemies.remove(cat2);
+			this.removeObject("cat1");
+			this.removeObject("cat2");
+			StaticObject static_cat1 = new StaticObject("cat1",  cat1_loc[0]*SIZE, cat1_loc[1]*SIZE,"assets/cat1dead.png");
+			StaticObject static_cat2 = new StaticObject("cat2", cat2_loc[0]*SIZE, cat2_loc[1]*SIZE, "assets/cat2dead.png");
+			this.addObject(static_cat1,false);
+			this.addObject(static_cat2,false);
+			
 		}
 		else if(city==2) {
 			m_overlay = new Image("assets/black_40.png");

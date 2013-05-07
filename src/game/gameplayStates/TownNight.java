@@ -15,7 +15,9 @@ import game.Enemy;
 import game.Spectre;
 import game.StateManager;
 import game.StaticObject;
+import game.interactables.Door;
 import game.interactables.Interactable;
+import game.interactables.Trashcan;
 import game.quests.Quest;
 import game.quests.QuestGoal;
 import game.quests.QuestStage;
@@ -59,6 +61,15 @@ public class TownNight extends Town {
 		if (!this.isLoaded()) {
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
 			this.addObject(dolphinDoor, false);
+			
+			StaticObject virtualRealityRoomDoor = new StaticObject("virtualRealityRoomDoor", 22*SIZE, 17*SIZE, "assets/gameObjects/door.png");
+			this.addObject(virtualRealityRoomDoor, false);
+			//put somewhere more reasonable
+			Trashcan trash = new Trashcan("trash", 20*SIZE, 12*SIZE);
+			this.addObject(trash, false);
+			
+			StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png"); 
+			this.addObject(hospitalDoor, false);
 			
 		}
 		

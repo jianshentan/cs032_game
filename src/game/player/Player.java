@@ -98,7 +98,7 @@ public class Player extends MovingObject{
         m_dir = Direction.RIGHT;
         
         // Set up health bar (x-coordinate, y-coordinate, max health)
-        m_health = new Health(10,30,50);
+        m_health = new Health(10,10,50);
         
         m_inventory = new Inventory(container);
         
@@ -304,6 +304,8 @@ public class Player extends MovingObject{
 	 */
 	public void enterScene(GamePlayState room, int[][] patrolPoints) {
 		m_sceneMode = true;
+		if(patrolPoints == null)
+			return;
 		m_game = room;
 		m_currentSquare = new int[2];
 		m_destination = new int[2];
@@ -315,14 +317,16 @@ public class Player extends MovingObject{
 		this.patrolUpdate();
 		//System.out.println(m_pathLength);
 	}
-	
+	public void exitScene() {
+		m_sceneMode = false;
+	}
 	/**
 	 * This is used for "updating" when the player is in a scene.
 	 * @param delta
 	 */
 	public void updateScene(int delta){
 		//System.out.println(m_path);
-		if(m_sceneMode){
+		if(m_sceneMode && m_patrolPoints != null){
 			//when you've moved a square
 			if(Math.abs(m_x/64-m_currentSquare[0])>=1||Math.abs(m_y/64-m_currentSquare[1])>=1){
 				//the new current is now the old destination
@@ -331,8 +335,10 @@ public class Player extends MovingObject{
 				if(m_currentStep>=m_pathLength){
 					m_sceneMode = false;
 					this.patrolUpdate();
-					if(!m_sceneMode)
+					if(!m_sceneMode) {
+						m_patrolPoints = null;
 						m_game.exitScene();
+					}
 				}else{
 					//System.out.println(m_currentStep + " "  + m_pathLength);
 					setDestination();
