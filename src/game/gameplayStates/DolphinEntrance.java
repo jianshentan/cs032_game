@@ -6,16 +6,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import game.Dialogue;
-import game.GameObject;
 import game.StateManager;
 import game.StaticObject;
 import game.collectables.SmallPlug;
-import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.popup.MainFrame;
 
-import org.lwjgl.util.Dimension;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -132,7 +129,7 @@ public class DolphinEntrance extends GamePlayState {
 			m_dialogue = new HashMap<Integer, Dialogue>(); // think about whether this needs to be a hashmap instead
 			
 			StaticObject entrance = new StaticObject("entrance", SIZE, 0, "assets/dolphinProtectors.png");
-			entrance.setRenderPriority(true);
+			entrance.setRenderPriority(5);
 			this.addObject(entrance, false);
 			
 			

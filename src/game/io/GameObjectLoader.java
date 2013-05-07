@@ -15,16 +15,24 @@ public class GameObjectLoader {
 		String name = node.getAttributes().getNamedItem("m_name").getNodeValue();
 		float x = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
 		float y = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
+		String className = node.getAttributes().getNamedItem("class").getNodeValue();
+		Class<GameObject> objectClass = GameObject.class;
 		try {
-			GameObject o = GameObject.class.newInstance();
-			
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+			objectClass = (Class<GameObject>) Class.forName(className);
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		GameObject o = null;
+		try {
+			o = (GameObject) objectClass.newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		o.setName(name);
+		o.setX(x);
+		o.setY(y);
+		
 		if(type.equals(Types.CHEST.toString())) {
 
 		} else if(type.equals(Types.CHICKEN_WING.toString())) {
@@ -72,7 +80,7 @@ public class GameObjectLoader {
 		} else if(type.equals(Types.HOLDER.toString())) {
 			
 		}
-		return null;
+		return o;
 	}
 
 }

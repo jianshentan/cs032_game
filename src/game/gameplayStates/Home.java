@@ -1,26 +1,12 @@
 package game.gameplayStates;
 
-import game.Dialogue;
-import game.Enemy;
-import game.GameObject;
-import game.PauseMenu;
 import game.Scene;
 import game.StateManager;
 import game.StaticObject;
-import game.cameras.PlayerCamera;
-import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Bed;
-import game.interactables.Chest;
-import game.interactables.ChickenWing;
-import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Interactable;
 import game.interactables.PortalObject;
-import game.player.Player;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;

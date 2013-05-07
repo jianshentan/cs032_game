@@ -1,8 +1,6 @@
 package game.gameplayStates;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -11,8 +9,6 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
 
-import game.Dialogue;
-import game.GameObject;
 import game.Person;
 import game.Scene;
 import game.StateManager;
@@ -27,10 +23,8 @@ import game.interactables.Interactable;
 import game.interactables.PortalObject;
 import game.interactables.Trashcan;
 import game.interactables.Wrench;
-import game.player.Player;
 import game.quests.Quest;
 import game.quests.QuestGoal;
-import game.quests.QuestGoal.InteractionGoal;
 import game.quests.QuestReward;
 import game.quests.QuestStage;
 
@@ -46,7 +40,7 @@ public class TownDay extends Town{
 	
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager){
-		m_horsesFreed = true;
+//		m_horsesFreed = true;
 		if(m_horsesFreed){
 			m_horsesFreed = false;
 
@@ -58,8 +52,8 @@ public class TownDay extends Town{
 				horse1.setRenderPriority(9);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
-				this.getObject("tree1").setRenderPriority(false);
-				this.getObject("tree2").setRenderPriority(false);
+				this.getObject("tree1").setRenderPriority(1);
+				this.getObject("tree2").setRenderPriority(1);
 				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
 				gallop.play();
 				//TODO: make gallop sound longer, since gallop scene is now longer.

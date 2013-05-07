@@ -157,8 +157,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 	/**
 	 * this is used by subclasses to add on enter functionality
+	 * @throws SlickException 
 	 */
-	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {}
+	public void additionalEnter(GameContainer container, StateBasedGame stateManager) throws SlickException {}
 
 	/**
 	 * sets up the objects in this state based on the state of the game

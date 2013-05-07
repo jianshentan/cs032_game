@@ -1,5 +1,6 @@
 package game.io;
 
+import game.GameObject;
 import game.StateManager;
 import game.cameras.PlayerCamera;
 import game.gameplayStates.GamePlayState;
@@ -63,6 +64,14 @@ private String m_loadPath;
 			GamePlayState state = (GamePlayState) stateManager.getState(id);
 			//Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
 			state.loadFromXML(roomNode, stateManager.getContainer(), stateManager);
+		}
+		
+		System.out.println(stateManager.getClass().toString());
+		try {
+			System.out.println(Class.forName(GameObject.class.getName()));
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch blockclassName
+			e.printStackTrace();
 		}
 		
 		int id = Integer.parseInt(root.getAttributes().getNamedItem("currentState").getNodeValue());

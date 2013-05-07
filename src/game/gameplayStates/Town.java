@@ -111,8 +111,8 @@ public abstract class Town extends GamePlayState {
 			tree_1.setSprite(new Image("assets/gameObjects/treebroken.png"));
 			StaticObject tree_2 = (StaticObject)this.getObject("tree2");
 			tree_2.setSprite(new Image("assets/gameObjects/treebroken.png"));
-			tree_1.setRenderPriority(false);
-			tree_2.setRenderPriority(false);
+			tree_1.setRenderPriority(1);
+			tree_2.setRenderPriority(1);
 			
 			this.getObject("fireHydrant").setSprite(new Image("assets/gameObjects/firehydrantbroken.png"));
 			

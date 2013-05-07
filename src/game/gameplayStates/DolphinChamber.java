@@ -1,13 +1,7 @@
 package game.gameplayStates;
 
-import java.util.HashMap;
-
-import game.Dialogue;
-import game.GameObject;
 import game.Scene;
 import game.StateManager;
-import game.StaticObject;
-import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.BlowHole;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
