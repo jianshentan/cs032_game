@@ -46,22 +46,31 @@ private String m_loadPath;
 		DocumentBuilder b = f.newDocumentBuilder();
 		Document d = b.parse(input);
 		Node root = d.getFirstChild();
+		
 		NodeList players = d.getElementsByTagName("Player");
 		Node p = players.item(0);
+		
+		NodeList objects = d.getElementsByTagName("GameObjects");
+		//load all the objects
+		
 		
 		NodeList rooms = d.getElementsByTagName("Room");
 		
 		for(int i = 0; i<rooms.getLength(); i++) {
 			Node roomNode = rooms.item(i);
 			int id = Integer.parseInt(roomNode.getAttributes().getNamedItem("id").getNodeValue());
-			GamePlayState r2 = (GamePlayState) stateManager.getState(id);
+			GamePlayState state = (GamePlayState) stateManager.getState(id);
 			//Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
-			r2.loadFromXML(roomNode, stateManager.getContainer(), stateManager);
+			state.loadFromXML(roomNode, stateManager.getContainer(), stateManager);
 		}
 		int id = Integer.parseInt(root.getAttributes().getNamedItem("currentState").getNodeValue());
 		GamePlayState r2 = (GamePlayState) stateManager.getState(id);
 		Player player = Player.loadFromNode(p, r2, stateManager.getContainer());
 		r2.setPlayer(player);
+		System.out.println(player.getX());
+		System.out.println(player.getY());
+		r2.setPlayerLocation((int) player.getX(), (int) player.getY());
+		player.setGame(r2);
 		
 		//Player player = Player.loadFromNode(p, r);
 		//TODO: load should create an entirely new game...

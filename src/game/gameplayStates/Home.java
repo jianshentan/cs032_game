@@ -194,16 +194,24 @@ public class Home extends GamePlayState {
 		else if (m_startEndState == 1) {
 			if(StateManager.m_dreamState==2 && StateManager.m_dreamState != this.m_previousDreamState) {
 				this.displayDialogue(new String[] {"You wake up. What a strange dream.",
-							"It seems that the strange humanoid escaped into the zoo. " + 
-							"Perhaps you could somehow block off the zoo, so it won't escape there next time..."});
+							"It seems that the strange humanoid escaped into the zoo.", 
+							"Perhaps you could block off, or destroy, the zoo, so it won't escape there next time..."});
 				this.m_previousDreamState = StateManager.m_dreamState;
 			}
 			
 			if(StateManager.m_dreamState==1 && StateManager.m_dreamState!= this.m_previousDreamState) {
-				this.displayDialogue(new String[] {"Now  where did that darn mysterious humanoid escape to " +
+				this.displayDialogue(new String[] {"Now where did that darn mysterious humanoid escape to " +
 						"this time?",
-						"You know something about some entertainment center. Could you close it down?"});
+						"You remember a little bit. The entertainment center. That's where it escaped to.",
+						"You think about destroying the entertainment center."});
 				this.m_previousDreamState = 1;
+			}
+			if(StateManager.m_dreamState==0 && StateManager.m_dreamState!= this.m_previousDreamState) {
+				this.displayDialogue(new String[] {"You should be used to this now, but it still " +
+						"somehow feels strange.",
+						"It escaped to the hospital this time.",
+						"Destroying the hospital would be bad, but.. do you really have a choice?"});
+				this.m_previousDreamState = 0;
 			}
 		}
 		else if (m_startEndState == 2) {

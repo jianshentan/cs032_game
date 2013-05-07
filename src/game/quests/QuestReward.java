@@ -1,17 +1,22 @@
 package game.quests;
 
+import java.awt.Toolkit;
+import java.io.IOException;
+
 import org.newdawn.slick.SlickException;
 
 import game.Collectable;
 import game.GameObject;
 import game.Person;
+import game.Scene;
 import game.StateManager;
 import game.StaticObject;
 import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
+import game.gameplayStates.HospitalBase;
 import game.gameplayStates.VirtualRealityRoom;
-import game.interactables.VisiblePortal;
 import game.player.Player;
+import game.popup.MainFrame;
 
 /**
  * This class represents rewards for quests.
@@ -99,6 +104,46 @@ public abstract class QuestReward {
 			Person guide = (Person) room.getObject("guide");
 			guide.setDialogue(new String[] {"Oops. Looks like something broke. You don't happen to know " +
 					"anything about that, do you?"});
+		}
+		
+	}
+	
+	class WindowThread implements Runnable {
+		private String m_path;
+		private java.awt.Dimension m_screenSize;
+		public void setPath(String path) {
+			m_path = path;
+			m_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		}
+		public void run() {
+			try {
+				int randX = (int)(Math.random()*(m_screenSize.getWidth()-192));
+				int randY = (int)(Math.random()*(m_screenSize.getHeight()-192));
+				MainFrame frame = new MainFrame(randX, randY, 192, 192, m_path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	/**
+	 * Reward for quest 3
+	 *
+	 */
+	public static class Quest3Reward extends QuestReward {
+		
+		@Override
+		public void onAccomplished(GamePlayState state, Player player) {
+			HospitalBase game = (HospitalBase)state;
+			float[][] path = {{6,3}};
+			Scene s = new Scene(game, game.getPlayer(), path);
+			s.playScene();
+			
+			WindowThread thread = new WindowThread();
+			thread.setPath("assets/completeLevel3Text.png");
+			thread.run();	
+			
 		}
 		
 	}

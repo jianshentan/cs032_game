@@ -111,6 +111,16 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	protected Music m_bgm; //background music
 	
+	/**
+	 * mini mode
+	 */
+	private boolean m_mini;
+	/**
+	 * Sets the state's mini mode.
+	 * @param b
+	 */
+	public void setMini(boolean b) { m_mini = b; }
+	
 	
 	public void setPauseState(boolean state) { m_isPaused = state; }
 	public boolean getPauseState() { return m_isPaused; }
@@ -159,7 +169,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 	/**
 	 * This sets the state's BGM from a path.
-	 * @param path - Strign
+	 * @param path - String
 	 */
 	public void setMusic(String path) {
 		try {
@@ -332,6 +342,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				else
 					m_isPaused = false;
 			}
+			if(m_mini)
+				m_isPaused = false;
 			inputDelta = 500;
 		}
 		
@@ -424,10 +436,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	
 		if (!m_disableTopLayer) {
 		// render health
-		m_player.getHealth().render();
+			if(!m_mini)
+				m_player.getHealth().render();
 		
 		// render inventory
-		if (m_player.m_inInventory) { m_player.getInventory().render(g); }
+			if (m_player.m_inInventory) { m_player.getInventory().render(g); }
 		}
 		
 		if (m_inDialogue) {
@@ -698,6 +711,19 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				for(int j = 0; j< interactables.getLength(); j++) {
 					Node c3 = interactables.item(j);
 					if(c3.getNodeName().equals("Interactable")) {
+						String name = c3.getAttributes().getNamedItem("name").getNodeValue();
+						int id = Integer.parseInt(c3.getAttributes().getNamedItem("id").getNodeValue());
+						Interactable o = (Interactable) StateManager.getObject(id);
+						this.m_interactables.put(name, o);
+					}
+				}
+			}
+			if(child.getNodeName().equals("GameObjects")) {
+				Node c2 = child;
+				NodeList interactables = c2.getChildNodes();
+				for(int j = 0; j< interactables.getLength(); j++) {
+					Node c3 = interactables.item(j);
+					if(c3.getNodeName().equals("GameObject")) {
 						String name = c3.getAttributes().getNamedItem("name").getNodeValue();
 						int id = Integer.parseInt(c3.getAttributes().getNamedItem("id").getNodeValue());
 						GameObject o = StateManager.getObject(id);

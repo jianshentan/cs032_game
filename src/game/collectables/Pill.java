@@ -53,7 +53,6 @@ public class Pill extends Collectable implements Interactable{
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		state.removeObject(this.getName(), (int) m_x/SIZE, (int) this.m_y/SIZE);
-		//TODO: fire some windows?
 		((HospitalMaze)state).makePillFrame(getName());
 		return this;
 	}

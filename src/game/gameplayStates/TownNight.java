@@ -103,6 +103,7 @@ public class TownNight extends Town {
 			learning.startQuest(this);
 			m_player.addQuest(learning);
 		}
+		
 		if(dream==2) {
 			m_enemies = new ArrayList<Enemy>();
 			int[][] leadPoints = {{22,18},{22,18},{22,18},{22,18}};
@@ -119,6 +120,21 @@ public class TownNight extends Town {
 			m_player.addQuest(learning);
 		}
 		
+		if(dream==1) {
+			m_enemies = new ArrayList<Enemy>();
+			int[][] leadPoints = {{5,22},{5,22},{5,22},{5,22}};
+			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
+			m_enemies.add(spec);
+			
+			Quest learning = new Quest("learning");
+			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))
+					.setStartText(new String[] 
+							{"You have been expecting this.",
+							"The figure is back. Where will it lead you this time?"});
+			learning.addStage(stage1);
+			learning.startQuest(this);
+			m_player.addQuest(learning);
+		}
 	}
 
 	@Override

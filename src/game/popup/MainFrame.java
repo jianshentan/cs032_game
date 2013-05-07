@@ -19,7 +19,7 @@ public class MainFrame extends JFrame{
 		setMaximumSize(new Dimension(width, height));
         BufferedImage image = ImageIO.read(new File(path));
 		setContentPane(new ImagePanel(image));
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		pack();
 		setVisible(true);
 		
