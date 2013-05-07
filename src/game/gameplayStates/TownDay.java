@@ -19,6 +19,7 @@ import game.StateManager;
 import game.StaticObject;
 import game.collectables.*;
 import game.interactables.Animal;
+import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Horse;
 import game.interactables.InvisiblePortal;
@@ -175,13 +176,7 @@ public class TownDay extends Town{
 			m_blocked[13][11] = true;
 			
 			//TODO: add signs
-			StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
-			sign1.setDialogue(new String[] {"\"The Horse Stables (formerly the zoo)\""});
-			this.addObject(sign1, true);
 			
-			StaticObject fireHydrant = new StaticObject("fireHydrant", 6*SIZE, 23*SIZE, "assets/firehydrant.png");
-			this.addObject(fireHydrant, true);
-			m_blocked[6][23] = true;
 			
 		}
 
@@ -218,7 +213,7 @@ public class TownDay extends Town{
 				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
 						"A great column of water sprays upward like a geyser. There are pretty rainbows."});
 				fireHydrantQuest.addStage(goal1);
-				//TODO: add a goal for the plug
+
 				m_player.addQuest(fireHydrantQuest);
 				fireHydrantQuest.startQuest(this);
 				m_quest1Given = true;
@@ -247,9 +242,12 @@ public class TownDay extends Town{
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
 					"\"They were so beautiful...\""});
+			((Person) this.getObject("wrenchGiver")).setItem(new Cigarette("cigarette", -1, -1));
 			((Person) this.getObject("wrenchGiver")).setDialogue(new String[] {"\"Young man, for what reason " +
 					"have you not fixed your face yet?\"",
-					"\"Did you do something else with that wrench I gave you?\""});
+					"\"Did you do something else with that wrench I gave you?\"",
+					"\"Here, take this cigarette. It might save your life someday.\"",
+					"* You've received a cigarette *"});
 			
 			this.removeObject("dolphinDoor");
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
@@ -265,7 +263,6 @@ public class TownDay extends Town{
 			m_blocked[11][20] = false;
 			m_blocked[12][20] = false;
 			
-			this.getObject("fireHydrant").setSprite(new Image("assets/gameObjects/firehydrantbroken.png"));
 			
 			Animal cat1 = (Animal)this.getObject("cat1");
 			Animal cat2 = (Animal)this.getObject("cat2");
