@@ -145,6 +145,7 @@ public class HospitalMaze extends GamePlayState {
 		stage1.setReward(new QuestReward.Quest3Reward());
 		quest3.addStage(stage1);
 		m_player.addQuest(quest3);
+		quest3.startQuest(this);
 	}
 	
 	/**

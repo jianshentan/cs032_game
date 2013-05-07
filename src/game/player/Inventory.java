@@ -4,6 +4,7 @@ import game.Collectable;
 import game.GameObject.Types;
 import game.Loadable;
 import game.StateManager;
+import game.collectables.Pill;
 
 import java.util.ArrayList;
 
@@ -45,6 +46,7 @@ public class Inventory implements Loadable<Inventory> {
 	
 	//TODO: mini inventory
 	private boolean m_mini;
+	private Collectable[] m_miniItems;
 	
 	public Inventory(GameContainer container) throws SlickException {
 		// set up box to display text in
@@ -56,6 +58,7 @@ public class Inventory implements Loadable<Inventory> {
 		
 		// set up inventory logic
 		m_items = new Collectable[16];
+		m_miniItems = new Collectable[8];
 		
 		// load sprites
 		m_cursor = new Image("assets/colors/white.png");
@@ -100,13 +103,35 @@ public class Inventory implements Loadable<Inventory> {
         	m_inputDelta = 200;
         }
         if(m_inputDelta<0&&input.isKeyDown(Input.KEY_SPACE)) {
-        	if (m_items[m_pointer] != null) {
-        		m_using = m_items[m_pointer];
-        	} else {
-        		m_using = null;
+        	if (m_mini) {
+        		if (m_miniItems[m_pointer] != null) {
+        			m_using = m_miniItems[m_pointer];
+        		} else {
+        			m_using = null;
+        		}
+        	}
+        	else {
+	        	if (m_items[m_pointer] != null) {
+	        		m_using = m_items[m_pointer];
+	        	} else {
+	        		m_using = null;
+	        	}
         	}
         	m_inputDelta = 200;
         }	
+        if (m_inputDelta<0&&input.isKeyDown(Input.KEY_5)) {
+        	int SIZE = 64;
+        	
+        	m_miniItems[0] = new Pill("alprazolam", "assets/pills/p01.png", 18*SIZE, 17*SIZE);
+        	m_miniItems[1] = new Pill("citalopram", "assets/pills/p02.png", 15*SIZE, 9*SIZE);
+        	m_miniItems[2] = new Pill("sertraline", "assets/pills/p03.png", 18*SIZE, 5*SIZE);
+        	m_miniItems[3] = new Pill("lorazepam", "assets/pills/p04.png", 16*SIZE, 11*SIZE);
+        	m_miniItems[4] = new Pill("fluoxetine HCL", "assets/pills/p05.png", 9*SIZE, 12*SIZE);
+        	m_miniItems[5] = new Pill("escitalopram", "assets/pills/p06.png", 2*SIZE, 18*SIZE);
+        	m_miniItems[6] = new Pill("trazodone HCL", "assets/pills/p07.png", 1*SIZE, 12*SIZE);
+        	m_miniItems[7] = new Pill("duloxetine", "assets/pills/p08.png", 4*SIZE, 5*SIZE);
+        	
+        }
 	}
 	
 	public void render(Graphics g) throws SlickException{
@@ -126,11 +151,11 @@ public class Inventory implements Loadable<Inventory> {
 			g.setColor(Color.yellow);
 			int start = (int) (8*Math.floor(m_pointer/8));
 			for(int i = 0; i<8; i++) {
-				int j = (int) (start + i) % m_items.length;
+				int j = (int) (start + i) % m_miniItems.length;
 				if(j==m_pointer) {
 					g.drawRect(10 + (i%4)*(5+bs), 10 + (10+bs)*(i/4), bs, bs);
 				}
-				Collectable c = m_items[j];
+				Collectable c = m_miniItems[j];
 				if(c!=null) {
 					Image img = c.getImage();
 					g.drawImage(img, 10 + (i%4)*(5+bs), 10 + (10+bs)*(i/4), 
@@ -138,8 +163,8 @@ public class Inventory implements Loadable<Inventory> {
 							0, 0, img.getWidth(), img.getHeight());
 				}
 			}
-			if(m_items[m_pointer]!=null) {
-				g.drawString(m_items[m_pointer].getItemName(), 10, 90);
+			if(m_miniItems[m_pointer]!=null) {
+				g.drawString(m_miniItems[m_pointer].getItemName(), 10, 90);
 			}
 			if(m_using!=null) {
 				g.drawString("Using: ", 10, 120);
@@ -151,40 +176,45 @@ public class Inventory implements Loadable<Inventory> {
 			}
 			return;
 		}
-		m_background.draw(m_x, m_y);
-		// draw items
-		for (int i=0; i<m_items.length; i++) 
-			if (m_items[i] != null)
-				m_items[i].getSprite().draw(BLOCKSIZE*(i%4) + 108,
-										 BLOCKSIZE*((int)Math.floor(i/4)) + 172);
-		// draw item text
-		if (m_items[m_pointer] != null) {
-			String itemName = m_items[m_pointer].getItemName();
-			g.setColor(Color.white);
-			g.setFont(m_itemName);
-			g.drawString(itemName, 10 + m_textBox[0], m_textBox[1]);
-			ArrayList<String> itemText = wrap(m_items[m_pointer].getItemText(), BLOCKSIZE*2 + 30);
-			g.setFont(m_itemDesc);
-			g.setColor(Color.white);
-			for (int i=0; i<itemText.size(); i++)
-				g.drawString(itemText.get(i), 
-							 10 + m_textBox[0],
-							 m_textBox[1] + (i+1)*m_font.getLineHeight());
+		else {
+			m_background.draw(m_x, m_y);
+			// draw items
+			for (int i=0; i<m_items.length; i++) 
+				if (m_items[i] != null)
+					m_items[i].getSprite().draw(BLOCKSIZE*(i%4) + 108,
+											 BLOCKSIZE*((int)Math.floor(i/4)) + 172);
+			// draw item text
+			if (m_items[m_pointer] != null) {
+				String itemName = m_items[m_pointer].getItemName();
+				g.setColor(Color.white);
+				g.setFont(m_itemName);
+				g.drawString(itemName, 10 + m_textBox[0], m_textBox[1]);
+				ArrayList<String> itemText = wrap(m_items[m_pointer].getItemText(), BLOCKSIZE*2 + 30);
+				g.setFont(m_itemDesc);
+				g.setColor(Color.white);
+				for (int i=0; i<itemText.size(); i++)
+					g.drawString(itemText.get(i), 
+								 10 + m_textBox[0],
+								 m_textBox[1] + (i+1)*m_font.getLineHeight());
+			}
+			// draw cursor
+			m_cursor.draw(BLOCKSIZE*(m_pointer%4) + 108, 
+						  BLOCKSIZE*((int)Math.floor(m_pointer/4)) + 172);
+			
+			// draw using item
+			if (m_using != null)
+				m_using.getSprite().draw(m_usingBox[0], m_usingBox[1]);
 		}
-		// draw cursor
-		m_cursor.draw(BLOCKSIZE*(m_pointer%4) + 108, 
-					  BLOCKSIZE*((int)Math.floor(m_pointer/4)) + 172);
-		
-		// draw using item
-		if (m_using != null)
-			m_using.getSprite().draw(m_usingBox[0], m_usingBox[1]);
-
 	}
 	
 	public void addItem(Collectable item) {
-		for (int i=0; i<m_items.length; i++) {
-			if (m_items[i] == null) {
-				m_items[i] = item;
+		Collectable[] items = m_items;
+		if (item instanceof Pill) 
+			items = m_miniItems;
+		
+		for (int i=0; i<items.length; i++) {
+			if (items[i] == null) {
+				items[i] = item;
 				break;
 			}
 		}
@@ -197,10 +227,15 @@ public class Inventory implements Loadable<Inventory> {
 	public void removeItem(Types item) {
 		if(m_using!=null && m_using.getType()==item)
 			m_using = null;
-		for(int i = 0; i<m_items.length; i++) {
-			if(m_items[i]!=null){
-				if(m_items[i].getType()==item) {
-					m_items[i] = null;
+		
+		Collectable[] items = m_items;
+		if (m_mini) 
+			items = m_miniItems;
+		
+		for(int i = 0; i<items.length; i++) {
+			if(items[i]!=null){
+				if(items[i].getType()==item) {
+					items[i] = null;
 					break;
 				}
 			}
@@ -215,9 +250,14 @@ public class Inventory implements Loadable<Inventory> {
 		if(m_using!=null && m_using.getName().equals(name)) {
 			m_using = null;
 		}
-		for(int i = 0; i<m_items.length; i++) {
-			if(m_items[i]!=null && m_items[i].getName().equals(name)) {
-				m_items[i] = null;
+		
+		Collectable[] items = m_items;
+		if (m_mini)
+			items = m_miniItems;
+		
+		for(int i = 0; i<items.length; i++) {
+			if(items[i]!=null && items[i].getName().equals(name)) {
+				items[i] = null;
 				break;
 			}
 		}
@@ -229,9 +269,13 @@ public class Inventory implements Loadable<Inventory> {
 	 * @return
 	 */
 	public boolean contains(Types item){
-		for(int i = 0; i< m_items.length; i++) {
-			if(m_items[i]!=null){
-				if(m_items[i].getType()==item){
+		Collectable[] items = m_items;
+		if (m_mini)
+			items = m_miniItems;
+		
+		for(int i = 0; i< items.length; i++) {
+			if(items[i]!=null){
+				if(items[i].getType()==item){
 					return true;
 				}
 			}
