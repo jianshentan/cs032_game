@@ -181,7 +181,7 @@ public class TownDay extends Town{
 	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//TODO: set up cats
 		
-		if(city==3) {
+		if(city==4) {
 			
 			if(m_quest1Given == false) {
 				
@@ -241,7 +241,7 @@ public class TownDay extends Town{
 				
 			}
 		}
-		else if(city==2) {
+		else if(city==3) {
 			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"Can you do something about all" +
 					" the horses?"});
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"My cats..."});
@@ -260,7 +260,7 @@ public class TownDay extends Town{
 	public void setupDialogue(GameContainer container, int city, int dream) {
 		int[] dialoguePos;
 		m_dialogue.clear();
-		if (city == 3 && dream == 2) {
+		if (city == 4 && dream == 3) {
 			
 
 //			Dialogue dolphinDoor = new Dialogue(this, container, new String[]
@@ -268,7 +268,7 @@ public class TownDay extends Town{
 //					"I've got to block it off so that it won't get away next time"}, null);
 //			m_dialogue.put(813, dolphinDoor);
 		}
-		else if (city == 2 && dream == 2) {
+		else if (city == 3 && dream == 3) {
 		}
 	}
 	public void setFree(){

@@ -235,7 +235,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	/**
 	 * sets up the dialogue in this state based on the state of the game
 	 * called on enter state
-	 * possible city/dream combos are: 3-3, 3-2, 2-2, 2-1, 1-1, 1-0, 0-0
+	 * possible city/dream combos are: 4-4, 4-3, 3-3, 3-2, 2-2, 2-1, 1-1, 1-0, 0-0
 	 * NOTE: dialogue that are in all states of this gameplaystate are created in the additionalInit method
 	 */
 	public abstract void setupDialogue(GameContainer container, int city, int dream) throws SlickException;
@@ -340,7 +340,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 		// for testing purposes only
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_EQUALS)) {
-			if (StateManager.m_cityState < 3)
+			if (StateManager.m_cityState < 4)
 				StateManager.m_cityState++;
 			inputDelta = 200;
 			System.out.println("cityState: " + StateManager.m_cityState + 
@@ -354,7 +354,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 				   	   		   " | dreamState: " + StateManager.m_dreamState);	
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_0)) {
-			if (StateManager.m_dreamState < 3)
+			if (StateManager.m_dreamState < 4)
 				StateManager.m_dreamState++;
 			inputDelta = 200;
 			System.out.println("cityState: " + StateManager.m_cityState + 

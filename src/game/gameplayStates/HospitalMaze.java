@@ -25,6 +25,7 @@ import org.newdawn.slick.tiled.TiledMap;
 public class HospitalMaze extends GamePlayState {
 	
 	private ArrayList<MainFrame> m_frames;
+	public ArrayList<MainFrame> getFrames() {return m_frames;}
 	private java.awt.Dimension m_screenSize;
 
 	public HospitalMaze(int stateID) {

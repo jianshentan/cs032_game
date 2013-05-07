@@ -2,8 +2,12 @@ package game.quests;
 
 import java.awt.Toolkit;
 import java.io.IOException;
+import java.util.ArrayList;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 
 import game.Collectable;
 import game.GameObject;
@@ -14,6 +18,7 @@ import game.StaticObject;
 import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
 import game.gameplayStates.HospitalBase;
+import game.gameplayStates.HospitalMaze;
 import game.gameplayStates.VirtualRealityRoom;
 import game.player.Player;
 import game.popup.MainFrame;
@@ -111,15 +116,21 @@ public abstract class QuestReward {
 	class WindowThread implements Runnable {
 		private String m_path;
 		private java.awt.Dimension m_screenSize;
+		private int[] m_size = new int[2];
+		
+		public void setSize(int[] size) {
+			m_size[0] = size[0];
+			m_size[1] = size[1];
+		}
 		public void setPath(String path) {
 			m_path = path;
 			m_screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		}
 		public void run() {
 			try {
-				int randX = (int)(Math.random()*(m_screenSize.getWidth()-192));
-				int randY = (int)(Math.random()*(m_screenSize.getHeight()-192));
-				MainFrame frame = new MainFrame(randX, randY, 192, 192, m_path);
+				int randX = (int)(Math.random()*(m_screenSize.getWidth()-m_size[0]));
+				int randY = (int)(Math.random()*(m_screenSize.getHeight()-m_size[1]));
+				MainFrame frame = new MainFrame(randX, randY, m_size[0], m_size[1], m_path);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -139,10 +150,29 @@ public abstract class QuestReward {
 			float[][] path = {{6,3}};
 			Scene s = new Scene(game, game.getPlayer(), path);
 			s.playScene();
+				
+			WindowThread thread1 = new WindowThread();
+			thread1.setPath("assets/hospitalLetter.png");
+			thread1.setSize(new int[] {450, 500});
+			thread1.run();	
 			
-			WindowThread thread = new WindowThread();
-			thread.setPath("assets/completeLevel3Text.png");
-			thread.run();	
+			WindowThread thread2 = new WindowThread();
+			thread2.setPath("assets/completeLevel3Text.png");
+			thread2.setSize(new int[] {450, 200});
+			thread2.run();	
+			
+			HospitalMaze hospitalMaze = (HospitalMaze) StateManager.getInstance().getState(StateManager.HOSPITAL_MAZE_STATE);
+			ArrayList<MainFrame> frames = hospitalMaze.getFrames();
+			for (MainFrame f : frames) {
+				f.dispose();
+			}
+			
+			int destination = StateManager.TOWN_DAY_STATE;
+			StateManager.getInstance().enterState(destination, 
+					new FadeOutTransition(Color.black, 1000), 
+					new FadeInTransition(Color.black, 1000));
+			GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(destination);
+			destinationState.setPlayerLocation(8*64, 22*64);
 			
 		}
 		

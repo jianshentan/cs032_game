@@ -96,7 +96,7 @@ public class VirtualRealityRoom extends GamePlayState {
 
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
-		if (city == 2) {
+		if (city == 3) {
 
 			if(m_questGiven == false) {
 								
@@ -109,7 +109,7 @@ public class VirtualRealityRoom extends GamePlayState {
 				m_questGiven = true;
 			}
 		}
-		else if (city == 1) {
+		else if (city == 2) {
 			removeObject("VRC");
 			StaticObject VRC = null;
 			try {
