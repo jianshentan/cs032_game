@@ -16,6 +16,12 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+/**
+ * properties:
+ * -Undecorated
+ * -Draggable
+ * -Cannot close/scale
+ */
 public class MainFrame extends JDialog{
 	
 	static Point mouseDownCompCoords;
@@ -31,8 +37,7 @@ public class MainFrame extends JDialog{
 		setContentPane(new ImagePanel(image));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setUndecorated(true);
-		getContentPane().add(new JLabel("", JLabel.CENTER),
-                BorderLayout.CENTER);
+		getContentPane().add(new JLabel("", JLabel.CENTER),BorderLayout.CENTER);
 		pack();
 		setVisible(true);
 		

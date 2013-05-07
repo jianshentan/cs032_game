@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
@@ -21,6 +22,7 @@ import game.gameplayStates.HospitalBase;
 import game.gameplayStates.HospitalMaze;
 import game.gameplayStates.VirtualRealityRoom;
 import game.player.Player;
+import game.popup.CloseFrame;
 import game.popup.MainFrame;
 
 /**
@@ -81,6 +83,11 @@ public abstract class QuestReward {
 			GamePlayState townDay = (GamePlayState) StateManager.getInstance().getState(StateManager.TOWN_DAY_STATE);
 			StaticObject fireHydrant = (StaticObject) townDay.getObject("fireHydrant");
 			fireHydrant.setDialogue(new String[] {"The fire hydrant still has water gushing out of it."});
+			try {
+				fireHydrant.setSprite(new Image("assets/gameObjects/firehydrantbroken.png"));
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
@@ -135,7 +142,7 @@ public abstract class QuestReward {
 			try {
 				int randX = (int)(Math.random()*(m_screenSize.getWidth()-m_size[0]));
 				int randY = (int)(Math.random()*(m_screenSize.getHeight()-m_size[1]));
-				MainFrame frame = new MainFrame(randX, randY, m_size[0], m_size[1], m_path);
+				CloseFrame frame = new CloseFrame(randX, randY, m_size[0], m_size[1], m_path);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -151,11 +158,12 @@ public abstract class QuestReward {
 		
 		@Override
 		public void onAccomplished(GamePlayState state, Player player) {
+			// this scene will walk the player to the middle and then bring him to the town day state
 			HospitalBase game = (HospitalBase)state;
 			float[][] path = {{6,3}};
 			Scene s = new Scene(game, game.getPlayer(), path);
 			s.playScene();
-				
+			
 			WindowThread thread1 = new WindowThread();
 			thread1.setPath("assets/hospitalLetter.png");
 			thread1.setSize(new int[] {450, 500});
@@ -171,13 +179,6 @@ public abstract class QuestReward {
 			for (MainFrame f : frames) {
 				f.dispose();
 			}
-			
-			int destination = StateManager.TOWN_DAY_STATE;
-			StateManager.getInstance().enterState(destination, 
-					new FadeOutTransition(Color.black, 1000), 
-					new FadeInTransition(Color.black, 1000));
-			GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(destination);
-			destinationState.setPlayerLocation(8*64, 22*64);
 			
 		}
 		

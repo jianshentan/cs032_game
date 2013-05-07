@@ -72,6 +72,12 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	// hack - variables for hospitalBase
 	protected Image m_flash;
 	protected boolean m_isFlash = false;
+	
+	
+	// sleep
+	private int m_sleepCounter;
+	private boolean m_sleep = false;
+	private int m_sleepTimer;
 
 	@Deprecated
 	protected HashMap<Integer, Dialogue> m_dialogue;
@@ -303,6 +309,16 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	@Override
 	public final void update(GameContainer container, StateBasedGame stateManager, int delta) throws SlickException {
 
+		if (m_sleep) {
+			m_sleepCounter++;
+			if (m_sleepCounter > m_sleepTimer) {
+				m_sleep = false;
+				m_sleepCounter = 0;
+				m_sleepTimer = 0;
+			}
+			return;
+		}
+		
 		if (m_isPaused && m_pauseMenu!=null)
 			m_pauseMenu.update(container, stateManager, delta);
 
@@ -389,6 +405,8 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_6)) {
 			StateManager.getInstance().enterState(StateManager.HOSPITAL_BASE_STATE);
+			GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(StateManager.HOSPITAL_BASE_STATE);
+			destinationState.setPlayerLocation(7*SIZE, 6*SIZE);
 		}
 
 	}
@@ -632,6 +650,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_sceneDialogue = new Dialogue(this, StateManager.getInstance().getContainer(), dialogue, null);	
 	}
 
+	public void sleep(int time) {
+		m_sleep = true;
+		m_sleepTimer = time;
+	}
+	
 	/**
 	 * Writes the data contained in the room to XML, not including
 	 * the player data.
