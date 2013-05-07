@@ -101,6 +101,7 @@ public class HospitalMaze extends GamePlayState {
 		try {
 			gc.setDisplayMode(192, 192, false);
 			m_camera.refreshCamera(gc, m_player);
+			m_player.getInventory().setMini(true);
 		} catch (SlickException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,6 +151,14 @@ public class HospitalMaze extends GamePlayState {
 		Pill duloxetine = new Pill("duloxetine", "assets/pills/p08.png", 4*SIZE, 5*SIZE);
 		addObject(duloxetine, true);
 
+	}
+	
+	/**
+	 * On leaving, deactivate mini inventory
+	 */
+	@Override
+	public void additionalLeave(GameContainer container, StateBasedGame stateManager) {
+		m_player.getInventory().setMini(false);
 	}
 
 	@Override

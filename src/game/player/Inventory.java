@@ -43,6 +43,9 @@ public class Inventory implements Loadable<Inventory> {
 	private TrueTypeFont m_itemName;
 	private TrueTypeFont m_itemDesc;
 	
+	//TODO: mini inventory
+	private boolean m_mini;
+	
 	public Inventory(GameContainer container) throws SlickException {
 		// set up box to display text in
 		m_font = container.getDefaultFont();
@@ -63,6 +66,14 @@ public class Inventory implements Loadable<Inventory> {
 			
 		java.awt.Font font2 = new java.awt.Font("SansSerif", java.awt.Font.BOLD, 10);
 		m_itemDesc = new TrueTypeFont(font2, false);
+	}
+	
+	/**
+	 * Toggles the mini inventory
+	 * @param b
+	 */
+	public void setMini(boolean b) {
+		m_mini = b;
 	}
 	
 	public void update(GameContainer container, int delta) {
@@ -99,6 +110,46 @@ public class Inventory implements Loadable<Inventory> {
 	}
 	
 	public void render(Graphics g) throws SlickException{
+		if(m_mini) {
+			//do something...
+			//have items be 230x30
+			//display names below
+			//first, draw gray boxes for items
+			//then, draw items - pointer highlighted by yellow box
+			g.setColor(Color.gray);
+			g.fillRect(5, 5, 160, 160);
+			int bs = 30;
+			g.setColor(Color.black);
+			for(int i = 0; i<8; i++) {
+				g.drawRect(10 + (i%4)*(5+bs), 10+(10+bs)*(i/4), bs, bs);
+			}
+			g.setColor(Color.yellow);
+			int start = (int) (8*Math.floor(m_pointer/8));
+			for(int i = 0; i<8; i++) {
+				int j = (int) (start + i) % m_items.length;
+				if(j==m_pointer) {
+					g.drawRect(10 + (i%4)*(5+bs), 10 + (10+bs)*(i/4), bs, bs);
+				}
+				Collectable c = m_items[j];
+				if(c!=null) {
+					Image img = c.getImage();
+					g.drawImage(img, 10 + (i%4)*(5+bs), 10 + (10+bs)*(i/4), 10+ bs + (10+bs)*(i%4), 10+bs+(10+bs)*(i/4), 
+							0, 0, img.getWidth(), img.getHeight());
+				}
+			}
+			if(m_items[m_pointer]!=null) {
+				g.drawString(m_items[m_pointer].getItemName(), 10, 90);
+			}
+			if(m_using!=null) {
+				g.drawString("Using: ", 10, 120);
+				Image img = m_using.getImage();
+				g.setColor(Color.black);
+				g.drawRect(65, 120, bs, bs);
+				g.drawImage(img, 65, 120, 65+bs, 120+bs, 
+						0, 0, img.getWidth(), img.getHeight());
+			}
+			return;
+		}
 		m_background.draw(m_x, m_y);
 		// draw items
 		for (int i=0; i<m_items.length; i++) 
