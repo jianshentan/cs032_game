@@ -20,6 +20,7 @@ import game.gameplayStates.TownDay;
 import game.gameplayStates.TownNight;
 import game.gameplayStates.VirtualRealityHome;
 import game.gameplayStates.VirtualRealityRoom;
+import game.io.GameObjectLoader;
 import game.io.LoadGame;
 import game.player.Player;
 import game.quests.Quest;
@@ -29,6 +30,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class StateManager extends StateBasedGame {
 	
@@ -328,9 +330,16 @@ public class StateManager extends StateBasedGame {
 	/**
 	 * Loads all the GameObjects.
 	 * @param node
+	 * @throws SlickException 
 	 */
-	public static void loadObjects(Node node) {
-		
+	public static void loadObjects(Node node) throws SlickException {
+		NodeList children = node.getChildNodes();
+		for(int i = 0; i<children.getLength(); i++) {
+			Node c = children.item(i);
+			if(c.getNodeName().equals("GameObject")) {
+				GameObject o = GameObjectLoader.loadFromNode(c);
+			}
+		}
 	}
 
 }

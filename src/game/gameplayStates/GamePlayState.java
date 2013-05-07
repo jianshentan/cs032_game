@@ -88,7 +88,6 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	//has been visited for that city/dream state combo.
 
 
-
 	private boolean m_entered; //true if the state has been entered.
 	/**
 	 * Returns true if the state has been entered.
@@ -98,8 +97,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 
 
 	/**
-	 *  key is represented by 'xPos' + 'yPos'
-	 *  example: if object has position (2,3), key = 23.
+	 *  keys are unique strings.
 	 */
 	private HashMap<String, GameObject> m_objects;
 	private HashMap<String, Interactable> m_interactables;
@@ -108,6 +106,11 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	private Dialogue m_sceneDialogue;
 	private boolean m_invisiblePlayer; //true if the player is invisible.
 	public void setInvisiblePlayer(boolean b) { m_invisiblePlayer = b; }
+	
+	/**
+	 * This describes the render groups.
+	 */
+	private ArrayList<ArrayList<GameObject>> m_renderGroups;
 
 	protected Music m_bgm; //background music
 
@@ -195,6 +198,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	 */
 	public void addObject(GameObject o, boolean isInteractable) {
 		m_objects.put(o.getName(), o);
+		m_renderGroups.get(o.getRenderPriority()).add(o);
 		if(isInteractable) {
 			Interactable i = (Interactable) o;
 			m_interactables.put(i.getName(), i);
@@ -229,6 +233,15 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			m_objects.remove(key);
 		if (m_interactables.containsKey(key))
 			m_interactables.remove(key);
+		for(ArrayList<GameObject> objects : this.m_renderGroups) {
+			for(int i = 0; i<objects.size(); i++) {
+				GameObject o = objects.get(i);
+				if(o.getName().equals(key)) {
+					objects.remove(i);
+					return;
+				}
+			}
+		}
 	}
 
 	/**
@@ -287,6 +300,10 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 	public final void init(GameContainer container, StateBasedGame stateManager) throws SlickException {
 		// setup menu
 		if(this.isLoaded()==false) {
+			m_renderGroups = new ArrayList<ArrayList<GameObject>>(GameObject.MAX_RENDER_PRIORITY+1);
+			for(int i = 0; i<GameObject.MAX_RENDER_PRIORITY+1; i++) {
+				m_renderGroups.add(new ArrayList<GameObject>());
+			}
 			m_isInitialized = new boolean[5][5];
 			m_camera = new PlayerCamera(container, m_player);
 			m_pauseMenu = new PauseMenu(this, container);
@@ -408,33 +425,41 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		// render map
 		m_tiledMap.render(-offsetX, -offsetY);
 		// render objects before player 
-		ArrayList<GameObject> objectsToRenderAfter = new ArrayList<GameObject>();
-		for (Entry<String, GameObject> e : m_objects.entrySet()) {
-			GameObject o = e.getValue();
-			if(o instanceof Enemy)
-				continue;
-			if(o.renderAfter())
-				objectsToRenderAfter.add(o);
-			else
-				o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
-
+		//ArrayList<GameObject> objectsToRenderAfter = new ArrayList<GameObject>();
+		
+		for(ArrayList<GameObject> objects : m_renderGroups.subList(0, GameObject.MAX_RENDER_PRIORITY/2)) {
+			for(GameObject o : objects) {
+				if(o instanceof Enemy) {
+					Enemy m_enemy = (Enemy) o;
+					m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
+				}
+				else
+					o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+			}
 		}
 		// render player
 
 		if(m_invisiblePlayer == false)
 			m_player.getAnimation().draw(playerOffsets[0], playerOffsets[1]);
+		
 		// render enemies
-		if (m_enemies != null)
-			for(Enemy m_enemy : m_enemies)
-				m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
+		
 
 		// render item usage
 		if (m_player.m_usingItem)
 			m_player.renderItem(container, stateManager, g);
 
-		// render objects after player
-		for (GameObject o : objectsToRenderAfter)
-			o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+		for(ArrayList<GameObject> objects : 
+			m_renderGroups.subList(GameObject.MAX_RENDER_PRIORITY/2, m_renderGroups.size())) {
+			for(GameObject o : objects) {
+				if(o instanceof Enemy) {
+					Enemy m_enemy = (Enemy) o;
+					m_enemy.getAnimation().draw(m_enemy.getX()-offsetX, m_enemy.getY()-offsetY);
+				}
+				else
+					o.getImage().draw(o.getX()-offsetX, o.getY()-offsetY);
+			}
+		}
 
 
 		this.additionalRender(container, stateManager, g);
@@ -611,6 +636,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_inDialogue = false;
 		m_invisiblePlayer = false;
 		m_camera = new PlayerCamera(StateManager.getInstance().getContainer(),m_player);
+		m_player.exitScene();
 		additionalExitScene();
 	}
 

@@ -25,35 +25,40 @@ public abstract class Town extends GamePlayState {
 		
 		StaticObject building01 = new StaticObject("building01",
 			14*SIZE, 18*SIZE, "assets/town/building01.png");	
+		building01.setRenderPriority(6);
 		this.addObject(building01, false);
-		building01.setRenderPriority(true);
+		
 		StaticObject buildingWalkThrough01A = new StaticObject("buildingWalkThrough01A",
 			14*SIZE, 18*SIZE, "assets/town/building_walkthrough01A.png");
+		buildingWalkThrough01A.setRenderPriority(6);
 		this.addObject(buildingWalkThrough01A, false);
-		buildingWalkThrough01A.setRenderPriority(true);
+		
 		StaticObject buildingWalkThrough01B = new StaticObject("buildingWalkThrough01B",
 				17*SIZE, 21*SIZE, "assets/town/building_walkthrough01B.png");
+		buildingWalkThrough01B.setRenderPriority(6);
 		this.addObject(buildingWalkThrough01B, false);
-		buildingWalkThrough01B.setRenderPriority(true);
+		
 		
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
 		this.addObject(doormat, false);
 		
 		//hospital stuff
 		StaticObject hospital = new StaticObject("hospital", 4*SIZE, 17*SIZE, "assets/town/hospital.png");
+		hospital.setRenderPriority(6);
 		this.addObject(hospital, false);
-		hospital.setRenderPriority(true);
+		
 		StaticObject hospitalTop = new StaticObject("hospitalTop", 4*SIZE+4, 17*SIZE, "assets/town/hospitalTop.png");
+		hospitalTop.setRenderPriority(6);
 		this.addObject(hospitalTop, false);
-		hospitalTop.setRenderPriority(true);
+		
 		
 		StaticObject hospitalTower = new StaticObject("hospitalTower", 2*SIZE, 15*SIZE, 
 				"assets/town/hospitalTower.png");
 		this.addObject(hospitalTower, false);
-		hospitalTower.setRenderPriority(true);
+		hospitalTower.setRenderPriority(5);
 		StaticObject hospitalTowerTop = new StaticObject("hospitalTowerTop", 2*SIZE+4, 15*SIZE, 
 				"assets/town/hospitalTowerTop.png");
-		hospitalTowerTop.setRenderPriority(true);
+		hospitalTowerTop.setRenderPriority(5);
 		this.addObject(hospitalTowerTop, false);
 		
 		// zoo
@@ -61,23 +66,27 @@ public abstract class Town extends GamePlayState {
 		this.addObject(zoo, false);
 		
 		StaticObject tree1 = new StaticObject("tree1", 11*SIZE, 18*SIZE, "assets/gameObjects/tree_normal.png");
+		tree1.setRenderPriority(6);
 		this.addObject(tree1, false);
-		tree1.setRenderPriority(true);
+		
 		m_blocked[11][20] = true;
 		m_blocked[12][20] = true;
 		
 		StaticObject tree2 = new StaticObject("tree2", 19*SIZE, 5*SIZE, "assets/gameObjects/tree_normal.png");
+		tree2.setRenderPriority(6);
 		this.addObject(tree2, false);
-		tree2.setRenderPriority(true);
+		
 		m_blocked[19][7] = true;
 		m_blocked[20][7] = true;
 		
 		StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
 		sign1.setDialogue(new String[] {"\"Horse Stables (formerly the zoo)\""});
+		sign1.setRenderPriority(7);
 		this.addObject(sign1, true);
 		
-		StaticObject sign2 = new StaticObject("sign2", 6*SIZE, 21*SIZE, "assets/gameObjects/sign.png");
+		StaticObject sign2 = new StaticObject("sign2", 4*SIZE, 21*SIZE, "assets/gameObjects/sign.png");
 		sign2.setDialogue(new String[] {"\"Hospital\""});
+		sign2.setRenderPriority(7);
 		this.addObject(sign2, true);
 		
 		StaticObject fireHydrant = new StaticObject("fireHydrant", 6*SIZE, 23*SIZE, "assets/firehydrant.png");

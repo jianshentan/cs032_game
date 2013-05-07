@@ -54,6 +54,8 @@ public class TownDay extends Town{
 			try {
 				int[][] horse_stops = {{10,14},{12,10},{19,6},{19,4},{19,6},{12,10},{23,14},{10,20},{4,22},{4,28},{11,28}};
 				horse1 = new Horse("horseHerd", this, m_player, 10*SIZE, 14*SIZE, horse_stops);
+				
+				horse1.setRenderPriority(9);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
 				this.getObject("tree1").setRenderPriority(false);
@@ -143,7 +145,10 @@ public class TownDay extends Town{
 			this.addObject(trash, true);
 			
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 
+			hospitalDoor.setRenderPriority(7);
 			this.addObject(hospitalDoor, true);
+			
+			
 			
 			//TODO: place cats
 			Animal cat1 = new Animal("cat1", "assets/cat1.png", this, m_player,

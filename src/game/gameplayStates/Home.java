@@ -61,7 +61,7 @@ public class Home extends GamePlayState {
 			
 			StaticObject bedTable = 
 				new StaticObject("bedTable", 4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
-			bedTable.setRenderPriority(true);
+			bedTable.setRenderPriority(2);
 			this.addObject(bedTable, false);
 			m_blocked[4][4] = true;
 			

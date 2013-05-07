@@ -50,6 +50,7 @@ public class Scene {
 	
 	public void playScene() {
 		m_state.enterScene();
+		m_player.enterScene(m_state, null);
 		if(m_invisiblePlayer)
 			m_state.setInvisiblePlayer(true);
 		if(!m_camera) {
