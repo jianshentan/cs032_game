@@ -43,7 +43,6 @@ public class Enemy extends MovingObject{
 
 		m_finder = new AStarPathFinder(room.getMap(), 50, false);
 		//set sprites- eventually these will be passed in
-		System.out.println("ENEMY INITED");
 		Image [] standingUp = {new Image("assets/Sprite2Back.png"), new Image("assets/Sprite2Back.png")};
         Image [] standingDown = {new Image("assets/Sprite2Front.png"), new Image("assets/Sprite2Front.png")};
         Image [] standingLeft = {new Image("assets/Sprite2Left.png"), new Image("assets/Sprite2Left.png")};
@@ -140,8 +139,8 @@ public class Enemy extends MovingObject{
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
 			if(!checkCollision(this, m_game.getPlayer())){
-				m_x+= x * delta*0.05f;
-				m_y+= y * delta*0.05f;
+				m_x+= x * delta*0.15f;
+				m_y+= y * delta*0.15f;
 			} else {
 				this.onPlayerContact();
 			}
