@@ -14,6 +14,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 import game.GameObject;
 import game.gameplayStates.GamePlayState;
@@ -93,6 +94,12 @@ public class TableToHack extends GameObject implements Interactable {
 						"Maybe you should be careful with this one",
 						"\"\""});
 				this.writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "distracting", "locked");
+				try{
+					Sound buzz = new Sound("assets/sounds/smallBuzz");
+					buzz.play();
+				}catch(SlickException e){
+					System.out.println("ERROR: trouble loading small buzz");
+				}
 				state.shakeCamera(2000);	
 			}else{
 				state.displayDialogue(new String[] {"The computer spits out some text",
