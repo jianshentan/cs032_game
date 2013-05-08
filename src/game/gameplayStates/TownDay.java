@@ -220,7 +220,7 @@ public class TownDay extends Town{
 				fireHydrant.setDialogue(new String[] {"This is a fire hydrant."});
 				
 				Quest fireHydrantQuest = new Quest("fireHydrantQuest");
-				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionTypeGoal(fireHydrant));
+				QuestStage goal1 = new QuestStage().addGoal(new QuestGoal.InteractionNameGoal("fireHydrant"));
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
 				goal1.setReward(new QuestReward.WaterDownReward());
 				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
@@ -234,7 +234,7 @@ public class TownDay extends Town{
 				
 				//TODO: add cat quest
 				Quest catQuest = new Quest("catQuest");
-				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionGoal(this.getInteractable("person_1")));
+				QuestStage c1 = new QuestStage().addGoal(new QuestGoal.InteractionNameGoal("person_1"));
 				QuestStage c2 = new QuestStage().setStartText(new String[]
 						{"You want to find some cats!"});
 				ArrayList<Interactable> cats = new ArrayList<Interactable>();
