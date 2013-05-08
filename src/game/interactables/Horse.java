@@ -160,7 +160,7 @@ public class Horse extends Enemy implements Interactable{
 			room.removeEnemy(this.getName());
 			StaticObject obj;
 			try {
-				obj = new StaticObject(this.getName(),coords[0]*SIZE, coords[1]*SIZE, "assets/horseburned.png");
+				obj = new StaticObject(this.getName(),coords[0]*SIZE, coords[1]*SIZE, this.deadhorsepic);
 				room.addObject(obj, false);
 			} catch (SlickException e) {
 				// TODO Auto-generated catch block
