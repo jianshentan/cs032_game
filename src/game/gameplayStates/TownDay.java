@@ -47,8 +47,8 @@ public class TownDay extends Town{
 
 			Horse horseherd;
 			try {
-				int[][] horse_stops = {{10,14},{12,18}};
-				horseherd = new Horse(true, false, "horseHerd", this, m_player, 10*SIZE, 14*SIZE, horse_stops);
+				int[][] horse_stops = {{12,16},{14,27}};
+				horseherd = new Horse(true, false, "horseHerd", this, m_player, 12*SIZE, 16*SIZE, horse_stops);
 				
 				horseherd.setRenderPriority(9);
 				this.addObject(horseherd, true);
@@ -108,13 +108,13 @@ public class TownDay extends Town{
 			this.addObject(person_1, true);
 			m_blocked[9][22] = true;
 			
-			Person wrenchGiver = new Person("wrenchGiver", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new Wrench(-1,-1));
-			wrenchGiver.setDialogue(new String[] 
+			Person mustacheMan = new Person("mustacheMan", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new HairVial(-1,-1));
+			mustacheMan.setDialogue(new String[] 
 					{"\"Young man, for what reason have you let your mustache grow?\"",
 					"\"It really looks quite terrible on a face like ours.\"",
-					"\"Here's a wrench I found, maybe you can fix your face with it.\"",
-					"* you've received a wrench *"});
-			this.addObject(wrenchGiver, true);
+					"\"Here's something I found, maybe you can fix your face with it.\"",
+					"* you've received a some kind of liquid in a vial*"});
+			this.addObject(mustacheMan, true);
 			m_blocked[16][25] = true;
 			
 			Person buttPlugPerson = new Person("buttPlugPerson", 4*SIZE, 8*SIZE, "assets/characters/human_2.png", new BigPlug());
@@ -138,8 +138,12 @@ public class TownDay extends Town{
 			this.addObject(trash, true);
 			
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 
-			hospitalDoor.setRenderPriority(7);
+			hospitalDoor.setRenderPriority(4);
 			this.addObject(hospitalDoor, true);
+			
+			Door shopDoor = new Door("shopDoorDay", 19*SIZE, 14*SIZE, StateManager.SHOP_STATE, -1, -1);
+			shopDoor.setRenderPriority(4);
+			this.addObject(shopDoor, true);
 			
 			
 			
@@ -241,10 +245,10 @@ public class TownDay extends Town{
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
 					"\"They were so beautiful...\"" ,
 					"\"But, at least now, there are beautiful rainbow puddles!\""});
-			((Person) this.getObject("wrenchGiver")).setItem(new Cigarette("cigarette", -1, -1));
-			((Person) this.getObject("wrenchGiver")).setDialogue(new String[] {"\"Young man, for what reason " +
+			((Person) this.getObject("mustacheMan")).setItem(new Cigarette("cigarette", -1, -1));
+			((Person) this.getObject("mustacheMan")).setDialogue(new String[] {"\"Young man, for what reason " +
 					"have you not fixed your face yet?\"",
-					"\"Did you do something else with that wrench I gave you?\"",
+					"\"Did you do something else with that potion I gave you?\"",
 					"\"Here, take this cigarette. It might save your life someday.\"",
 					"* You've received a cigarette *"});
 			
@@ -280,8 +284,6 @@ public class TownDay extends Town{
 					
 			int flowerlength = flowerpatches.length;
 			for (int i=0; i<flowerlength; i++){
-				int xflowcoord = flowerpatches[i][0];
-				int yflowcoord = flowerpatches[i][1];
 				StaticObject flower = (StaticObject)this.getObject("flower"+i);
 				flower.setSprite(new Image("assets/flowersdead.png"));
 				flower.setRenderPriority(0);

@@ -30,8 +30,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
-import org.newdawn.slick.particles.ParticleEmitter;
-import org.newdawn.slick.particles.ParticleSystem;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -410,6 +408,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			StateManager.getInstance().enterState(StateManager.HOSPITAL_BASE_STATE);
 			GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(StateManager.HOSPITAL_BASE_STATE);
 			destinationState.setPlayerLocation(7*SIZE, 6*SIZE);
+		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_P)) {
+			StateManager.getInstance().enterState(StateManager.SHOP_STATE);
 		}
 
 	}

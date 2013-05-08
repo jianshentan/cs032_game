@@ -16,6 +16,7 @@ import game.gameplayStates.HospitalEntrance;
 import game.gameplayStates.HospitalMaze;
 import game.gameplayStates.Kitchen;
 import game.gameplayStates.Room;
+import game.gameplayStates.Shop;
 import game.gameplayStates.TownDay;
 import game.gameplayStates.TownNight;
 import game.gameplayStates.VirtualRealityHome;
@@ -103,6 +104,7 @@ public class StateManager extends StateBasedGame {
 	
 	// real states
 	public static final int GAME_OVER_STATE = 99;
+	public static final int SHOP_STATE = 11;
 	public static final int HOSPITAL_ENTRANCE_STATE = 10;
 	public static final int HOSPITAL_BASE_STATE = 9;
 	public static final int HOSPITAL_MAZE_STATE = 8;
@@ -192,6 +194,8 @@ public class StateManager extends StateBasedGame {
 			addState(hospitalBase);
 			HospitalEntrance hospitalEntrance = new HospitalEntrance(HOSPITAL_ENTRANCE_STATE);
 			addState(hospitalEntrance);
+			Shop shop = new Shop(SHOP_STATE);
+			addState(shop);
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
@@ -204,6 +208,7 @@ public class StateManager extends StateBasedGame {
 			hospitalMaze.setPlayer(m_player);
 			hospitalBase.setPlayer(m_player);
 			hospitalEntrance.setPlayer(m_player);
+			shop.setPlayer(m_player);
 		}
 		GameOver go = new GameOver(GAME_OVER_STATE);
 		addState(go);
@@ -235,6 +240,7 @@ public class StateManager extends StateBasedGame {
 			getState(HOSPITAL_MAZE_STATE).init(container, this);
 			getState(HOSPITAL_BASE_STATE).init(container, this);
 			getState(HOSPITAL_ENTRANCE_STATE).init(container, this);
+			getState(SHOP_STATE).init(container, this);
 		}
 		
 		if(this.m_loader==null) {
@@ -285,6 +291,8 @@ public class StateManager extends StateBasedGame {
 			addState(hospitalBase);
 			HospitalEntrance hospitalEntrance = new HospitalEntrance(HOSPITAL_ENTRANCE_STATE);
 			addState(hospitalEntrance);
+			Shop shop = new Shop(SHOP_STATE);
+			addState(shop);
 			
 			m_player = new Player(home, getGameContainer(), 0, 0);
 			home.setPlayer(m_player);
@@ -297,6 +305,7 @@ public class StateManager extends StateBasedGame {
 			hospitalMaze.setPlayer(m_player);
 			hospitalBase.setPlayer(m_player);
 			hospitalEntrance.setPlayer(m_player);
+			shop.setPlayer(m_player);
 		}
 		
 		GameOver go = new GameOver(GAME_OVER_STATE);

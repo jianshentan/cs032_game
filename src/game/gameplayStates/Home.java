@@ -41,6 +41,18 @@ public class Home extends GamePlayState {
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/posters.png");
 			this.addObject(posters, false);
 			
+			StaticObject posterInteractionA = 
+					new StaticObject("posterInteractionA", 3*SIZE, 2*SIZE, "assets/colors/clear.png");
+			this.addObject(posterInteractionA, true);
+			posterInteractionA.setDialogue(
+					new String[] {"Two of the two most handsome and successful musicians of our decade!"});
+				
+			StaticObject posterInteractionB = 
+					new StaticObject("posterInteractionB", 3*SIZE, 2*SIZE, "assets/colors/clear.png");
+			this.addObject(posterInteractionB, true);
+			posterInteractionB.setDialogue(
+					new String[] {"Two of the two most handsome and successful musicians of our decade!"});
+			
 			StaticObject carpet = 
 				new StaticObject("carpet", 3*SIZE, 3*SIZE, "assets/gameObjects/carpet.png");
 			this.addObject(carpet, false);
@@ -48,11 +60,17 @@ public class Home extends GamePlayState {
 			StaticObject bedTable = 
 				new StaticObject("bedTable", 4*SIZE, 4*SIZE, "assets/gameObjects/bedTable.png");
 			bedTable.setRenderPriority(2);
+			bedTable.setDialogue(new String[] {"The iPhone is dead... what a piece of shit device"});
 			this.addObject(bedTable, false);
 			m_blocked[4][4] = true;
 			
 			StaticObject table =
 				new StaticObject("table", SIZE, 4*SIZE, "assets/gameObjects/table.png");
+			table.setDialogue(new String[] {"Wiki: \"Throughout history recurring dreams have held their place with mystery.\"",
+					"\"Recurring dreams can have significant meaning behind them, or they can be mysterious. \"",
+					"\"With many schools of thought on the interpretations of the dreams themselves there is little fact known on which is accurate. \"",
+					"\"Some psychological disorders play a role in the presence of recurring dreams and can even be a symptom to help in diagnosis.\"",
+					"\"This is done where the content of the dream may not play a role as much as the emotions also make the dreamer feel after waking.\""});
 
 			m_blocked[1][4] = true;
 			m_blocked[1][5] = true;
@@ -95,16 +113,16 @@ public class Home extends GamePlayState {
 	@Override
 	public void setupDialogue(GameContainer container, int city, int dream) {
 		if (city == 4 && dream == 4) {
-			((StaticObject)this.getInteractable("door")).setDialogue(new String[]
-					{"Its late out... Perhaps you should just hit the sack"});
+//			((StaticObject)this.getInteractable("door")).setDialogue(new String[]
+//					{"Its late out... Perhaps you should just hit the sack"});
 			
-			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
-					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
-					"You can also visit find plenty of friends right here on the internet.. special friends."});	
+//			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
+//					{"1. This your macbook, a safe place to visit your collection of non-moving horses.",
+//					"You can also visit find plenty of friends right here on the internet.. special friends."});	
 		}
 		else if (city == 4 && dream == 3) {
-			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
-					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
+//			((StaticObject)this.getInteractable("table")).setDialogue(new String[]
+//					{"2. Woah... that horse is indeed better than a boy.", "maybe i'll buy one"});
 		}
 		else if(city == 3 && dream == 3) {
 			
@@ -127,24 +145,24 @@ public class Home extends GamePlayState {
 		if (m_startEndState == 0) {
 			StaticObject door;
 			try {
-				door = new StaticObject("entry_door", 32 + 2*SIZE, -14*SIZE, "assets/gameObjects/door.png");
+				door = new StaticObject("entry_door", 32 + 2*SIZE, -18*SIZE, "assets/gameObjects/door.png");
 				this.addObject(door, false);
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
 			StaticObject text;
 			try {
-				text = new StaticObject("entry_text", 32 + (-1*SIZE), -12*SIZE, "assets/entryText.png");
+				text = new StaticObject("entry_text", 32 + (-1*SIZE), -16*SIZE, "assets/entryText.png");
 				this.addObject(text, false);
 			} catch (SlickException e) {
 				
 			}
 		
-			Scene s = new Scene(this, m_player, new float[][] {{(float)2.5, -19},{(float)2.5,4}});
+			Scene s = new Scene(this, m_player, new float[][] {{(float)2.5, -24},{(float)2.5,4}});
 			s.setCamera(true);
 			// testing purposes
-			s.setCameraSpeed((float)5);
-			//s.setCameraSpeed((float)0.3);
+			s.setCameraSpeed((float)6);
+//			s.setCameraSpeed((float)0.25);
 			this.m_disableTopLayer = true;
 			s.playScene();
 			m_startEndState++;
