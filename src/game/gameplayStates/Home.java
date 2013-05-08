@@ -144,7 +144,7 @@ public class Home extends GamePlayState {
 			s.setCamera(true);
 			// testing purposes
 			s.setCameraSpeed((float)4);
-			//s.setCameraSpeed((float)0.3);
+//			s.setCameraSpeed((float)0.3);
 			this.m_disableTopLayer = true;
 			s.playScene();
 			m_startEndState++;
