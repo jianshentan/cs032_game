@@ -13,6 +13,7 @@ import game.Person;
 import game.Scene;
 import game.StateManager;
 import game.StaticObject;
+import game.GameObject.Types;
 import game.collectables.*;
 import game.interactables.Animal;
 import game.interactables.Banana;
@@ -102,13 +103,21 @@ public class TownDay extends Town{
 			this.addObject(person_1, true);
 			m_blocked[9][22] = true;
 			
-			Person mustacheMan = new Person("mustacheMan", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new HairVial(-1,-1));
-			mustacheMan.setDialogue(new String[] 
-					{"\"Young man, for what reason have you let your mustache grow?\"",
-					"\"It really looks quite terrible on a face like ours.\"",
-					"\"Here's something I found, maybe you can fix your face with it.\"",
-					"* you've received a some kind of liquid in a vial*"});
-			this.addObject(mustacheMan, true);
+			if(m_player.getInventory().contains(Types.HAIR_VIAL)||m_player.getInventory().contains(Types.WRENCH)){
+				Person mustacheMan = new Person("mustacheMan", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new HairVial(-1,-1));
+				mustacheMan.setDialogue(new String[] 
+						{"\"Hurry up young man! No time to waste.\"",
+						"\"You aren't making any friends with that silly moustache of yours!\""});
+				this.addObject(mustacheMan, true);
+			}else{
+				Person mustacheMan = new Person("mustacheMan", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new HairVial(-1,-1));
+				mustacheMan.setDialogue(new String[] 
+						{"\"Young man, for what reason have you let your mustache grow?\"",
+						"\"It really looks quite terrible on a face like ours.\"",
+						"\"Here's something I found, maybe you can fix your face with it.\"",
+						"* you've received a some kind of liquid in a vial*"});
+				this.addObject(mustacheMan, true);
+			}
 			m_blocked[16][25] = true;
 			
 			Person buttPlugPerson = new Person("buttPlugPerson", 4*SIZE, 8*SIZE, "assets/characters/human_2.png", new BigPlug());
@@ -152,8 +161,9 @@ public class TownDay extends Town{
 			this.addObject(virtualRealityRoomDoor, true);
 			
 			
+			System.out.println("HOSPITAL DOOR");
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 
-			hospitalDoor.setRenderPriority(4);
+			hospitalDoor.setRenderPriority(9);
 			this.addObject(hospitalDoor, true);
 			
 			Door shopDoor = new Door("shopDoorDay", 19*SIZE, 14*SIZE, StateManager.SHOP_STATE, -1, -1);
@@ -178,6 +188,9 @@ public class TownDay extends Town{
 					 4*SIZE, 26*SIZE, 1, 18);
 			this.addObject(cat2, true);
 			m_enemies.add(cat2);
+
+			//TODO: add new people who give information about stuff
+
 		}
 
 		
@@ -248,6 +261,14 @@ public class TownDay extends Town{
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
 					"\"They were so beautiful...\"" ,
 					"\"But, at least now, there are beautiful rainbow puddles!\""});
+			if(m_player.getInventory().contains(Types.CIGARETTE)){
+				((Person) this.getObject("mustacheMan")).setItem(null);
+				((Person) this.getObject("mustacheMan")).setDialogue(new String[] {"\"Young man, How's that cigarette " +
+						"treating you?\"",
+						"\"I know the doctors say it's no good for you\"",
+						"\"but, for my money, it's the best thrill a red-blooded man like us can recieve\"",
+						"\"HO HO HO HO HO\""});
+			}
 			((Person) this.getObject("mustacheMan")).setItem(new Cigarette("cigarette", -1, -1));
 			((Person) this.getObject("mustacheMan")).setDialogue(new String[] {"\"Young man, for what reason " +
 					"have you not fixed your face yet?\"",

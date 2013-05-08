@@ -258,7 +258,7 @@ public class StateManager extends StateBasedGame {
 	public void reset() throws SlickException{
 		m_cityState = 4;
 		m_dreamState = 4;
-		System.out.println("GAME OVER STATE CALLED RESET ENTERED");
+		//System.out.println("GAME OVER STATE CALLED RESET ENTERED");
 		
 		//not totally certain abt this stuff
 		if(m_debugMode){

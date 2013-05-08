@@ -172,6 +172,8 @@ public class Player extends MovingObject{
         	int[] squareOn= {currentX, currentY};
         	Interactable interactable = m_game.interact(squareFacing, squareOn);
         	for(Quest q : m_quests) {
+        		//System.out.println("Player 175 - interactable is" +interactable.getType());
+        		//System.out.println("Player 175 - name is " + interactable.getName());
     			q.updateQuest(m_game, this, interactable);
     		}
         	if (interactable instanceof Collectable)

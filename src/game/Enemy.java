@@ -11,7 +11,7 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 public class Enemy extends MovingObject{
 	protected Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand;
 	protected AIState m_ai;
-	private boolean m_inTransit, m_patrol, m_lead, m_pause, m_search=false;
+	private boolean m_inTransit, m_patrol, m_lead, m_pause, m_ignoreCollision = false, m_search=false;
 	private int[][] m_patrolPoints;
 	private int[] m_currentSquare, m_destination, m_leadTo;
 	private AStarPathFinder m_finder;
@@ -138,7 +138,7 @@ public class Enemy extends MovingObject{
 			}
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
-			if(!checkCollision(this, m_game.getPlayer())){
+			if(m_ignoreCollision||!checkCollision(this, m_game.getPlayer())){
 				m_x+= x * delta*0.15f;
 				m_y+= y * delta*0.15f;
 			} else {
@@ -389,5 +389,8 @@ public class Enemy extends MovingObject{
 	 */
 	protected void onPlayerContact() {
 		
+	}
+	public void setIgnoreCollision(boolean b){
+		m_ignoreCollision = b;
 	}
 }

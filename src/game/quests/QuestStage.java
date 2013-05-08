@@ -58,6 +58,7 @@ public class QuestStage {
 	
 	public boolean isAccomplished(GamePlayState state, Player player, Interactable interactable) {
 		for (QuestGoal goal : this.m_goals) {
+			//System.out.println("checking accomplished quest stage 61 ");
 			if(goal.isAccomplished(state, player, interactable)==false) {
 				return false;
 			}

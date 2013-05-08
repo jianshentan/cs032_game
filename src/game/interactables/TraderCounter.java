@@ -25,7 +25,7 @@ public class TraderCounter extends StaticObject implements Interactable{
 
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
-		System.out.println("interacting with trader counter");
+		//System.out.println("interacting with trader counter");
 		if (m_tradeState == 0) {
 			if (p.getUsing() instanceof HairVial) {
 				state.displayDialogue(new String[] {"\"Ah! Looks like you have just what I need.\"",
@@ -62,5 +62,5 @@ public class TraderCounter extends StaticObject implements Interactable{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 }
