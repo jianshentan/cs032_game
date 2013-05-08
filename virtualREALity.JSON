@@ -1,0 +1,12 @@
+{
+	"player": {
+		"hunger":"hungry",
+		"happiness":"unhappy",
+		"sex appeal":"minimal",
+		"drive":"complacent",
+	}
+	"room": {
+		"bed":"uncomfortable",
+		"door":"unlocked",
+	}
+}

@@ -14,6 +14,7 @@ import game.interactables.VirtualTrash;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
@@ -163,6 +164,12 @@ public class VirtualRealityHome extends GamePlayState {
 		
 	}
 	public void finish(){
+		try{
+			Sound buzz = new Sound("assets/sounds/RealityCrash.wav");
+			buzz.play();
+		}catch(SlickException e){
+			
+		}
 		this.displayDialogue(new String[]{"A booming voice speaks- \"What have you done!?\""});
 		this.shakeCamera(5000);
 		StateManager.getInstance().enterState(StateManager.VIRTUAL_REALITY_ROOM_STATE, new FadeOutTransition(Color.white, 4000), 

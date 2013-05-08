@@ -17,9 +17,13 @@ public class VirtualTrash extends Trashcan {
 		subsequentAction(state, p);
 	}
 	public void subsequentAction(GamePlayState state, Player p){
-		if(p.getUsing()!=null && p.getUsing().getType()==(Types.REALITY_EXECUTABLE)){
+
+		if(p.getUsing()!=null&&p.getUsing().getType()==(Types.REALITY_EXECUTABLE)){
+
 			m_deleted = true;
 			p.getInventory().removeItem(Types.REALITY_EXECUTABLE);
+			VirtualRealityHome home = (VirtualRealityHome) state;
+			home.finish();
 		}else{
 			if(m_deleted){
 				state.displayDialogue(new String[]{"The paper has disappeared, you better get out of here. This place is about to blow!"});
