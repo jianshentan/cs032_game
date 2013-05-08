@@ -5,6 +5,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import game.gameplayStates.GamePlayState;
 import game.interactables.Interactable;
+import game.io.SaveGame;
 import game.player.Player;
 
 import org.newdawn.slick.Image;
@@ -18,13 +19,13 @@ import org.newdawn.slick.SlickException;
 public class StaticObject extends GameObject implements Interactable{
 	
 	private String[] m_dialogue;
+	private String m_spritePath;
 	
 	public StaticObject(String name, int xLoc, int yLoc, String spritePath) throws SlickException {
 		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
-		String s1 = String.valueOf(xLoc);
-		String s2 = String.valueOf(yLoc);
+		m_spritePath = spritePath;
 		setSprite(new Image(spritePath));
 	}
 	
@@ -51,7 +52,13 @@ public class StaticObject extends GameObject implements Interactable{
 
 	@Override
 	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
-		// TODO Auto-generated method stub
+		writer.writeAttribute("m_spritePath", m_spritePath);
+		if(m_dialogue!=null) {
+			writer.writeStartElement("m_dialogue");
+			writer.writeAttribute("length", String.valueOf(m_dialogue.length));
+			SaveGame.save(writer, m_dialogue);
+			writer.writeEndElement();
+		}
 		
 	}
 

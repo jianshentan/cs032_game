@@ -2,6 +2,7 @@ package game.io;
 
 import game.GameObject;
 import game.GameObject.Types;
+import game.interactables.Bed;
 import game.interactables.Chest;
 import game.interactables.ChickenWing;
 import game.interactables.Cigarette;
@@ -68,6 +69,10 @@ public class GameObjectLoader {
 			int m_ydestination = Integer.parseInt(attributes.getNamedItem("m_yDestination").getNodeValue());
 			return new InvisiblePortal(name, (int) x, (int) y, m_destination, m_xdestination, m_ydestination);
 		} else if(type.equals(Types.BED.toString())) {
+			int m_destination = Integer.parseInt(attributes.getNamedItem("m_destination").getNodeValue());
+			int m_xdestination = Integer.parseInt(attributes.getNamedItem("m_xDestination").getNodeValue());
+			int m_ydestination = Integer.parseInt(attributes.getNamedItem("m_yDestination").getNodeValue());
+			return new Bed(name, (int) x, (int) y, m_destination, m_xdestination, m_ydestination);
 			
 		} else if(type.equals(Types.STATIC.toString())) {
 			
@@ -104,7 +109,7 @@ public class GameObjectLoader {
 		} else if(type.equals(Types.HOLDER.toString())) {
 			
 		}
-		return o;
+		return null;
 	}
 
 }

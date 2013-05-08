@@ -150,7 +150,7 @@ public class SaveGame {
 	 */
 	public static void save(XMLStreamWriter writer, String[] array) throws XMLStreamException { 
 		for(int i = 0; i<array.length; i++) {
-			writer.writeAttribute(String.valueOf(i), array[i]);
+			writer.writeAttribute("i"+String.valueOf(i), array[i]);
 		}
 	}
 	

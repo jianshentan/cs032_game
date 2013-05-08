@@ -15,6 +15,7 @@ import org.newdawn.slick.Sound;
 
 public class VirtualDoor extends GameObject implements Interactable {
 	private boolean m_open = false;
+	private boolean m_complete = false;
 	public VirtualDoor(String name, int xLoc, int yLoc) throws SlickException{
 		super(name);
 		m_x = xLoc;
@@ -30,9 +31,11 @@ public class VirtualDoor extends GameObject implements Interactable {
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}
-			
-			VirtualRealityHome home = (VirtualRealityHome) state;
-			home.stage3Complete();
+			if(!m_complete) {
+				VirtualRealityHome home = (VirtualRealityHome) state;
+				home.stage3Complete();
+				m_complete = true;
+			}
 		}else{
 			try{
 				Sound hitDoor = new Sound("assets/sounds/HitDoor.wav");

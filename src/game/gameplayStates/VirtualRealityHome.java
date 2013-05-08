@@ -68,7 +68,7 @@ public class VirtualRealityHome extends GamePlayState {
 			bedTable.setDialogue(new String[] {"\"Wow I left my phone in the exact same place\"," +
 					"you see some text on your phone... ",
 					"\"JB is your luck, your curse... and your exit\""});
-			bedTable.setRenderPriority(true);
+			bedTable.setRenderPriority(2);
 			this.addObject(bedTable, true);
 			m_blocked[4][4] = true;
 			
