@@ -55,7 +55,7 @@ public class TableToHack extends GameObject implements Interactable {
 							"Finally, a strange message pops up on the screen: \"male donkey + female horse = ?\""});
 			}
 			else if (queryAnswer1().compareTo("") != 0 && 
-					 queryAnswer1().compareTo("mule") != 0) { // wrong answer but something was written
+					 queryAnswer1().contains("mule") != true) { // wrong answer but something was written
 				state.displayDialogue(new String[] {"Your computer is spazzing out..",
 						"Looks like you've accessed the system but didn't get it quite right.."});
 			}
