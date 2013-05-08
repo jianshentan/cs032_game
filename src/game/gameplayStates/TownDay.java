@@ -239,7 +239,8 @@ public class TownDay extends Town{
 					" the horses? I hate horses.\""});
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
-					"\"They were so beautiful...\""});
+					"\"They were so beautiful...\"" ,
+					"\"But, at least now, there are beautiful rainbow puddles!\""});
 			((Person) this.getObject("wrenchGiver")).setItem(new Cigarette("cigarette", -1, -1));
 			((Person) this.getObject("wrenchGiver")).setDialogue(new String[] {"\"Young man, for what reason " +
 					"have you not fixed your face yet?\"",
@@ -299,25 +300,27 @@ public class TownDay extends Town{
 			this.removeObject("cat2");
 			StaticObject static_cat1 = new StaticObject("cat1",  cat1_loc[0]*SIZE, cat1_loc[1]*SIZE,"assets/cat1dead.png");
 			StaticObject static_cat2 = new StaticObject("cat2", cat2_loc[0]*SIZE, cat2_loc[1]*SIZE, "assets/cat2dead.png");
-			this.addObject(static_cat1,false);
-			this.addObject(static_cat2,false);
+			static_cat1.setDialogue(new String[] {"A deceased cat. Its body is covered with the imprints of hoofs."});
+			static_cat2.setDialogue(new String[] {"A deceased cat. Its body is covered with the imprints of hoofs."});
+			this.addObject(static_cat1,true);
+			this.addObject(static_cat2,true);
 			
 			
-			int[][] horse_stops1 = {{10,17},{23,12}};
+			int[][] horse_stops1 = {{13,13},{23,12}};
 			int[][] horse_stops2 = {{4,22},{17,25}};
-			int[][] horse_stops3 = {{4,12},{15,12}};
+			int[][] horse_stops3 = {{4,12},{10,10}};
 			Horse horse1 = new Horse(false, false, "horse1", this, m_player, 10*SIZE, 17*SIZE, horse_stops1);
-			horse1.setRenderPriority(9);
+			horse1.setRenderPriority(5);
 			this.addObject(horse1, true);
 			m_enemies.add(horse1);
 			
 			Horse horse2 = new Horse(false, false, "horse2", this, m_player, 4*SIZE, 22*SIZE, horse_stops2);
-			horse2.setRenderPriority(9);
+			horse2.setRenderPriority(5);
 			this.addObject(horse2, true);
 			m_enemies.add(horse2);
 			
 			Horse horse3 = new Horse(false, false, "horse3", this, m_player, 4*SIZE, 12*SIZE, horse_stops3);
-			horse3.setRenderPriority(9);
+			horse3.setRenderPriority(5);
 			this.addObject(horse3, true);
 			m_enemies.add(horse3);
 			
