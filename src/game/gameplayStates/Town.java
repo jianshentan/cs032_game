@@ -191,10 +191,9 @@ public abstract class Town extends GamePlayState {
 		
 		int[][] flowerpatches = {{5,9},{5,10},{5,11},{5,12},{5,13},
 				{6,9},{7,9},{8,9},{9,9},{10,9},
-				{11,12},{11,13},{11,14},{11,15},
+				{11,13},{11,14},{11,15},
 				{6,15},{7,15},{8,15},{9,15},{10,15},
 				{1,25},{4,23},{5,23},{5,24},{5,25},{4,24},{4,25},
-				{11,24},{12,24},
 				{11,26},{12,26},{13,26},
 				{19,25},{19,27}};
 				
@@ -213,10 +212,28 @@ public abstract class Town extends GamePlayState {
 			
 		}
 		else if (city == 3) {
-			
+			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,9}, {11,10}, {11,12}};
+			for (int i=0; i<dolphinBlocks.length; i++) {
+				int xBlock = dolphinBlocks[i][0];
+				int yBlock = dolphinBlocks[i][1];
+				StaticObject block = new StaticObject("dolphinBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
+				block.setRenderPriority(4);
+				block.setDialogue(new String[] {"You can't get pass this. The zoo has been blocked by due to the destruction of the dolphin."});
+				this.addObject(block, true);
+				m_blocked[xBlock][yBlock] = true;
+			}
 		}
 		else if (city == 2) {
-			
+			int[][] virtualRealityBlocks = {{13,16}, {13,17}, {13,18}, {13,19}, {17,25}, {17, 26}, {17, 27}};
+			for (int i=0; i<virtualRealityBlocks.length; i++) {
+				int xBlock = virtualRealityBlocks[i][0];
+				int yBlock = virtualRealityBlocks[i][1];
+				StaticObject block = new StaticObject("virtualRealityBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
+				block.setRenderPriority(4);
+				block.setDialogue(new String[] {"You can't get pass this. The virtual reality centre went out of business and pull down all its surrounding businesses."});
+				this.addObject(block, true);
+				m_blocked[xBlock][yBlock] = true;
+			}	
 		}
 		else if (city == 1) {
 			
@@ -255,14 +272,14 @@ public abstract class Town extends GamePlayState {
 		}
 		
 		// draw all door images (not necessarily functionlity);
-		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
-		hospitalDoor.setRenderPriority(7);
+		StaticObject hospitalDoor = new StaticObject("hospitalDoorStatic", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
 		this.addObject(hospitalDoor, false);
 		hospitalDoor.setRenderPriority(8);
-		StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
+		StaticObject dolphinDoor = new StaticObject("dolphinDoorStatic", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
+		dolphinDoor.setRenderPriority(8);
 		this.addObject(dolphinDoor, false);
 		dolphinDoor.setRenderPriority(8);
-		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoor", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
+		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoorStatic", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(virtualRealityDoor, false);
 		virtualRealityDoor.setRenderPriority(8);
 		
