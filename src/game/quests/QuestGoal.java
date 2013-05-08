@@ -268,6 +268,8 @@ public abstract class QuestGoal {
 				VirtualRealityHome home = (VirtualRealityHome)StateManager.getInstance()
 						.getState(StateManager.VIRTUAL_REALITY_HOME_STATE);
 				VirtualDoor door = (VirtualDoor) home.getObject("door");
+				if(door==null)
+					return false;
 				return door.isOpen();
 			}
 			return false;

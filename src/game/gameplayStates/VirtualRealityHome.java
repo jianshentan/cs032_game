@@ -51,9 +51,9 @@ public class VirtualRealityHome extends GamePlayState {
 		
 		//set up objects that will not change
 		if (!this.isLoaded()) {
-			VirtualTrash vtc = new VirtualTrash("Virtual Trash", 1*SIZE, 3*SIZE);
-			this.addObject(vtc, true);
-			m_blocked[1][3] = true;
+			//VirtualTrash vtc = new VirtualTrash("Virtual Trash", 1*SIZE, 3*SIZE);
+			//this.addObject(vtc, true);
+			//m_blocked[1][3] = true;
 			
 			StaticObject posters = 
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/bieberPoster.png");
@@ -82,8 +82,8 @@ public class VirtualRealityHome extends GamePlayState {
 			} catch (UnsupportedEncodingException e) { e.printStackTrace();}
 			
 
-			//m_vdoor = new VirtualDoor("door", 2*SIZE, 2*SIZE);
-			//this.addObject(m_vdoor, true);
+			m_vdoor = new VirtualDoor("door", 2*SIZE, 2*SIZE);
+			this.addObject(m_vdoor, true);
 			
 			m_bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
 			m_bed.setDialogue(new String[] {"This is way less comfortable than your bed at home. We're talking rock hard. Might as well sleep on the floor"});
