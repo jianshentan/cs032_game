@@ -14,6 +14,7 @@ public class Spectre extends Enemy {
 		super(state, player, x, y);
 		//set ai
 		this.setName("spectre");
+		this.setIgnoreCollision(true);
 		m_ai = AIState.LEAD;
 		if(destinations.length!=4){
 			System.out.println("ERROR: spectre has wrong # of destinations");

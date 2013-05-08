@@ -120,7 +120,7 @@ public class StateManager extends StateBasedGame {
 	// this represents the city degradation. 4 beings the least degraded and 0 being the most
 	public static int m_cityState = 4;
 	// this represents the number of dreams you have left
-	public static int m_dreamState = 3;
+	public static int m_dreamState = 4;
 	
 	
 	private AppGameContainer m_app;
@@ -258,7 +258,7 @@ public class StateManager extends StateBasedGame {
 	public void reset() throws SlickException{
 		m_cityState = 4;
 		m_dreamState = 4;
-		System.out.println("GAME OVER STATE CALLED RESET ENTERED");
+		//System.out.println("GAME OVER STATE CALLED RESET ENTERED");
 		
 		//not totally certain abt this stuff
 		if(m_debugMode){

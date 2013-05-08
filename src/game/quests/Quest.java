@@ -55,6 +55,7 @@ public class Quest {
 			return;
 		}
 		if(m_goals.get(m_currentGoal).isAccomplished(state, player)) {
+			
 			m_goals.get(m_currentGoal).onAccomplished(state, player);
 			m_currentGoal += 1;
 			if (m_currentGoal >= m_goals.size()) {

@@ -79,10 +79,13 @@ public abstract class QuestReward {
 
 		@Override
 		public void onAccomplished(GamePlayState state, Player player) {
+			
+			/*for(StackTraceElement ste :Thread .currentThread().getStackTrace()){
+				System.out.println(ste);
+			}*/
 			DolphinChamber d = (DolphinChamber) StateManager.getInstance().getState(StateManager.DOLPHIN_STATE);
 			d.waterDown(true);
 			try{
-				System.out.println("HYDRANT IS SOUNDING OWF");
 				Sound hydrant = new Sound("assets/sounds/FireHydrant.wav");
 				hydrant.play();
 			}catch(SlickException e){
