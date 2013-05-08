@@ -238,7 +238,9 @@ public class TownDay extends Town{
 		}
 		else if(city==3) {
 			m_overlay = new Image("assets/black_15.png");
-			
+			((Person) this.getObject("buttPlugMan")).setDialogue(new String[] {"\"You didn't tell anyone about yesterday " +
+					"right?" , "I don't want my family to see what I've become!"
+			});
 			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"Can you do something about all" +
 					" the horses? I hate horses.\""});
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
@@ -333,11 +335,15 @@ public class TownDay extends Town{
 		}
 		else if(city==2) {
 			m_overlay = new Image("assets/black_40.png");
-			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"Can you do something about all" +
-			" the horses? I hate horses.\""});
-			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
-			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
-				"\"They were so beautiful...\""});
+			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"These horses are so messed up!\"",
+					"I'm beginning to wonder if the dolphins weren't right all along"});
+			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"Yesterday my cats were trampled, and today my brother is in the hospital\"",
+					"There was some sort of crazy Virtual Reality accident", "\"This is the worst weekend ever\""});
+			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"I can't believe they closed the entertainment center\"",
+				"\"I can't even go to my virtual garden anymore\"", "What do should do..."});
+			((Person) this.getObject("buttPlugMan")).setDialogue(new String[] {"\"What's going on around here lately.\"", "\"Seems as though "+
+				"everyone is wailing about this and that\"", "\"People should be more like me, and find one corner and stick to it\"", "\"Then they'd have" +
+			" nothing to worry about\""});
 			//TODO-set new patrol routes for horses
 			/*((Horse) this.getObject("horse1")).setPatrolPoints(new int[][]{{1,1},{2,2}});
 			((Horse) this.getObject("horse2")).setPatrolPoints(new int[][]{{1,1},{2,2}});
