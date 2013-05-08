@@ -60,11 +60,11 @@ public abstract class QuestGoal {
 	 * Goal is to interact with some interactable.
 	 *
 	 */
-	public static class InteractionGoal extends QuestGoal {
-		private Interactable m_targetInteractable;
+	public static class InteractionNameGoal extends QuestGoal {
+		private String m_targetInteractable;
 		
-		public InteractionGoal(Interactable target) {
-			m_targetInteractable = target;
+		public InteractionNameGoal(String targetName) {
+			m_targetInteractable = targetName;
 		}
 
 		@Override
@@ -81,7 +81,7 @@ public abstract class QuestGoal {
 			//System.out.println("trying quest goal");
 			if(interactable == null || m_targetInteractable == null)
 				return false;
-			if(interactable.equals(m_targetInteractable))
+			if(interactable.getName().equals(m_targetInteractable))
 				return true;
 			return false;
 		}
