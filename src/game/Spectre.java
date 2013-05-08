@@ -13,6 +13,7 @@ public class Spectre extends Enemy {
 	public Spectre(GamePlayState state, Player player, float x, float y, int[][] destinations) throws SlickException{
 		super(state, player, x, y);
 		//set ai
+		this.setName("spectre");
 		m_ai = AIState.LEAD;
 		if(destinations.length!=4){
 			System.out.println("ERROR: spectre has wrong # of destinations");

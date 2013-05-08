@@ -19,12 +19,6 @@ public class InvisiblePortal extends PortalObject {
 	}
 
 	@Override
-	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public Types getType() {
 		return Types.DOOR_MAT;
 	}

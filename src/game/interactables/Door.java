@@ -26,10 +26,6 @@ public class Door extends PortalObject {
 		return Types.DOOR;
 	}
 
-	@Override
-	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
-		
-	}
 	public void additionalFireAction(GamePlayState state, Player p){
 		try {
 			Sound doorOpen = new Sound("assets/sounds/doorSound.wav");

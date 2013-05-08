@@ -121,7 +121,8 @@ public abstract class QuestReward {
 				VRC = new StaticObject("VRC", 6*GameObject.SIZE, GameObject.SIZE, 
 						"assets/gameObjects/virtualRealityChair.png");
 				VRC.setDialogue(new String[] {"You try sitting on the chair, but you don't end up in your " +
-						"happy place."});
+						"happy place.",
+						"In fact, you don't end up anywhere at all, except in a somewhat uncomfortable chair."});
 			} catch (SlickException e) {
 				e.printStackTrace();
 			}

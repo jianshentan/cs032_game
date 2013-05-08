@@ -158,7 +158,7 @@ public abstract class GameObject {
 		HOLDER, 
 		REALITY_EXECUTABLE, 
 		OUTSIDE_TRASHCAN,
-		VIRTUAL_TRASHCAN;
+		VIRTUAL_TRASHCAN, BANANA;
 	}
 	
 	/**
@@ -179,7 +179,7 @@ public abstract class GameObject {
 			writer.writeAttribute("type", this.getType().toString());
 		writer.writeAttribute("m_x", String.valueOf(this.m_x));
 		writer.writeAttribute("m_y", String.valueOf(this.m_y));
-		writer.writeAttribute("m_renderAfter", String.valueOf(m_renderAfter));
+		writer.writeAttribute("m_renderPriority", String.valueOf(m_renderPriority));
 		
 		this.writeAttributes(writer);
 		

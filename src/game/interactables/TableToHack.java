@@ -81,7 +81,7 @@ public class TableToHack extends GameObject implements Interactable {
 						"\"Ignore all spaces to hack me again\"",
 						"\"And like Davinci, dear fibonacci shares\"",
 						"\"A commonality - the answer. Name it with care.\""});
-			}else if (queryAnswer2().compareTo("112358") == 0) {
+			}else if (queryAnswer2().compareTo("0112358") == 0) {
 				m_stage++;
 				state.displayDialogue(new String[] {"The screen turns white again and the buzzing continues",
 						"The whole room suddenly starts to shake a litte...",
@@ -93,9 +93,9 @@ public class TableToHack extends GameObject implements Interactable {
 						"VirtalRealityState.JSON",
 						"Maybe you should be careful with this one",
 						"\"\""});
-				this.writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "distracting", "locked");
+				this.writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "locked");
 				try{
-					Sound buzz = new Sound("assets/sounds/smallBuzz");
+					Sound buzz = new Sound("assets/sounds/smallBuzz.wav");
 					buzz.play();
 				}catch(SlickException e){
 					System.out.println("ERROR: trouble loading small buzz");
@@ -122,7 +122,7 @@ public class TableToHack extends GameObject implements Interactable {
 				state.displayDialogue(new String[] {
 						"ERROR: Data irreperably corrupted. Restoring original state",
 				});
-				writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "distracting", "locked");
+				writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "locked");
 			} else{
 				parseAnswer3(state, st);
 				finish(state);
@@ -216,14 +216,31 @@ public class TableToHack extends GameObject implements Interactable {
 			}
 			boolean error = false;
 			String responseString = "";
-			String bed = ((String) room.get("bed")).toLowerCase();
-			String television = ((String) room.get("television")).toLowerCase();
-			String door = ((String) room.get("door")).toLowerCase();
-			String hunger = ((String) player.get("hunger")).toLowerCase();
-			String happiness = ((String) player.get("happiness")).toLowerCase();
-			String sexAppeal = ((String) player.get("sex appeal")).toLowerCase();
-			String drive = ((String) player.get("drive")).toLowerCase();
-			if(bed==null||drive==null||television==null||door==null||hunger==null||happiness==null||sexAppeal==null||drive==null){
+			String bed = ((String) room.get("bed"));
+			if(bed!=null){
+				bed = bed.toLowerCase();
+			}
+			String door = ((String) room.get("door"));
+			if(door!=null){
+				door = door.toLowerCase();
+			}
+			String hunger = ((String) player.get("hunger"));
+			if(hunger!=null){
+				hunger=hunger.toLowerCase();
+			}
+			String happiness = ((String) player.get("happiness"));
+			if(happiness!=null){
+				happiness = happiness.toLowerCase();
+			}
+			String sexAppeal = ((String) player.get("sex appeal"));
+			if(sexAppeal!=null){
+				sexAppeal = sexAppeal.toLowerCase();
+			}
+			String drive = ((String) player.get("drive"));
+			if(drive!=null){
+				drive = drive.toLowerCase();
+			}
+			if(bed==null||drive==null||door==null||hunger==null||happiness==null||sexAppeal==null||drive==null){
 				return "corrupted";
 			}
 			if(bed.compareTo("soft")==0||bed.compareTo("comfortable")==0||bed.compareTo("tempurpedic")==0||bed.compareTo("luxurious")==0||bed.compareTo("comfy")==0||bed.compareTo("cozy")==0){
@@ -246,16 +263,7 @@ public class TableToHack extends GameObject implements Interactable {
 					door = "locked";
 				}
 			}
-			if(television.compareTo("interesting")*television.compareTo("well-crafted")*television.compareTo("fascinating")*television.compareTo("good")*television.compareTo("educational")==0){
-				m_tv = true;
-			}else{
-				if(television.compareTo("distracting")*television.compareTo("boring")*television.compareTo("dull")*television.compareTo("lame")*television.compareTo("uninteresting")==0){
-					m_tv = false;
-				}else{
-					error = true;
-					television = "distracting";
-				}
-			}
+
 			if(hunger.compareTo("full")*hunger.compareTo("satisfied")*hunger.compareTo("stuffed")*hunger.compareTo("satiated")*hunger.compareTo("low")==0){
 				responseString += "full\n";
 			}else{
@@ -302,7 +310,7 @@ public class TableToHack extends GameObject implements Interactable {
 			}
 			if(error){
 				responseString += "error\n";
-				writeJSON(hunger, happiness, sexAppeal, drive, bed, television, door);
+				writeJSON(hunger, happiness, sexAppeal, drive, bed, door);
 			}
 			return responseString;
  		}catch (FileNotFoundException e){
@@ -360,7 +368,7 @@ public class TableToHack extends GameObject implements Interactable {
 	public Types getType() {
 		return Types.TABLE_TO_HACK;
 	}
-	private void writeJSON(String hunger, String happiness, String sexAppeal, String drive, String bed, String tv, String door){
+	private void writeJSON(String hunger, String happiness, String sexAppeal, String drive, String bed, String door){
 		try {
 			PrintWriter writer = new PrintWriter("virtualREALity.JSON", "UTF-8");
 			writer.print(""+
@@ -373,7 +381,6 @@ public class TableToHack extends GameObject implements Interactable {
 			"\t},\n"+
 			"\t\"room\": {\n"+
 			"\t\t\"bed\":\""+bed+"\",\n"+
-			"\t\t\"television\":\""+tv+"\",\n"+
 			"\t\t\"door\":\""+door+"\",\n"+
 			"\t}\n"+
 			"}");

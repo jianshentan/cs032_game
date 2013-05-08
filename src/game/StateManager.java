@@ -38,6 +38,7 @@ public class StateManager extends StateBasedGame {
 	//Used to store all game objects
 	private static HashMap<Integer, GameObject> gameObjects;
 	private static HashMap<Integer, Quest> quests;
+	private static boolean isLoading;
 	  
 	static {
 	    instance = new StateManager();
@@ -67,7 +68,8 @@ public class StateManager extends StateBasedGame {
 	 * @param o
 	 */
 	public static void addObject(int key, GameObject o) {
-		gameObjects.put(key, o);
+		if(!isLoading)
+			gameObjects.put(key, o);
 	}
 	
 	
@@ -114,9 +116,9 @@ public class StateManager extends StateBasedGame {
 	public static final int MAINMENU_STATE = 0;
 	
 	// this represents the city degradation. 4 beings the least degraded and 0 being the most
-	public static int m_cityState = 4;
+	public static int m_cityState = 3;
 	// this represents the number of dreams you have left
-	public static int m_dreamState = 3;
+	public static int m_dreamState = 2;
 	
 	
 	private AppGameContainer m_app;
@@ -333,11 +335,14 @@ public class StateManager extends StateBasedGame {
 	 * @throws SlickException 
 	 */
 	public static void loadObjects(Node node) throws SlickException {
+		gameObjects = new HashMap<Integer, GameObject>();
 		NodeList children = node.getChildNodes();
+		isLoading = true;
 		for(int i = 0; i<children.getLength(); i++) {
 			Node c = children.item(i);
 			if(c.getNodeName().equals("GameObject")) {
 				GameObject o = GameObjectLoader.loadFromNode(c);
+				gameObjects.put(o.getKey(), o);
 			}
 		}
 	}

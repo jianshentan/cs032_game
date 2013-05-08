@@ -94,8 +94,22 @@ public class VirtualRealityRoom extends GamePlayState {
 
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
+		if(city == 4) {
+			this.removeObject("VRC");
+			StaticObject VRC = new StaticObject("VRC", 6*SIZE, SIZE,"assets/gameObjects/virtualRealityChair.png");
+			VRC.setDialogue(new String[] {"\"Sorry, but this is not the time or place for this,\" " +
+					"you hear a booming voice say."});
+			addObject(VRC, true);
+			m_blocked[6][1] = true;
+		}
 		if (city == 3) {
 
+			this.removeObject("VRC");
+			VisiblePortal VRC = new VisiblePortal("VRC", 6*SIZE, SIZE, 
+					StateManager.VIRTUAL_REALITY_HOME_STATE, -1, -1, "assets/gameObjects/virtualRealityChair.png");
+			addObject(VRC, true);
+			m_blocked[6][1] = true;
+			
 			if(m_questGiven == false) {
 								
 				Quest virtualRealityQuest= new Quest("virtualRealityQuest");

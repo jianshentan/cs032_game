@@ -23,20 +23,68 @@ public abstract class Town extends GamePlayState {
 		m_blocked[11][29] = true;
 		m_blocked[12][29] = true;
 		
+		// buildings
 		StaticObject building01 = new StaticObject("building01",
 			14*SIZE, 18*SIZE, "assets/town/building01.png");	
-		building01.setRenderPriority(6);
+		building01.setRenderPriority(4);
 		this.addObject(building01, false);
 		
-		StaticObject buildingWalkThrough01A = new StaticObject("buildingWalkThrough01A",
+		StaticObject building01TopA = new StaticObject("buildingWalkThrough01A",
 			14*SIZE, 18*SIZE, "assets/town/building_walkthrough01A.png");
-		buildingWalkThrough01A.setRenderPriority(6);
-		this.addObject(buildingWalkThrough01A, false);
+		building01TopA.setRenderPriority(6);
+		this.addObject(building01TopA, false);
 		
-		StaticObject buildingWalkThrough01B = new StaticObject("buildingWalkThrough01B",
+		StaticObject building01TopB = new StaticObject("buildingWalkThrough01B",
 				17*SIZE, 21*SIZE, "assets/town/building_walkthrough01B.png");
-		buildingWalkThrough01B.setRenderPriority(6);
-		this.addObject(buildingWalkThrough01B, false);
+		building01TopB.setRenderPriority(6);
+		this.addObject(building01TopB, false);
+		
+		StaticObject building02 = new StaticObject("building02",
+			18*SIZE, 17*SIZE, "assets/town/building02.png");
+		building02.setRenderPriority(4);
+		this.addObject(building02, false);
+		
+		StaticObject building02Top = new StaticObject("building02Top" ,
+				18*SIZE+4, 17*SIZE, "assets/town/building02Top.png");
+		building02Top.setRenderPriority(7);
+		this.addObject(building02Top, false);
+		
+		StaticObject building03 = new StaticObject("building03",
+				14*SIZE, 13*SIZE, "assets/town/building03.png");
+		building03.setRenderPriority(4);
+		this.addObject(building03, false);
+		
+		StaticObject building03Top = new StaticObject("building03Top",
+				14*SIZE+4, 13*SIZE, "assets/town/building03Top.png");
+		building03Top.setRenderPriority(7);
+		this.addObject(building03Top, false);
+		
+		StaticObject building04 = new StaticObject("building04" ,
+				21*SIZE, 15*SIZE, "assets/town/building04.png");
+		building04.setRenderPriority(4);
+		this.addObject(building04, false);
+		
+		StaticObject building04Top = new StaticObject("building04Top",
+				21*SIZE+4, 15*SIZE, "assets/town/building04Top.png");
+		building04Top.setRenderPriority(6);
+		this.addObject(building04Top, false);
+		
+		StaticObject building05 = new StaticObject("building05",
+				21*SIZE, 12*SIZE, "assets/town/building05.png");
+		building05.setRenderPriority(4);
+		this.addObject(building05, false);
+		
+		StaticObject building06 = new StaticObject("building06",
+				17*SIZE, 12*SIZE, "assets/town/building06.png");
+		building06.setRenderPriority(4);
+		this.addObject(building06, false);
+		
+		StaticObject building06Top = new StaticObject("building06Top",
+				17*SIZE, 12*SIZE, "assets/town/building06Top.png");
+		building06Top.setRenderPriority(6);
+		this.addObject(building06Top, false);
+				
+		
 		
 		
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
@@ -55,11 +103,44 @@ public abstract class Town extends GamePlayState {
 		StaticObject hospitalTower = new StaticObject("hospitalTower", 2*SIZE, 15*SIZE, 
 				"assets/town/hospitalTower.png");
 		this.addObject(hospitalTower, false);
-		hospitalTower.setRenderPriority(5);
+		hospitalTower.setRenderPriority(4);
 		StaticObject hospitalTowerTop = new StaticObject("hospitalTowerTop", 2*SIZE+4, 15*SIZE, 
 				"assets/town/hospitalTowerTop.png");
 		hospitalTowerTop.setRenderPriority(5);
 		this.addObject(hospitalTowerTop, false);
+		
+		// zoo
+		StaticObject zoo = new StaticObject("zooBuilding", 7*SIZE, 11*SIZE, "assets/town/zoo.png");
+		this.addObject(zoo, false);
+		zoo.setRenderPriority(4);
+		
+		
+		// random houses
+		StaticObject randomHouse01 = new StaticObject("randomHouse1", 9*SIZE, 5*SIZE, 
+				"assets/town/smallRandomHouse01.png");
+		randomHouse01.setRenderPriority(4);
+		this.addObject(randomHouse01, false);
+		
+		StaticObject randomHouse02 = new StaticObject("randomHouse2", 5*SIZE, 5*SIZE, 
+				"assets/town/smallRandomHouse02.png");
+		randomHouse02.setRenderPriority(4);
+		this.addObject(randomHouse02, false);
+		
+		StaticObject randomHouse03 = new StaticObject("randomHouse3", 11*SIZE, 23*SIZE, 
+				"assets/town/smallRandomHouse03.png");
+		randomHouse03.setRenderPriority(4);
+		this.addObject(randomHouse03, false);
+		m_blocked[11][24] = true;
+		m_blocked[12][24] = true;
+		m_blocked[13][24] = true;
+		m_blocked[11][25] = true;
+		m_blocked[12][25] = true;
+		m_blocked[13][25] = true;
+		
+		StaticObject randomHouse03Top = new StaticObject("randomHouse3Top", 11*SIZE, 23*SIZE,
+				"assets/town/smallRandomHouse03Top.png");
+		randomHouse03Top.setRenderPriority(6);
+		this.addObject(randomHouse03Top, false);
 		
 		
 		StaticObject tree1 = new StaticObject("tree1", 11*SIZE, 18*SIZE, "assets/gameObjects/tree_normal.png");
@@ -88,11 +169,11 @@ public abstract class Town extends GamePlayState {
 		m_blocked[8][26] = true;
 		m_blocked[9][26] = true;
 		
-		StaticObject tree5 = new StaticObject("tree5", 1*SIZE, 22*SIZE, "assets/gameObjects/tree_normal.png");
+		StaticObject tree5 = new StaticObject("tree5", 14*SIZE, 9*SIZE, "assets/gameObjects/tree_normal.png");
 		tree5.setRenderPriority(6);
 		this.addObject(tree5, false);
-		m_blocked[1][24] = true;
-		m_blocked[2][24] = true;
+		m_blocked[14][11] = true;
+		m_blocked[15][11] = true;
 		
 		StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
 		sign1.setDialogue(new String[] {"\"Horse Stables (formerly the zoo)\""});
@@ -122,7 +203,7 @@ public abstract class Town extends GamePlayState {
 			int xflowcoord = flowerpatches[i][0];
 			int yflowcoord = flowerpatches[i][1];
 			StaticObject flower = new StaticObject("flower"+i,xflowcoord*SIZE, yflowcoord*SIZE, "assets/flowers.png");
-			flower.setRenderPriority(false);
+			flower.setRenderPriority(6);
 			this.addObject(flower, false);
 			m_blocked[xflowcoord][yflowcoord] = true;
 		}
@@ -148,40 +229,42 @@ public abstract class Town extends GamePlayState {
 			for (int i=1; i<=4; i++) {
 				StaticObject tree = (StaticObject)this.getObject("tree"+i);
 				tree.setSprite(new Image("assets/gameObjects/treebroken.png"));
-				tree.setRenderPriority(0);
+				tree.setRenderPriority(1);
 			}
 
 			
 			this.getObject("fireHydrant").setSprite(new Image("assets/gameObjects/firehydrantbroken.png"));
 			
-			m_blocked[19][7] = false;
-			m_blocked[20][7] = false;
-			m_blocked[11][20] = false;
-			m_blocked[12][20] = false;
-			m_blocked[5][26] = false;
-			m_blocked[6][26] = false;
-			m_blocked[8][26] = false;
-			m_blocked[9][26] = false;
-			m_blocked[1][24] = false;
-			m_blocked[2][24] = false;
+			m_blocked[19][6] = false;
+			m_blocked[20][6] = false;
+			m_blocked[11][19] = false;
+			m_blocked[12][19] = false;
+			m_blocked[5][25] = false;
+			m_blocked[6][25] = false;
+			m_blocked[8][25] = false;
+			m_blocked[9][25] = false;
+			m_blocked[14][10] = false;
+			m_blocked[15][10] = false;
 
 			for (int i=0; i<flowerlength; i++){
 				int xflowcoord = flowerpatches[i][0];
 				int yflowcoord = flowerpatches[i][1];
-				this.removeObject("flower"+i);
-				StaticObject flower = new StaticObject("flower"+i,xflowcoord*SIZE, yflowcoord*SIZE, "assets/flowersdead.png");
-				this.addObject(flower, false);
-				m_blocked[xflowcoord][yflowcoord] = false;
+				this.getObject("flower"+i).setSprite(new Image("assets/flowersdead.png"));
+				this.getObject("flower"+i).setRenderPriority(0);
 			}
 		}
 		
 		// draw all door images (not necessarily functionlity);
-		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png"); 
+		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
+		hospitalDoor.setRenderPriority(7);
 		this.addObject(hospitalDoor, false);
+		hospitalDoor.setRenderPriority(8);
 		StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(dolphinDoor, false);
+		dolphinDoor.setRenderPriority(8);
 		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoor", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(virtualRealityDoor, false);
+		virtualRealityDoor.setRenderPriority(8);
 		
 		// townDay and townNight will call this
 		additionalSetupObjects(city, dream);

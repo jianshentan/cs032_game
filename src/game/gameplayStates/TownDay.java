@@ -15,6 +15,7 @@ import game.StateManager;
 import game.StaticObject;
 import game.collectables.*;
 import game.interactables.Animal;
+import game.interactables.Banana;
 import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Horse;
@@ -44,16 +45,16 @@ public class TownDay extends Town{
 		if(m_horsesFreed){
 			m_horsesFreed = false;
 
-			Horse horse1;
+			Horse horseherd;
 			try {
 				int[][] horse_stops = {{10,14},{12,18}};
-				horse1 = new Horse("horseHerd", this, m_player, 10*SIZE, 14*SIZE, horse_stops);
+				horseherd = new Horse(true, false, "horseHerd", this, m_player, 10*SIZE, 14*SIZE, horse_stops);
 				
-				horse1.setRenderPriority(9);
-				this.addObject(horse1, true);
-				m_enemies.add(horse1);
-				this.getObject("tree1").setRenderPriority(1);
-				this.getObject("tree2").setRenderPriority(1);
+				horseherd.setRenderPriority(9);
+				this.addObject(horseherd, true);
+				m_enemies.add(horseherd);
+		//		this.getObject("tree1").setRenderPriority(1);
+		//		this.getObject("tree2").setRenderPriority(1);
 				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
 				gallop.play();
 				//TODO freeze player for 5 seconds
@@ -171,10 +172,10 @@ public class TownDay extends Town{
 					"\"We have the best fire response system in the world!\""});
 			this.addObject(optimist, true);
 			m_blocked[13][11] = true;
-			
-			//TODO: add signs
-			
-			
+
+			Banana banana = new Banana("banana",24*SIZE, 23*SIZE);
+			this.addObject(banana,true);
+						
 		}
 
 		
@@ -207,7 +208,7 @@ public class TownDay extends Town{
 				goal1.addGoal(new QuestGoal.ItemEquippedGoal(new Wrench(-1,-1)));
 				goal1.setReward(new QuestReward.WaterDownReward());
 				//goal1.setStartText(new String[] {"You wonder how you can close down the zoo."});
-				goal1.setEndText(new String[] {"You open the fire hydrant with the wrench. " +
+				goal1.setEndText(new String[] {"You open the fire hydrant with the force of your brawn, and a wrench.",
 						"A great column of water sprays upward like a geyser. There are pretty rainbows."});
 				fireHydrantQuest.addStage(goal1);
 
@@ -253,21 +254,21 @@ public class TownDay extends Town{
 					" a sign on the door reads."});
 			this.addObject(dolphinDoor, true);
 			
-			this.getObject("tree1").setSprite(new Image("assets/gameObjects/treebroken.png"));
-			this.getObject("tree2").setSprite(new Image("assets/gameObjects/treebroken.png"));
-			this.getObject("tree3").setSprite(new Image("assets/gameObjects/treebroken.png"));
-			this.getObject("tree4").setSprite(new Image("assets/gameObjects/treebroken.png"));
-			this.getObject("tree5").setSprite(new Image("assets/gameObjects/treebroken.png"));
-			m_blocked[5][26] = false;
-			m_blocked[6][26] = false;
-			m_blocked[8][26] = false;
-			m_blocked[9][26] = false;
-			m_blocked[1][24] = false;
-			m_blocked[2][24] = false;
-			m_blocked[19][7] = false;
-			m_blocked[20][7] = false;
-			m_blocked[11][20] = false;
-			m_blocked[12][20] = false;
+			for (int i=1; i<=5; i++) {
+				StaticObject tree = (StaticObject)this.getObject("tree"+i);
+				tree.setSprite(new Image("assets/gameObjects/treebroken.png"));
+				tree.setRenderPriority(1);
+			}
+			m_blocked[5][25] = true;
+			m_blocked[6][25] = true;
+			m_blocked[8][25] = true;
+			m_blocked[9][25] = true;
+			m_blocked[14][10] = true;
+			m_blocked[15][10] = true;
+			m_blocked[19][6] = true;
+			m_blocked[20][6] = true;
+			m_blocked[11][19] = true;
+			m_blocked[12][19] =true; 
 			int[][] flowerpatches = {{5,9},{5,10},{5,11},{5,12},{5,13},
 					{6,9},{7,9},{8,9},{9,9},{10,9},
 					{11,12},{11,13},{11,14},{11,15},
@@ -283,12 +284,11 @@ public class TownDay extends Town{
 				int yflowcoord = flowerpatches[i][1];
 				StaticObject flower = (StaticObject)this.getObject("flower"+i);
 				flower.setSprite(new Image("assets/flowersdead.png"));
-				flower.setRenderPriority(false);
-				m_blocked[xflowcoord][yflowcoord] = false;
+				flower.setRenderPriority(0);
 			}
 			
 			
-			
+			try {
 			Animal cat1 = (Animal)this.getObject("cat1");
 			Animal cat2 = (Animal)this.getObject("cat2");
 			int[] cat1_loc = cat1.getSquare();
@@ -302,6 +302,29 @@ public class TownDay extends Town{
 			StaticObject static_cat2 = new StaticObject("cat2", cat2_loc[0]*SIZE, cat2_loc[1]*SIZE, "assets/cat2dead.png");
 			this.addObject(static_cat1,false);
 			this.addObject(static_cat2,false);
+			
+			
+			int[][] horse_stops1 = {{10,17},{23,12}};
+			int[][] horse_stops2 = {{4,22},{17,25}};
+			int[][] horse_stops3 = {{4,12},{15,12}};
+			Horse horse1 = new Horse(false, false, "horse1", this, m_player, 10*SIZE, 17*SIZE, horse_stops1);
+			horse1.setRenderPriority(9);
+			this.addObject(horse1, true);
+			m_enemies.add(horse1);
+			
+			Horse horse2 = new Horse(false, false, "horse2", this, m_player, 4*SIZE, 22*SIZE, horse_stops2);
+			horse2.setRenderPriority(9);
+			this.addObject(horse2, true);
+			m_enemies.add(horse2);
+			
+			Horse horse3 = new Horse(false, false, "horse3", this, m_player, 4*SIZE, 12*SIZE, horse_stops3);
+			horse3.setRenderPriority(9);
+			this.addObject(horse3, true);
+			m_enemies.add(horse3);
+			
+			} catch(Exception e) {
+				
+			}
 			
 		}
 		else if(city==2) {

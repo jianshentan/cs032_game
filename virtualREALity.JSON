@@ -4,10 +4,9 @@
 		"happiness":"unhappy",
 		"sex appeal":"minimal",
 		"drive":"complacent",
-	},
+	}
 	"room": {
 		"bed":"uncomfortable",
-		"television":"distracting",
 		"door":"unlocked",
 	}
 }

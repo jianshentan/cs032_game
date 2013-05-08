@@ -9,7 +9,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
-import game.GameObject;
 import game.StateManager;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
