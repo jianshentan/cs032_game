@@ -137,6 +137,7 @@ public class TownNight extends Town {
 			int[][] leadPoints = {{5,22},{5,22},{5,22},{5,22}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
 			m_enemies.add(spec);
+			this.addObject(spec, false);
 			
 			Quest learning = new Quest("learning");
 			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))

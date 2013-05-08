@@ -80,7 +80,7 @@ public class TableToHack extends GameObject implements Interactable {
 						"\"Ignore all spaces to hack me again\"",
 						"\"And like Davinci, dear fibonacci shares\"",
 						"\"A commonality - the answer. Name it with care.\""});
-			}else if (queryAnswer2().compareTo("112358") == 0) {
+			}else if (queryAnswer2().compareTo("0112358") == 0) {
 				m_stage++;
 				state.displayDialogue(new String[] {"The screen turns white again and the buzzing continues",
 						"The whole room suddenly starts to shake a litte...",

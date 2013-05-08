@@ -82,8 +82,8 @@ public class VirtualRealityHome extends GamePlayState {
 			} catch (UnsupportedEncodingException e) { e.printStackTrace();}
 			
 
-			m_vdoor = new VirtualDoor("door", 2*SIZE, 2*SIZE);
-			this.addObject(m_vdoor, true);
+			//m_vdoor = new VirtualDoor("door", 2*SIZE, 2*SIZE);
+			//this.addObject(m_vdoor, true);
 			
 			m_bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
 			m_bed.setDialogue(new String[] {"This is way less comfortable than your bed at home. We're talking rock hard. Might as well sleep on the floor"});
