@@ -171,9 +171,7 @@ public class TownDay extends Town{
 					"\"We have the best fire response system in the world!\""});
 			this.addObject(optimist, true);
 			m_blocked[13][11] = true;
-			
-			//TODO: add signs
-			
+						
 			
 		}
 

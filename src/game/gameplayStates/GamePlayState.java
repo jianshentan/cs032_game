@@ -12,6 +12,7 @@ import game.cameras.Camera;
 import game.cameras.PlayerCamera;
 import game.interactables.Interactable;
 import game.interactables.Interactables;
+import game.io.SaveGame;
 import game.player.Player;
 import game.quests.Quest;
 
@@ -678,12 +679,22 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		writer.writeStartElement("GamePlayState");
 		if(m_mapPath!=null)
 			writer.writeAttribute("m_mapPath", m_mapPath);
+		writer.writeAttribute("class", this.getClass().getName());
+		
 		writer.writeAttribute("id", String.valueOf(this.m_stateID));
 
 		writer.writeAttribute("m_playerX", String.valueOf(m_playerX));
 		writer.writeAttribute("m_playerY", String.valueOf(m_playerY));
 		//write attributes...
 		this.writeAttributes(writer);
+		writer.writeCharacters("\n");
+		
+		writer.writeStartElement("m_blocked");
+		writer.writeAttribute("xLength", String.valueOf(m_blocked.length));
+		writer.writeAttribute("yLength", String.valueOf(m_blocked[0].length));
+		SaveGame.save(writer, m_blocked);
+		writer.writeEndElement();
+		
 		writer.writeCharacters("\n");
 
 		writer.writeStartElement("GameObjects");

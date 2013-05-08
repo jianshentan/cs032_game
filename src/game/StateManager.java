@@ -335,6 +335,7 @@ public class StateManager extends StateBasedGame {
 	 * @throws SlickException 
 	 */
 	public static void loadObjects(Node node) throws SlickException {
+		gameObjects = new HashMap<Integer, GameObject>();
 		NodeList children = node.getChildNodes();
 		isLoading = true;
 		for(int i = 0; i<children.getLength(); i++) {
