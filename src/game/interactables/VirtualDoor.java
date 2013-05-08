@@ -10,6 +10,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 
 public class VirtualDoor extends GameObject implements Interactable {
@@ -23,9 +24,22 @@ public class VirtualDoor extends GameObject implements Interactable {
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		if(m_open){
+			try {
+				Sound creak = new Sound("assets/sounds/creakingDoor.wav");
+				creak.play();
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+			
 			VirtualRealityHome home = (VirtualRealityHome) state;
 			home.stage3Complete();
 		}else{
+			try{
+				Sound hitDoor = new Sound("assets/sounds/HitDoor.wav");
+				hitDoor.play();
+			}catch(SlickException e){
+				e.printStackTrace();	
+			}
 			state.displayDialogue(new String[] {"The door seems to be locked. You kick it a few times and only manage to bruise your toe. It hurts. Or... you think it hurts. Which might be the same thing. You decide you don't like virtual reality very much"});
 		}
 		return this;

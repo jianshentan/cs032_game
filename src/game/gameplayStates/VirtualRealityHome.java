@@ -9,6 +9,7 @@ import game.interactables.InvisiblePortal;
 import game.interactables.RealityExecutable;
 import game.interactables.TableToHack;
 import game.interactables.VirtualDoor;
+import game.interactables.VirtualTrash;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
