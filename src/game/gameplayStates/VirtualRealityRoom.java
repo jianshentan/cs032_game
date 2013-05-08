@@ -102,7 +102,7 @@ public class VirtualRealityRoom extends GamePlayState {
 			addObject(VRC, true);
 			m_blocked[6][1] = true;
 		}
-		if (city == 3) {
+		if (city == 3 && dream==2) {
 
 			this.removeObject("VRC");
 			VisiblePortal VRC = new VisiblePortal("VRC", 6*SIZE, SIZE, 

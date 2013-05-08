@@ -63,6 +63,17 @@ public class Person extends GameObject implements Interactable{
 		}
 		if (m_item != null) {
 			p.addToInventory(m_item);
+			//this is pretty specific to person, but there should only be one person who gives out each type of item anyway
+			if(m_item.getType()==Types.CIGARETTE){
+				this.setDialogue(new String[] {"\"Young man, How's that cigarette " +
+						"treating you?\"",
+						"\"I know the doctors say it's no good for you\"",
+						"\"but, for my money, it's the best thrill a red-blooded man like us can recieve\"",
+						"\"HO HO HO HO HO\""});
+			}else if(m_item.getType()==Types.HAIR_VIAL){
+				this.setDialogue(new String[] {"\"Hurry up young man! No time to waste.\"",
+						"\"You aren't making any friends with that silly moustache of yours!\""});
+			}
 			m_item = null;
 		}
 		return this;

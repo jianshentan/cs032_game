@@ -89,14 +89,15 @@ public class Room extends GamePlayState {
 
 		int[][] patrolPoints = {{1,1},{1,8},{8,8},{8,1}};
 		int[][] leadPoints ={{8,8},{8,8},{8,8},{8,8}};
-		Enemy enemy = new Spectre(this, m_player, 1*SIZE, 1*SIZE, leadPoints);
+		//Enemy enemy = new Spectre(this, m_player, 1*SIZE, 1*SIZE, leadPoints);
+		Enemy enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE);
 		enemy.setPatrolPoints(patrolPoints);
 		enemy.setLeadTo(leadPoints[0][0], leadPoints[0][1]);
 		Enemy[] e = new Enemy[1];
 		e[0] = enemy;
 		m_player.setEnemies(e);
 		m_enemies.add(enemy);
-		
+		this.addObject(e[0], false);
 		// setup menu
 		m_pauseMenu = new PauseMenu(this, container);
 
