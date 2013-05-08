@@ -25,7 +25,9 @@ public class GameObjectLoader {
 		GameObject o = null;
 		try {
 			o = (GameObject) objectClass.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException e){
+			 
+		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

@@ -46,7 +46,7 @@ public class TownDay extends Town{
 
 			Horse horse1;
 			try {
-				int[][] horse_stops = {{10,14},{12,10},{19,6},{19,4},{19,6},{12,10},{23,14},{10,20},{4,22},{4,28},{11,28}};
+				int[][] horse_stops = {{10,14},{12,18}};
 				horse1 = new Horse("horseHerd", this, m_player, 10*SIZE, 14*SIZE, horse_stops);
 				
 				horse1.setRenderPriority(9);
@@ -56,10 +56,8 @@ public class TownDay extends Town{
 				this.getObject("tree2").setRenderPriority(1);
 				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
 				gallop.play();
-				//TODO: make gallop sound longer, since gallop scene is now longer.
-				Scene s = new Scene(this,m_player,new float[][]  {{11,14},{13,11},{17,10},{21,6},{17,6},{13,8},{16,17},{22,17},{23,16},{20,16},{14,17},{9,24},{4,24},{6,28},{12,29}});
-				s.setCamera(true);
-				s.playScene();
+				//TODO freeze player for 5 seconds
+
 				
 			} catch (SlickException e) {
 				System.err.println("horse error!");
@@ -257,10 +255,38 @@ public class TownDay extends Town{
 			
 			this.getObject("tree1").setSprite(new Image("assets/gameObjects/treebroken.png"));
 			this.getObject("tree2").setSprite(new Image("assets/gameObjects/treebroken.png"));
+			this.getObject("tree3").setSprite(new Image("assets/gameObjects/treebroken.png"));
+			this.getObject("tree4").setSprite(new Image("assets/gameObjects/treebroken.png"));
+			this.getObject("tree5").setSprite(new Image("assets/gameObjects/treebroken.png"));
+			m_blocked[5][26] = false;
+			m_blocked[6][26] = false;
+			m_blocked[8][26] = false;
+			m_blocked[9][26] = false;
+			m_blocked[1][24] = false;
+			m_blocked[2][24] = false;
 			m_blocked[19][7] = false;
 			m_blocked[20][7] = false;
 			m_blocked[11][20] = false;
 			m_blocked[12][20] = false;
+			int[][] flowerpatches = {{5,9},{5,10},{5,11},{5,12},{5,13},
+					{6,9},{7,9},{8,9},{9,9},{10,9},
+					{11,12},{11,13},{11,14},{11,15},
+					{6,15},{7,15},{8,15},{9,15},{10,15},
+					{1,25},{4,23},{5,23},{5,24},{5,25},{4,24},{4,25},
+					{11,24},{12,24},
+					{11,26},{12,26},{13,26},
+					{19,25},{19,27}};
+					
+			int flowerlength = flowerpatches.length;
+			for (int i=0; i<flowerlength; i++){
+				int xflowcoord = flowerpatches[i][0];
+				int yflowcoord = flowerpatches[i][1];
+				StaticObject flower = (StaticObject)this.getObject("flower"+i);
+				flower.setSprite(new Image("assets/flowersdead.png"));
+				flower.setRenderPriority(false);
+				m_blocked[xflowcoord][yflowcoord] = false;
+			}
+			
 			
 			
 			Animal cat1 = (Animal)this.getObject("cat1");
