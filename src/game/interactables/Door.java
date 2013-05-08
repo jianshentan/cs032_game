@@ -11,6 +11,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class Door extends PortalObject {
 	
@@ -29,5 +30,14 @@ public class Door extends PortalObject {
 	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
 		
 	}
-
+	public void additionalFireAction(GamePlayState state, Player p){
+		try {
+			Sound doorOpen = new Sound("assets/sounds/doorSound.wav");
+			doorOpen.play();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }

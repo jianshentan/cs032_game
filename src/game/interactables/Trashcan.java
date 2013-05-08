@@ -28,20 +28,19 @@ public class Trashcan extends GameObject implements Interactable{
 		// TODO Auto-generated method stub
 		System.out.println("interacting with trash can");
 		if(getSprite().equals(m_closed)){
-			state.displayDialogue(new String[]{"Everything in here seems pretty dirty", "Oh! Except that pink thing", "Better take it"});
-			try {
-				p.addToInventory(new CorrectPlug());
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			firstAction(state, p);
 			setSprite(m_open);
 		}else{
-			state.displayDialogue(new String[]{"Nothing left of interest"});
+			subsequentAction(state, p);
 		}
 		return this;
 	}
-
+	public void firstAction(GamePlayState state, Player p){
+		
+	}
+	public void subsequentAction(GamePlayState state, Player p){
+		
+	}
 	@Override
 	public Types getType() {
 		// TODO Auto-generated method stub

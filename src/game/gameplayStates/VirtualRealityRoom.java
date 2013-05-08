@@ -7,11 +7,9 @@ import game.GameObject;
 import game.Person;
 import game.StateManager;
 import game.StaticObject;
-import game.gameplayStates.GamePlayState.simpleMap;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
 import game.interactables.VisiblePortal;
-import game.interactables.Wrench;
 import game.quests.Quest;
 import game.quests.QuestGoal;
 import game.quests.QuestReward;
@@ -122,8 +120,8 @@ public class VirtualRealityRoom extends GamePlayState {
 			}
 			addObject(VRC, true);
 			Person guide = (Person) getObject("guide");
-			guide.setDialogue(new String[] {"\"Oops. Looks like something broke. You don't happen to know " +
-					"anything about that, do you?\""});
+			guide.setDialogue(new String[] {"We're closed. For good."});
+
 		}
 	}
 
@@ -133,7 +131,9 @@ public class VirtualRealityRoom extends GamePlayState {
 		// TODO Auto-generated method stub
 
 	}
-
+	public void setRuined(){
+		
+	}
 	@Override
 	public void dialogueListener(Interactable i) {
 		// TODO Auto-generated method stub

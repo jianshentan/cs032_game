@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
@@ -80,6 +81,13 @@ public abstract class QuestReward {
 		public void onAccomplished(GamePlayState state, Player player) {
 			DolphinChamber d = (DolphinChamber) StateManager.getInstance().getState(StateManager.DOLPHIN_STATE);
 			d.waterDown(true);
+			try{
+				System.out.println("HYDRANT IS SOUNDING OWF");
+				Sound hydrant = new Sound("assets/sounds/FireHydrant.wav");
+				hydrant.play();
+			}catch(SlickException e){
+				
+			}
 			GamePlayState townDay = (GamePlayState) StateManager.getInstance().getState(StateManager.TOWN_DAY_STATE);
 			StaticObject fireHydrant = (StaticObject) townDay.getObject("fireHydrant");
 			fireHydrant.setDialogue(new String[] {"The fire hydrant still has water gushing out of it."});
@@ -103,8 +111,8 @@ public abstract class QuestReward {
 			
 			StateManager.m_cityState--;
 			
-			player.getGame().displayDialogue(new String[] {"\"Well done,\" " +
-					"you hear the booming voice say."});
+			player.getGame().displayDialogue(new String[] {"\"Why...?,\" " +
+					"you hear the booming voice say, now only a whimper"});
 			VirtualRealityRoom room = (VirtualRealityRoom) StateManager.getInstance()
 					.getState(StateManager.VIRTUAL_REALITY_ROOM_STATE);
 			room.removeObject("VRC");
@@ -119,8 +127,7 @@ public abstract class QuestReward {
 			}
 			room.addObject(VRC, true);
 			Person guide = (Person) room.getObject("guide");
-			guide.setDialogue(new String[] {"Oops. Looks like something broke. You don't happen to know " +
-					"anything about that, do you?"});
+			guide.setDialogue(new String[] {"What happened in there? There was a flash, and now no one will wake up!"});
 		}
 		
 	}

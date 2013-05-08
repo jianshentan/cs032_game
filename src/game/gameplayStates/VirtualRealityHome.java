@@ -6,12 +6,17 @@ import game.StateManager;
 import game.StaticObject;
 import game.interactables.Interactable;
 import game.interactables.InvisiblePortal;
+import game.interactables.RealityExecutable;
 import game.interactables.TableToHack;
 import game.interactables.VirtualDoor;
+import game.interactables.VirtualTrash;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.state.transition.FadeInTransition;
+import org.newdawn.slick.state.transition.FadeOutTransition;
 import org.newdawn.slick.tiled.TiledMap;
 
 public class VirtualRealityHome extends GamePlayState {
@@ -46,6 +51,9 @@ public class VirtualRealityHome extends GamePlayState {
 		
 		//set up objects that will not change
 		if (!this.isLoaded()) {
+			VirtualTrash vtc = new VirtualTrash("Virtual Trash", 1*SIZE, 3*SIZE);
+			this.addObject(vtc, true);
+			m_blocked[1][3] = true;
 			
 			StaticObject posters = 
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/bieberPoster.png");
@@ -129,7 +137,7 @@ public class VirtualRealityHome extends GamePlayState {
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
@@ -144,9 +152,24 @@ public class VirtualRealityHome extends GamePlayState {
 		// TODO Auto-generated method stub
 
 	}
-	public void finish() {
-		this.displayDialogue(new String[] {"The room starts shaking... You better get out before" + 
-				" you are trapped in the virtual world forever"});
-		 this.shakeCamera(10000); 
+	public void stage3Complete() {
+		this.displayDialogue(new String[] {"Before you can even touch it the door starts to slowly swing open", "Oh... it's only a closet"+
+				" and an empty one at that", "You see one piece of paper, completely covered in text and decide to pick it up"});
+		try {
+			m_player.getInventory().addItem(new RealityExecutable());
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void finish(){
+		this.displayDialogue(new String[]{"A booming voice speaks- \"What have you done!?\""});
+		this.shakeCamera(5000);
+		StateManager.getInstance().enterState(StateManager.VIRTUAL_REALITY_ROOM_STATE, new FadeOutTransition(Color.white, 4000), 
+				new FadeInTransition(Color.white, 1000));
+		VirtualRealityRoom destinationState = (VirtualRealityRoom) StateManager.getInstance().getState(StateManager.VIRTUAL_REALITY_ROOM_STATE);
+		destinationState.setPlayerLocation(6*SIZE, 2*SIZE);
+		destinationState.setRuined();
 	}
 }

@@ -417,8 +417,11 @@ public class Player extends MovingObject{
 	public static Player loadFromNode(Node node, GamePlayState room, GameContainer container) throws SlickException {
 		float xLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_x").getNodeValue());
 		float yLoc = Float.parseFloat(node.getAttributes().getNamedItem("m_y").getNodeValue());
+		int health = Integer.parseInt(node.getAttributes().getNamedItem("health").getNodeValue());
 		
 		Player p = new Player(room, container, xLoc, yLoc);
+		p.m_health.setHealth(health);
+		
 		//TODO: load inventory and health
 		return p;
 	}

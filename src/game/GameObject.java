@@ -155,7 +155,10 @@ public abstract class GameObject {
 		TRASHCAN, 
 		VIRTUAL_DOOR,
 		PILL,
-		HOLDER;
+		HOLDER, 
+		REALITY_EXECUTABLE, 
+		OUTSIDE_TRASHCAN,
+		VIRTUAL_TRASHCAN;
 	}
 	
 	/**
@@ -169,6 +172,7 @@ public abstract class GameObject {
 		//needs subclasses to write additional attributes
 		//References- save these as actual objects
 		writer.writeStartElement("GameObject");
+		writer.writeAttribute("class", this.getClass().getName());
 		writer.writeAttribute("m_id", String.valueOf(this.getKey()));
 		writer.writeAttribute("m_name", this.m_name);
 		if(this.getType()!=null)
