@@ -135,11 +135,11 @@ public abstract class Town extends GamePlayState {
 		m_blocked[8][26] = true;
 		m_blocked[9][26] = true;
 		
-		StaticObject tree5 = new StaticObject("tree5", 1*SIZE, 22*SIZE, "assets/gameObjects/tree_normal.png");
+		StaticObject tree5 = new StaticObject("tree5", 14*SIZE, 9*SIZE, "assets/gameObjects/tree_normal.png");
 		tree5.setRenderPriority(6);
 		this.addObject(tree5, false);
-		m_blocked[1][24] = true;
-		m_blocked[2][24] = true;
+		m_blocked[14][11] = true;
+		m_blocked[15][11] = true;
 		
 		StaticObject sign1 = new StaticObject("sign1", 7*SIZE, 13*SIZE, "assets/gameObjects/sign.png");
 		sign1.setDialogue(new String[] {"\"Horse Stables (formerly the zoo)\""});
@@ -169,7 +169,7 @@ public abstract class Town extends GamePlayState {
 			int xflowcoord = flowerpatches[i][0];
 			int yflowcoord = flowerpatches[i][1];
 			StaticObject flower = new StaticObject("flower"+i,xflowcoord*SIZE, yflowcoord*SIZE, "assets/flowers.png");
-			flower.setRenderPriority(false);
+			flower.setRenderPriority(6);
 			this.addObject(flower, false);
 			m_blocked[xflowcoord][yflowcoord] = true;
 		}
@@ -209,16 +209,14 @@ public abstract class Town extends GamePlayState {
 			m_blocked[6][26] = false;
 			m_blocked[8][26] = false;
 			m_blocked[9][26] = false;
-			m_blocked[1][24] = false;
-			m_blocked[2][24] = false;
+			m_blocked[14][11] = false;
+			m_blocked[15][11] = false;
 
 			for (int i=0; i<flowerlength; i++){
 				int xflowcoord = flowerpatches[i][0];
 				int yflowcoord = flowerpatches[i][1];
-				this.removeObject("flower"+i);
-				StaticObject flower = new StaticObject("flower"+i,xflowcoord*SIZE, yflowcoord*SIZE, "assets/flowersdead.png");
-				this.addObject(flower, false);
-				m_blocked[xflowcoord][yflowcoord] = false;
+				this.getObject("flower"+i).setSprite(new Image("assets/flowersdead.png"));
+	
 			}
 		}
 		
