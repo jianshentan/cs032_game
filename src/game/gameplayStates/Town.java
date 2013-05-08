@@ -23,20 +23,51 @@ public abstract class Town extends GamePlayState {
 		m_blocked[11][29] = true;
 		m_blocked[12][29] = true;
 		
+		// buildings
 		StaticObject building01 = new StaticObject("building01",
 			14*SIZE, 18*SIZE, "assets/town/building01.png");	
 		building01.setRenderPriority(6);
 		this.addObject(building01, false);
 		
-		StaticObject buildingWalkThrough01A = new StaticObject("buildingWalkThrough01A",
+		StaticObject building01TopA = new StaticObject("buildingWalkThrough01A",
 			14*SIZE, 18*SIZE, "assets/town/building_walkthrough01A.png");
-		buildingWalkThrough01A.setRenderPriority(6);
-		this.addObject(buildingWalkThrough01A, false);
+		building01TopA.setRenderPriority(6);
+		this.addObject(building01TopA, false);
 		
-		StaticObject buildingWalkThrough01B = new StaticObject("buildingWalkThrough01B",
+		StaticObject building01TopB = new StaticObject("buildingWalkThrough01B",
 				17*SIZE, 21*SIZE, "assets/town/building_walkthrough01B.png");
-		buildingWalkThrough01B.setRenderPriority(6);
-		this.addObject(buildingWalkThrough01B, false);
+		building01TopB.setRenderPriority(6);
+		this.addObject(building01TopB, false);
+		
+		StaticObject building02 = new StaticObject("building02",
+			18*SIZE, 17*SIZE, "assets/town/building02.png");
+		building02.setRenderPriority(6);
+		this.addObject(building02, false);
+		
+		StaticObject building02Top = new StaticObject("building02Top" ,
+				18*SIZE+4, 17*SIZE, "assets/town/building02Top.png");
+		building02Top.setRenderPriority(6);
+		this.addObject(building02Top, false);
+		
+		StaticObject building03 = new StaticObject("building03",
+				14*SIZE, 13*SIZE, "assets/town/building03.png");
+		building03.setRenderPriority(6);
+		this.addObject(building03, false);
+		
+		StaticObject building03Top = new StaticObject("building03Top",
+				14*SIZE+4, 13*SIZE, "assets/town/building03Top.png");
+		building03Top.setRenderPriority(6);
+		this.addObject(building03Top, false);
+		
+		StaticObject building04 = new StaticObject("building04" ,
+				21*SIZE, 15*SIZE, "assets/town/building04.png");
+		building04.setRenderPriority(7);
+		this.addObject(building04, false);
+		
+		StaticObject building04Top = new StaticObject("building04Top",
+				21*SIZE, 15*SIZE, "assets/town/building04Top.png");
+		building04Top.setRenderPriority(7);
+		this.addObject(building04Top, false);
 		
 		
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
@@ -61,6 +92,22 @@ public abstract class Town extends GamePlayState {
 		hospitalTowerTop.setRenderPriority(5);
 		this.addObject(hospitalTowerTop, false);
 		
+		// zoo
+		StaticObject zoo = new StaticObject("zooBuilding", 7*SIZE, 11*SIZE, "assets/town/zoo.png");
+		this.addObject(zoo, false);
+		zoo.setRenderPriority(5);
+		
+		
+		// random houses
+		StaticObject randomHouse01 = new StaticObject("randomHouse1", 9*SIZE, 5*SIZE, 
+				"assets/town/smallRandomHouse01.png");
+		randomHouse01.setRenderPriority(5);
+		this.addObject(randomHouse01, false);
+		
+		StaticObject randomHouse02 = new StaticObject("randomHouse2", 5*SIZE, 5*SIZE, 
+				"assets/town/smallRandomHouse02.png");
+		randomHouse02.setRenderPriority(5);
+		this.addObject(randomHouse02, false);
 		
 		StaticObject tree1 = new StaticObject("tree1", 11*SIZE, 18*SIZE, "assets/gameObjects/tree_normal.png");
 		tree1.setRenderPriority(6);
@@ -179,10 +226,13 @@ public abstract class Town extends GamePlayState {
 		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
 		hospitalDoor.setRenderPriority(7);
 		this.addObject(hospitalDoor, false);
+		hospitalDoor.setRenderPriority(8);
 		StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(dolphinDoor, false);
+		dolphinDoor.setRenderPriority(8);
 		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoor", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(virtualRealityDoor, false);
+		virtualRealityDoor.setRenderPriority(8);
 		
 		// townDay and townNight will call this
 		additionalSetupObjects(city, dream);

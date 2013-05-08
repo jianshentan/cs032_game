@@ -1,9 +1,10 @@
-package game.gameplayStates;
+package game.interactables;
 
 import org.newdawn.slick.SlickException;
 
 
-import game.interactables.Trashcan;
+import game.gameplayStates.GamePlayState;
+import game.gameplayStates.VirtualRealityHome;
 import game.player.Player;
 
 public class VirtualTrash extends Trashcan {
@@ -16,7 +17,7 @@ public class VirtualTrash extends Trashcan {
 		subsequentAction(state, p);
 	}
 	public void subsequentAction(GamePlayState state, Player p){
-		if(p.getInventory().contains(Types.REALITY_EXECUTABLE)){
+		if(p.getUsing().getType()==(Types.REALITY_EXECUTABLE)){
 			m_deleted = true;
 			p.getInventory().removeItem(Types.REALITY_EXECUTABLE);
 			VirtualRealityHome home = (VirtualRealityHome) state;

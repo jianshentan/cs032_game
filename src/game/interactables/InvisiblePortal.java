@@ -1,10 +1,14 @@
 package game.interactables;
 
+import game.gameplayStates.GamePlayState;
+import game.player.Player;
+
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 
 public class InvisiblePortal extends PortalObject {
 
@@ -24,5 +28,14 @@ public class InvisiblePortal extends PortalObject {
 	public Types getType() {
 		return Types.DOOR_MAT;
 	}
-
+	public void additionalFireAction(GamePlayState state, Player p){
+		try {
+			Sound doorOpen = new Sound("assets/sounds/doorSound.wav");
+			doorOpen.play();
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 }
