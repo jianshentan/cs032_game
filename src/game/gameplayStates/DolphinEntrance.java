@@ -143,8 +143,6 @@ public class DolphinEntrance extends GamePlayState {
 			this.addObject(doormat, false);
 			InvisiblePortal portalC = new InvisiblePortal("portalC", 2*SIZE, 9*SIZE, StateManager.TOWN_DAY_STATE, 8, 14);
 			this.addObject(portalC, true);
-			
-
 
 
 			SmallPlug smallPlug = new SmallPlug("smallPlug", 1*SIZE, 3*SIZE);

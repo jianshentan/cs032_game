@@ -245,10 +245,10 @@ public class TownDay extends Town{
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
 					"\"They were so beautiful...\"" ,
 					"\"But, at least now, there are beautiful rainbow puddles!\""});
-			((Person) this.getObject("wrenchGiver")).setItem(new Cigarette("cigarette", -1, -1));
-			((Person) this.getObject("wrenchGiver")).setDialogue(new String[] {"\"Young man, for what reason " +
+			((Person) this.getObject("mustacheMan")).setItem(new Cigarette("cigarette", -1, -1));
+			((Person) this.getObject("mustacheMan")).setDialogue(new String[] {"\"Young man, for what reason " +
 					"have you not fixed your face yet?\"",
-					"\"Did you do something else with that wrench I gave you?\"",
+					"\"Did you do something else with that potion I gave you?\"",
 					"\"Here, take this cigarette. It might save your life someday.\"",
 					"* You've received a cigarette *"});
 			

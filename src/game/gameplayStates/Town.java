@@ -247,6 +247,38 @@ public abstract class Town extends GamePlayState {
 			}	
 		}
 		else if (city == 1) {
+			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,9}, {11,10}, {11,12}};
+			for (int i=0; i<dolphinBlocks.length; i++) {
+				int xBlock = dolphinBlocks[i][0];
+				int yBlock = dolphinBlocks[i][1];
+				StaticObject block = new StaticObject("dolphinBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
+				block.setRenderPriority(4);
+				block.setDialogue(new String[] {"You can't get pass this. The zoo has been blocked by due to the destruction of the dolphin."});
+				this.addObject(block, true);
+				m_blocked[xBlock][yBlock] = true;
+			}
+			
+			int[][] virtualRealityBlocks = {{13,16}, {13,17}, {13,18}, {13,19}, {17,25}, {17, 26}, {17, 27}};
+			for (int i=0; i<virtualRealityBlocks.length; i++) {
+				int xBlock = virtualRealityBlocks[i][0];
+				int yBlock = virtualRealityBlocks[i][1];
+				StaticObject block = new StaticObject("virtualRealityBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
+				block.setRenderPriority(4);
+				block.setDialogue(new String[] {"You can't get pass this. The virtual reality centre went out of business and pull down all its surrounding businesses."});
+				this.addObject(block, true);
+				m_blocked[xBlock][yBlock] = true;
+			}		
+			
+			int[][] hospitalBlocks = {{9,22}, {9,23}, {8,23}, {7,23}, {7,24}, {7,25}, {7,26}, {7,27}, {7,28}};
+			for (int i=0; i<hospitalBlocks.length; i++) {
+				int xBlock = hospitalBlocks[i][0];
+				int yBlock = hospitalBlocks[i][1];
+				StaticObject block = new StaticObject("hospitalBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
+				block.setRenderPriority(4);
+				block.setDialogue(new String[] {"You can't get pass this. The hospital was shut down and had to let all their untreated patients out... the area is higly contaminated with all kinds of diseases."});
+				this.addObject(block, true);
+				m_blocked[xBlock][yBlock] = true;
+			}	
 			
 		}
 		else if (city == 0) {
