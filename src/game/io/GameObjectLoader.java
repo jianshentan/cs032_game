@@ -3,12 +3,21 @@ package game.io;
 import game.GameObject;
 import game.GameObject.Types;
 import game.interactables.Chest;
+import game.interactables.ChickenWing;
+import game.interactables.Cigarette;
 
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 public class GameObjectLoader {
 	
+	/**
+	 * 
+	 * @param node
+	 * @return
+	 * @throws SlickException
+	 */
 	public static GameObject loadFromNode(Node node) throws SlickException {
 		String type = node.getAttributes().getNamedItem("type").getNodeValue();
 		int id = Integer.parseInt(node.getAttributes().getNamedItem("m_id").getNodeValue());
@@ -34,13 +43,24 @@ public class GameObjectLoader {
 		o.setName(name);
 		o.setX(x);
 		o.setY(y);
+		//o.getClass().getField("m_id").set(o, id);
+		
+		NamedNodeMap attributes = node.getAttributes();
+		for(int i = 0; i<attributes.getLength(); i++) {
+			String attrName = attributes.item(i).getNodeName();
+			String attrValue = attributes.item(i).getNodeValue();
+			if(attrName.equals("m_dialogue")) {
+				
+			}
+			//Class fieldType = o.getClass().getField(attrName).getType();
+		}
 		
 		if(type.equals(Types.CHEST.toString())) {
 
 		} else if(type.equals(Types.CHICKEN_WING.toString())) {
-			//return ChickenWing.loadFromNode(node);
+			return new ChickenWing(name, (int) x, (int) y);
 		} else if(type.equals(Types.CIGARETTE.toString())) {
-			
+			return new Cigarette(name, (int) x, (int) y);
 		} else if(type.equals(Types.DOOR.toString())) {
 			
 		} else if(type.equals(Types.DOOR_MAT.toString())) {

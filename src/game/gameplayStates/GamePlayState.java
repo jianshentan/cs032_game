@@ -427,6 +427,13 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 		m_tiledMap.render(-offsetX, -offsetY);
 		// render objects before player 
 		//ArrayList<GameObject> objectsToRenderAfter = new ArrayList<GameObject>();
+		m_renderGroups = new ArrayList<ArrayList<GameObject>>(GameObject.MAX_RENDER_PRIORITY+1);
+		for(int i = 0; i<GameObject.MAX_RENDER_PRIORITY+1; i++) {
+			m_renderGroups.add(new ArrayList<GameObject>());
+		}
+		for(Entry<String, GameObject> e : m_objects.entrySet()) {
+			m_renderGroups.get(e.getValue().getRenderPriority()).add(e.getValue());
+		}
 		
 		for(ArrayList<GameObject> objects : m_renderGroups.subList(0, GameObject.MAX_RENDER_PRIORITY/2)) {
 			for(GameObject o : objects) {

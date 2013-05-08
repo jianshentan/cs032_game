@@ -2,6 +2,9 @@ package game.quests;
 
 import java.util.ArrayList;
 
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+
 import game.Collectable;
 import game.StateManager;
 import game.gameplayStates.GamePlayState;
@@ -35,6 +38,22 @@ public abstract class QuestGoal {
 	 * @return boolean
 	 */
 	public abstract boolean isAccomplished(GamePlayState state, Player player, Interactable interactable);
+	
+	/**
+	 * Saves the quest goal.
+	 * @param writer
+	 * @throws XMLStreamException
+	 */
+	public void save(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeStartElement("QuestGoal");
+		writer.writeAttribute("class", this.getClass().getName());
+		this.additionalSave(writer);
+		writer.writeEndElement();
+	}
+	
+	public void additionalSave(XMLStreamWriter writer) throws XMLStreamException {
+		
+	}
 	
 	/**
 	 * Goal is to interact with some interactable.

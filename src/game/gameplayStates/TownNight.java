@@ -98,6 +98,7 @@ public class TownNight extends Town {
 			int[][] leadPoints = {{8,14},{8,14},{8,14},{8,14}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
 			m_enemies.add(spec);
+			this.addObject(spec, false);
 			
 			Quest learning = new Quest("learning");
 			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))
@@ -119,6 +120,7 @@ public class TownNight extends Town {
 			int[][] leadPoints = {{22,18},{22,18},{22,18},{22,18}};
 			Spectre spec = new Spectre(this, m_player, SIZE*10, SIZE*26, leadPoints);
 			m_enemies.add(spec);
+			this.addObject(spec, false);
 			
 			Quest learning = new Quest("learning");
 			QuestStage stage1 = new QuestStage().addGoal(new QuestGoal.LocationGoal(11, 28))
@@ -159,6 +161,8 @@ public class TownNight extends Town {
 	@Override
 	public void stateEnd(int endCode) {
 		m_player.removeQuest("learning");
+		this.removeEnemy("spectre");
+		this.removeObject("spectre");
 		StateManager.m_dreamState -= 1;
 		StateManager.getInstance().enterState(StateManager.HOME_STATE, 
 				new FadeOutTransition(Color.black, 2000), 

@@ -288,7 +288,7 @@ public class TownDay extends Town{
 			}
 			
 			
-			
+			try {
 			Animal cat1 = (Animal)this.getObject("cat1");
 			Animal cat2 = (Animal)this.getObject("cat2");
 			int[] cat1_loc = cat1.getSquare();
@@ -302,6 +302,9 @@ public class TownDay extends Town{
 			StaticObject static_cat2 = new StaticObject("cat2", cat2_loc[0]*SIZE, cat2_loc[1]*SIZE, "assets/cat2dead.png");
 			this.addObject(static_cat1,false);
 			this.addObject(static_cat2,false);
+			} catch(Exception e) {
+				
+			}
 			
 		}
 		else if(city==2) {

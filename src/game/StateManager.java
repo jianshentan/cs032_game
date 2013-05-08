@@ -38,6 +38,7 @@ public class StateManager extends StateBasedGame {
 	//Used to store all game objects
 	private static HashMap<Integer, GameObject> gameObjects;
 	private static HashMap<Integer, Quest> quests;
+	private static boolean isLoading;
 	  
 	static {
 	    instance = new StateManager();
@@ -67,7 +68,8 @@ public class StateManager extends StateBasedGame {
 	 * @param o
 	 */
 	public static void addObject(int key, GameObject o) {
-		gameObjects.put(key, o);
+		if(!isLoading)
+			gameObjects.put(key, o);
 	}
 	
 	
@@ -334,10 +336,12 @@ public class StateManager extends StateBasedGame {
 	 */
 	public static void loadObjects(Node node) throws SlickException {
 		NodeList children = node.getChildNodes();
+		isLoading = true;
 		for(int i = 0; i<children.getLength(); i++) {
 			Node c = children.item(i);
 			if(c.getNodeName().equals("GameObject")) {
 				GameObject o = GameObjectLoader.loadFromNode(c);
+				gameObjects.put(o.getKey(), o);
 			}
 		}
 	}

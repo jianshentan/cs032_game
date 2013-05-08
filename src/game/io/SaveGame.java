@@ -140,5 +140,17 @@ public class SaveGame {
 		}
 	}
 	
+	/**
+	 * Saves a String array (dialogue)
+	 * @param writer
+	 * @param array
+	 * @throws XMLStreamException
+	 */
+	public static void save(XMLStreamWriter writer, String[] array) throws XMLStreamException { 
+		for(int i = 0; i<array.length; i++) {
+			writer.writeAttribute(String.valueOf(i), array[i]);
+		}
+	}
+	
 
 }
