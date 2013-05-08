@@ -48,6 +48,12 @@ public class Health {
 	public int getVal(){
 		return m_current;
 	}
+	public double getHealthPercentage() {
+		return ((double) m_current)/ ((double) MAXHEALTH);
+	}
+	public void setHealth(int h) {
+		m_current = h;
+	}
 	public void render() { 
 		m_sprite.draw(m_x,m_y);
 	}
