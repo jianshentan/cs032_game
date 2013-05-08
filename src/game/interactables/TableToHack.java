@@ -97,7 +97,7 @@ public class TableToHack extends GameObject implements Interactable {
 			}else{
 				state.displayDialogue(new String[] {"The computer spits out some text",
 						"File leonardo.txt found: password failed. Re-reading poem",
-						"\"Like a new born pheonix or bathtub foam\"",
+						"\"Like a new born phoenix or bathtub foam\"",
 						"\"make from nothingness the fibonacci poem\"",
 						"\"Starting at nothing to no greater than 10,\"",
 						"\"Ignore all spaces to hack me again\"",
@@ -147,7 +147,7 @@ public class TableToHack extends GameObject implements Interactable {
 			if(results[2].equals("sexy")){
 				line2+= "Damn, you are looking fine! You're looking more delicious than a t-bone steak, grilled to perfection";
 			}else{
-				line2+= "You are not looking your best. Plus you've got a stench like rotting meet. It's a wonder the flies haven't started to settle";
+				line2+= "You are not looking your best. Plus you've got a stench like rotting meat. It's a wonder the flies haven't started to settle";
 			}
 			compResponse.add(line2);
 		}

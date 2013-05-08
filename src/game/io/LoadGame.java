@@ -53,9 +53,9 @@ private String m_loadPath;
 		NodeList players = d.getElementsByTagName("Player");
 		Node p = players.item(0);
 		
-		NodeList objects = d.getElementsByTagName("GameObjects");
+		//NodeList objects = d.getElementsByTagName("GameObjects");
 		
-		StateManager.loadObjects(objects.item(0));
+		//StateManager.loadObjects(objects.item(0));
 		//load all the objects
 		
 		
