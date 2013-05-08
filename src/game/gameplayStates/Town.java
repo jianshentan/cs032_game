@@ -282,7 +282,7 @@ public abstract class Town extends GamePlayState {
 			}
 		}
 		
-		// draw all door images (not necessarily functionlity);
+		// draw all door images (not necessarily functional)
 		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
 		hospitalDoor.setRenderPriority(5);
 		this.addObject(hospitalDoor, false);

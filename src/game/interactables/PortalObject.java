@@ -39,6 +39,16 @@ public abstract class PortalObject extends GameObject implements Interactable {
 		m_xDestination = xDestination;
 		m_yDestination = yDestination;
 	}
+	
+	/**
+	 * Sets the x and y positions of the destination.
+	 * @param x
+	 * @param y
+	 */
+	public void setDestinationLocation(int x, int y) {
+		this.m_xDestination = x;
+		this.m_yDestination = y;
+	}
 
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {

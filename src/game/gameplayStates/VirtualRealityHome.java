@@ -176,6 +176,6 @@ public class VirtualRealityHome extends GamePlayState {
 				new FadeInTransition(Color.white, 1000));
 		VirtualRealityRoom destinationState = (VirtualRealityRoom) StateManager.getInstance().getState(StateManager.VIRTUAL_REALITY_ROOM_STATE);
 		destinationState.setPlayerLocation(6*SIZE, 2*SIZE);
-		destinationState.setRuined();
+		//destinationState.setRuined();
 	}
 }

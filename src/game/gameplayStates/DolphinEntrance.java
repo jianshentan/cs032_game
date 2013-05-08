@@ -72,7 +72,7 @@ public class DolphinEntrance extends GamePlayState {
 			
 			String[] di2 = {"I guess blowing up that dolphin freed the horses from it's control", "Or something"};
 			this.displayDialogue(di2);
-			//this.getObject("portalC")
+			((InvisiblePortal) this.getObject("portalC")).setDestinationLocation(12, 15);
 		}
 		if (!m_isHorsesShown) {
 			this.displayDialogue(new String[] {"You realize that you are in the zoo.",

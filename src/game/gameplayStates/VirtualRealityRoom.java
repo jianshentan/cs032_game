@@ -145,9 +145,6 @@ public class VirtualRealityRoom extends GamePlayState {
 		// TODO Auto-generated method stub
 
 	}
-	public void setRuined(){
-		
-	}
 	@Override
 	public void dialogueListener(Interactable i) {
 		// TODO Auto-generated method stub
