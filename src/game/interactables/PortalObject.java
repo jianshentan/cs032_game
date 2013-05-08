@@ -5,6 +5,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.Sound;
 import org.newdawn.slick.state.transition.FadeInTransition;
 import org.newdawn.slick.state.transition.FadeOutTransition;
 
@@ -17,7 +18,7 @@ public abstract class PortalObject extends GameObject implements Interactable {
 
 	protected int m_destination;
 	protected int m_xDestination, m_yDestination;
-	
+	Sound m_doorOpenSound;
 	/**
 	 * classes that inherit from this needs to define a spritePath 
 	 * @param key
@@ -35,6 +36,7 @@ public abstract class PortalObject extends GameObject implements Interactable {
 		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
+		m_doorOpenSound = new Sound("assets/sounds/doorSound.wav");
 		m_destination = destination;
 		m_xDestination = xDestination;
 		m_yDestination = yDestination;

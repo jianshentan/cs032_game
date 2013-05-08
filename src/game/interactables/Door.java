@@ -27,13 +27,10 @@ public class Door extends PortalObject {
 	}
 
 	public void additionalFireAction(GamePlayState state, Player p){
-		try {
-			Sound doorOpen = new Sound("assets/sounds/doorSound.wav");
-			doorOpen.play();
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(m_doorOpenSound!=null){
+			m_doorOpenSound.play();
 		}
+
 		
 	}
 }
