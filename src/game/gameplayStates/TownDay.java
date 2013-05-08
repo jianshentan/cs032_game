@@ -15,6 +15,7 @@ import game.StateManager;
 import game.StaticObject;
 import game.collectables.*;
 import game.interactables.Animal;
+import game.interactables.Banana;
 import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Horse;
@@ -174,6 +175,9 @@ public class TownDay extends Town{
 			
 			//TODO: add signs
 			
+			Banana banana = new Banana("banana",24*SIZE, 23*SIZE);
+			this.addObject(banana,true);
+			
 			
 		}
 
@@ -316,7 +320,7 @@ public class TownDay extends Town{
 			this.addObject(horse2, true);
 			m_enemies.add(horse2);
 			
-			Horse horse3 = new Horse(false, true, "horse3", this, m_player, 4*SIZE, 12*SIZE, horse_stops3);
+			Horse horse3 = new Horse(false, false, "horse3", this, m_player, 4*SIZE, 12*SIZE, horse_stops3);
 			horse3.setRenderPriority(9);
 			this.addObject(horse3, true);
 			m_enemies.add(horse3);

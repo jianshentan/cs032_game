@@ -15,14 +15,18 @@ import game.Enemy;
 import game.GameObject;
 import game.GameObject.Types;
 import game.MovingObject;
+import game.StaticObject;
 
 import org.newdawn.slick.Image;
+
+import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
 public class Horse extends Enemy implements Interactable{
 	private GamePlayState room;
-	boolean stampede, patrol;
+	private boolean stampede, patrol, dead;
+	private String deadhorsepic;
 	
 	public Horse(boolean stampede, boolean patrol, String name, GamePlayState room, Player player, float x, float y,int[][] patrolpoints) throws SlickException {
 		super(room, player, x, y);
@@ -39,13 +43,16 @@ public class Horse extends Enemy implements Interactable{
 			this.m_sprite = new Animation(new Image[] {horsesheet.getSprite(0,0),horsesheet.getSprite(1,0)}, duration, true);
 			
 		} else {
-			Image horseimage = new Image("assets/horsehead.png");
+			Image horseimage = new Image("assets/horseheadevil.png");
 			this.m_sprite = new Animation(new Image[] {horseimage,horseimage}, duration, false);
 		}
 		this.m_ai = AIState.ROAM;
 		if (patrol==true) {
+			Image horseimage = new Image("assets/horsehead.png");
+			this.m_sprite = new Animation(new Image[] {horseimage,horseimage}, duration, false);
 			this.m_ai = AIState.PATROL;
 		} 
+		this.dead = false;
 		m_up = m_sprite;
         m_down = m_sprite;
         m_left = m_sprite;
@@ -61,6 +68,41 @@ public class Horse extends Enemy implements Interactable{
 	
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
+		if (this.dead == true) {
+			return this;
+		}
+		Types equipped = Types.NONE;
+		if(p.getUsing()!=null){
+			equipped = p.getUsing().getType();
+		}
+		switch(equipped){
+			case WRENCH:{
+				String[] di = {"You swing your wrench hard.","CLANG"};
+				//TODO new Sound : clang
+				state.displayDialogue(di);
+				this.deadhorsepic = "assets/horsedead.png";
+				this.dead = true;
+				arriveEvent();
+				break;
+			}
+			case CIGARETTE:{
+				String[] di = {"You throw the cigarette at the horse.","FWMMMM","It caught on fire!",
+						"Who knew horses were so flammable..."};
+				//TODO new Sound : burning horse
+				state.displayDialogue(di);
+				this.deadhorsepic = "assets/horseburned.png";
+				this.dead = true;
+				arriveEvent();
+				break;
+			}
+			default:{
+			}
+		}
+		
+		if (this.dead==true) {
+			return this;
+		}
+		
 		
 		if (patrol==false) {
 			state.displayDialogue(new String[] {"Oh jeez it's an angry horse",
@@ -78,8 +120,8 @@ public class Horse extends Enemy implements Interactable{
 			p.getHealth().updateHealth(-5);
 		} else {
 			state.displayDialogue(new String[] {"Looks like this horse has decided "+
-						"to follow you around.",
-						"You try to shoo it away but it won't budge",
+						"to follow you around. ",
+						"You try to shoo it away but it won't budge ",
 						"Guess you have a friend."});
 			try {
 				new Sound("assets/sounds/HorseNoise1.wav").play();
@@ -111,6 +153,20 @@ public class Horse extends Enemy implements Interactable{
 			room.removeObject(this.getName());
 			room.removeEnemy(this.getName());
 		} 
+		
+		if (dead == true) {
+			int[] coords = this.getSquare();
+			room.removeObject(this.getName());
+			room.removeEnemy(this.getName());
+			StaticObject obj;
+			try {
+				obj = new StaticObject(this.getName(),coords[0]*SIZE, coords[1]*SIZE, "assets/horseburned.png");
+				room.addObject(obj, false);
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 }

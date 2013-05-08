@@ -158,7 +158,7 @@ public abstract class GameObject {
 		HOLDER, 
 		REALITY_EXECUTABLE, 
 		OUTSIDE_TRASHCAN,
-		VIRTUAL_TRASHCAN;
+		VIRTUAL_TRASHCAN, BANANA;
 	}
 	
 	/**
