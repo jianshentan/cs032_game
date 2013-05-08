@@ -13,6 +13,7 @@ import game.gameplayStates.VirtualRealityRoom;
 import game.interactables.Holder;
 import game.interactables.Interactable;
 import game.interactables.VirtualDoor;
+import game.interactables.VirtualTrash;
 import game.player.Player;
 
 /**
@@ -270,7 +271,8 @@ public abstract class QuestGoal {
 				VirtualDoor door = (VirtualDoor) home.getObject("door");
 				if(door==null)
 					return false;
-				return door.isOpen();
+				VirtualTrash trash = (VirtualTrash) home.getObject("vtc");
+				return trash.isDeleted();
 			}
 			return false;
 		}
@@ -278,13 +280,7 @@ public abstract class QuestGoal {
 		@Override
 		public boolean isAccomplished(GamePlayState state, Player player,
 				Interactable interactable) {
-			if(player.getGame() instanceof VirtualRealityRoom) {
-				VirtualRealityHome home = (VirtualRealityHome)StateManager.getInstance()
-						.getState(StateManager.VIRTUAL_REALITY_HOME_STATE);
-				VirtualDoor door = (VirtualDoor) home.getObject("door");
-				return door.isOpen();
-			}
-			return false;
+			return isAccomplished(state, player);
 		}
 	}
 	

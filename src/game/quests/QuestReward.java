@@ -109,6 +109,8 @@ public abstract class QuestReward {
 		@Override
 		public void onAccomplished(GamePlayState state, Player player) {
 			
+			StateManager.m_cityState--;
+			
 			player.getGame().displayDialogue(new String[] {"\"Why...?,\" " +
 					"you hear the booming voice say, now only a whimper"});
 			VirtualRealityRoom room = (VirtualRealityRoom) StateManager.getInstance()
