@@ -127,15 +127,17 @@ public class SaveGame {
 	
 	/**
 	 * Saves a boolean array
+	 * calling class would have to write start/end element tags and length attributes
 	 * @param array
 	 * @throws XMLStreamException 
 	 */
 	public static void save(XMLStreamWriter writer, boolean[][] array) throws XMLStreamException { 
 		for(int i = 0; i<array.length; i++) {
-			writer.writeStartElement(String.valueOf(i));
+			writer.writeStartElement("i"+String.valueOf(i));
 			for(int j = 0; j<array[i].length; j++) {
-				writer.writeAttribute(String.valueOf(j), String.valueOf(array[i][j]));
+				writer.writeAttribute("j"+String.valueOf(j), String.valueOf(array[i][j]));
 			}
+			writer.writeCharacters("\n");
 			writer.writeEndElement();
 		}
 	}
@@ -148,7 +150,7 @@ public class SaveGame {
 	 */
 	public static void save(XMLStreamWriter writer, String[] array) throws XMLStreamException { 
 		for(int i = 0; i<array.length; i++) {
-			writer.writeAttribute(String.valueOf(i), array[i]);
+			writer.writeAttribute("i"+String.valueOf(i), array[i]);
 		}
 	}
 	

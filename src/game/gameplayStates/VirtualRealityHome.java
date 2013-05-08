@@ -51,9 +51,9 @@ public class VirtualRealityHome extends GamePlayState {
 		
 		//set up objects that will not change
 		if (!this.isLoaded()) {
-//			VirtualTrash vtc = new VirtualTrash("Virtual Trash", 1*SIZE, 3*SIZE);
-//			this.addObject(vtc, true);
-//			m_blocked[1][3] = true;
+			VirtualTrash vtc = new VirtualTrash("vtc", 1*SIZE, 3*SIZE);
+			this.addObject(vtc, true);
+			m_blocked[1][3] = true;
 			
 			StaticObject posters = 
 				new StaticObject("posters", 3*SIZE, 1*SIZE, "assets/gameObjects/bieberPoster.png");
@@ -68,7 +68,7 @@ public class VirtualRealityHome extends GamePlayState {
 			bedTable.setDialogue(new String[] {"\"Wow I left my phone in the exact same place\"," +
 					"you see some text on your phone... ",
 					"\"JB is your luck, your curse... and your exit\""});
-			bedTable.setRenderPriority(true);
+			bedTable.setRenderPriority(2);
 			this.addObject(bedTable, true);
 			m_blocked[4][4] = true;
 			
@@ -126,7 +126,6 @@ public class VirtualRealityHome extends GamePlayState {
 	public void completePuzzles() {
 		InvisiblePortal invisiblePortal;
 		try {
-			StateManager.m_cityState--;
 			invisiblePortal = new InvisiblePortal("invisiblePortal", 4*SIZE, 2*SIZE, StateManager.VIRTUAL_REALITY_ROOM_STATE, 6, 2);
 			this.addObject(invisiblePortal, true);
 		} catch (SlickException e) {

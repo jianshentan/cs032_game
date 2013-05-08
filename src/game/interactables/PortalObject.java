@@ -56,4 +56,11 @@ public abstract class PortalObject extends GameObject implements Interactable {
 	// if the object needs to do more than just prompt a change of location on fireAction, it can
 	// be done here in classes that inherit from it
 	public void additionalFireAction(GamePlayState state, Player p){}
+	
+	@Override
+	public void writeAttributes(XMLStreamWriter writer) throws XMLStreamException {
+		writer.writeAttribute("m_destination", String.valueOf(m_destination));
+		writer.writeAttribute("m_xDestination", String.valueOf(m_xDestination));
+		writer.writeAttribute("m_yDestination", String.valueOf(m_yDestination));
+	}
 }
