@@ -26,7 +26,7 @@ public abstract class Town extends GamePlayState {
 		// buildings
 		StaticObject building01 = new StaticObject("building01",
 			14*SIZE, 18*SIZE, "assets/town/building01.png");	
-		building01.setRenderPriority(6);
+		building01.setRenderPriority(4);
 		this.addObject(building01, false);
 		
 		StaticObject building01TopA = new StaticObject("buildingWalkThrough01A",
@@ -41,7 +41,7 @@ public abstract class Town extends GamePlayState {
 		
 		StaticObject building02 = new StaticObject("building02",
 			18*SIZE, 17*SIZE, "assets/town/building02.png");
-		building02.setRenderPriority(6);
+		building02.setRenderPriority(4);
 		this.addObject(building02, false);
 		
 		StaticObject building02Top = new StaticObject("building02Top" ,
@@ -51,7 +51,7 @@ public abstract class Town extends GamePlayState {
 		
 		StaticObject building03 = new StaticObject("building03",
 				14*SIZE, 13*SIZE, "assets/town/building03.png");
-		building03.setRenderPriority(7);
+		building03.setRenderPriority(4);
 		this.addObject(building03, false);
 		
 		StaticObject building03Top = new StaticObject("building03Top",
@@ -61,13 +61,30 @@ public abstract class Town extends GamePlayState {
 		
 		StaticObject building04 = new StaticObject("building04" ,
 				21*SIZE, 15*SIZE, "assets/town/building04.png");
-		building04.setRenderPriority(6);
+		building04.setRenderPriority(4);
 		this.addObject(building04, false);
 		
 		StaticObject building04Top = new StaticObject("building04Top",
-				21*SIZE, 15*SIZE, "assets/town/building04Top.png");
+				21*SIZE+4, 15*SIZE, "assets/town/building04Top.png");
 		building04Top.setRenderPriority(6);
 		this.addObject(building04Top, false);
+		
+		StaticObject building05 = new StaticObject("building05",
+				21*SIZE, 12*SIZE, "assets/town/building05.png");
+		building05.setRenderPriority(4);
+		this.addObject(building05, false);
+		
+		StaticObject building06 = new StaticObject("building06",
+				17*SIZE, 12*SIZE, "assets/town/building06.png");
+		building06.setRenderPriority(4);
+		this.addObject(building06, false);
+		
+		StaticObject building06Top = new StaticObject("building06Top",
+				17*SIZE, 12*SIZE, "assets/town/building06Top.png");
+		building06Top.setRenderPriority(6);
+		this.addObject(building06Top, false);
+				
+		
 		
 		
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
@@ -86,7 +103,7 @@ public abstract class Town extends GamePlayState {
 		StaticObject hospitalTower = new StaticObject("hospitalTower", 2*SIZE, 15*SIZE, 
 				"assets/town/hospitalTower.png");
 		this.addObject(hospitalTower, false);
-		hospitalTower.setRenderPriority(5);
+		hospitalTower.setRenderPriority(4);
 		StaticObject hospitalTowerTop = new StaticObject("hospitalTowerTop", 2*SIZE+4, 15*SIZE, 
 				"assets/town/hospitalTowerTop.png");
 		hospitalTowerTop.setRenderPriority(5);
@@ -95,19 +112,36 @@ public abstract class Town extends GamePlayState {
 		// zoo
 		StaticObject zoo = new StaticObject("zooBuilding", 7*SIZE, 11*SIZE, "assets/town/zoo.png");
 		this.addObject(zoo, false);
-		zoo.setRenderPriority(5);
+		zoo.setRenderPriority(4);
 		
 		
 		// random houses
 		StaticObject randomHouse01 = new StaticObject("randomHouse1", 9*SIZE, 5*SIZE, 
 				"assets/town/smallRandomHouse01.png");
-		randomHouse01.setRenderPriority(5);
+		randomHouse01.setRenderPriority(4);
 		this.addObject(randomHouse01, false);
 		
 		StaticObject randomHouse02 = new StaticObject("randomHouse2", 5*SIZE, 5*SIZE, 
 				"assets/town/smallRandomHouse02.png");
-		randomHouse02.setRenderPriority(5);
+		randomHouse02.setRenderPriority(4);
 		this.addObject(randomHouse02, false);
+		
+		StaticObject randomHouse03 = new StaticObject("randomHouse3", 11*SIZE, 23*SIZE, 
+				"assets/town/smallRandomHouse03.png");
+		randomHouse03.setRenderPriority(4);
+		this.addObject(randomHouse03, false);
+		m_blocked[11][24] = true;
+		m_blocked[12][24] = true;
+		m_blocked[13][24] = true;
+		m_blocked[11][25] = true;
+		m_blocked[12][25] = true;
+		m_blocked[13][25] = true;
+		
+		StaticObject randomHouse03Top = new StaticObject("randomHouse3Top", 11*SIZE, 23*SIZE,
+				"assets/town/smallRandomHouse03Top.png");
+		randomHouse03Top.setRenderPriority(6);
+		this.addObject(randomHouse03Top, false);
+		
 		
 		StaticObject tree1 = new StaticObject("tree1", 11*SIZE, 18*SIZE, "assets/gameObjects/tree_normal.png");
 		tree1.setRenderPriority(6);
