@@ -255,14 +255,14 @@ public abstract class Town extends GamePlayState {
 		}
 		
 		// draw all door images (not necessarily functionlity);
-		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
-		hospitalDoor.setRenderPriority(7);
+		StaticObject hospitalDoor = new StaticObject("hospitalDoorStatic", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
 		this.addObject(hospitalDoor, false);
 		hospitalDoor.setRenderPriority(8);
-		StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
+		StaticObject dolphinDoor = new StaticObject("dolphinDoorStatic", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
+		dolphinDoor.setRenderPriority(8);
 		this.addObject(dolphinDoor, false);
 		dolphinDoor.setRenderPriority(8);
-		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoor", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
+		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoorStatic", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(virtualRealityDoor, false);
 		virtualRealityDoor.setRenderPriority(8);
 		

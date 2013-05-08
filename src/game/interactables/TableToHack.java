@@ -59,7 +59,7 @@ public class TableToHack extends GameObject implements Interactable {
 				state.displayDialogue(new String[] {"Your computer is spazzing out..",
 						"Looks like you've accessed the system but didn't get it quite right.."});
 			}
-			else if (queryAnswer1().compareTo("mule") == 0) { // right answer
+			else if (queryAnswer1().contains("mule")) { // right answer
 				m_stage++;
 				File l = new File("leonardo.txt");
 				l.delete();
