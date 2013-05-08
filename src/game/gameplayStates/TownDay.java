@@ -47,8 +47,8 @@ public class TownDay extends Town{
 
 			Horse horseherd;
 			try {
-				int[][] horse_stops = {{10,14},{12,18}};
-				horseherd = new Horse(true, false, "horseHerd", this, m_player, 10*SIZE, 14*SIZE, horse_stops);
+				int[][] horse_stops = {{12,16},{14,27}};
+				horseherd = new Horse(true, false, "horseHerd", this, m_player, 12*SIZE, 16*SIZE, horse_stops);
 				
 				horseherd.setRenderPriority(9);
 				this.addObject(horseherd, true);
@@ -280,8 +280,6 @@ public class TownDay extends Town{
 					
 			int flowerlength = flowerpatches.length;
 			for (int i=0; i<flowerlength; i++){
-				int xflowcoord = flowerpatches[i][0];
-				int yflowcoord = flowerpatches[i][1];
 				StaticObject flower = (StaticObject)this.getObject("flower"+i);
 				flower.setSprite(new Image("assets/flowersdead.png"));
 				flower.setRenderPriority(0);

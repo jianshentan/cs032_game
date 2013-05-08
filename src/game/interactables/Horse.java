@@ -10,16 +10,12 @@ import org.newdawn.slick.SpriteSheet;
 
 
 import game.AIState;
-import game.Direction;
 import game.Enemy;
 import game.GameObject;
-import game.GameObject.Types;
-import game.MovingObject;
 import game.StaticObject;
 
 import org.newdawn.slick.Image;
 
-import game.gameplayStates.DolphinChamber;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
