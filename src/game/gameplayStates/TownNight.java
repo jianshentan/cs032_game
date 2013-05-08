@@ -91,7 +91,7 @@ public class TownNight extends Town {
 	@Override
 	public void additionalSetupObjects(int city, int dream) throws SlickException {
 		//setup enemies
-		this.setMusic("assets/sounds/fuckaduck2.wav");
+		this.setMusic("assets/sounds/dreamSong.wav");
 		m_dream = dream;
 		if(dream==4) {
 			//TODO: set up some other stuff... text quests?
