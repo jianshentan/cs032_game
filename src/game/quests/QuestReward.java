@@ -22,6 +22,7 @@ import game.gameplayStates.GamePlayState;
 import game.gameplayStates.HospitalBase;
 import game.gameplayStates.HospitalMaze;
 import game.gameplayStates.VirtualRealityRoom;
+import game.interactables.InvisiblePortal;
 import game.player.Player;
 import game.popup.CloseFrame;
 import game.popup.MainFrame;
@@ -113,6 +114,18 @@ public abstract class QuestReward {
 		public void onAccomplished(GamePlayState state, Player player) {
 			
 			StateManager.m_cityState--;
+			
+			state.removeObject("portal");
+			if (StateManager.m_cityState == 2) {
+				InvisiblePortal portal;
+				try {
+					portal = new InvisiblePortal("portal", 3*64, 5*64, StateManager.TOWN_DAY_STATE, 12, 17);
+					state.addObject(portal, true);
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}	
+			}
+			
 			
 			player.getGame().displayDialogue(new String[] {"\"Why...?,\" " +
 					"you hear the booming voice say, now only a whimper"});
