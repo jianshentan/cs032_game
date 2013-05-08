@@ -11,12 +11,12 @@ import org.newdawn.slick.util.pathfinding.Path.Step;
 public class Enemy extends MovingObject{
 	protected Animation m_up, m_down, m_left, m_right, m_sprite, m_up_stand, m_down_stand, m_left_stand, m_right_stand;
 	protected AIState m_ai;
-	private boolean m_inTransit, m_patrol, m_lead, m_pause;
+	private boolean m_inTransit, m_patrol, m_lead, m_pause, m_search=false;
 	private int[][] m_patrolPoints;
 	private int[] m_currentSquare, m_destination, m_leadTo;
 	private AStarPathFinder m_finder;
 	private Path m_path;
-	private int m_pathLength, m_currentStep, m_roamCounter;
+	private int m_pathLength, m_currentStep, m_roamCounter, m_searchCounter = 0;
 	private int m_vision = 3;   //default vision
 	private Player m_player;
 	private Direction m_dir;
@@ -24,6 +24,7 @@ public class Enemy extends MovingObject{
 	public  Enemy(GamePlayState room, Player player, float x, float y) throws SlickException{
 		super(room);
 		//set all the important stuff;
+		
 		m_player = player;
 		m_x = x;
 		m_y = y;
@@ -39,11 +40,10 @@ public class Enemy extends MovingObject{
 		m_lead = false;
 		m_pause = false;
 		//make the path finder
-		if(room.getMap()==null){
-			System.out.println("FUUUUCK");
-		}
+
 		m_finder = new AStarPathFinder(room.getMap(), 50, false);
 		//set sprites- eventually these will be passed in
+		System.out.println("ENEMY INITED");
 		Image [] standingUp = {new Image("assets/Sprite2Back.png"), new Image("assets/Sprite2Back.png")};
         Image [] standingDown = {new Image("assets/Sprite2Front.png"), new Image("assets/Sprite2Front.png")};
         Image [] standingLeft = {new Image("assets/Sprite2Left.png"), new Image("assets/Sprite2Left.png")};
@@ -70,7 +70,7 @@ public class Enemy extends MovingObject{
         m_dir = Direction.RIGHT;
         m_sprite = m_right_stand;
         //set ai, this should also be passed in
-        m_ai = AIState.LEAD;
+        m_ai = AIState.PATROL;
 	}
 	/*
 	 * Set the square that the AI needs to lead the main character to.
@@ -85,14 +85,26 @@ public class Enemy extends MovingObject{
 	//update the enemy, moving it, and perhaps figuring out where to move it next
 	public void update(int delta){
 		//if patrolling does a check to see if the player is insight.
+		
+		if(m_search){
+			if(inSight()){
+				m_searchCounter = 0;
+			}else{
+				m_searchCounter+=delta;
+				if(m_searchCounter>1500){
+					m_ai= AIState.PATROL;
+				}
+			}
+		}
 		if(m_patrol){
 			if(inSight()){
-				System.out.println("SEEN");
 				m_patrol=false;
 				m_inTransit=false;
 				m_ai = AIState.HUNT;
+				m_search=true;
 			}
 		}
+		
 		if(m_lead){
 			float xDistance = m_x - m_player.getX();
 			float yDistance = m_y - m_player.getY();
@@ -128,8 +140,8 @@ public class Enemy extends MovingObject{
 			int x = m_destination[0]-m_currentSquare[0];
 			int y = m_destination[1]-m_currentSquare[1];
 			if(!checkCollision(this, m_game.getPlayer())){
-				m_x+= x * delta*0.15f;
-				m_y+= y * delta*0.15f;
+				m_x+= x * delta*0.05f;
+				m_y+= y * delta*0.05f;
 			} else {
 				this.onPlayerContact();
 			}
@@ -183,10 +195,15 @@ public class Enemy extends MovingObject{
 		}else{
 			//set the next point and go in transit
 			m_path = m_finder.findPath(null, m_currentSquare[0], m_currentSquare[1], xDest, yDest );
-			m_pathLength = m_path.getLength();
-			m_currentStep=1;
-			setDestination();
-			m_inTransit=true;
+			if(m_path==null){
+				System.out.println(m_game.blocked(xDest, yDest));
+				System.out.println(xDest + " " + yDest);
+			}else{
+				m_pathLength = m_path.getLength();
+				m_currentStep=1;
+				setDestination();
+				m_inTransit=true;
+			}
 		}
 	}
 	//update if it's leading the player to a destination
@@ -331,7 +348,6 @@ public class Enemy extends MovingObject{
 		float intersect = centerY-slope*centerX;
 		//trace along line, checking for intersections w/ objects
 		if(xDiff>yDiff){
-			System.out.println("along x");
 			if(playerX<centerX){
 				start=(int) playerX;
 				end = (int) centerX;

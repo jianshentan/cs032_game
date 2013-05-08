@@ -331,9 +331,16 @@ public class TownDay extends Town{
 		}
 		else if(city==2) {
 			m_overlay = new Image("assets/black_40.png");
+			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"Can you do something about all" +
+			" the horses? I hate horses.\""});
 			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"My cats...*sob*...*sob*\""});
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"What happened to the flowers?\"",
 				"\"They were so beautiful...\""});
+			//TODO-set new patrol routes for horses
+			/*((Horse) this.getObject("horse1")).setPatrolPoints(new int[][]{{1,1},{2,2}});
+			((Horse) this.getObject("horse2")).setPatrolPoints(new int[][]{{1,1},{2,2}});
+			((Horse) this.getObject("horse3")).setPatrolPoints(new int[][]{{1,1},{2,2}});*/
+			
 		}
 		
 	}
