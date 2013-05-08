@@ -195,28 +195,28 @@ public abstract class Town extends GamePlayState {
 			for (int i=1; i<=4; i++) {
 				StaticObject tree = (StaticObject)this.getObject("tree"+i);
 				tree.setSprite(new Image("assets/gameObjects/treebroken.png"));
-				tree.setRenderPriority(0);
+				tree.setRenderPriority(1);
 			}
 
 			
 			this.getObject("fireHydrant").setSprite(new Image("assets/gameObjects/firehydrantbroken.png"));
 			
-			m_blocked[19][7] = false;
-			m_blocked[20][7] = false;
-			m_blocked[11][20] = false;
-			m_blocked[12][20] = false;
-			m_blocked[5][26] = false;
-			m_blocked[6][26] = false;
-			m_blocked[8][26] = false;
-			m_blocked[9][26] = false;
-			m_blocked[14][11] = false;
-			m_blocked[15][11] = false;
+			m_blocked[19][6] = false;
+			m_blocked[20][6] = false;
+			m_blocked[11][19] = false;
+			m_blocked[12][19] = false;
+			m_blocked[5][25] = false;
+			m_blocked[6][25] = false;
+			m_blocked[8][25] = false;
+			m_blocked[9][25] = false;
+			m_blocked[14][10] = false;
+			m_blocked[15][10] = false;
 
 			for (int i=0; i<flowerlength; i++){
 				int xflowcoord = flowerpatches[i][0];
 				int yflowcoord = flowerpatches[i][1];
 				this.getObject("flower"+i).setSprite(new Image("assets/flowersdead.png"));
-	
+				this.getObject("flower"+i).setRenderPriority(0);
 			}
 		}
 		

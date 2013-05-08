@@ -256,16 +256,16 @@ public class TownDay extends Town{
 				tree.setSprite(new Image("assets/gameObjects/treebroken.png"));
 				tree.setRenderPriority(1);
 			}
-			m_blocked[5][26] = false;
-			m_blocked[6][26] = false;
-			m_blocked[8][26] = false;
-			m_blocked[9][26] = false;
-			m_blocked[14][11] = false;
-			m_blocked[15][11] = false;
-			m_blocked[19][7] = false;
-			m_blocked[20][7] = false;
-			m_blocked[11][20] = false;
-			m_blocked[12][20] = false;
+			m_blocked[5][25] = true;
+			m_blocked[6][25] = true;
+			m_blocked[8][25] = true;
+			m_blocked[9][25] = true;
+			m_blocked[14][10] = true;
+			m_blocked[15][10] = true;
+			m_blocked[19][6] = true;
+			m_blocked[20][6] = true;
+			m_blocked[11][19] = true;
+			m_blocked[12][19] =true; 
 			int[][] flowerpatches = {{5,9},{5,10},{5,11},{5,12},{5,13},
 					{6,9},{7,9},{8,9},{9,9},{10,9},
 					{11,12},{11,13},{11,14},{11,15},
@@ -281,7 +281,7 @@ public class TownDay extends Town{
 				int yflowcoord = flowerpatches[i][1];
 				StaticObject flower = (StaticObject)this.getObject("flower"+i);
 				flower.setSprite(new Image("assets/flowersdead.png"));
-	
+				flower.setRenderPriority(0);
 			}
 			
 			
