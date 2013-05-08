@@ -411,6 +411,9 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(StateManager.HOSPITAL_BASE_STATE);
 			destinationState.setPlayerLocation(7*SIZE, 6*SIZE);
 		}
+		if (inputDelta<0 && input.isKeyPressed(Input.KEY_P)) {
+			StateManager.getInstance().enterState(StateManager.SHOP_STATE);
+		}
 
 	}
 

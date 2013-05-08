@@ -45,7 +45,7 @@ public abstract class Town extends GamePlayState {
 		this.addObject(building02, false);
 		
 		StaticObject building02Top = new StaticObject("building02Top" ,
-				18*SIZE+4, 17*SIZE, "assets/town/building02Top.png");
+				18*SIZE, 17*SIZE, "assets/town/building02Top.png");
 		building02Top.setRenderPriority(7);
 		this.addObject(building02Top, false);
 		
@@ -55,7 +55,7 @@ public abstract class Town extends GamePlayState {
 		this.addObject(building03, false);
 		
 		StaticObject building03Top = new StaticObject("building03Top",
-				14*SIZE+4, 13*SIZE, "assets/town/building03Top.png");
+				14*SIZE+2, 13*SIZE, "assets/town/building03Top.png");
 		building03Top.setRenderPriority(7);
 		this.addObject(building03Top, false);
 		
@@ -65,7 +65,7 @@ public abstract class Town extends GamePlayState {
 		this.addObject(building04, false);
 		
 		StaticObject building04Top = new StaticObject("building04Top",
-				21*SIZE+4, 15*SIZE, "assets/town/building04Top.png");
+				21*SIZE, 15*SIZE, "assets/town/building04Top.png");
 		building04Top.setRenderPriority(6);
 		this.addObject(building04Top, false);
 		
@@ -80,7 +80,7 @@ public abstract class Town extends GamePlayState {
 		this.addObject(building06, false);
 		
 		StaticObject building06Top = new StaticObject("building06Top",
-				17*SIZE, 12*SIZE, "assets/town/building06Top.png");
+				17*SIZE+3, 12*SIZE, "assets/town/building06Top.png");
 		building06Top.setRenderPriority(6);
 		this.addObject(building06Top, false);
 				
@@ -224,6 +224,17 @@ public abstract class Town extends GamePlayState {
 			}
 		}
 		else if (city == 2) {
+			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,9}, {11,10}, {11,12}};
+			for (int i=0; i<dolphinBlocks.length; i++) {
+				int xBlock = dolphinBlocks[i][0];
+				int yBlock = dolphinBlocks[i][1];
+				StaticObject block = new StaticObject("dolphinBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
+				block.setRenderPriority(4);
+				block.setDialogue(new String[] {"You can't get pass this. The zoo has been blocked by due to the destruction of the dolphin."});
+				this.addObject(block, true);
+				m_blocked[xBlock][yBlock] = true;
+			}
+			
 			int[][] virtualRealityBlocks = {{13,16}, {13,17}, {13,18}, {13,19}, {17,25}, {17, 26}, {17, 27}};
 			for (int i=0; i<virtualRealityBlocks.length; i++) {
 				int xBlock = virtualRealityBlocks[i][0];
@@ -273,15 +284,19 @@ public abstract class Town extends GamePlayState {
 		
 		// draw all door images (not necessarily functionlity);
 		StaticObject hospitalDoor = new StaticObject("hospitalDoor", 5*SIZE, 21*SIZE,  "assets/gameObjects/door.png");
-		hospitalDoor.setRenderPriority(7);
+		hospitalDoor.setRenderPriority(5);
 		this.addObject(hospitalDoor, false);
-		hospitalDoor.setRenderPriority(8);
+		hospitalDoor.setRenderPriority(5);
 		StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(dolphinDoor, false);
-		dolphinDoor.setRenderPriority(8);
+		dolphinDoor.setRenderPriority(5);
 		StaticObject virtualRealityDoor = new StaticObject("virtualRealityDoor", 22*SIZE, 17*SIZE,  "assets/gameObjects/door.png"); 
 		this.addObject(virtualRealityDoor, false);
-		virtualRealityDoor.setRenderPriority(8);
+		virtualRealityDoor.setRenderPriority(5);
+		StaticObject shopDoor = new StaticObject("shopDoor", 19*SIZE, 14*SIZE,  "assets/gameObjects/door.png"); 
+		this.addObject(shopDoor, false);
+		shopDoor.setRenderPriority(5);
+
 		
 		// townDay and townNight will call this
 		additionalSetupObjects(city, dream);

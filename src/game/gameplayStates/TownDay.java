@@ -108,13 +108,13 @@ public class TownDay extends Town{
 			this.addObject(person_1, true);
 			m_blocked[9][22] = true;
 			
-			Person wrenchGiver = new Person("wrenchGiver", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new Wrench(-1,-1));
-			wrenchGiver.setDialogue(new String[] 
+			Person mustacheMan = new Person("mustacheMan", 16*SIZE, 25*SIZE, "assets/characters/human_3.png", new HairVial(-1,-1));
+			mustacheMan.setDialogue(new String[] 
 					{"\"Young man, for what reason have you let your mustache grow?\"",
 					"\"It really looks quite terrible on a face like ours.\"",
-					"\"Here's a wrench I found, maybe you can fix your face with it.\"",
-					"* you've received a wrench *"});
-			this.addObject(wrenchGiver, true);
+					"\"Here's something I found, maybe you can fix your face with it.\"",
+					"* you've received a some kind of liquid in a vial*"});
+			this.addObject(mustacheMan, true);
 			m_blocked[16][25] = true;
 			
 			Person buttPlugPerson = new Person("buttPlugPerson", 4*SIZE, 8*SIZE, "assets/characters/human_2.png", new BigPlug());
@@ -138,8 +138,12 @@ public class TownDay extends Town{
 			this.addObject(trash, true);
 			
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 
-			hospitalDoor.setRenderPriority(7);
+			hospitalDoor.setRenderPriority(4);
 			this.addObject(hospitalDoor, true);
+			
+			Door shopDoor = new Door("shopDoorDay", 19*SIZE, 14*SIZE, StateManager.SHOP_STATE, -1, -1);
+			shopDoor.setRenderPriority(4);
+			this.addObject(shopDoor, true);
 			
 			
 			

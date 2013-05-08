@@ -26,7 +26,7 @@ public class Wrench extends Collectable {
 
 	@Override
 	public String getItemText() {
-		return "Suggested usage -> 'fix face with it'. But perhaps a wrench will come of value in other ways";
+		return "Looks pretty strong. Perhaps it can be used to break stuff.";
 	}
 
 	@Override
