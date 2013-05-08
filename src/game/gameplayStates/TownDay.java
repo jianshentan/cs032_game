@@ -238,7 +238,7 @@ public class TownDay extends Town{
 		}
 		else if(city==3) {
 			m_overlay = new Image("assets/black_15.png");
-			((Person) this.getObject("buttPlugMan")).setDialogue(new String[] {"\"You didn't tell anyone about yesterday " +
+			((Person) this.getObject("buttPlugPerson")).setDialogue(new String[] {"\"You didn't tell anyone about yesterday " +
 					"right?" , "I don't want my family to see what I've become!"
 			});
 			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"Can you do something about all" +
@@ -341,7 +341,7 @@ public class TownDay extends Town{
 					"There was some sort of crazy Virtual Reality accident", "\"This is the worst weekend ever\""});
 			((Person) this.getObject("optimist")).setDialogue(new String[] {"\"I can't believe they closed the entertainment center\"",
 				"\"I can't even go to my virtual garden anymore\"", "What do should do..."});
-			((Person) this.getObject("buttPlugMan")).setDialogue(new String[] {"\"What's going on around here lately.\"", "\"Seems as though "+
+			((Person) this.getObject("buttPlugPerson")).setDialogue(new String[] {"\"What's going on around here lately.\"", "\"Seems as though "+
 				"everyone is wailing about this and that\"", "\"People should be more like me, and find one corner and stick to it\"", "\"Then they'd have" +
 			" nothing to worry about\""});
 			//TODO-set new patrol routes for horses
