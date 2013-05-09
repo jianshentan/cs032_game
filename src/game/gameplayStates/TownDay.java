@@ -141,7 +141,7 @@ public class TownDay extends Town{
 			this.addObject(dolphinHater, true);
 			m_blocked[10][18] = true;
 			
-			Person optimist = new Person("optimist", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
+			Person optimist = new Person("optimist", 13*SIZE, 19*SIZE,"assets/characters/human_4.png", null);
 			optimist.setDialogue(new String[] {
 					"\"You know what I think about this town?\"",
 					"\"I think it's a great place to live.\"",
