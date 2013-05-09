@@ -121,7 +121,7 @@ public class StateManager extends StateBasedGame {
 
 	public static int m_cityState = 4;
 	// this represents the number of dreams you have left
-	public static int m_dreamState = 4;
+	public static int m_dreamState = 3;
 
 	
 	private AppGameContainer m_app;
