@@ -1,4 +1,5 @@
 package game.gameplayStates;
+import game.AIState;
 import game.Dialogue;
 import game.Enemy;
 import game.GameObject;
@@ -91,7 +92,9 @@ public class Room extends GamePlayState {
 		int[][] leadPoints ={{8,8},{8,8},{8,8},{8,8}};
 		//Enemy enemy = new Spectre(this, m_player, 1*SIZE, 1*SIZE, leadPoints);
 		Enemy enemy = new Enemy(this, m_player, 1*SIZE, 1*SIZE);
+		enemy.setAI(AIState.ROAM);
 		enemy.setPatrolPoints(patrolPoints);
+		
 		enemy.setLeadTo(leadPoints[0][0], leadPoints[0][1]);
 		Enemy[] e = new Enemy[1];
 		e[0] = enemy;
