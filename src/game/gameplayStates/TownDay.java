@@ -141,13 +141,13 @@ public class TownDay extends Town{
 			this.addObject(dolphinHater, true);
 			m_blocked[10][18] = true;
 			
-			Person optimist = new Person("optimist", 13*SIZE, 19*SIZE,"assets/characters/human_4.png", null);
+			Person optimist = new Person("optimist", 13*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
 			optimist.setDialogue(new String[] {
 					"\"You know what I think about this town?\"",
 					"\"I think it's a great place to live.\"",
 					"\"We have the best fire response system in the world!\""});
 			this.addObject(optimist, true);
-			m_blocked[13][11] = true;
+			m_blocked[13][16] = true;
 			
 			Person shady = new Person("shady", 24*SIZE, 25*SIZE,"assets/characters/woman_1.png", null);
 			shady.setDialogue(new String[] {

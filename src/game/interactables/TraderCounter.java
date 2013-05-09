@@ -60,7 +60,7 @@ public class TraderCounter extends StaticObject implements Interactable{
 		}
 		
 		else {
-			state.displayDialogue(new String[] {"\"Sorry, but I don't have anything to trade with you.\""});
+			state.displayDialogue(new String[] {"\"Sorry, but I don't have anything to trade with you for now.\""});
 		}
 		
 		return null;
