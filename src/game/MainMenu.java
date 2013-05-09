@@ -83,10 +83,10 @@ public class MainMenu extends BasicGameState {
 		
 		switch (m_selection) {
 		case 0:
-			g.drawString("<", m_width/2 + 30, m_height/2 + 35);
+			g.drawString("<", m_width/2 + 40, m_height/2 + 35);
 			break;
 		case 1:
-			g.drawString("<", m_width/2 + 45, m_height/2 + 70);
+			g.drawString("<", m_width/2 + 40, m_height/2 + 70);
 			break;
 		}
 		

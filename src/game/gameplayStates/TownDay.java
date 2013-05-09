@@ -37,6 +37,10 @@ public class TownDay extends Town{
 	private boolean m_horsesFreed;
 	private Image m_overlay;
 	
+	private boolean m_firstEnterCity3 = true;
+	private boolean m_firstEnterCity2 = true;
+	private boolean m_firstEnterCity1 = true;
+	
 	public TownDay(int stateID) {
 		m_stateID = stateID;
 	}
@@ -257,6 +261,12 @@ public class TownDay extends Town{
 		
 		//LEVEL 2 (DEGRADED: 1)
 		else if(city==3) {
+			if (m_firstEnterCity3) {
+				m_firstEnterCity3 = false;
+				this.displayDialogue(new String[] {"As you look around yourself, you realize that the horses have trampled over the entire city. ",
+						"The trees are broken and the flowers are dead... "});
+			}
+			
 			m_overlay = new Image("assets/black_15.png");
 			
 			//PEOPLE DIALOGUE
@@ -401,6 +411,12 @@ public class TownDay extends Town{
 		}
 		//LEVEL 3 (DEGRADED 2)
 		else if(city==2) {
+			if (m_firstEnterCity2) {
+				m_firstEnterCity2 = false;
+				this.displayDialogue(new String[] {"The entire entertainment district has been shut down leaving the citizens in a painful state of boredom.",
+				"Without the entertainment center and the virtual reality room to sway their minds from the banalities of reality, the citizens are left in a state of distress."});
+			}
+			
 			m_overlay = new Image("assets/black_40.png");
 			
 			//PEOPLE
@@ -430,7 +446,13 @@ public class TownDay extends Town{
 		} 
 		//LEVEL 4 (DEGRADED 3 : MAX)
 		else if (city==1) {
-			
+			if (m_firstEnterCity1) {
+				m_firstEnterCity1 = false;
+				this.displayDialogue(new String[] {"You look past the barriers... These helpless patients have been kicked out of the hospital.",
+						"The barriers, while keeping them contained and away from the what remains of the city, seems to have caused more pain for the people.",
+						"Loved ones are unabled to reunite. Not even one last glance... ... And slowly they begin to die"});
+				
+			}	
 		}
 		
 	}
