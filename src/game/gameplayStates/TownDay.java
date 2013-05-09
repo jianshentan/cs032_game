@@ -418,12 +418,13 @@ public class TownDay extends Town{
 			/*((Horse) this.getObject("horse1")).setPatrolPoints(new int[][]{{1,1},{2,2}});
 			((Horse) this.getObject("horse2")).setPatrolPoints(new int[][]{{1,1},{2,2}});
 			((Horse) this.getObject("horse3")).setPatrolPoints(new int[][]{{1,1},{2,2}});*/
-			
-			Person gingerGirl = new Person("gingerGirl", 9*SIZE, 27*SIZE, "assets/characters/gingerGirl.png", new HorseMeme());
-			gingerGirl.setDialogue(new String[] {"\"Why is everyone so sad around here!\"", "\"They should try to be more happy... like me!\"",
-					"\"Here! take a look at this!. It always cheers me up!\"",":DDDDDDDDDD!"});
-			this.addObject(gingerGirl, true);
-			m_blocked[9][27]=true;
+			if(dream==2){
+				Person gingerGirl = new Person("gingerGirl", 9*SIZE, 27*SIZE, "assets/characters/gingerGirl.png", new HorseMeme());
+				gingerGirl.setDialogue(new String[] {"\"Why is everyone so sad around here!\"", "\"They should try to be more happy... like me!\"",
+						"\"Here! take a look at this!. It always cheers me up!\"",":DDDDDDDDDD!"});
+				this.addObject(gingerGirl, true);
+				m_blocked[9][27]=true;
+			}
 			
 		} 
 		//LEVEL 4 (DEGRADED 3 : MAX)
