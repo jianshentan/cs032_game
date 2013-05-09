@@ -16,8 +16,8 @@ public class Trashcan extends GameObject implements Interactable{
 		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
-		m_closed = new Image("assets/chestClose.png");
-		m_open = new Image("assets/chestOpen.png");
+		m_closed = new Image("assets/gameObjects/trashcan.png");
+		m_open = new Image("assets/gameObjects/trashcan.png");
 		setSprite(m_closed);
 	}
 
