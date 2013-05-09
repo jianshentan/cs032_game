@@ -36,6 +36,7 @@ public class Horse extends Enemy implements Interactable{
 			SpriteSheet horsesheet = new SpriteSheet("assets/HorseStampede.png",256,256);
 			this.setSprite(horsesheet.getSprite(0,0));
 			//this.m_key = key;
+			this.setIgnoreCollision(true);
 			this.m_sprite = new Animation(new Image[] {horsesheet.getSprite(0,0),horsesheet.getSprite(1,0)}, duration, true);
 			
 		} else {
