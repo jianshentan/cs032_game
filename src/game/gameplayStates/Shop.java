@@ -28,7 +28,7 @@ public class Shop extends GamePlayState{
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 		throws SlickException {
-		
+		this.setMusic("assets/sounds/BetterBuildingInt.wav");
 		m_playerX = SIZE*4;
 		m_playerY = SIZE*4; 
 		

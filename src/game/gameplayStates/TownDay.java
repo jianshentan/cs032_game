@@ -218,7 +218,7 @@ public class TownDay extends Town{
 
 	@Override
 	public void additionalSetupObjects(int city, int dream) throws SlickException {
-		
+		this.setMusic("assets/sounds/BetterTown.wav");
 		//LEVEL 1 (NO DEGRADATION) 
 		if(city==4) {
 			

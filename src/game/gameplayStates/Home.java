@@ -24,7 +24,7 @@ public class Home extends GamePlayState {
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 			throws SlickException {
-		
+		this.setMusic("assets/sounds/BetterBuildingInt.wav");
 		m_previousDreamState = StateManager.m_dreamState;
 		// set player initial location
 		m_playerX = SIZE*2 + 32;

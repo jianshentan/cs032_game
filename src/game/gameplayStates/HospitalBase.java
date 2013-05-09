@@ -37,6 +37,7 @@ public class HospitalBase extends GamePlayState {
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		m_container = (AppGameContainer) container;
+		
 		try {
 			m_container.setDisplayMode(192, 192, false);
 			m_camera.refreshCamera(m_container, m_player);
@@ -84,7 +85,7 @@ public class HospitalBase extends GamePlayState {
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stageManager) 
 		throws SlickException {
-		
+		this.setMusic("assets/sounds/BetterHospital.wav");
 		m_playerX = 6*SIZE;
 		m_playerY = 20*SIZE;
 		

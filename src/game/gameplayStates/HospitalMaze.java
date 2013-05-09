@@ -100,7 +100,7 @@ public class HospitalMaze extends GamePlayState {
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stageManager) 
 		throws SlickException {
-		
+		this.setMusic("assets/sounds/BetterHospital.wav");
 		m_playerX = 9*SIZE;
 		m_playerY = 18*SIZE;
 		

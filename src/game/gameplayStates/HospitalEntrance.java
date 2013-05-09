@@ -34,7 +34,7 @@ public class HospitalEntrance extends GamePlayState {
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 		throws SlickException {
-		
+		this.setMusic("assets/sounds/BetterBuildingInt.wav");
 		m_playerX = SIZE*6;
 		m_playerY = SIZE*8; 
 		

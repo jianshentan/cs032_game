@@ -33,14 +33,14 @@ public class VirtualRealityHome extends GamePlayState {
 	@Override
 	public void additionalEnter(GameContainer container, StateBasedGame stateManager) {
 		this.displayDialogue(new String[] {"Wait... this is my room.", 
-				"Why was I brought here? Why is justin beiber on my poster?",
+				"Why was I brought here? Why is justin bieber on my poster?",
 				"... This can't be my room"});
 	}
 	
 	@Override
 	public void additionalInit(GameContainer container, StateBasedGame stateManager)
 		throws SlickException {
-		
+		this.setMusic("assets/sounds/VirtualReality.wav");
 		// set player initial location
 		m_playerX = SIZE*2;
 		m_playerY = SIZE*4;

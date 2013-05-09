@@ -16,6 +16,7 @@ import game.quests.QuestReward;
 import game.quests.QuestStage;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
@@ -24,7 +25,7 @@ public class VirtualRealityRoom extends GamePlayState {
 	
 	private boolean m_questGiven = false;
 	private boolean m_questComplete = false;
-	
+	private Music m_music;
 	private String[] GUIDE_TEXT = new String[] {"\"Welcome to the virtual reality play house!\"",
 			"\"We provide a great virtual reality service that finds you your personal dream place\"",
 			"\"A guaranteed awesome experience.\"",
@@ -40,7 +41,7 @@ public class VirtualRealityRoom extends GamePlayState {
 		
 		m_playerX = SIZE*3;
 		m_playerY = SIZE*4; 
-		
+		this.setMusic("assets/sounds/VirtualReality.wav");
 		this.m_tiledMap = new TiledMap("assets/maps/virtualRealityRoom.tmx");
 		this.m_map = new simpleMap();
 		this.setBlockedTiles();
