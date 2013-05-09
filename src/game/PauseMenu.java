@@ -62,8 +62,7 @@ public class PauseMenu {
 		g.setColor(Color.black);
 		g.drawString("resume", m_x + 100, m_y + 50);
 		g.drawString("options", m_x + 100, m_y + 100);
-		g.drawString("save", m_x + 100, m_y + 150);
-		g.drawString("quit", m_x + 100, m_y + 200);
+		g.drawString("quit", m_x + 100, m_y + 150);
 		
 		switch (m_selection) {
 		case 0:
@@ -74,9 +73,6 @@ public class PauseMenu {
 			break;
 		case 2:
 			g.drawString("<", m_x + 200, m_y + 150);
-			break;
-		case 3:
-			g.drawString("<", m_x + 200, m_y + 200);
 			break;
 		}
 	}
@@ -90,7 +86,7 @@ public class PauseMenu {
         	m_inputDelta=200;
         }
         else if (m_inputDelta<0 && input.isKeyDown(Input.KEY_DOWN)) {
-        	if (m_selection < 3)
+        	if (m_selection < 2)
         		m_selection++;
         	m_inputDelta=200;
         }
@@ -99,19 +95,9 @@ public class PauseMenu {
         		m_game.setPauseState(false);
         	else if (m_selection == 1)
         		m_game.setPauseState(false);
-        	else if (m_selection == 2) {
-				//Save and quit
-        		try {
-					SaveGame.getInstance().save(stateManager);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				//new SaveGame().save(stateManager);
-				stateManager.enterState(StateManager.MAINMENU_STATE);
-        	}
-			else if (m_selection == 3)
-        		stateManager.enterState(StateManager.MAINMENU_STATE);
+			else if (m_selection == 2)
+        		System.exit(0);
+        	input.resetInputTransform();
         	m_inputDelta=200;
         }			
 	}

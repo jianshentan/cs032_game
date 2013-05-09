@@ -60,23 +60,20 @@ public class MainMenu extends BasicGameState {
 		m_background.draw(0,0);
 		
 		g.setColor(Color.white);
-		g.drawString("continue", m_width/2 - 35, m_height/2 + 35);
-		g.drawString("new", m_width/2 - 15, m_height/2 + 70);
-		g.drawString("options", m_width/2 -30, m_height/2 + 105);
-		g.drawString("quit", m_width/2 -20, m_height/2 + 140);
+		//g.drawString("continue", m_width/2 - 35, m_height/2 + 35);
+		g.drawString("new", m_width/2 - 15, m_height/2 + 35);
+		g.drawString("options", m_width/2 -30, m_height/2 + 70);
+		g.drawString("quit", m_width/2 -20, m_height/2 + 105);
 		
 		switch (m_selection) {
 		case 0:
-			g.drawString("<", m_width/2 + 50, m_height/2 + 35);
+			g.drawString("<", m_width/2 + 30, m_height/2 + 35);
 			break;
 		case 1:
-			g.drawString("<", m_width/2 + 30, m_height/2 + 70);
+			g.drawString("<", m_width/2 + 45, m_height/2 + 70);
 			break;
 		case 2:
-			g.drawString("<", m_width/2 + 45, m_height/2 + 105);
-			break;
-		case 3:
-			g.drawString("<", m_width/2 + 35, m_height/2 + 140);
+			g.drawString("<", m_width/2 + 35, m_height/2 + 105);
 			break;
 		}
 	}
@@ -93,20 +90,12 @@ public class MainMenu extends BasicGameState {
         	m_inputDelta=200;
         }
         else if (m_inputDelta<0 && input.isKeyDown(Input.KEY_DOWN)) {
-        	if (m_selection < 3)
+        	if (m_selection < 2)
         		m_selection++;
         	m_inputDelta=200;
         }
         if(m_inputDelta<0 && input.isKeyDown(Input.KEY_SPACE)){
         	if (m_selection == 0) {
-        		try {
-        			StateManager s = (StateManager) stateManager;
-        			new LoadGame().load(s);
-        		} catch(Exception e) {
-        			e.printStackTrace();
-        		}
-        	}
-        	else if (m_selection == 1) {
         		stateManager.initStatesList(container);
         		if (StateManager.m_debugMode)
         			stateManager.enterState(StateManager.ROOM_STATE);
@@ -115,8 +104,8 @@ public class MainMenu extends BasicGameState {
         					new FadeOutTransition(Color.black, 1000), 
         					new FadeInTransition(Color.black, 1000));
         	}
-        	else if (m_selection == 2) {}
-			else if (m_selection == 3)
+        	else if (m_selection == 1) {}
+			else if (m_selection == 2)
 				System.exit(0);
         	m_inputDelta=200;
         }			
