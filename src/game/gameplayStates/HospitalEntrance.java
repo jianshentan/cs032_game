@@ -112,7 +112,7 @@ public class HospitalEntrance extends GamePlayState {
 			addObject(door, true);
 			
 			StaticObject doorSign = new StaticObject("hospitalEntranceSign", 9*SIZE, 4*SIZE, "assets/gameObjects/sign.png");
-			doorSign.setDialogue(new String[] {"Door appears to be locked. Perhaps only them fancy docters are allowed past this point"});
+			doorSign.setDialogue(new String[] {"Door appears to be locked. Perhaps only them fancy doctors are allowed past this point"});
 			this.addObject(doorSign, true);	
 		}
 	}

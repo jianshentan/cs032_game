@@ -177,8 +177,8 @@ public class Home extends GamePlayState {
 			Scene s = new Scene(this, m_player, new float[][] {{(float)2.5, -24},{(float)2.5,4}});
 			s.setCamera(true);
 			// testing purposes
-			s.setCameraSpeed((float)6);
-//			s.setCameraSpeed((float)0.25);
+//			s.setCameraSpeed((float)6);
+			s.setCameraSpeed((float)0.25);
 			this.m_disableTopLayer = true;
 			s.playScene();
 			m_startEndState++;
