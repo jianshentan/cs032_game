@@ -116,7 +116,7 @@ public abstract class Town extends GamePlayState {
 		
 		StaticObject building11 = new StaticObject("building11",
 				24*SIZE, 13*SIZE, "assets/town/building11.png");
-		building11.setRenderPriority(7);
+		building11.setRenderPriority(4);
 		this.addObject(building11, false);
 		
 		StaticObject building12 = new StaticObject("building12",
@@ -128,6 +128,11 @@ public abstract class Town extends GamePlayState {
 				14*SIZE, 9*SIZE, "assets/town/building13.png");
 		building13.setRenderPriority(6);
 		this.addObject(building13, false);
+		
+		StaticObject building14 = new StaticObject("building14",
+				20*SIZE, 27*SIZE, "assets/town/building14.png");
+		building14.setRenderPriority(4);
+		this.addObject(building14, false);
 			
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
 		this.addObject(doormat, false);
