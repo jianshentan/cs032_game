@@ -271,7 +271,7 @@ public abstract class Town extends GamePlayState {
 				int yBlock = dolphinBlocks[i][1];
 				StaticObject block = new StaticObject("dolphinBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
 				block.setRenderPriority(4);
-				block.setDialogue(new String[] {"You can't get pass this. The zoo has been blocked by due to the destruction of the dolphin."});
+				block.setDialogue(new String[] {"You can't get pass this. The zoo has been blocked to keep these crazy horses contained. It appears some have escaped into the city..."});
 				this.addObject(block, true);
 				m_blocked[xBlock][yBlock] = true;
 			}
