@@ -94,6 +94,11 @@ public abstract class Town extends GamePlayState {
 		building07.setRenderPriority(8);
 		this.addObject(building07Top, false);
 		
+		StaticObject building08 = new StaticObject("building08",
+				23*SIZE, 17*SIZE, "assets/town/building08.png");
+		building08.setRenderPriority(8);
+		this.addObject(building08, false);
+		
 		
 		
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
@@ -205,7 +210,12 @@ public abstract class Town extends GamePlayState {
 				{6,15},{7,15},{8,15},{9,15},{10,15},
 				{1,25},{4,23},{5,23},{5,24},{5,25},{4,24},{4,25},
 				{11,26},{12,26},{13,26},
-				{19,25}};
+				{19,25},
+				{13,5},{14,5},{15,5},{16,5},{17,5},{21,5},
+				{18,4},{19,4},{20,4},{21,4},
+				{13,6},{19,6},{21,6},
+				{13,7},{15,7},{16,7},{17,7},{18,7},{21,7},
+				{20,8},{21,8}};
 				
 		int flowerlength = flowerpatches.length;
 		for (int i=0; i<flowerlength; i++){
@@ -263,7 +273,8 @@ public abstract class Town extends GamePlayState {
 				int yBlock = dolphinBlocks[i][1];
 				StaticObject block = new StaticObject("dolphinBlock"+i, xBlock*SIZE, yBlock*SIZE, "assets/block.png");
 				block.setRenderPriority(4);
-				block.setDialogue(new String[] {"You can't get pass this. The zoo has been blocked by due to the destruction of the dolphin."});
+				block.setDialogue(new String[] {"You can't get pass this. The zoo has been blocked to try to contain the rampant horses.",
+						" however a few have escaped."});
 				this.addObject(block, true);
 				m_blocked[xBlock][yBlock] = true;
 			}

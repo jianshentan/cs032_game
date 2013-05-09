@@ -46,7 +46,7 @@ public class TraderCounter extends StaticObject implements Interactable{
 			}
 		} 
 		else if (m_tradeState == 1) {
-			if (p.getUsing() instanceof ChickenWing) {
+			if (p.getInventory().contains(Types.CHICKEN_WING)) {
 				state.displayDialogue(new String[] {"\"Ah! Looks like you have just what I need.\"",
 						"\"Here, take this sledgehammer. It might be useful someday.\""});
 				p.getInventory().removeItem(Types.CHICKEN_WING);
@@ -60,7 +60,7 @@ public class TraderCounter extends StaticObject implements Interactable{
 		}
 		
 		else {
-			state.displayDialogue(new String[] {"\"Sorry, but I don't have anything to trade with you.\""});
+			state.displayDialogue(new String[] {"\"Sorry, but I don't have anything to trade with you for now.\""});
 		}
 		
 		return null;

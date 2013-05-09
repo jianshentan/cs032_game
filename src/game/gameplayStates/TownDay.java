@@ -17,6 +17,7 @@ import game.GameObject.Types;
 import game.collectables.*;
 import game.interactables.Animal;
 import game.interactables.Banana;
+import game.interactables.ChickenWing;
 import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Horse;
@@ -58,7 +59,7 @@ public class TownDay extends Town{
 				gallop.play();
 				//TODO freeze player for 5 seconds
 				
-				this.displayDialogue(new String[] {"Horses make you tired. You want to go to sleep."});
+				this.displayDialogue(new String[] {"Horses make you tired. Maybe you should go to bed."});
 				
 			} catch (SlickException e) {
 				System.err.println("horse error!");
@@ -140,13 +141,21 @@ public class TownDay extends Town{
 			this.addObject(dolphinHater, true);
 			m_blocked[10][18] = true;
 			
-			Person optimist = new Person("optimist", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
+			Person optimist = new Person("optimist", 13*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
 			optimist.setDialogue(new String[] {
 					"\"You know what I think about this town?\"",
 					"\"I think it's a great place to live.\"",
 					"\"We have the best fire response system in the world!\""});
 			this.addObject(optimist, true);
-			m_blocked[13][11] = true;
+			m_blocked[13][16] = true;
+			
+			Person shady = new Person("shady", 24*SIZE, 25*SIZE,"assets/characters/woman_1.png", null);
+			shady.setDialogue(new String[] {
+					"\"Have you looked behind the buildings lately?\"",
+					"\"Lots of great stuff you can find there.\"",
+					"\"Look in the trash cans, especially.\""});
+			this.addObject(shady, true);
+			m_blocked[24][25] = true;
 			
 			//TODO: add new people who give information about stuff
 			
@@ -189,7 +198,6 @@ public class TownDay extends Town{
 			this.addObject(cat2, true);
 			m_enemies.add(cat2);
 
-			//TODO: add new people who give information about stuff
 
 		}
 
@@ -276,6 +284,13 @@ public class TownDay extends Town{
 					"\"Here, take this cigarette. It might save your life someday.\"",
 					"* You've received a cigarette *"});
 			
+			((Person) this.getObject("shady")).setItem(new ChickenWing("chickenWing", -1, -1));
+			((Person) this.getObject("shady")).setDialogue(new String[] {
+					"\"Hey, guess what?\"",
+					"\"While everyone else was running for their lives, I managed to sneak this chicken wing.\"",
+					"\"Here, take this. I swear it's safe to sell.\"",
+					"* You've received a chicken wing *"});
+			
 			//REMOVE DOOR
 			this.removeObject("dolphinDoor");
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
@@ -307,7 +322,12 @@ public class TownDay extends Town{
 					{6,15},{7,15},{8,15},{9,15},{10,15},
 					{1,25},{4,23},{5,23},{5,24},{5,25},{4,24},{4,25},
 					{11,26},{12,26},{13,26},
-					{19,25}};
+					{19,25},
+					{13,5},{14,5},{15,5},{16,5},{17,5},{21,5},
+					{18,4},{19,4},{20,4},{21,4},
+					{13,6},{19,6},{21,6},
+					{13,7},{15,7},{16,7},{17,7},{18,7},{21,7},
+					{20,8},{21,8}};
 
 					
 			int flowerlength = flowerpatches.length;
@@ -336,10 +356,13 @@ public class TownDay extends Town{
 				this.addObject(static_cat2,true);
 			
 				//PUTTING IN HORSES
-				int[][] horse_stops1 = {{13,13},{23,12}};
+				int[][] horse_stops1 = {{13,13},{16,12}};
 				int[][] horse_stops2 = {{4,22},{17,25}};
 				int[][] horse_stops3 = {{4,12},{10,10}};
-				Horse horse1 = new Horse(false, false, "horse1", this, m_player, 10*SIZE, 17*SIZE, horse_stops1);
+				int[][] horse_stops4 = {{10,14},{6,10}};
+				int[][] horse_stops5 = {{9,16},{5,16}};
+				int[][] horse_stops6 = {{20,27},{23,23}};
+				Horse horse1 = new Horse(false, false, "horse1", this, m_player, 13*SIZE, 13*SIZE, horse_stops1);
 				horse1.setRenderPriority(5);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
@@ -353,10 +376,28 @@ public class TownDay extends Town{
 				horse3.setRenderPriority(5);
 				this.addObject(horse3, true);
 				m_enemies.add(horse3);	
+				
+				Horse horse4 = new Horse(false, false, "horse4", this, m_player, 10*SIZE, 14*SIZE, horse_stops4);
+				horse4.setRenderPriority(5);
+				this.addObject(horse4, true);
+				m_enemies.add(horse4); 
+				
+				Horse horse5 = new Horse(false, false, "horse5", this, m_player, 9*SIZE, 16*SIZE, horse_stops5);
+				horse5.setRenderPriority(5);
+				this.addObject(horse5, true);
+				m_enemies.add(horse5); 
 			
+				Horse horse6 = new Horse(false, false, "horse6", this, m_player, 20*SIZE, 27*SIZE, horse_stops6);
+				horse5.setRenderPriority(5);
+				this.addObject(horse6, true);
+				m_enemies.add(horse6); 
+				
 			} catch(Exception e) {
 				
 			}
+			
+			
+			
 		}
 		//LEVEL 3 (DEGRADED 2)
 		else if(city==2) {
