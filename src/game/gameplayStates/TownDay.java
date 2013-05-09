@@ -57,7 +57,8 @@ public class TownDay extends Town{
 				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
 				gallop.play();
 				//TODO freeze player for 5 seconds
-
+				
+				this.displayDialogue(new String[] {"Horses make you tired. You want to go to sleep."});
 				
 			} catch (SlickException e) {
 				System.err.println("horse error!");
@@ -306,7 +307,7 @@ public class TownDay extends Town{
 					{6,15},{7,15},{8,15},{9,15},{10,15},
 					{1,25},{4,23},{5,23},{5,24},{5,25},{4,24},{4,25},
 					{11,26},{12,26},{13,26},
-					{19,25},{19,27}};
+					{19,25}};
 					
 			int flowerlength = flowerpatches.length;
 			for (int i=0; i<flowerlength; i++){

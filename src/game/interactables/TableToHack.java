@@ -65,7 +65,7 @@ public class TableToHack extends GameObject implements Interactable {
 				l.delete();
 				state.displayDialogue(new String[] {"The screen turns white and you hear a slight buzzing",
 						"You wonder to yourself if that even did anything.",
-						"More text appears on the screen: \"Like a new born pheonix or bathtub foam\"",
+						"More text appears on the screen: \"Like a new born phoenix or bathtub foam\"",
 						"\"make from nothingness the fibonacci poem\"",
 						"\"Starting at nothing to no greater than 10,\"",
 						"\"Ignore all spaces to hack me again\"",
@@ -75,7 +75,7 @@ public class TableToHack extends GameObject implements Interactable {
 		}
 		else if (m_stage == 1) {
 			if (queryAnswer2().compareTo("404") == 0) {
-				state.displayDialogue(new String[] {"\"Like a new born pheonix or bathtub foam\"",
+				state.displayDialogue(new String[] {"\"Like a new born phoenix or bathtub foam\"",
 						"\"make from nothingness the fibonacci poem\"",
 						"\"Starting at nothing to no greater than 10,\"",
 						"\"Ignore all spaces to hack me again\"",
@@ -150,7 +150,7 @@ public class TableToHack extends GameObject implements Interactable {
 			compResponse.add("The computer spits out a message. It seems that some of the paramaters you added were not recognized by the system, and have been replaced by the defaults");
 		}
 		if(results[2]!="."){
-			String line2 = "As the computer flashes you catch your refleciton in the monitor. ";
+			String line2 = "As the computer flashes you catch your reflection in the monitor. ";
 			if(results[2].equals("sexy")){
 				line2+= "Damn, you are looking fine! You're looking more delicious than a t-bone steak, grilled to perfection";
 			}else{
