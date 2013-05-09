@@ -161,7 +161,8 @@ public abstract class GameObject {
 		VIRTUAL_TRASHCAN, 
 		BANANA, 
 		HAIR_VIAL, 
-		TRADER_COUNTER;
+		TRADER_COUNTER,
+		SLEDGEHAMMER;
 	}
 	
 	/**

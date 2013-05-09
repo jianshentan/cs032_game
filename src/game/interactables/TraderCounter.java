@@ -12,6 +12,7 @@ import game.Person;
 import game.StaticObject;
 import game.GameObject.Types;
 import game.collectables.HairVial;
+import game.collectables.Sledgehammer;
 import game.gameplayStates.GamePlayState;
 import game.player.Player;
 
@@ -46,11 +47,20 @@ public class TraderCounter extends StaticObject implements Interactable{
 		} 
 		else if (m_tradeState == 1) {
 			if (p.getUsing() instanceof ChickenWing) {
-				
+				state.displayDialogue(new String[] {"\"Ah! Looks like you have just what I need.\"",
+						"\"Here, take this sledgehammer. It might be useful someday.\""});
+				p.getInventory().removeItem(Types.CHICKEN_WING);
+				p.addToInventory(new Sledgehammer());
+				m_tradeState++;
 			}
 			else {
-				state.displayDialogue(new String[] {"\"I'm looking for some chicken... Would you happen to want to trade that?\""});
+				state.displayDialogue(new String[] {"\"I'm looking for some chicken... " +
+						"Would you happen to want to trade that?\""});
 			}
+		}
+		
+		else {
+			state.displayDialogue(new String[] {"\"Sorry, but I don't have anything to trade with you.\""});
 		}
 		
 		return null;

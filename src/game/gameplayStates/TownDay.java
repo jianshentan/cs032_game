@@ -57,7 +57,8 @@ public class TownDay extends Town{
 				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
 				gallop.play();
 				//TODO freeze player for 5 seconds
-
+				
+				this.displayDialogue(new String[] {"Horses make you tired. You want to go to sleep."});
 				
 			} catch (SlickException e) {
 				System.err.println("horse error!");
