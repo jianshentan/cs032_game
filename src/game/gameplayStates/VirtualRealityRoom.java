@@ -94,7 +94,6 @@ public class VirtualRealityRoom extends GamePlayState {
 
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
-		System.out.println(city + " " + dream);
 		if(city == 4) {
 			this.removeObject("VRC");
 			StaticObject VRC = new StaticObject("VRC", 6*SIZE, SIZE,"assets/gameObjects/virtualRealityChair.png");
