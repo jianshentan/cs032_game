@@ -83,17 +83,33 @@ public class Home extends GamePlayState {
 	@Override
 	public void setupObjects(int city, int dream) throws SlickException {
 		if (city == dream) {
-			super.removeObject("door");
-			StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
-			door.setDialogue(new String[] {"It's late out... Perhaps you should just hit the sack"});
-			this.addObject(door, true);
-			
-			super.removeObject("bed");
-			Bed bed = new Bed("bed", 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
-			m_blocked[3][5] = true;
-			m_blocked[4][5] = true;
-			this.addObject(bed, true);
+			if(city==1) {
+				super.removeObject("door");
+				StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+				door.setDialogue(new String[] {"It's late out... Perhaps you should just hit the sack"});
+				this.addObject(door, true);
+				
+				super.removeObject("bed");
+				StaticObject bed = new StaticObject("bed", 3*SIZE, 5*SIZE, "assets/gameObjects/bed.png");
+				bed.setDialogue(new String[] {"You lay on the bed, but you can't seem to fall asleep.",
+						"Your mind runs through thoughts of the days past.",
+						"What have you done?"});
+				this.addObject(bed, true);
+				m_blocked[3][5] = true;
+				m_blocked[4][5] = true;
+				return;
+			} else {
+				super.removeObject("door");
+				StaticObject door = new StaticObject("door", 2*SIZE, 2*SIZE, "assets/gameObjects/door.png");
+				door.setDialogue(new String[] {"It's late out... Perhaps you should just hit the sack"});
+				this.addObject(door, true);
 
+				super.removeObject("bed");
+				Bed bed = new Bed("bed", 3*SIZE, 5*SIZE, StateManager.TOWN_NIGHT_STATE, -1, -1);
+				m_blocked[3][5] = true;
+				m_blocked[4][5] = true;
+				this.addObject(bed, true);
+			}
 		}
 		else if (city != dream) {
 			super.removeObject("door");
