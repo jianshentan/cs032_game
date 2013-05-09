@@ -390,6 +390,9 @@ public class Enemy extends MovingObject{
 	protected void onPlayerContact() {
 		
 	}
+	public void setAI(AIState state){
+		m_ai = state;
+	}
 	public void setIgnoreCollision(boolean b){
 		m_ignoreCollision = b;
 	}

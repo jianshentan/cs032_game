@@ -41,7 +41,7 @@ public class BlowHole extends GameObject implements Interactable {
 				break;
 			}case BIG_PLUG:{
 				p.getInventory().removeItem(Types.BIG_PLUG);
-				String[] di = {"You try to jam the plug into the hole, but it just won't fit", "Maybe you want to hold onto this for later"};
+				String[] di = {"You try to jam the plug into the hole, but it just won't fit", "Suddenly a burst of water sends it flying off into the atmosphere"};
 				state.displayDialogue(di);
 				break;
 			}case CORRECT_PLUG:{
