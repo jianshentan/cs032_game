@@ -104,8 +104,6 @@ public abstract class Town extends GamePlayState {
 		building09.setRenderPriority(9);
 		this.addObject(building09, false);
 		
-		
-		
 		StaticObject doormat = new StaticObject("doormat",11*SIZE, 28*SIZE, "assets/gameObjects/doormat.png");
 		this.addObject(doormat, false);
 		
@@ -295,7 +293,7 @@ public abstract class Town extends GamePlayState {
 				m_blocked[xBlock][yBlock] = true;
 			}		
 			
-			int[][] hospitalBlocks = {{9,22}, {9,23}, {8,23}, {7,23}, {7,24}, {7,25}, {7,26}, {7,27}, {7,28}};
+			int[][] hospitalBlocks = {{8,22}, {8,23}, {7,23}, {7,24}, {7,25}, {7,26}, {7,27}, {7,28}};
 			for (int i=0; i<hospitalBlocks.length; i++) {
 				int xBlock = hospitalBlocks[i][0];
 				int yBlock = hospitalBlocks[i][1];
