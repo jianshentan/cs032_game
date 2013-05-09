@@ -131,13 +131,13 @@ public class TownDay extends Town{
 			this.addObject(buttPlugPerson, true);
 			m_blocked[4][8] = true;
 			
-			Person dolphinHater = new Person("dolphinHater", 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
+			Person dolphinHater = new Person("dolphinHater", 10*SIZE, 18*SIZE,"assets/characters/human_4.png", null);
 			dolphinHater.setDialogue(new String[] {
 					"\"Those dolphins are always up to no good.\"",
 					"\"They turned the old zoo into a horse stable!\"",
 					"\"I wish that someone would shove something up all their holes!\""});
 			this.addObject(dolphinHater, true);
-			m_blocked[11][16] = true;
+			m_blocked[10][18] = true;
 			
 			Person optimist = new Person("optimist", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
 			optimist.setDialogue(new String[] {

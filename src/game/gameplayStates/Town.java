@@ -221,7 +221,7 @@ public abstract class Town extends GamePlayState {
 			
 		}
 		else if (city == 3) {
-			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,9}, {11,10}, {11,12}};
+			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,16}, {12,16}, {12,15}, {12,14}, {13,14}};
 			for (int i=0; i<dolphinBlocks.length; i++) {
 				int xBlock = dolphinBlocks[i][0];
 				int yBlock = dolphinBlocks[i][1];
@@ -233,7 +233,7 @@ public abstract class Town extends GamePlayState {
 			}
 		}
 		else if (city == 2) {
-			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,9}, {11,10}, {11,12}};
+			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,16}, {12,16}, {12,15}, {12,14}, {13,14}};
 			for (int i=0; i<dolphinBlocks.length; i++) {
 				int xBlock = dolphinBlocks[i][0];
 				int yBlock = dolphinBlocks[i][1];
@@ -256,7 +256,7 @@ public abstract class Town extends GamePlayState {
 			}	
 		}
 		else if (city == 1) {
-			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,9}, {11,10}, {11,12}};
+			int[][] dolphinBlocks = {{10,16}, {10,17}, {11,16}, {12,16}, {12,15}, {12,14}, {13,14}};
 			for (int i=0; i<dolphinBlocks.length; i++) {
 				int xBlock = dolphinBlocks[i][0];
 				int yBlock = dolphinBlocks[i][1];
