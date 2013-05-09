@@ -95,7 +95,7 @@ public class TableToHack extends GameObject implements Interactable {
 						"\"\""});
 				this.writeJSON("hungry", "unhappy", "minimal", "complacent", "uncomfortable", "locked");
 				try{
-					Sound buzz = new Sound("assets/sounds/smallBuzz.wav");
+					Sound buzz = new Sound("assets/sounds/SmallBuzz.wav");
 					buzz.play();
 				}catch(SlickException e){
 					System.out.println("ERROR: trouble loading small buzz");

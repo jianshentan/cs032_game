@@ -20,7 +20,6 @@ public class Banana extends Collectable implements Interactable{
 	@Override
 	public Interactable fireAction(GamePlayState state, Player p) {
 		state.removeObject(this.getName(), (int) m_x/SIZE, (int) this.m_y/SIZE);
-		p.getHealth().updateHealth(5);
 		return this;
 	}
 

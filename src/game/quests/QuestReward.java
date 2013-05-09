@@ -182,6 +182,7 @@ public abstract class QuestReward {
 		
 		@Override
 		public void onAccomplished(GamePlayState state, Player player) {
+			StateManager.m_cityState--;
 			// this scene will walk the player to the middle and then bring him to the town day state
 			HospitalBase game = (HospitalBase)state;
 			float[][] path = {{6,3}};

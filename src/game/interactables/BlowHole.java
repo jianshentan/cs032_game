@@ -23,7 +23,7 @@ public class BlowHole extends GameObject implements Interactable {
 		super(name);
 		m_x = xLoc;
 		m_y = yLoc;
-		setSprite(new Image("assets/colors/clear.png")); 
+		setSprite(new Image("assets/gameObjects/blowhole.png")); 
 	}
 
 	@Override

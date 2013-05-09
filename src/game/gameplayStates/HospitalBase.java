@@ -166,7 +166,7 @@ public class HospitalBase extends GamePlayState {
 				new FadeOutTransition(Color.black, 1000), 
 				new FadeInTransition(Color.black, 1000));
 		GamePlayState destinationState = (GamePlayState)StateManager.getInstance().getState(destination);
-		destinationState.setPlayerLocation(8*64, 22*64);
+		destinationState.setPlayerLocation(8*64, 24*64);
 	}
 	
 	/**
