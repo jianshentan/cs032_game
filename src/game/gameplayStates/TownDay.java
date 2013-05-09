@@ -352,10 +352,13 @@ public class TownDay extends Town{
 				this.addObject(static_cat2,true);
 			
 				//PUTTING IN HORSES
-				int[][] horse_stops1 = {{13,13},{23,12}};
+				int[][] horse_stops1 = {{13,13},{16,12}};
 				int[][] horse_stops2 = {{4,22},{17,25}};
 				int[][] horse_stops3 = {{4,12},{10,10}};
-				Horse horse1 = new Horse(false, false, "horse1", this, m_player, 10*SIZE, 17*SIZE, horse_stops1);
+				int[][] horse_stops4 = {{10,14},{6,10}};
+				int[][] horse_stops5 = {{9,16},{5,16}};
+				int[][] horse_stops6 = {{20,27},{23,23}};
+				Horse horse1 = new Horse(false, false, "horse1", this, m_player, 13*SIZE, 13*SIZE, horse_stops1);
 				horse1.setRenderPriority(5);
 				this.addObject(horse1, true);
 				m_enemies.add(horse1);
@@ -369,7 +372,22 @@ public class TownDay extends Town{
 				horse3.setRenderPriority(5);
 				this.addObject(horse3, true);
 				m_enemies.add(horse3);	
+				
+				Horse horse4 = new Horse(false, false, "horse4", this, m_player, 10*SIZE, 14*SIZE, horse_stops4);
+				horse4.setRenderPriority(5);
+				this.addObject(horse4, true);
+				m_enemies.add(horse4); 
+				
+				Horse horse5 = new Horse(false, false, "horse5", this, m_player, 9*SIZE, 16*SIZE, horse_stops5);
+				horse5.setRenderPriority(5);
+				this.addObject(horse5, true);
+				m_enemies.add(horse5); 
 			
+				Horse horse6 = new Horse(false, false, "horse6", this, m_player, 20*SIZE, 27*SIZE, horse_stops6);
+				horse5.setRenderPriority(5);
+				this.addObject(horse6, true);
+				m_enemies.add(horse6); 
+				
 			} catch(Exception e) {
 				
 			}
