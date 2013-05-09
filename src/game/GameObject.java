@@ -161,8 +161,13 @@ public abstract class GameObject {
 		VIRTUAL_TRASHCAN, 
 		BANANA, 
 		HAIR_VIAL, 
+<<<<<<< HEAD
 		TRADER_COUNTER, 
 		HORSE_MEME;
+=======
+		TRADER_COUNTER,
+		SLEDGEHAMMER;
+>>>>>>> b9bbd12b4f48dac2886610e873e0999a4322cd8c
 	}
 	
 	/**

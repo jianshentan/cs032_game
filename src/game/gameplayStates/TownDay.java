@@ -57,7 +57,8 @@ public class TownDay extends Town{
 				Sound gallop = new Sound("assets/sounds/HorsesRunning.wav");
 				gallop.play();
 				//TODO freeze player for 5 seconds
-
+				
+				this.displayDialogue(new String[] {"Horses make you tired. You want to go to sleep."});
 				
 			} catch (SlickException e) {
 				System.err.println("horse error!");
@@ -131,13 +132,13 @@ public class TownDay extends Town{
 			this.addObject(buttPlugPerson, true);
 			m_blocked[4][8] = true;
 			
-			Person dolphinHater = new Person("dolphinHater", 11*SIZE, 16*SIZE,"assets/characters/human_4.png", null);
+			Person dolphinHater = new Person("dolphinHater", 10*SIZE, 18*SIZE,"assets/characters/human_4.png", null);
 			dolphinHater.setDialogue(new String[] {
 					"\"Those dolphins are always up to no good.\"",
 					"\"They turned the old zoo into a horse stable!\"",
 					"\"I wish that someone would shove something up all their holes!\""});
 			this.addObject(dolphinHater, true);
-			m_blocked[11][16] = true;
+			m_blocked[10][18] = true;
 			
 			Person optimist = new Person("optimist", 13*SIZE, 11*SIZE,"assets/characters/human_4.png", null);
 			optimist.setDialogue(new String[] {
@@ -161,9 +162,8 @@ public class TownDay extends Town{
 			this.addObject(virtualRealityRoomDoor, true);
 			
 			
-			System.out.println("HOSPITAL DOOR");
 			Door hospitalDoor = new Door("hospitalDoor", 5*SIZE, 21*SIZE, StateManager.HOSPITAL_ENTRANCE_STATE, -1, -1); 
-			hospitalDoor.setRenderPriority(9);
+			hospitalDoor.setRenderPriority(4);
 			this.addObject(hospitalDoor, true);
 			
 			Door shopDoor = new Door("shopDoorDay", 19*SIZE, 14*SIZE, StateManager.SHOP_STATE, -1, -1);
@@ -302,11 +302,13 @@ public class TownDay extends Town{
 			m_blocked[12][19] =true; 
 			int[][] flowerpatches = {{5,9},{5,10},{5,11},{5,12},{5,13},
 					{6,9},{7,9},{8,9},{9,9},{10,9},
-					{11,13},{11,14},{11,15},
+					{11,12}, {11,13},{11,14},{11,15},
+					{12,12}, {12,13},
 					{6,15},{7,15},{8,15},{9,15},{10,15},
 					{1,25},{4,23},{5,23},{5,24},{5,25},{4,24},{4,25},
 					{11,26},{12,26},{13,26},
 					{19,25}};
+
 					
 			int flowerlength = flowerpatches.length;
 			for (int i=0; i<flowerlength; i++){
@@ -376,7 +378,7 @@ public class TownDay extends Town{
 			((Horse) this.getObject("horse2")).setPatrolPoints(new int[][]{{1,1},{2,2}});
 			((Horse) this.getObject("horse3")).setPatrolPoints(new int[][]{{1,1},{2,2}});*/
 			
-			Person gingerGirl = new Person("gingerGirl", 9*SIZE, 27*SIZE, "assets/characters/gingerGirl.png", null);
+			Person gingerGirl = new Person("gingerGirl", 9*SIZE, 27*SIZE, "assets/characters/gingerGirl.png", new HorseMeme());
 			gingerGirl.setDialogue(new String[] {"\"Why is everyone so sad around here!\"", "\"They should try to be more happy... like me!\"",
 					"\"Here! take a look at this!. It always cheers me up!\"",":DDDDDDDDDD!"});
 			this.addObject(gingerGirl, true);
