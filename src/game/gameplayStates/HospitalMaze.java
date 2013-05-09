@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import game.Person;
 import game.StateManager;
+import game.StaticObject;
 import game.collectables.Pill;
 import game.interactables.Door;
 import game.interactables.Interactable;
@@ -111,6 +112,8 @@ public class HospitalMaze extends GamePlayState {
 		if (!this.isLoaded()) {
 			PortalObject door = new Door("hospitalMazeExit", 10*SIZE, 0*SIZE, StateManager.HOSPITAL_BASE_STATE, -1, -1);
 			addObject(door, true);
+			StaticObject doormat = new StaticObject("hospitalMazeDoormat", 9*SIZE, 18*SIZE, "assets/gameObjects/doormat.png");
+			addObject(doormat, false);
 		}
 	}
 	

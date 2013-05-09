@@ -96,6 +96,7 @@ public class HospitalBase extends GamePlayState {
 		
 		if (!this.isLoaded()) {
 			StaticObject doorMat = new StaticObject("hospitalBaseDoorMat", 6*SIZE, 20*SIZE, "assets/gameObjects/doormat.png");
+			addObject(doorMat, false);
 			InvisiblePortal exit = new InvisiblePortal("hospitalBaseEntrance", 6*SIZE, 21*SIZE, StateManager.HOSPITAL_MAZE_STATE, 10, 1);
 			addObject(exit, true);
 			

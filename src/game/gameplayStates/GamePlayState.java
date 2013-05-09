@@ -410,7 +410,7 @@ public abstract class GamePlayState extends BasicGameState implements Loadable<G
 			destinationState.setPlayerLocation(7*SIZE, 6*SIZE);
 		}
 		if (inputDelta<0 && input.isKeyPressed(Input.KEY_P)) {
-			StateManager.getInstance().enterState(StateManager.SHOP_STATE);
+			StateManager.getInstance().enterState(StateManager.TOWN_DAY_STATE);
 		}
 
 	}

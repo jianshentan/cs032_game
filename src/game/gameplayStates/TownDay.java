@@ -313,18 +313,18 @@ public class TownDay extends Town{
 			for (int i=1; i<=5; i++) {
 				StaticObject tree = (StaticObject)this.getObject("tree"+i);
 				tree.setSprite(new Image("assets/gameObjects/treebroken.png"));
-				tree.setRenderPriority(1);
+				tree.setRenderPriority(6);
 			}
-			m_blocked[5][25] = true;
-			m_blocked[6][25] = true;
-			m_blocked[8][25] = true;
-			m_blocked[9][25] = true;
-			m_blocked[14][10] = true;
-			m_blocked[15][10] = true;
-			m_blocked[19][6] = true;
-			m_blocked[20][6] = true;
-			m_blocked[11][19] = true;
-			m_blocked[12][19] =true; 
+//			m_blocked[5][25] = true;
+//			m_blocked[6][25] = true;
+//			m_blocked[8][25] = true;
+//			m_blocked[9][25] = true;
+//			m_blocked[14][10] = true;
+//			m_blocked[15][10] = true;
+//			m_blocked[19][6] = true;
+//			m_blocked[20][6] = true;
+//			m_blocked[11][19] = true;
+//			m_blocked[12][19] =true; 
 			int[][] flowerpatches = {{5,9},{5,10},{5,11},{5,12},{5,13},
 					{6,9},{7,9},{8,9},{9,9},{10,9},
 					{11,12}, {11,13},{11,14},{11,15},
@@ -453,6 +453,29 @@ public class TownDay extends Town{
 						"Loved ones are unabled to reunite. Not even one last glance... ... And slowly they begin to die"});
 				
 			}	
+			
+			((Person) this.getObject("dolphinHater")).setDialogue(new String[] {"\"Everyone seems to be dying...\"",
+					"\"I wonder if it was the hospital outbreak or those damn horses\""});
+			((Person) this.getObject("person_1")).setDialogue(new String[] {"\"Yesterday my cats were trampled, and today my brother is in the hospital\"",
+					"\"There was some sort of crazy Virtual Reality accident\"", "\"This is the worst weekend ever\""});
+			
+			Person anotherOptimist = new Person("anotherOptimist", 15*SIZE, 27*SIZE, "assets/characters/human_4.png", null);
+			this.addObject(anotherOptimist, true);
+			anotherOptimist.setDialogue(new String[] {"\"This place use to be so great.\"", 
+					"\"The entertainment district is closed and now the hospital is closed too.\"",
+					"\"I can't even get my happy-time medicine\"", "\"I should dig myself a hole..\""});
+			
+			int[][] bodyBags = {{6,28}, {6,27}, {5,28}, {6,24}, {7,22}, {13,22}, {12,17}};
+			int deadBagsLength = bodyBags.length;
+			for (int i=0; i<deadBagsLength; i++) {
+				int xBlock = bodyBags[i][0];
+				int yBlock = bodyBags[i][1];
+				StaticObject bodyBag = new StaticObject("bodyBag"+i, xBlock*SIZE, yBlock*SIZE, "assets/bodybag.png");
+				bodyBag.setRenderPriority(4);
+				bodyBag.setDialogue(new String[] {"The rotting smell is terrible... good thing most of these body bags are behind that barrier."});
+				this.addObject(bodyBag, true);
+				m_blocked[xBlock][yBlock] = true;
+			}
 		}
 		
 	}
