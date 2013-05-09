@@ -71,10 +71,10 @@ public class VirtualRealityRoom extends GamePlayState {
 			this.addObject(VRCperson3, true);
 			m_blocked[8][1] = true;
 			
-			VisiblePortal VRC = new VisiblePortal("VRC", 6*SIZE, SIZE, 
-					StateManager.VIRTUAL_REALITY_HOME_STATE, -1, -1, "assets/gameObjects/virtualRealityChair.png");
+			StaticObject VRC = new StaticObject("VRC", 6*SIZE, SIZE,"assets/gameObjects/virtualRealityChair.png");
+			VRC.setDialogue(new String[] {"\"Sorry, but this is not the time or place for this,\" " +
+					"you hear a booming voice say."});
 			addObject(VRC, true);
-			m_blocked[6][1] = true;
 			
 			//
 			Person guide = new Person("guide", 1*SIZE, 2*SIZE, "assets/characters/human_4.png", null);
