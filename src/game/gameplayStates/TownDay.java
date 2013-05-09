@@ -17,6 +17,7 @@ import game.GameObject.Types;
 import game.collectables.*;
 import game.interactables.Animal;
 import game.interactables.Banana;
+import game.interactables.ChickenWing;
 import game.interactables.Cigarette;
 import game.interactables.Door;
 import game.interactables.Horse;
@@ -58,7 +59,7 @@ public class TownDay extends Town{
 				gallop.play();
 				//TODO freeze player for 5 seconds
 				
-				this.displayDialogue(new String[] {"Horses make you tired. You want to go to sleep."});
+				this.displayDialogue(new String[] {"Horses make you tired. Maybe you should go to bed."});
 				
 			} catch (SlickException e) {
 				System.err.println("horse error!");
@@ -148,6 +149,14 @@ public class TownDay extends Town{
 			this.addObject(optimist, true);
 			m_blocked[13][11] = true;
 			
+			Person shady = new Person("shady", 24*SIZE, 25*SIZE,"assets/characters/woman_1.png", null);
+			shady.setDialogue(new String[] {
+					"\"Have you looked behind the buildings lately?\"",
+					"\"Lots of great stuff you can find there.\"",
+					"\"Look in the trash cans, especially.\""});
+			this.addObject(shady, true);
+			m_blocked[24][25] = true;
+			
 			//TODO: add new people who give information about stuff
 			
 			
@@ -190,7 +199,6 @@ public class TownDay extends Town{
 			this.addObject(cat2, true);
 			m_enemies.add(cat2);
 
-			//TODO: add new people who give information about stuff
 
 		}
 
@@ -277,6 +285,13 @@ public class TownDay extends Town{
 					"\"Here, take this cigarette. It might save your life someday.\"",
 					"* You've received a cigarette *"});
 			
+			((Person) this.getObject("shady")).setItem(new ChickenWing("chickenWing", -1, -1));
+			((Person) this.getObject("shady")).setDialogue(new String[] {
+					"\"Hey, guess what?\"",
+					"\"While everyone else was running for their lives, I managed to sneak this chicken wing.\"",
+					"\"Here, take this. I swear it's safe to sell.\"",
+					"* You've received a chicken wing *"});
+			
 			//REMOVE DOOR
 			this.removeObject("dolphinDoor");
 			StaticObject dolphinDoor = new StaticObject("dolphinDoor", 8*SIZE, 13*SIZE, "assets/gameObjects/door.png");
@@ -358,6 +373,9 @@ public class TownDay extends Town{
 			} catch(Exception e) {
 				
 			}
+			
+			
+			
 		}
 		//LEVEL 3 (DEGRADED 2)
 		else if(city==2) {
